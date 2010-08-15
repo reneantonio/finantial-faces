@@ -1,0 +1,42 @@
+
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <ui:composition  xmlns:ui="http://java.sun.com/jsf/facelets"
+                     xmlns="http://www.w3.org/1999/xhtml"
+                  template="/template/main-template.xhtml"
+                  xmlns:p="http://primefaces.prime.com.tr/ui"
+                  xmlns:h="http://java.sun.com/jsf/html"
+                  xmlns:f="http://java.sun.com/jsf/core"
+                  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+ 
+    <ui:define name="content">
+        <h:form id="login_form">
+            <div id="login_content">
+                <table width="100%">
+                    <td align="center">
+                        <p:panel  style="width: 420px;height: auto;margin: 15px">
+                            <f:facet name="header" >
+                                <div style="margin-left: 62%">
+                          #{msg['login.panel.header']}
+                                </div>
+                            </f:facet>
+                            <p:messages />
+                            <h:panelGrid columns="2">
+                                <h:outputLabel for="username" value="#{msg['login.label.username']}:"/>
+                                <h:inputText id="username" value="#{loginBean.user.username}"/>
+                                <h:outputLabel for="password" value="#{msg['login.label.password']}:"/>
+                                <h:inputSecret id="password" value="#{loginBean.user.password}"/>
+                            </h:panelGrid>
+                            <div align="center" class="login-button">
+                                <p:commandButton ajax="false" value="entrar" action="#{loginBean.doLogin}"/>
+                            </div>
+
+                        </p:panel>
+                    </td>
+
+                </table>
+            </div>
+        </h:form>
+
+    </ui:define>
+    </ui:composition>

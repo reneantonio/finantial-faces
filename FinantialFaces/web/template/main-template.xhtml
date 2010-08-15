@@ -1,0 +1,60 @@
+  
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:view contentType="text/html">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Finantial Faces</title>
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/themes/#{themeService.theme}/skin.css" />
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/global.css" />
+        <f:loadBundle  basename="br.rmpestano.finantial.bundle.MessageResource_#{bundleService.currentResourceBundle}" var="msg"/>
+        <ui:insert name="head"/>
+
+    </h:head>
+    <h:body>
+      <h:form id="theme_form">
+          <div id="theme">
+                <p:commandButton id="themeButton" value="#{msg['themechange']}: #{themeService.theme}" onclick="themeMenu.show()" type="button"/>
+                       <p:menu widgetVar="themeMenu" position="dynamic" context="'theme_form:themeButton','tl','bl'" styleClass="themeMenu">
+                            <p:submenu label="Themes">
+                                  <p:menuitem value="Bluesky" ajax="false">
+                                      <f:setPropertyActionListener value="bluesky" target="#{themeService.theme}" />
+                                  </p:menuitem>
+                                  <p:menuitem value="Casablanca" ajax="false">
+                                      <f:setPropertyActionListener value="casablanca" target="#{themeService.theme}" />
+                                  </p:menuitem>
+                                  <p:menuitem value="Ui-Darkness" ajax="false">
+                                      <f:setPropertyActionListener value="ui-darkness" target="#{themeService.theme}" />
+                                  </p:menuitem>
+                                  <p:menuitem value="Overcast" ajax="false">
+                                      <f:setPropertyActionListener value="overcast" target="#{themeService.theme}" />
+                                  </p:menuitem>
+                                  <p:menuitem value="Hot-Sneaks" ajax="false">
+                                      <f:setPropertyActionListener value="hot-sneaks" target="#{themeService.theme}" />
+                                  </p:menuitem>
+                                  <p:menuitem value="Vader" ajax="false">
+                                      <f:setPropertyActionListener value="vader" target="#{themeService.theme}" />
+                                  </p:menuitem>
+                            </p:submenu>
+                       </p:menu>
+            </div>
+          </h:form>
+
+        <ui:insert name="content">
+
+
+        </ui:insert>
+
+
+    </h:body>
+
+        </f:view>
+</html>
