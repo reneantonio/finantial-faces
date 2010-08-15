@@ -1,0 +1,27 @@
+/* 
+    Document   : login
+    Created on : Aug 10, 2010, 10:36:43 PM
+    Author     : rmpestano
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.ui-widget,.ui-widget .ui-widget {
+	 font-size: 11px !important;
+         font-family: Arial,Helvetica;
+}
+
+
+
+.login-button{
+    padding-left: 20px;
+    padding-top: 5px;
+}
+
+
+

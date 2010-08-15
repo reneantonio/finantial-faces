@@ -1,0 +1,40 @@
+/* 
+    Document   : global
+    Created on : Aug 5, 2010, 2:37:00 PM
+    Author     : rpestano
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.ui-widget,.ui-widget .ui-widget {
+	 font-size: 11px !important;
+         font-family: Arial,Helvetica;
+}
+
+.pf-panel-hd{
+  text-align: center
+}
+
+.ui-tabs-nav{
+
+    
+}
+
+.theme{
+    top:0;
+    left:0;
+
+}
+
+#login_content{
+    margin-top: 5%;
+    text-align: center;
+}
+
+ 
+
