@@ -62,6 +62,14 @@ public class User extends BaseEntity {
         this.fullname = fullname;
     }
 
+    public FinantialMonth getFinantialMonths() {
+        return finantialMonths;
+    }
+
+    public void setFinantialMonths(FinantialMonth finantialMonths) {
+        this.finantialMonths = finantialMonths;
+    }
+
 
     @Override
     public int hashCode() {

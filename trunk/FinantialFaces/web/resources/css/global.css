@@ -16,8 +16,10 @@
          font-family: Arial,Helvetica;
 }
 
-.pf-panel-hd{
-  text-align: center
+.ui-panel-title {
+    padding-left: 38%;
+   *padding-left: 45%;
+   *text-align:center;
 }
 
 .ui-tabs-nav{

@@ -14,12 +14,8 @@
             <div id="login_content">
                 <table width="100%">
                     <td align="center">
-                        <p:panel  style="width: 420px;height: auto;margin: 15px">
-                            <f:facet name="header" >
-                                <div style="margin-left: 62%">
-                          #{msg['login.panel.header']}
-                                </div>
-                            </f:facet>
+                        <p:panel header="#{msg['login.panel.header']}"  style="width: 420px;height: auto;margin: 15px">
+
                             <p:messages />
                             <h:panelGrid columns="2">
                                 <h:outputLabel for="username" value="#{msg['login.label.username']}:"/>
