@@ -22,6 +22,8 @@ public class Outcome extends BaseEntity {
     private static final long serialVersionUID = 1L;
     @OneToOne
     private OutcomeType type;
+    private Double value;
+    private String description;
 
     public Finance getFinance() {
         return finance;
@@ -38,6 +40,23 @@ public class Outcome extends BaseEntity {
     public void setType(OutcomeType type) {
         this.type = type;
     }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     @Override
     public int hashCode() {

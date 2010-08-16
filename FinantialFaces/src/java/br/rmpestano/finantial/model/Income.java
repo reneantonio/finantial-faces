@@ -23,6 +23,9 @@ public class Income extends BaseEntity {
     @OneToOne
     private IncomeType type;
 
+    private Double value;
+    private String Description;
+
     public Finance getFinance() {
         return finance;
     }
@@ -37,6 +40,22 @@ public class Income extends BaseEntity {
 
     public void setType(IncomeType type) {
         this.type = type;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String Description) {
+        this.Description = Description;
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
     }
 
 

@@ -8,13 +8,14 @@ package br.rmpestano.finantial.service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
  *
  * @author rmpestano
  */
-@ApplicationScoped
+@SessionScoped
 @Named(value="themeService")
 public class ThemeService {
     private String theme = "bluesky";
