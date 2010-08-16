@@ -5,10 +5,12 @@
 
 package br.rmpestano.finantial.service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
+
 import javax.inject.Named;
 
 /**
@@ -17,7 +19,7 @@ import javax.inject.Named;
  */
 @SessionScoped
 @Named(value="themeService")
-public class ThemeService {
+public class ThemeService implements Serializable {
     private String theme = "bluesky";
     private List<String> themes;
 
