@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:composite="http://java.sun.com/jsf/composite">
+
+
+    <composite:interface shortDescription="renderiza label e input do tipo obrigatório"><!--futuramente colocar decorator - tipo seam:decorate -->
+
+      <composite:attribute name="value" required="true"  />
+      <composite:attribute name="for"  />
+      <composite:attribute name="required"  />
+
+
+  </composite:interface>
+
+    <composite:implementation>
+        <div style="display: inline">
+            <h:outputLabel for="#{cc.attrs.for}" value="#{cc.attrs.value}" style="#{themeService.theme eq 'ui-darkness' ? '*color:white':'' or themeService.theme eq 'vader' ? '*color:white':'' or themeService.theme eq 'dot-luv' ? '*color:white':'' or themeService.theme eq 'mint-choc' ? '*color:white':''}"/> <!-- compatibility IE -->
+            <h:outputText value="*" style="color:red" rendered="#{cc.attrs.required}"/>
+        </div>
+    </composite:implementation>
+
+
+
+</html>
+
+

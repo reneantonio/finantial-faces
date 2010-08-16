@@ -10,17 +10,17 @@ and open the template in the editor.
         xmlns:f="http://java.sun.com/jsf/core"
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:p="http://primefaces.prime.com.tr/ui"
-        xmlns:collector="http://java.sun.com/jsf/composite/components/collector"
+        xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
         xmlns:c="http://java.sun.com/jsp/jstl/core">
 
             <p:panel header="Incluir Finança">
                 <h:panelGrid columns="3" >
                     <h:column>
                         <h:panelGrid columns="2" id="grid_finance">
-                            <h:outputLabel for="date" value="#{msg['inclusao-financa.data']}:"/>
+                            <finantial:label for="date" value="#{msg['inclusao-financa.data']}:" required="true"/>
                             <p:calendar id="date" value="#{addBean.finance.date}" />
-                            <h:outputLabel for="select_tipo" value="#{msg['inclusao-financa.tipo']}:"/>
-                            <h:selectOneMenu id="select_tipo" value="#{addBean.tipoCorrete}" style="width: 124px">
+                            <finantial:label for="select_tipo" value="#{msg['inclusao-financa.tipo']}:"/>
+                            <h:selectOneMenu id="select_tipo" value="#{addBean.tipoCorrete}" style="width: 118px;*width: 183px">
                                 <f:selectItems value="#{addBean.tiposFinanca}" var="tipo" itemLabel="#{tipo eq addBean.INCOME ? msg['inclusao-financa.tipo.income'] : msg['inclusao-financa.tipo.outcome']}" itemValue="#{tipo}"/>
                                 <f:ajax execute="select_tipo" render="grid_finance"/>
                             </h:selectOneMenu>
@@ -33,24 +33,24 @@ and open the template in the editor.
                     <h:column>
                         <p:outputPanel id="tipo_outcome">
                             <h:panelGrid id="grid_outcome" columns="2" rendered="#{addBean.tipoCorrete eq addBean.OUTCOME}">
-                                <h:outputLabel for="outcome_descricao" value="#{msg['inclusao-financa.descricao']}:"/>
+                                <finantial:label for="outcome_descricao" value="#{msg['inclusao-financa.descricao']}:" required="true"/>
                                 <h:inputText id="outcome_descricao" value="#{addBean.despesa.description}"/>
- 
-                                <h:outputLabel for="outcome_valor" value="#{msg['inclusao-financa.valor']}:"/>
+                                <finantial:label for="outcome_valor" value="#{msg['inclusao-financa.valor']}:" required="true"/>
                                 <h:inputText id="outcome_valor" value="#{addBean.despesa.value}"/>
                             </h:panelGrid>
                         </p:outputPanel>
                         <p:outputPanel id="tipo_income" >
                             <h:panelGrid id="grid_income" columns="2" rendered="#{addBean.tipoCorrete eq addBean.INCOME}">
-                                <h:outputLabel for="income_descricao" value="#{msg['inclusao-financa.descricao']}:"/>
+                                <finantial:label for="income_valor" value="#{msg['inclusao-financa.descricao']}:" required="true"/>
                                 <h:inputText id="income_descricao" value="#{addBean.receita.description}"/>
-                                <h:outputLabel for="income_valor" value="#{msg['inclusao-financa.valor']}:"/>
+                                <finantial:label for="income_valor" value="#{msg['inclusao-financa.valor']}:" required="true"/>
                                 <h:inputText id="income_valor" value="#{addBean.receita.value}"/>
                             </h:panelGrid>
                         </p:outputPanel>
                     </h:column>
                 </h:panelGrid>
             </p:panel>
+
 
 
 
