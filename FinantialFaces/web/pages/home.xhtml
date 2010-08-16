@@ -14,7 +14,7 @@
 
          <h:form id="main_form">
             <p:outputPanel id="tab_panel">
-                <p:panel header="Visualizar Finanças">
+                <p:panel header="Visualizar Finanças" >
             <p:tabView id="tabs" dynamic="false" cache="false" >
                 <c:forEach id="fe" var="y" items="#{tabBean.tabYears}">
                     <p:tab  title="#{y.title}">
@@ -22,9 +22,9 @@
                         <p:tabView  dynamic="false" cache="false" >
                             <c:forEach var="m" items="#{y.finantialMonths}">
                                 <p:tab title="#{msg[m.title]}">
-                                    <p:panel>
-
-                                    </p:panel>
+                                    <p:fieldset legend="Detalhes da Finança">
+                                        
+                                    </p:fieldset>
                                 </p:tab>
                             </c:forEach>
 

@@ -20,27 +20,7 @@ import javax.inject.Named;
 @SessionScoped
 @Named(value="themeService")
 public class ThemeService implements Serializable {
-    private String theme = "bluesky";
-    private List<String> themes;
-
-     public ThemeService() {
-         themes = new ArrayList<String>();
-         themes.add("bluesky");
-         themes.add("casablanca");
-         themes.add("hot-sneaks");
-         themes.add("overcast");
-         themes.add("ui-darkness");
-         themes.add("vader");
-    }
-
-    public List<String> getThemes() {
-        return themes;
-    }
-
-    public void setThemes(List<String> themes) {
-        this.themes = themes;
-    }
-
+    private String theme = "ui-darkness";
 
 
     public String getTheme() {
