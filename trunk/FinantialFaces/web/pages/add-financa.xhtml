@@ -14,25 +14,11 @@ and open the template in the editor.
         xmlns:c="http://java.sun.com/jsp/jstl/core">
 
             <p:panel header="Incluir Finança">
-                <h:panelGrid columns="3" >
-                    <h:column>
-                        <h:panelGrid columns="2" id="grid_finance">
-                            <finantial:label for="date" value="#{msg['inclusao-financa.data']}:" required="true"/>
-                            <p:calendar id="date" value="#{addBean.finance.date}" />
-                            <finantial:label for="select_tipo" value="#{msg['inclusao-financa.tipo']}:"/>
-                            <h:selectOneMenu id="select_tipo" value="#{addBean.tipoCorrete}" style="width: 118px;*width: 183px">
-                                <f:selectItems value="#{addBean.tiposFinanca}" var="tipo" itemLabel="#{tipo eq addBean.INCOME ? msg['inclusao-financa.tipo.income'] : msg['inclusao-financa.tipo.outcome']}" itemValue="#{tipo}"/>
-                                <f:ajax execute="select_tipo" render="grid_finance"/>
-                            </h:selectOneMenu>
 
-                        </h:panelGrid>
-                    </h:column>
-                    <h:column>
-
-                    </h:column>
+                <h:panelGrid columns="3" cellpadding="0" >
                     <h:column>
                         <p:outputPanel id="tipo_outcome">
-                            <h:panelGrid id="grid_outcome" columns="2" rendered="#{addBean.tipoCorrete eq addBean.OUTCOME}">
+                            <h:panelGrid id="grid_outcome" columns="2" cellspacing="2px" rendered="#{addBean.tipoCorrete eq addBean.OUTCOME}">
                                 <finantial:label for="outcome_descricao" value="#{msg['inclusao-financa.descricao']}:" required="true"/>
                                 <h:inputText id="outcome_descricao" value="#{addBean.despesa.description}"/>
                                 <finantial:label for="outcome_valor" value="#{msg['inclusao-financa.valor']}:" required="true"/>
@@ -47,6 +33,27 @@ and open the template in the editor.
                                 <h:inputText id="income_valor" value="#{addBean.receita.value}"/>
                             </h:panelGrid>
                         </p:outputPanel>
+                    </h:column>
+                   
+                    <h:column>
+                        <h:panelGrid columns="2" id="grid_finance"  cellpadding="-2px" style="padding-left: 6px;margin-top: 5px">
+                            <finantial:label for="date" value="#{msg['inclusao-financa.data']}:" required="true"/>
+                            <p:calendar id="date" value="#{addBean.finance.date}" pattern="dd/MM/yyyy" readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" style="height:21px;padding-bottom: 1px;padding-top: 1px; " showOn="both"  popupIcon="#{request.contextPath}/resources/images/calendar.png"/>
+                            <finantial:label for="select_tipo" value="#{msg['inclusao-financa.tipo']}:"/>
+                            <h:column>
+                            <h:selectOneMenu id="select_tipo" value="#{addBean.tipoCorrete}" style="padding-top: 1px;padding-bottom: 1px; height: 21px;width: 118px;*width: 183px">
+                                <f:selectItems value="#{addBean.tiposFinanca}" var="tipo" itemLabel="#{tipo eq addBean.INCOME ? msg['inclusao-financa.tipo.income'] : msg['inclusao-financa.tipo.outcome']}" itemValue="#{tipo}"/>
+                                <f:ajax execute="select_tipo" render="grid_finance"/>
+                            </h:selectOneMenu>
+                            <finantial:label for="select_subtipo" value="&#160;&#160;&#160;#{msg['inclusao-financa.subtipo']}:"/>
+                            <h:selectOneMenu id="select_subtipo" value="#{addBean.tipoCorrete}" style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
+                                <f:selectItems value="#{addBean.tiposFinanca}" var="subtipo" itemLabel="#{subtipo eq addBean.INCOME ? msg['inclusao-financa.tipo.income'] : msg['inclusao-financa.tipo.outcome']}" itemValue="#{subtipo}"/>
+                                <f:ajax execute="select_subtipo" render="grid_finance"/>
+                            </h:selectOneMenu>
+                            <p:commandButton value="Incluir" style="margin-left: 10px"/>
+                            </h:column>
+
+                        </h:panelGrid>
                     </h:column>
                 </h:panelGrid>
             </p:panel>

@@ -17,8 +17,9 @@
 }
 
 .ui-panel-title {
+    font-size: 12px !important;
     padding-left: 38%;
-   *padding-left: 45%;
+   *padding-left: 50%;
    *text-align:center;
 }
 
