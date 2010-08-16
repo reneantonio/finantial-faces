@@ -4,6 +4,8 @@
  */
 package br.rmpestano.finantial.model;
 
+import br.rmpestano.finantial.util.PersistenceManager;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -48,5 +50,10 @@ public class OutcomeType extends BaseEntity {
     @Override
     public String toString() {
         return description;
+    }
+
+     public static List<OutcomeType> findAll(){
+
+        return PersistenceManager.createEntityManager().createQuery("select t from outcomeType t").getResultList();
     }
 }

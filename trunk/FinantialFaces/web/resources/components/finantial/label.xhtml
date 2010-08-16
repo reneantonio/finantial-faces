@@ -16,14 +16,15 @@ and open the template in the editor.
       <composite:attribute name="value" required="true"  />
       <composite:attribute name="for"  />
       <composite:attribute name="required"  />
+      <composite:attribute name="rendered"  />
 
 
   </composite:interface>
 
     <composite:implementation>
         <div style="display: inline">
-            <h:outputLabel for="#{cc.attrs.for}" value="#{cc.attrs.value}" style="#{themeService.theme eq 'ui-darkness' ? '*color:white':'' or themeService.theme eq 'vader' ? '*color:white':'' or themeService.theme eq 'dot-luv' ? '*color:white':'' or themeService.theme eq 'mint-choc' ? '*color:white':''}"/> <!-- compatibility IE -->
-            <h:outputText value="*" style="color:red" rendered="#{cc.attrs.required}"/>
+            <h:outputLabel for="#{cc.attrs.for}" rendered="#{cc.attrs.rendered}" value="#{cc.attrs.value}" style="#{themeService.theme eq 'ui-darkness' ? '*color:white':'' or themeService.theme eq 'vader' ? '*color:white':'' or themeService.theme eq 'dot-luv' ? '*color:white':'' or themeService.theme eq 'mint-choc' ? '*color:white':''}"/> <!-- compatibility IE -->
+            <h:outputText value="*" style="color:red" rendered="#{cc.attrs.required or cc.attrs.rendered}"/>
         </div>
     </composite:implementation>
 

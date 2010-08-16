@@ -4,7 +4,9 @@
  */
 package br.rmpestano.finantial.model;
 
+import br.rmpestano.finantial.util.PersistenceManager;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -52,5 +54,10 @@ public class IncomeType extends BaseEntity {
     @Override
     public String toString() {
         return description;
+    }
+
+    public static List<IncomeType> findAll(){
+
+        return PersistenceManager.createEntityManager().createQuery("select t from IncomeType t").getResultList();
     }
 }
