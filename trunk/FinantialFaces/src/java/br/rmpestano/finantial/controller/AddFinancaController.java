@@ -27,13 +27,21 @@ public class AddFinancaController {
     private final String INCOME = "income";
     private final String OUTCOME = "outcome";
     private List<String> tiposFinanca = new ArrayList<String>(){{add(INCOME);add(OUTCOME);}};
-    private List<?> subtipos;
-    private Finance finance;
-    private Outcome despesa;
-    private Income  receita;
+    private List<OutcomeType> subtiposOutcome;
+    private List<IncomeType> subtiposIncome;
+    private Finance finance = new Finance();
+    private Outcome despesa = new Outcome();
+    private Income  receita = new Income();
     private String tipoCorrete = OUTCOME;
     private IncomeType subtipoIncomeCorrete;
     private OutcomeType subtipoOutcomeCorrete;
+
+    public AddFinancaController() {
+        subtiposIncome = IncomeType.findAll();
+        subtiposOutcome = OutcomeType.findAll();
+    }
+
+
 
 
     public Finance getFinance() {
@@ -77,21 +85,21 @@ public class AddFinancaController {
         this.receita = receita;
     }
 
-    public List<?> getSubtipos() {
-        if(tipoCorrete.equals("outcome")){
-            subtipos = IncomeType.findAll();
-        }
-         else{
-            subtipos = OutcomeType.findAll();
-         }
-        return subtipos;
+    public List<IncomeType> getSubtiposIncome() {
+        return subtiposIncome;
     }
 
-    public void setSubtipos(List<?> subtipos) {
-        this.subtipos = subtipos;
+    public void setSubtiposIncome(List<IncomeType> subtiposIncome) {
+        this.subtiposIncome = subtiposIncome;
     }
 
+    public List<OutcomeType> getSubtiposOutcome() {
+        return subtiposOutcome;
+    }
 
+    public void setSubtiposOutcome(List<OutcomeType> subtiposOutcome) {
+        this.subtiposOutcome = subtiposOutcome;
+    }
 
 
     public String getINCOME() {

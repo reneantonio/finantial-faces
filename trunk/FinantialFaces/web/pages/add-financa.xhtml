@@ -38,21 +38,23 @@ and open the template in the editor.
                     <h:column>
                         <h:panelGrid columns="2" id="grid_finance"  cellpadding="-2px" style="padding-left: 6px;margin-top: 5px">
                             <finantial:label for="date" value="#{msg['inclusao-financa.data']}:" required="true"/>
-                            <p:calendar id="date" value="#{addBean.finance.date}" pattern="dd/MM/yyyy"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" style="height:21px;padding-bottom: 1px;padding-top: 1px; " showOn="both"  popupIcon="#{request.contextPath}/resources/images/calendar.png"/>
+                            <p:calendar id="date" value="#{addBean.finance.date}" pattern="dd/MM/yyyy" effect="drop" effectDuration="0.5"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="button"  popupIcon="../resources/images/calendar.png"/>
                             <finantial:label for="select_tipo" value="#{msg['inclusao-financa.tipo']}:"/>
                             <h:column>
-                            <h:selectOneMenu id="select_tipo" value="#{addBean.tipoCorrete}" rendered="#{addBean.tipoCorrete eq addBean.INCOME}" style="padding-top: 1px;padding-bottom: 1px; height: 21px;width: 118px;*width: 183px">
+                                <h:selectOneMenu id="select_tipo" value="#{addBean.tipoCorrete}" styleClass="tipo">
                                 <f:selectItems value="#{addBean.tiposFinanca}" var="tipo" itemLabel="#{tipo eq addBean.INCOME ? msg['inclusao-financa.tipo.income'] : msg['inclusao-financa.tipo.outcome']}" itemValue="#{tipo}"/>
-                                <f:ajax execute="select_tipo" render="grid_finance"/>
+                                <f:ajax execute="select_tipo" render="grid_finance messages"/>
                             </h:selectOneMenu>
                             <finantial:label for="select_subtipo_#{addBean.tipoCorrete}"  value="&#160;&#160;&#160;#{msg['inclusao-financa.subtipo']}:"/>
-                            <h:selectOneMenu id="select_subtipo_income" rendered="#{addBean.tipoCorrete eq addBean.OUTCOME}"  value="#{addBean.subtipoIncomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
-                                <f:selectItems value="#{addBean.subtipos}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
-                                <f:ajax execute="select_subtipo" render="grid_finance"/>
+                            <h:selectOneMenu id="select_subtipo_income" rendered="#{addBean.tipoCorrete eq addBean.INCOME}"  value="#{addBean.subtipoIncomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
+                                <f:selectItems value="#{addBean.subtiposIncome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
+                                 <f:converter converterId="incomeConveter"/>
+
                             </h:selectOneMenu>
-                            <h:selectOneMenu id="select_subtipo_outcome" rendered="#{addBean.subtipoOutcomeCorrete eq addBean.INCOME}"  value="#{addBean.tipoCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
-                                <f:selectItems value="#{addBean.subtipos}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
-                                <f:ajax execute="select_subtipo" render="grid_finance"/>
+                            <h:selectOneMenu id="select_subtipo_outcome" rendered="#{addBean.tipoCorrete eq addBean.OUTCOME}"  value="#{addBean.subtipoOutcomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
+                                <f:selectItems value="#{addBean.subtiposOutcome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
+                                <f:converter converterId="outcomeConveter"/>
+
                             </h:selectOneMenu>
                             <p:commandButton value="Incluir" action="#{addBean.incluir}" style="margin-left: 10px"/>
                             </h:column>
@@ -60,6 +62,7 @@ and open the template in the editor.
                         </h:panelGrid>
                     </h:column>
                 </h:panelGrid>
+                <p:messages id="messages"/>
             </p:panel>
 
 

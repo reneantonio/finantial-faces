@@ -7,6 +7,7 @@ package br.rmpestano.finantial.model;
 import br.rmpestano.finantial.util.PersistenceManager;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.Query;
 import javax.persistence.Table;
 
 /**
@@ -54,6 +55,11 @@ public class OutcomeType extends BaseEntity {
 
      public static List<OutcomeType> findAll(){
 
-        return PersistenceManager.createEntityManager().createQuery("select t from outcomeType t").getResultList();
+        return PersistenceManager.createEntityManager().createQuery("select t from OutcomeType t").getResultList();
+    }
+     public static OutcomeType findByDes(String des){
+        Query q = PersistenceManager.createEntityManager().createQuery("select t from OutcomeType t where t.description = :des");
+        q.setParameter("des", des);
+        return (OutcomeType) q.getResultList().get(0);
     }
 }
