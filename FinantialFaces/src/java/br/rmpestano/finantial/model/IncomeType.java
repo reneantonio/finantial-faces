@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Query;
 import javax.persistence.Table;
 
 /**
@@ -59,5 +60,11 @@ public class IncomeType extends BaseEntity {
     public static List<IncomeType> findAll(){
 
         return PersistenceManager.createEntityManager().createQuery("select t from IncomeType t").getResultList();
+    }
+
+    public static IncomeType findByDes(String des){
+        Query q = PersistenceManager.createEntityManager().createQuery("select t from IncomeType t where t.description = :des");
+        q.setParameter("des", des);
+        return (IncomeType) q.getResultList().get(0);
     }
 }

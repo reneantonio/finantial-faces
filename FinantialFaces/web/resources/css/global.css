@@ -39,5 +39,23 @@
     text-align: center;
 }
 
+
+.calendar{
+    height:21px;
+    padding-bottom: 1px;
+    padding-top: 1px;
+}
+
+.tipo{
+    padding-top: 1px;
+    padding-bottom: 1px;
+    height: 21px;
+    width: 118px;
+    *width: 183px
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+      width:130px;
+      margin-left: 5px;
+    }
+}
  
 
