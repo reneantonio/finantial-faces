@@ -6,20 +6,25 @@
 package br.rmpestano.finantial.service;
 
 import br.rmpestano.finantial.model.User;
-import br.rmpestano.finantial.service.generic.GenericService;
+import br.rmpestano.finantial.service.generic.CrudService;
 import java.util.HashMap;
 import java.util.List;
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 
 /**
  *
  * @author rmpestano
  */
-@Stateless
-public class UserService extends GenericService<User>{
+@Named("userService")
+@RequestScoped
+public class UserService {
         private static final String FIND_BY_LOGIN = "User.findByLogin";
         private static final String FIND_ALL = "User.findAll";
+        @Inject CrudService<User> crudService;
+
 
         public User findByLogin(String username){
             HashMap hash = new HashMap();
