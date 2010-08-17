@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Query;
 import javax.persistence.Table;
 
 /**
@@ -48,22 +49,30 @@ public class FinantialYear extends BaseEntity {
         this.finantialMonths = finantialMonths;
     }
 
-    public void create(){
+    public static void create(FinantialYear fy){
         EntityManager em = PersistenceManager.createEntityManager();
         em.getTransaction().begin();
-        em.persist(this);
+        em.persist(fy);
         em.getTransaction().commit();
     }
-    public void update(){
+    public static void update(FinantialYear fy){
         EntityManager em = PersistenceManager.createEntityManager();
         em.getTransaction().begin();
-        em.merge(this);
+        em.merge(fy);
         em.getTransaction().commit();
     }
     public List<FinantialYear> findAll(){
         EntityManager em = PersistenceManager.createEntityManager();
         return em.createNamedQuery("select f FROM FinantialYear f").getResultList();
     }
+    public static FinantialYear findByYear(String title){
+        EntityManager em = PersistenceManager.createEntityManager();
+        Query q = em.createNamedQuery("select f FROM FinantialYear f WHERE f.title =:title");
+        q.setParameter("title", title);
+        return (FinantialYear) q.getResultList().get(0);
+    }
+
+
 
     
 }
