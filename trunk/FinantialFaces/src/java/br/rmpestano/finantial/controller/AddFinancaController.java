@@ -6,12 +6,16 @@
 package br.rmpestano.finantial.controller;
 
 import br.rmpestano.finantial.model.Finance;
+import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.Outcome;
 import br.rmpestano.finantial.model.OutcomeType;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -128,6 +132,12 @@ public class AddFinancaController {
 
 
     public void incluir(){
+
+        Date d = finance.getDate();
+        Calendar c = new GregorianCalendar();
+        c.setTime(d);
+
+        FinantialYear.findByYear(c.get(Calendar.YEAR)+"");
 
     }
     

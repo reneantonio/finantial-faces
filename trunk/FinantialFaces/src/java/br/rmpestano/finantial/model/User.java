@@ -20,8 +20,6 @@ import javax.persistence.Table;
 @Table(name = "user")
 @NamedQueries({@NamedQuery(name="User.findAll",query="SELECT u FROM User u"),@NamedQuery(name="User.findByLogin",query="SELECT u FROM User u WHERE u.username = :username")})
 public class User extends BaseEntity {
-    @ManyToOne
-    private FinantialMonth finantialMonths;
 
     private String username;
     private String password;
@@ -60,14 +58,6 @@ public class User extends BaseEntity {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
-    }
-
-    public FinantialMonth getFinantialMonths() {
-        return finantialMonths;
-    }
-
-    public void setFinantialMonths(FinantialMonth finantialMonths) {
-        this.finantialMonths = finantialMonths;
     }
 
 

@@ -22,7 +22,10 @@
                         <p:tabView  dynamic="false" cache="false" >
                             <c:forEach var="m" items="#{y.finantialMonths}">
                                 <p:tab title="#{msg[m.title]}">
-                                    
+                                     <p:fieldset legend="Detalhes da Finança">
+                                         <ui:repeat var="f" value="#{m.findUserFinancesInTheMonth}"
+                                    </p:fieldset>
+
                                 </p:tab>
                             </c:forEach>
 
