@@ -8,6 +8,7 @@ package br.rmpestano.finantial.controller;
 import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.service.TabService;
+import br.rmpestano.finantial.util.BeanManagerController;
 import br.rmpestano.finantial.util.PersistenceManager;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,12 +28,14 @@ import javax.persistence.EntityManager;
 @ManagedBean(name="tabBean")
 @SessionScoped
 public class TabController {
-    @EJB TabService tabService;
+    TabService tabService;
     List<FinantialYear> tabYears;
 
 
     @PostConstruct
     public void initMonthsAndYears(){
+       tabService = (TabService) BeanManagerController.getBeanByName("tabService");
+        System.out.println("Injetou tab service:"+tabService);
        tabService.init();
        tabYears = tabService.findAll();
     }

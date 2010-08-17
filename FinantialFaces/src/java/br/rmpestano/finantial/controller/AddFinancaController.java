@@ -42,8 +42,6 @@ public class AddFinancaController {
     }
 
 
-
-
     public Finance getFinance() {
         return finance;
     }

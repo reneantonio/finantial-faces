@@ -16,6 +16,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
@@ -31,12 +34,12 @@ import javax.persistence.criteria.Root;
  *
  * @author rmpestano
  */
-@Stateless
-@Local
+@Named(value="cudService")
+@Dependent
 public class CrudService <T> {
     @PersistenceContext
     EntityManager em;
-    Class<T> parametrizedClass;
+
 
     public CrudService() {
 

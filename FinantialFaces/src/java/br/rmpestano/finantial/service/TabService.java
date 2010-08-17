@@ -5,24 +5,21 @@
 
 package br.rmpestano.finantial.service;
 
-import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.FinantialYear;
-import br.rmpestano.finantial.service.generic.GenericService;
-import br.rmpestano.finantial.util.PersistenceManager;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import br.rmpestano.finantial.service.generic.CrudService;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
  *
  * @author rmpestano
  */
-@Stateless
-public class TabService extends GenericService<FinantialYear>{
+@Named(value="tabService")
+@RequestScoped
+public class TabService {
+    @Inject CrudService<FinantialYear> crudService;
 
     public List<FinantialYear> findAll(){
         return crudService.findAll(FinantialYear.class);
