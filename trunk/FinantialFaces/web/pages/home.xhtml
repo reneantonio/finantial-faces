@@ -23,11 +23,93 @@
                         <p:tabView  dynamic="false" cache="false" >
                             <c:forEach var="m" items="#{y.finantialMonths}">
                                 <p:tab title="#{msg[m.title]}">
-                                     <p:fieldset legend="Detalhes da Finança">
-                                         <ui:repeat var="f" value="#{m.currentUserFinancesInTheMonth}" >
-                                                #{f.user.username}<br/>
-                                                #{f.date}
-                                         </ui:repeat>
+                                     <p:fieldset legend="#{msg['finance.label.legend']}">
+                                         <table width="100%">
+                                             <td align="left">
+                                                 <p:panel header="Receitas">
+                                                     <p:dataTable var="r" value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}" >
+                                                         <p:column>
+                                                             <f:facet name="header">
+                                                                 <h:outputLabel value="#{msg['finance.label.data']}"/>
+                                                             </f:facet>
+                                                             <h:outputText value="#{r.date}"/>
+                                                         </p:column>
+                                                         <p:column>
+                                                             <f:facet name="header">
+                                                                 <h:outputLabel value="#{msg['login.label.username']}"/>
+                                                             </f:facet>
+                                                              <h:outputText value="#{r.user}"/>
+                                                         </p:column>
+                                                         <p:column>
+                                                             <f:facet name="header">
+                                                                 <h:outputLabel value="#{msg['finance.label.descricao']}"/>
+                                                             </f:facet>
+                                                              <h:outputText value="#{r.description}"/>
+                                                         </p:column>
+                                                          <p:column>
+                                                             <f:facet name="header">
+                                                                #{msg['finance.label.tipo']}
+                                                             </f:facet>
+                                                              <h:outputText value="#{msg['subtipo.income.'.concat(r.type)]}"/>
+                                                         </p:column>
+                                                         <p:column>
+                                                             <f:facet name="header">
+                                                                #{msg['finance.label.valor']}
+                                                             </f:facet>
+                                                              <h:outputText value="#{r.value}"/>
+                                                         </p:column>
+                                                     </p:dataTable>
+                                                     <div align="center">
+                                                         <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px" rendered="#{empty m.currentUserIncomesInTheMonth}"/>
+                                                     </div>
+                                                 </p:panel>
+                                             </td>
+                                             <td align="right">
+                                                 <p:panel header="Despesas">
+                                                     <p:dataTable var="d" value="#{m.currentUserOutcomesInTheMonth}" rendered="#{not empty m.currentUserOutcomesInTheMonth}" >
+                                                        <p:column>
+                                                             <f:facet name="header">
+                                                                 <h:outputLabel value="#{msg['finance.label.data']}"/>
+                                                             </f:facet>
+                                                             <h:outputText value="#{d.date}"/>
+                                                         </p:column>
+                                                         <p:column>
+                                                             <f:facet name="header">
+                                                                 <h:outputLabel value="#{msg['login.label.username']}"/>
+                                                             </f:facet>
+                                                              <h:outputText value="#{d.user}"/>
+                                                         </p:column>
+                                                         <p:column>
+                                                             <f:facet name="header">
+                                                                 <h:outputLabel value="#{msg['finance.label.descricao']}"/>
+                                                             </f:facet>
+                                                              <h:outputText value="#{d.description}"/>
+                                                         </p:column>
+                                                          <p:column>
+                                                             <f:facet name="header">
+                                                                #{msg['finance.label.tipo']}
+                                                             </f:facet>
+                                                              <h:outputText value="#{msg['subtipo.income.'.concat(d.type)]}"/>
+                                                         </p:column>
+                                                         <p:column>
+                                                             <f:facet name="header">
+                                                                #{msg['finance.label.valor']}
+                                                             </f:facet>
+                                                              <h:outputText value="#{d.value}"/>
+                                                         </p:column>
+                                                     </p:dataTable>
+
+                                                     <div align="center">
+                                                         <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px" rendered="#{empty m.currentUserOutcomesInTheMonth}"/>
+                                                     </div>
+                                                 </p:panel>
+                                             </td>
+
+
+
+                                         </table>
+                                       
+
                                     </p:fieldset>
 
                                 </p:tab>

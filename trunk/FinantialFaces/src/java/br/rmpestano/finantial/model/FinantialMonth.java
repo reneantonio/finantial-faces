@@ -34,31 +34,42 @@ public class FinantialMonth implements Serializable {
     @Temporal(TemporalType.DATE)
     @Id
     private Date date;
-    @OneToMany(cascade=CascadeType.ALL)
-    private List<Finance> monthFinances;
+    @OneToMany(mappedBy = "finantialMonth")
+    private List<Income> monthIncomes;
+    @OneToMany(mappedBy = "finantialMonth")
+    private List<Outcome> monthOutcomes;
     @ManyToOne(cascade=CascadeType.ALL)
     private FinantialYear finantialYear;
 
     @Transient
-    private List<Finance> currentUserFinancesInTheMonth;
+    private List<Income> currentUserIncomesInTheMonth;
+    @Transient
+    private List<Outcome> currentUserOutcomesInTheMonth;
 
-    public List<Finance> getCurrentUserFinancesInTheMonth() {
-         List<Finance> userFinances = new ArrayList<Finance>();
+    public List<Income> getCurrentUserIncomesInTheMonth() {
+         List<Income> userIncomes = new ArrayList<Income>();
             User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-             for (Finance finance : monthFinances) {
-                if(finance.getUser().getId().equals(u.getId())){
-                    userFinances.add(finance);
+             for (Income income : monthIncomes) {
+                if(income.getUser().getId().equals(u.getId())){
+                    userIncomes.add(income);
                 }
             }
 
-        return userFinances;
+        return userIncomes;
+    }
+    public List<Outcome> getCurrentUserOutcomesInTheMonth() {
+         List<Outcome> userOutcomes = new ArrayList<Outcome>();
+            User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+             for (Outcome outcome : monthOutcomes) {
+                if(outcome.getUser().getId().equals(u.getId())){
+                    userOutcomes.add(outcome);
+                }
+            }
+
+        return userOutcomes;
     }
 
-    public void setCurrentUserFinancesInTheMonth(List<Finance> currentUserFinancesInTheMonth) {
-        this.currentUserFinancesInTheMonth = currentUserFinancesInTheMonth;
-    }
-
-
+    
 
 
 
@@ -70,13 +81,6 @@ public class FinantialMonth implements Serializable {
         this.finantialYear = finantialYear;
     }
 
-    public List<Finance> getMonthFinances() {
-        return monthFinances;
-    }
-
-    public void setMonthFinances(List<Finance> monthFinances) {
-        this.monthFinances = monthFinances;
-    }
 
 
     public Date getDate() {
@@ -91,6 +95,24 @@ public class FinantialMonth implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public List<Income> getMonthIncomes() {
+        return monthIncomes;
+    }
+
+    public void setMonthIncomes(List<Income> monthIncomes) {
+        this.monthIncomes = monthIncomes;
+    }
+
+    public List<Outcome> getMonthOutcomes() {
+        return monthOutcomes;
+    }
+
+    public void setMonthOutcomes(List<Outcome> monthOutcomes) {
+        this.monthOutcomes = monthOutcomes;
+    }
+
+
 
 
     @Override

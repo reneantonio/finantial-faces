@@ -4,10 +4,12 @@
  */
 package br.rmpestano.finantial.model;
 
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  * entidade que representa as despesas (saidas)
@@ -16,22 +18,22 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "outcome")
 public class Outcome extends BaseEntity {
+    @ManyToOne
+    private User user;
+    private static final long serialVersionUID = 1L;
 
     @ManyToOne
-    private Finance finance;
-    private static final long serialVersionUID = 1L;
+    private FinantialMonth finantialMonth;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date date;
     @OneToOne
     private OutcomeType type;
     private Double value;
-    private String description;
+    private String Description;
 
-    public Finance getFinance() {
-        return finance;
-    }
 
-    public void setFinance(Finance finance) {
-        this.finance = finance;
-    }
+
 
     public OutcomeType getType() {
         return type;
@@ -50,12 +52,38 @@ public class Outcome extends BaseEntity {
     }
 
     public String getDescription() {
-        return description;
+        return Description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String Description) {
+        this.Description = Description;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public FinantialMonth getFinantialMonth() {
+        return finantialMonth;
+    }
+
+    public void setFinantialMonth(FinantialMonth finantialMonth) {
+        this.finantialMonth = finantialMonth;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 
 
     @Override

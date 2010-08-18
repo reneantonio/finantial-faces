@@ -33,11 +33,11 @@ public class TabController {
 
 
     @PostConstruct
-    public void initMonthsAndYears(){
-       tabService = (TabService) BeanManagerController.getBeanByName("tabService");
-        System.out.println("Injetou tab service:"+tabService);
-       tabService.init();
-       tabYears = tabService.findAll();
+    public void initMonthsAndYears() {
+        tabService = (TabService) BeanManagerController.getBeanByName("tabService");
+        System.out.println("Injetou tab service:" + tabService);
+//        tabService.init();
+        tabYears = tabService.findAll();
     }
     public List<FinantialYear> getAbas() {
         return tabYears;

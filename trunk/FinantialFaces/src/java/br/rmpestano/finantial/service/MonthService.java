@@ -21,27 +21,9 @@ import javax.inject.Named;
 @Named(value="monthService")
 @RequestScoped
 public class MonthService {
-    @Inject CrudService<FinantialMonth> crudService;
+    
 
 
-   public void create(FinantialMonth fm){
-        try {
-            crudService.create(fm);
-        } catch (Exception ex) {
-            MessagesController.addError("Problemas ao inserir mês:"+fm.getDate(), ex.getMessage());
-        }
-
-   }
-
-   public void update(FinantialMonth fm){
-        try {
-            crudService.update(fm);
-        } catch (Exception ex) {
-            MessagesController.addError("Problemas ao atualizar mês:"+fm.getDate(), ex.getMessage());
-            ex.printStackTrace();
-        }
-
-   }
-
+  
 
 }
