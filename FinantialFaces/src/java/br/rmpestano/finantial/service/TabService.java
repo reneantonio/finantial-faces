@@ -5,28 +5,55 @@
 
 package br.rmpestano.finantial.service;
 
+import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.service.generic.CrudService;
+import br.rmpestano.finantial.util.MessagesController;
+import java.io.Serializable;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * this class manage the years and the months in TabPanel
  * @author rmpestano
  */
 @Named(value="tabService")
-@RequestScoped
-public class TabService {
-    @Inject CrudService<FinantialYear> crudService;
+@SessionScoped//conversation
+public class TabService implements Serializable{
+    @Inject CrudService<FinantialYear> yearCrudService;
+    @Inject CrudService<FinantialMonth> monthCrudService;
 
     public List<FinantialYear> findAll(){
-        return crudService.findAll(FinantialYear.class);
+        return yearCrudService.findAll(FinantialYear.class);
     }
     public FinantialYear findById(Long id){
-        return crudService.findById(id,FinantialYear.class);
+        return yearCrudService.findById(id,FinantialYear.class);
     }
+
+     public void create(FinantialMonth fm){
+        try {
+            monthCrudService.create(fm);
+        } catch (Exception ex) {
+            MessagesController.addError("Problemas ao inserir mês:"+fm.getDate(), ex.getMessage());
+        }
+
+   }
+
+   public void update(FinantialMonth fm){
+        try {
+            monthCrudService.update(fm);
+        }catch (Exception ex) {
+            MessagesController.addError("Problemas ao atualizar mês:"+fm.getDate(), ex.getMessage());
+            ex.printStackTrace();
+            return;
+        }
+        MessagesController.addInfo("Finança incluida com sucesso!");
+
+   }
+
 
     public void init(){
 //         if(!PersistenceManager.createEntityManager().createQuery("select f from FinantialYear f").getResultList().isEmpty()){

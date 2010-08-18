@@ -6,10 +6,12 @@
 package br.rmpestano.finantial.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *  entidade que representa as receitas (entradas)
@@ -19,20 +21,18 @@ import javax.persistence.Table;
 @Table(name="income")
 public class Income extends BaseEntity {
     @ManyToOne
-    private Finance finance;
+    private User user;
+    @ManyToOne
+    private FinantialMonth finantialMonth;
+
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date date;
     @OneToOne
     private IncomeType type;
-
     private Double value;
     private String Description;
 
-    public Finance getFinance() {
-        return finance;
-    }
 
-    public void setFinance(Finance finance) {
-        this.finance = finance;
-    }
 
     public IncomeType getType() {
         return type;
@@ -57,6 +57,32 @@ public class Income extends BaseEntity {
     public void setValue(Double value) {
         this.value = value;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public FinantialMonth getFinantialMonth() {
+        return finantialMonth;
+    }
+
+    public void setFinantialMonth(FinantialMonth finantialMonth) {
+        this.finantialMonth = finantialMonth;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 
 
 

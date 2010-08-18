@@ -5,30 +5,25 @@
 
 package br.rmpestano.finantial.service.generic;
 
-import java.io.Serializable;
 import java.lang.Class;
-import java.lang.reflect.ParameterizedType;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.ejb.Local;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 /**
  *
@@ -36,10 +31,10 @@ import javax.persistence.criteria.Root;
  */
 @Named(value="cudService")
 @Dependent
+@Stateless
 public class CrudService <T> {
     @PersistenceContext
     EntityManager em;
-
 
     public CrudService() {
 
@@ -65,11 +60,12 @@ public class CrudService <T> {
     }
 
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public T update(T t) {
 
         t = this.em.merge(t);
 
-//        this.em.flush();
+        this.em.flush();
 //        this.em.refresh(t);
         return t;
     }

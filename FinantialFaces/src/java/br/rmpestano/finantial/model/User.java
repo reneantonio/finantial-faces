@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -26,7 +27,10 @@ public class User extends BaseEntity {
     private String fullname;
 
     @OneToMany(mappedBy = "user")
-    private List<Finance> finances;
+    private List<Income> receitas;
+    @OneToMany(mappedBy = "user")
+    private List<Outcome> despesas;
+
 
     public String getPassword() {
         return password;
@@ -44,13 +48,7 @@ public class User extends BaseEntity {
         this.username = username;
     }
 
-    public List<Finance> getFinances() {
-        return finances;
-    }
 
-    public void setFinances(List<Finance> finances) {
-        this.finances = finances;
-    }
 
     public String getFullname() {
         return fullname;

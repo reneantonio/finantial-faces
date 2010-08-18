@@ -5,27 +5,22 @@
 
 package br.rmpestano.finantial.controller;
 
-import br.rmpestano.finantial.model.Finance;
 import br.rmpestano.finantial.model.FinantialMonth;
-import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.Outcome;
 import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.model.User;
-import br.rmpestano.finantial.service.MonthService;
+import br.rmpestano.finantial.service.TabService;
 import br.rmpestano.finantial.util.BeanManagerController;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 
 /**
  *
@@ -34,13 +29,13 @@ import javax.inject.Inject;
 @ViewScoped
 @ManagedBean(name="addBean")
 public class AddFinancaController {
-    MonthService monthService;
+
+    private TabService tabService;
     private final String INCOME = "income";
     private final String OUTCOME = "outcome";
     private List<String> tiposFinanca = new ArrayList<String>(){{add(INCOME);add(OUTCOME);}};
     private List<OutcomeType> subtiposOutcome;
     private List<IncomeType> subtiposIncome;
-    private Finance finance = new Finance();
     private Outcome despesa = new Outcome();
     private Income  receita = new Income();
     private String tipoCorrete = OUTCOME;
@@ -50,17 +45,7 @@ public class AddFinancaController {
     public AddFinancaController() {
         subtiposIncome = IncomeType.findAll();
         subtiposOutcome = OutcomeType.findAll();
-        monthService = (MonthService) BeanManagerController.getBeanByName("monthService");
-    }
-
-
-    public Finance getFinance() {
-        return finance;
-    }
-
-    public void setFinance(Finance finance) {
-        this.finance = finance;
-        
+        tabService = (TabService) BeanManagerController.getBeanByName("tabService");
     }
 
     public List<String> getTiposFinanca() {
@@ -141,37 +126,36 @@ public class AddFinancaController {
 
     public void incluir() {
 
-        Date d = finance.getDate();
         Calendar c = new GregorianCalendar();
-        c.setTime(d);
         if (receita != null) {
+            Date d = receita.getDate();
+            c.setTime(d);
             receita.setType(subtipoIncomeCorrete);
-            if (finance.getIncome() == null) {
-                finance.setIncome(new ArrayList<Income>() {{add(receita);}});
-            } else {
-                finance.getIncome().add(receita);
-            }
+            receita.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
         }
         if (despesa != null) {
+            Date d = despesa.getDate();
+            c.setTime(d);
             despesa.setType(subtipoOutcomeCorrete);
-            if (finance.getOutcome() == null) {
-                finance.setOutcome(new ArrayList<Outcome>() {{add(despesa);}});
-            } else {
-                finance.getOutcome().add(despesa);
-            }
+            despesa.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
         }
         c.set(Calendar.DAY_OF_MONTH, 1);
         FinantialMonth fm = FinantialMonth.findById(c.getTime());
-        finance.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
-        List<Finance> monthFinances = fm.getMonthFinances();
-        if(monthFinances == null){
-            fm.setMonthFinances(new ArrayList<Finance>() {{add(finance);}});
+        List<Income> monthIncomes = fm.getMonthIncomes();
+        if(monthIncomes == null){
+            fm.setMonthIncomes(new ArrayList<Income>() {{add(receita);}});
         }
         else{
-              fm.getMonthFinances().add(finance);
+          fm.getMonthIncomes().add(receita);
          }
-        monthService.update(fm);
-
+        List<Outcome> monthOutcomes = fm.getMonthOutcomes();
+        if(monthOutcomes == null){
+            fm.setMonthOutcomes(new ArrayList<Outcome>() {{add(despesa);}});
+        }
+        else{
+          fm.getMonthOutcomes().add(despesa);
+         }
+        tabService.update(fm);
     }
 
 }
