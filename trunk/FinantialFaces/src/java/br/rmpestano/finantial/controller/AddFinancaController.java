@@ -6,11 +6,15 @@
 package br.rmpestano.finantial.controller;
 
 import br.rmpestano.finantial.model.Finance;
+import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.Outcome;
 import br.rmpestano.finantial.model.OutcomeType;
+import br.rmpestano.finantial.model.User;
+import br.rmpestano.finantial.service.MonthService;
+import br.rmpestano.finantial.util.BeanManagerController;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -20,6 +24,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 /**
  *
@@ -28,6 +34,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 @ManagedBean(name="addBean")
 public class AddFinancaController {
+    MonthService monthService;
     private final String INCOME = "income";
     private final String OUTCOME = "outcome";
     private List<String> tiposFinanca = new ArrayList<String>(){{add(INCOME);add(OUTCOME);}};
@@ -43,6 +50,7 @@ public class AddFinancaController {
     public AddFinancaController() {
         subtiposIncome = IncomeType.findAll();
         subtiposOutcome = OutcomeType.findAll();
+        monthService = (MonthService) BeanManagerController.getBeanByName("monthService");
     }
 
 
@@ -131,14 +139,39 @@ public class AddFinancaController {
 
 
 
-    public void incluir(){
+    public void incluir() {
 
         Date d = finance.getDate();
         Calendar c = new GregorianCalendar();
         c.setTime(d);
-
-        FinantialYear.findByYear(c.get(Calendar.YEAR)+"");
+        if (receita != null) {
+            receita.setType(subtipoIncomeCorrete);
+            if (finance.getIncome() == null) {
+                finance.setIncome(new ArrayList<Income>() {{add(receita);}});
+            } else {
+                finance.getIncome().add(receita);
+            }
+        }
+        if (despesa != null) {
+            despesa.setType(subtipoOutcomeCorrete);
+            if (finance.getOutcome() == null) {
+                finance.setOutcome(new ArrayList<Outcome>() {{add(despesa);}});
+            } else {
+                finance.getOutcome().add(despesa);
+            }
+        }
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        FinantialMonth fm = FinantialMonth.findById(c.getTime());
+        finance.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
+        List<Finance> monthFinances = fm.getMonthFinances();
+        if(monthFinances == null){
+            fm.setMonthFinances(new ArrayList<Finance>() {{add(finance);}});
+        }
+        else{
+              fm.getMonthFinances().add(finance);
+         }
+        monthService.update(fm);
 
     }
-    
+
 }

@@ -21,7 +21,7 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name = "finance")
 public class Finance extends BaseEntity {
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     private User user;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;

@@ -63,11 +63,11 @@ public class FinantialYear extends BaseEntity {
     }
     public List<FinantialYear> findAll(){
         EntityManager em = PersistenceManager.createEntityManager();
-        return em.createNamedQuery("select f FROM FinantialYear f").getResultList();
+        return em.createQuery("select f FROM FinantialYear f").getResultList();
     }
     public static FinantialYear findByYear(String title){
         EntityManager em = PersistenceManager.createEntityManager();
-        Query q = em.createNamedQuery("select f FROM FinantialYear f WHERE f.title =:title");
+        Query q = em.createQuery("select f FROM FinantialYear f WHERE f.title =:title");
         q.setParameter("title", title);
         return (FinantialYear) q.getResultList().get(0);
     }
