@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition   xmlns:ui="http://java.sun.com/jsf/facelets"
+                  xmlns="http://www.w3.org/1999/xhtml"
                   template="/template/main-template.xhtml"
                   xmlns:p="http://primefaces.prime.com.tr/ui"
                   xmlns:h="http://java.sun.com/jsf/html"
@@ -23,7 +24,10 @@
                             <c:forEach var="m" items="#{y.finantialMonths}">
                                 <p:tab title="#{msg[m.title]}">
                                      <p:fieldset legend="Detalhes da Finança">
-                                         <ui:repeat var="f" value="#{m.findUserFinancesInTheMonth}"
+                                         <ui:repeat var="f" value="#{m.currentUserFinancesInTheMonth}" >
+                                                #{f.user.username}<br/>
+                                                #{f.date}
+                                         </ui:repeat>
                                     </p:fieldset>
 
                                 </p:tab>

@@ -20,6 +20,7 @@ import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * representa uma aba do tipo mes
@@ -33,12 +34,32 @@ public class FinantialMonth implements Serializable {
     @Temporal(TemporalType.DATE)
     @Id
     private Date date;
-    
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     private List<Finance> monthFinances;
-
     @ManyToOne(cascade=CascadeType.ALL)
     private FinantialYear finantialYear;
+
+    @Transient
+    private List<Finance> currentUserFinancesInTheMonth;
+
+    public List<Finance> getCurrentUserFinancesInTheMonth() {
+         List<Finance> userFinances = new ArrayList<Finance>();
+            User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+             for (Finance finance : monthFinances) {
+                if(finance.getUser().getId().equals(u.getId())){
+                    userFinances.add(finance);
+                }
+            }
+
+        return userFinances;
+    }
+
+    public void setCurrentUserFinancesInTheMonth(List<Finance> currentUserFinancesInTheMonth) {
+        this.currentUserFinancesInTheMonth = currentUserFinancesInTheMonth;
+    }
+
+
+
 
 
     public FinantialYear getFinantialYear() {
@@ -114,24 +135,20 @@ public class FinantialMonth implements Serializable {
     }
     public List<FinantialMonth> findAll(){
         EntityManager em = PersistenceManager.createEntityManager();
-        return em.createNamedQuery("select f FROM FinantialMonth f").getResultList();
+        return em.createQuery("select f FROM FinantialMonth f").getResultList();
     }
 
-    public static FinantialMonth findByYear(String title){
+    public static FinantialMonth findByTitle(String title){
         EntityManager em = PersistenceManager.createEntityManager();
-        Query q = em.createNamedQuery("select f FROM FinantialMonth f WHERE f.title =:title");
+        Query q = em.createQuery("select f FROM FinantialMonth f WHERE f.title =:title");
         q.setParameter("title", title);
         return (FinantialMonth) q.getResultList().get(0);
     }
-    public List<Finance> findUserFinancesInTheMonth(){
-        List<Finance> userFinances = new ArrayList<Finance>();
-        User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-         for (Finance finance : monthFinances) {
-            if(finance.getUser().getId().equals(u.getId())){
-                userFinances.add(finance);
-            }
-        }
-
-       return userFinances;
+    public static FinantialMonth findById(Date id){
+        EntityManager em = PersistenceManager.createEntityManager();
+        Query q = em.createQuery("select f FROM FinantialMonth f WHERE f.date =:id");
+        q.setParameter("id", id);
+        return (FinantialMonth) q.getResultList().get(0);
     }
+
 }
