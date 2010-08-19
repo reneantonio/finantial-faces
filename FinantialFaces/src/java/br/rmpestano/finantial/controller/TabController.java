@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
@@ -26,7 +27,7 @@ import javax.persistence.EntityManager;
  * @author rmpestano
  */
 @ManagedBean(name="tabBean")
-@SessionScoped
+@ViewScoped
 public class TabController {
     TabService tabService;
     List<FinantialYear> tabYears;

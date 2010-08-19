@@ -19,20 +19,21 @@
             <p:tabView id="tabs" dynamic="false" cache="false" >
                 <c:forEach id="fe" var="y" items="#{tabBean.tabYears}">
                     <p:tab  title="#{y.title}">
-                        <h:form id="year_#{y.title}">
                         <p:tabView  dynamic="false" cache="false" >
                             <c:forEach var="m" items="#{y.finantialMonths}">
-                                <p:tab title="#{msg[m.title]}">
-                                     <p:fieldset legend="#{msg['finance.label.legend']}">
+                                <p:tab  title="#{msg[m.title]}" >
+<!--                                     <p:fieldset legend="#{msg['finance.label.legend']}">-->
                                          <table width="100%">
                                              <td align="left">
-                                                 <p:panel header="Receitas">
+                                                 <p:panel  header="Receitas">
                                                      <p:dataTable var="r" value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}" >
                                                          <p:column>
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
-                                                             <h:outputText value="#{r.date}"/>
+                                                             <h:outputText value="#{r.date}">
+                                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                             </h:outputText>
                                                          </p:column>
                                                          <p:column>
                                                              <f:facet name="header">
@@ -60,18 +61,20 @@
                                                          </p:column>
                                                      </p:dataTable>
                                                      <div align="center">
-                                                         <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px" rendered="#{empty m.currentUserIncomesInTheMonth}"/>
+                                                         <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px" rendered="#{empty m.currentUserIncomesInTheMonth}"/>
                                                      </div>
                                                  </p:panel>
                                              </td>
                                              <td align="right">
-                                                 <p:panel header="Despesas">
-                                                     <p:dataTable var="d" value="#{m.currentUserOutcomesInTheMonth}" rendered="#{not empty m.currentUserOutcomesInTheMonth}" >
+                                                 <p:panel  header="Despesas">
+                                                     <p:dataTable  var="d" value="#{m.currentUserOutcomesInTheMonth}" rendered="#{not empty m.currentUserOutcomesInTheMonth}" style="border: none">
                                                         <p:column>
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
-                                                             <h:outputText value="#{d.date}"/>
+                                                            <h:outputText value="#{d.date}">
+                                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                            </h:outputText>
                                                          </p:column>
                                                          <p:column>
                                                              <f:facet name="header">
@@ -110,13 +113,12 @@
                                          </table>
                                        
 
-                                    </p:fieldset>
+<!--                                    </p:fieldset>-->
 
                                 </p:tab>
                             </c:forEach>
 
                             </p:tabView>
-                    </h:form>
                     </p:tab>
                 </c:forEach>
             </p:tabView>

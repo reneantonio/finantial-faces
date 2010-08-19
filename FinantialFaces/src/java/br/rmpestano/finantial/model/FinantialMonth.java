@@ -34,9 +34,9 @@ public class FinantialMonth implements Serializable {
     @Temporal(TemporalType.DATE)
     @Id
     private Date date;
-    @OneToMany(mappedBy = "finantialMonth")
+    @OneToMany(mappedBy = "finantialMonth",cascade=CascadeType.ALL)
     private List<Income> monthIncomes;
-    @OneToMany(mappedBy = "finantialMonth")
+    @OneToMany(mappedBy = "finantialMonth",cascade=CascadeType.ALL)
     private List<Outcome> monthOutcomes;
     @ManyToOne(cascade=CascadeType.ALL)
     private FinantialYear finantialYear;

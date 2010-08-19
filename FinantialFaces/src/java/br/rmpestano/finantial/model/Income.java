@@ -7,6 +7,7 @@ package br.rmpestano.finantial.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -20,9 +21,9 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name="income")
 public class Income extends BaseEntity {
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     private User user;
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     private FinantialMonth finantialMonth;
 
     @Temporal(javax.persistence.TemporalType.DATE)

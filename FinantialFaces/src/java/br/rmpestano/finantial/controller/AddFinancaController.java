@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -41,6 +42,7 @@ public class AddFinancaController {
     private String tipoCorrete = OUTCOME;
     private IncomeType subtipoIncomeCorrete;
     private OutcomeType subtipoOutcomeCorrete;
+    private Date date;
 
     public AddFinancaController() {
         subtiposIncome = IncomeType.findAll();
@@ -96,6 +98,15 @@ public class AddFinancaController {
         this.subtiposOutcome = subtiposOutcome;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+
 
     public String getINCOME() {
         return INCOME;
@@ -124,18 +135,18 @@ public class AddFinancaController {
 
 
 
-    public void incluir() {
+    public String incluir() {
 
         Calendar c = new GregorianCalendar();
-        if (receita != null) {
-            Date d = receita.getDate();
-            c.setTime(d);
+        if (tipoCorrete.equals(INCOME)) {
+            receita.setDate(date);
+            c.setTime(date);
             receita.setType(subtipoIncomeCorrete);
             receita.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
         }
-        if (despesa != null) {
-            Date d = despesa.getDate();
-            c.setTime(d);
+        if (tipoCorrete.equals(OUTCOME)) {
+            despesa.setDate(date);
+            c.setTime(date);
             despesa.setType(subtipoOutcomeCorrete);
             despesa.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
         }
@@ -143,19 +154,26 @@ public class AddFinancaController {
         FinantialMonth fm = FinantialMonth.findById(c.getTime());
         List<Income> monthIncomes = fm.getMonthIncomes();
         if(monthIncomes == null){
-            fm.setMonthIncomes(new ArrayList<Income>() {{add(receita);}});
-        }
+            if(tipoCorrete.equals(INCOME)){
+                 fm.setMonthIncomes(new ArrayList<Income>() {{add(receita);}});
+                 receita.setFinantialMonth(fm);
+            }
         else{
-          fm.getMonthIncomes().add(receita);
-         }
-        List<Outcome> monthOutcomes = fm.getMonthOutcomes();
-        if(monthOutcomes == null){
-            fm.setMonthOutcomes(new ArrayList<Outcome>() {{add(despesa);}});
+                fm.setMonthOutcomes(new ArrayList<Outcome>() {{add(despesa);}});
+                despesa.setFinantialMonth(fm);
+            }
         }
-        else{
-          fm.getMonthOutcomes().add(despesa);
-         }
-        tabService.update(fm);
-    }
+      else {
+            if (tipoCorrete.equals(INCOME)) {
+                fm.getMonthIncomes().add(receita);
+                receita.setFinantialMonth(fm);
+            } else {
+                fm.getMonthOutcomes().add(despesa);
+                despesa.setFinantialMonth(fm);
+            }
+        }
 
+        tabService.update(fm);
+    return "/pages/home.faces?faces-redirect=true";
+    }
 }

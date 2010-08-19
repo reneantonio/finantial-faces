@@ -17,6 +17,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
@@ -55,7 +56,6 @@ public class CrudService <T> {
         T t =  this.findById(id,c);
         if(t != null){
             em.remove(t);
-            em.close();
          }
     }
 
@@ -64,8 +64,7 @@ public class CrudService <T> {
     public T update(T t) {
 
         t = this.em.merge(t);
-
-        this.em.flush();
+        em.setFlushMode(FlushModeType.COMMIT);
 //        this.em.refresh(t);
         return t;
     }
