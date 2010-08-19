@@ -28,6 +28,8 @@
     
 }
 
+ 
+
 .theme{
     top:0;
     left:0;
@@ -45,6 +47,9 @@
     padding-bottom: 1px;
     padding-top: 1px;
 }
+
+.odd {background:orange}
+.even {}
 
 .tipo{
     padding-top: 1px;
