@@ -22,6 +22,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 /**
  *
@@ -174,6 +175,10 @@ public class AddFinancaController {
         }
 
         tabService.update(fm);
+        tabService.setYearTabIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
+        if(c != null){
+             tabService.setMonthTabIndex(c.get(Calendar.MONTH));
+        }
     return "/pages/home.faces?faces-redirect=true";
     }
 }

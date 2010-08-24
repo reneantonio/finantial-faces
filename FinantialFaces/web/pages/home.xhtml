@@ -16,48 +16,59 @@
          <h:form id="main_form">
             <p:outputPanel id="tab_panel">
                 <p:panel header="Visualizar Finanças" >
-            <p:tabView id="tabs" dynamic="false" cache="false" >
+                    <p:tabView id="tabs" dynamic="false" activeIndex="#{tabService.yearTabIndex}">
                 <c:forEach id="fe" var="y" items="#{tabBean.tabYears}">
-                    <p:tab  title="#{y.title}">
-                        <p:tabView  dynamic="false" cache="false" >
+                    <p:tab  title="#{y.title}" >
+                        <p:tabView  dynamic="false" activeIndex="#{tabService.monthTabIndex}" >
                             <c:forEach var="m" items="#{y.finantialMonths}">
-                                <p:tab  title="#{msg[m.title]}" >
+                                <p:tab title="#{msg[m.title]}" >
 <!--                                     <p:fieldset legend="#{msg['finance.label.legend']}">-->
-                                         <table width="100%">
-                                             <td align="left">
+                                    <table width="100%">
+                                             <td width="50%" align="left">
                                                  <p:panel  header="Receitas">
-                                                     <p:dataTable var="r" value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}" >
-                                                         <p:column>
+                                                     <p:dataTable var="r"  value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}"  paginator="true" rows="5"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
+                                                         <p:column resizable="true" >
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
-                                                             <h:outputText value="#{r.date}">
-                                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                                             </h:outputText>
+                                                             <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
+                                                                 <h:outputText styleClass="link-orange" value="#{r.date}">
+                                                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                                 </h:outputText>
+                                                              </h:outputLink>
                                                          </p:column>
-                                                         <p:column>
+                                                         <p:column resizable="true">
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['login.label.username']}"/>
                                                              </f:facet>
-                                                              <h:outputText value="#{r.user}"/>
+                                                              <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
+                                                                 <h:outputText styleClass="link-orange" value="#{r.user}"/>
+                                                              </h:outputLink>
                                                          </p:column>
-                                                         <p:column>
+                                                         <p:column resizable="true">
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.descricao']}"/>
                                                              </f:facet>
-                                                              <h:outputText value="#{r.description}"/>
+                                                              <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
+                                                                 <h:outputText styleClass="link-orange" value="#{r.description}"/>
+                                                              </h:outputLink>
                                                          </p:column>
-                                                          <p:column>
+                                                          <p:column resizable="true">
                                                              <f:facet name="header">
-                                                                #{msg['finance.label.tipo']}
+                                                                <h:outputLabel value="#{msg['finance.label.tipo']}"/>
                                                              </f:facet>
-                                                              <h:outputText value="#{msg['subtipo.income.'.concat(r.type)]}"/>
+                                                              <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
+                                                                 <h:outputText styleClass="link-orange" value="#{msg['subtipo.income.'.concat(r.type)]}"/>
+                                                              </h:outputLink>
                                                          </p:column>
-                                                         <p:column>
+                                                         <p:column resizable="true">
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.valor']}
                                                              </f:facet>
-                                                              <h:outputText value="#{r.value}"/>
+                                                             <h:outputLink value="#" style="text-decoration: none" onclick="editModal.show()">
+                                                                 <h:outputText styleClass="link-white" value="#{r.value}"/>
+                                                              </h:outputLink>
                                                          </p:column>
                                                      </p:dataTable>
                                                      <div align="center">
@@ -65,40 +76,52 @@
                                                      </div>
                                                  </p:panel>
                                              </td>
-                                             <td align="right">
-                                                 <p:panel  header="Despesas">
-                                                     <p:dataTable  var="d" value="#{m.currentUserOutcomesInTheMonth}" rendered="#{not empty m.currentUserOutcomesInTheMonth}" style="border: none">
-                                                        <p:column>
+                                             <td  width="50%" align="right">
+
+                                                 <p:panel header="Despesas" style="text-align: center">
+                                                     <p:dataTable  var="d" value="#{m.currentUserOutcomesInTheMonth}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
+                                                         <p:column resizable="true">
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
-                                                            <h:outputText value="#{d.date}">
-                                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                                            </h:outputText>
+                                                            <h:outputLink style="text-decoration: none;" value="#" onclick="editModal.show()">
+                                                                 <h:outputText styleClass="link-orange" value="#{d.date}">
+                                                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                                 </h:outputText>
+                                                              </h:outputLink>
                                                          </p:column>
-                                                         <p:column>
+                                                         <p:column resizable="true">
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['login.label.username']}"/>
                                                              </f:facet>
-                                                              <h:outputText value="#{d.user}"/>
+                                                               <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
+                                                                 <h:outputText styleClass="link-orange" value="#{d.user}"/>
+                                                              </h:outputLink>
                                                          </p:column>
-                                                         <p:column>
+                                                         <p:column resizable="true">
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.descricao']}"/>
                                                              </f:facet>
-                                                              <h:outputText value="#{d.description}"/>
+                                                               <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
+                                                                 <h:outputText styleClass="link-orange" value="#{d.description}"/>
+                                                              </h:outputLink>
                                                          </p:column>
-                                                          <p:column>
+                                                          <p:column resizable="true">
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.tipo']}
                                                              </f:facet>
-                                                              <h:outputText value="#{msg['subtipo.income.'.concat(d.type)]}"/>
+                                                               <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
+                                                                 <h:outputText styleClass="link-orange" value="#{msg['subtipo.outcome.'.concat(d.type)]}"/>
+                                                              </h:outputLink>
                                                          </p:column>
-                                                         <p:column>
+                                                         <p:column resizable="true">
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.valor']}
                                                              </f:facet>
-                                                              <h:outputText value="#{d.value}"/>
+                                                              <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
+                                                                 <h:outputText styleClass="link-white" value="#{d.value}"/>
+                                                              </h:outputLink>
                                                          </p:column>
                                                      </p:dataTable>
 
@@ -106,6 +129,7 @@
                                                          <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px" rendered="#{empty m.currentUserOutcomesInTheMonth}"/>
                                                      </div>
                                                  </p:panel>
+
                                              </td>
 
 
@@ -128,6 +152,12 @@
                  <ui:include src="add-financa.xhtml"/>
                  
              </p:outputPanel>
+             <p:outputPanel id="edit_finance">
+                 <p:dialog  modal="true" widgetVar="editModal" showEffect="fold" header="Editar Finança" hideEffect="fold" minHeight="150" closable="true" draggable="true">
+                     <ui:include src="edit-financa.xhtml"/>
+                 </p:dialog>
+             </p:outputPanel>
+
         </h:form>
     </ui:define>
 

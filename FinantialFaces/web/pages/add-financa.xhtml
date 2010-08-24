@@ -37,7 +37,7 @@ and open the template in the editor.
                    
                     <h:column>
                         <h:panelGrid columns="2" id="grid_finance"  cellpadding="-2px" style="padding-left: 6px;margin-top: 5px">
-                            <finantial:label for="date" value="#{msg['finance.label.data']}:" required="true"/>
+                            <finantial:label for="date_income" value="#{msg['finance.label.data']}:" required="true"/>
                             <p:calendar id="date_income" effectDuration="0.5" value="#{addBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both"  popupIcon="../resources/images/calendar.png"/>
                             <finantial:label for="select_tipo" value="#{msg['finance.label.tipo']}:"/>
                             <h:column>
@@ -50,7 +50,6 @@ and open the template in the editor.
                                 <h:selectOneMenu  rendered="#{addBean.tipoCorrete eq addBean.INCOME}"  value="#{addBean.subtipoIncomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
                                     <f:selectItems value="#{addBean.subtiposIncome}" var="subtipo" itemLabel="#{msg['subtipo.income.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
                                     <f:converter converterId="incomeConveter"/>
-
                                 </h:selectOneMenu>
                                 <h:selectOneMenu id="select_subtipo_outcome" rendered="#{addBean.tipoCorrete eq addBean.OUTCOME}"  value="#{addBean.subtipoOutcomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
                                     <f:selectItems value="#{addBean.subtiposOutcome}" var="subtipo" itemLabel="#{msg['subtipo.outcome.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
