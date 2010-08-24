@@ -25,7 +25,8 @@ import javax.inject.Named;
 public class TabService implements Serializable{
     @Inject CrudService<FinantialYear> yearCrudService;
     @Inject CrudService<FinantialMonth> monthCrudService;
-
+    private Integer monthTabIndex = 0;
+    private Integer yearTabIndex = 0;
     public List<FinantialYear> findAll(){
         return yearCrudService.findAll(FinantialYear.class);
     }
@@ -54,6 +55,39 @@ public class TabService implements Serializable{
 
    }
 
+    public Integer getMonthTabIndex() {
+        System.out.println("GetTabMonthIndex:"+yearTabIndex);
+        return monthTabIndex;
+    }
+
+    public void setMonthTabIndex(Integer monthTabIndex) {
+         System.out.println("SetTabMonthIndex:"+yearTabIndex);
+        this.monthTabIndex = monthTabIndex;
+    }
+
+    public Integer getYearTabIndex() {
+         System.out.println("GetTabYearIndex:"+yearTabIndex);
+        return yearTabIndex;
+    }
+
+    public void setYearTabIndex(Integer yearTabIndex) {
+        System.out.println("SetTabYearIndex:"+yearTabIndex);
+        this.yearTabIndex = yearTabIndex;
+    }
+
+    public int findYearIndex(String title){
+        int index = 0;
+        for (FinantialYear finantialYear : yearCrudService.findAll(FinantialYear.class)) {
+            if(finantialYear.getTitle().equals(title)){
+                System.out.println("Retornou INDEX:"+index);
+                return index;
+            }
+             else{
+                index++;
+             }
+        }
+        return -1;//não encontrou
+    }
 
     public void init(){
 //         if(!PersistenceManager.createEntityManager().createQuery("select f from FinantialYear f").getResultList().isEmpty()){

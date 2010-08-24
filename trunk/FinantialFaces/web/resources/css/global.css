@@ -16,19 +16,34 @@
          font-family: Arial,Helvetica;
 }
 
-.ui-panel-title {
-    font-size: 12px !important;
-    padding-left: 38%;
-   *padding-left: 50%;
-   *text-align:center;
-}
 
 .ui-tabs-nav{
 
     
 }
 
- 
+.ui-panel-titlebar{
+
+    text-align: center;
+}
+
+.tab .ui-tabs-panel{
+    width:100%;
+
+}
+.ui-dialog-title-dialog {
+    text-align: center !important;
+}
+.ui-dialog-titlebar{
+    text-align: center !important;
+}
+.link-orange{
+    color: #F58400;
+}
+.link-white{
+    color: white;
+    text-decoration: underline;
+}
 
 .theme{
     top:0;

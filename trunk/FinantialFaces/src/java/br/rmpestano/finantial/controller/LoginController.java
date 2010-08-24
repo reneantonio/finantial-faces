@@ -29,9 +29,6 @@ public class LoginController implements Serializable{
     UserService userService;
     User user = new User();
 
-
-
-
     @PostConstruct
     public void getUserService(){
         userService = (UserService) BeanManagerController.getBeanByName("userService");
