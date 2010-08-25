@@ -19,9 +19,19 @@
                     <p:tabView id="tabs" dynamic="false" activeIndex="#{tabService.yearTabIndex}">
                 <c:forEach id="fe" var="y" items="#{tabBean.tabYears}">
                     <p:tab  title="#{y.title}" >
+
                         <p:tabView  dynamic="false" activeIndex="#{tabService.monthTabIndex}" >
                             <c:forEach var="m" items="#{y.finantialMonths}">
                                 <p:tab title="#{msg[m.title]}" >
+                                    <p:ajaxStatus style="float: right">
+                                        <f:facet name="start">
+                                            <h:graphicImage library="images" name="ajax-loader4gif.gif"/>
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText value="" />
+                                        </f:facet>
+                                    </p:ajaxStatus>
 <!--                                     <p:fieldset legend="#{msg['finance.label.legend']}">-->
                                     <table width="100%">
                                              <td width="50%" align="left">
@@ -32,44 +42,45 @@
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
-                                                             <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
-                                                                 <h:outputText styleClass="link-orange" value="#{r.date}">
+                                                             <p:commandLink styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" onclick="editModal.show()">
+                                                                    <h:outputText value="#{r.date}">
                                                                      <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                                                 </h:outputText>
-                                                              </h:outputLink>
+                                                                    </h:outputText>
+                                                                </p:commandLink>
                                                          </p:column>
                                                          <p:column resizable="true">
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['login.label.username']}"/>
                                                              </f:facet>
-                                                              <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
-                                                                 <h:outputText styleClass="link-orange" value="#{r.user}"/>
-                                                              </h:outputLink>
+                                                             <p:commandLink  style="text-decoration: none" onclick="editModal.show()">
+                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{r.user}"/>
+                                                             </p:commandLink>
                                                          </p:column>
                                                          <p:column resizable="true">
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.descricao']}"/>
                                                              </f:facet>
-                                                              <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
-                                                                 <h:outputText styleClass="link-orange" value="#{r.description}"/>
-                                                              </h:outputLink>
+                                                             <p:commandLink style="text-decoration: none"  onclick="editModal.show()">
+                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{r.description}"/> 
+                                                             </p:commandLink>
                                                          </p:column>
                                                           <p:column resizable="true">
                                                              <f:facet name="header">
                                                                 <h:outputLabel value="#{msg['finance.label.tipo']}"/>
                                                              </f:facet>
-                                                              <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
-                                                                 <h:outputText styleClass="link-orange" value="#{msg['subtipo.income.'.concat(r.type)]}"/>
-                                                              </h:outputLink>
+                                                              <p:commandLink style="text-decoration: none" onclick="editModal.show()" >
+                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{msg['subtipo.income.'.concat(r.type)]}"/> 
+                                                              </p:commandLink>
                                                          </p:column>
                                                          <p:column resizable="true">
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.valor']}
                                                              </f:facet>
-                                                             <h:outputLink value="#" style="text-decoration: none" onclick="editModal.show()">
-                                                                 <h:outputText styleClass="link-white" value="#{r.value}"/>
-                                                              </h:outputLink>
+                                                             <p:commandLink style="text-decoration: none"  onclick="editModal.show()">
+                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}" value="#{r.value}"/>
+                                                             </p:commandLink>
                                                          </p:column>
+                                                          <p:column headerText="Options" editor="true" />
                                                      </p:dataTable>
                                                      <div align="center">
                                                          <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px" rendered="#{empty m.currentUserIncomesInTheMonth}"/>
@@ -85,44 +96,48 @@
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
-                                                            <h:outputLink style="text-decoration: none;" value="#" onclick="editModal.show()">
-                                                                 <h:outputText styleClass="link-orange" value="#{d.date}">
+                                                             <p:commandLink style="text-decoration: none" onclick="editModal.show()">
+                                                                    <h:outputText value="#{d.date}" styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}">
                                                                      <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                                                 </h:outputText>
-                                                              </h:outputLink>
+                                                                    </h:outputText>
+                                                                </p:commandLink>
                                                          </p:column>
                                                          <p:column resizable="true">
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['login.label.username']}"/>
                                                              </f:facet>
-                                                               <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
-                                                                 <h:outputText styleClass="link-orange" value="#{d.user}"/>
-                                                              </h:outputLink>
+                                                             <p:commandLink style="text-decoration: none" onclick="editModal.show()">
+                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{d.user}"/>
+                                                             </p:commandLink>
                                                          </p:column>
                                                          <p:column resizable="true">
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.descricao']}"/>
                                                              </f:facet>
-                                                               <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
-                                                                 <h:outputText styleClass="link-orange" value="#{d.description}"/>
-                                                              </h:outputLink>
+                                                             <p:commandLink style="text-decoration: none" onclick="editModal.show()">
+                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{d.description}"/>
+                                                             </p:commandLink>
+                                                               <p:cellEditor>
+                                                                    <h:inputText value="#{d.description}" style="width:100%"/>
+                                                                </p:cellEditor>
                                                          </p:column>
                                                           <p:column resizable="true">
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.tipo']}
                                                              </f:facet>
-                                                               <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
-                                                                 <h:outputText styleClass="link-orange" value="#{msg['subtipo.outcome.'.concat(d.type)]}"/>
-                                                              </h:outputLink>
+                                                              <p:commandLink style="text-decoration: none" onclick="editModal.show()">
+                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{msg['subtipo.outcome.'.concat(d.type)]}"/>
+                                                              </p:commandLink>
                                                          </p:column>
                                                          <p:column resizable="true">
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.valor']}
                                                              </f:facet>
-                                                              <h:outputLink value="#" onclick="editModal.show()" style="text-decoration: none">
-                                                                 <h:outputText styleClass="link-white" value="#{d.value}"/>
-                                                              </h:outputLink>
+                                                             <p:commandLink styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}" onclick="editModal.show()">
+                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}" value="#{d.value}"/>
+                                                             </p:commandLink>
                                                          </p:column>
+                                                          <p:column headerText="Editar" editor="true" />
                                                      </p:dataTable>
 
                                                      <div align="center">
