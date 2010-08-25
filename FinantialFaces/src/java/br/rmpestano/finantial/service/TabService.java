@@ -10,8 +10,12 @@ import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.service.generic.CrudService;
 import br.rmpestano.finantial.util.MessagesController;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,6 +31,13 @@ public class TabService implements Serializable{
     @Inject CrudService<FinantialMonth> monthCrudService;
     private Integer monthTabIndex = 0;
     private Integer yearTabIndex = 0;
+    private String lastCalendarDate;
+    private String firstCalendarDate;
+
+
+
+
+
     public List<FinantialYear> findAll(){
         return yearCrudService.findAll(FinantialYear.class);
     }
@@ -56,24 +67,22 @@ public class TabService implements Serializable{
    }
 
     public Integer getMonthTabIndex() {
-        System.out.println("GetTabMonthIndex:"+yearTabIndex);
         return monthTabIndex;
     }
 
     public void setMonthTabIndex(Integer monthTabIndex) {
-         System.out.println("SetTabMonthIndex:"+yearTabIndex);
         this.monthTabIndex = monthTabIndex;
     }
 
     public Integer getYearTabIndex() {
-         System.out.println("GetTabYearIndex:"+yearTabIndex);
         return yearTabIndex;
     }
 
     public void setYearTabIndex(Integer yearTabIndex) {
-        System.out.println("SetTabYearIndex:"+yearTabIndex);
         this.yearTabIndex = yearTabIndex;
     }
+
+
 
     public int findYearIndex(String title){
         int index = 0;
@@ -89,7 +98,16 @@ public class TabService implements Serializable{
         return -1;//não encontrou
     }
 
+    
+
+
+
+
+
+    @PostConstruct
     public void init(){
+        lastCalendarDate = getLastYear();
+        firstCalendarDate = getfirstYear();
 //         if(!PersistenceManager.createEntityManager().createQuery("select f from FinantialYear f").getResultList().isEmpty()){
 //            return;
 //        }
@@ -198,5 +216,40 @@ public class TabService implements Serializable{
 //            ex.printStackTrace();
 //        }
 
+    }
+
+    public String getFirstCalendarDate() {
+        return firstCalendarDate;
+    }
+
+    public void setFirstCalendarDate(String firstCalendarDate) {
+        this.firstCalendarDate = firstCalendarDate;
+    }
+
+    public String getLastCalendarDate() {
+        return lastCalendarDate;
+    }
+
+    public void setLastCalendarDate(String lastCalendarDate) {
+        this.lastCalendarDate = lastCalendarDate;
+    }
+
+    
+    private String getfirstYear() {
+        StringBuilder firstDate = new StringBuilder();
+        List<FinantialYear> findMaxNaoFunciona =  yearCrudService.findAll(FinantialYear.class);
+        Collections.sort(findMaxNaoFunciona);
+        FinantialYear fy = findMaxNaoFunciona.get(0);
+        firstDate.append("01/01/").append(fy.getTitle());
+       return firstDate.toString();
+    }
+
+    public String getLastYear(){
+        StringBuilder lastDate = new StringBuilder();
+        List<FinantialYear> findMaxNaoFunciona =  yearCrudService.findAll(FinantialYear.class);
+        Collections.sort(findMaxNaoFunciona);
+        FinantialYear fy = findMaxNaoFunciona.get(findMaxNaoFunciona.size()-1);
+        lastDate.append("31/12/").append(fy.getTitle());
+       return lastDate.toString();
     }
 }

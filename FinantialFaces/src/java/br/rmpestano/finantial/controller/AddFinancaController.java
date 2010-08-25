@@ -13,6 +13,7 @@ import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.TabService;
 import br.rmpestano.finantial.util.BeanManagerController;
+import br.rmpestano.finantial.util.MessagesController;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -137,7 +138,7 @@ public class AddFinancaController {
 
 
     public String incluir() {
-
+        try{
         Calendar c = new GregorianCalendar();
         if (tipoCorrete.equals(INCOME)) {
             receita.setDate(date);
@@ -179,6 +180,12 @@ public class AddFinancaController {
         if(c != null){
              tabService.setMonthTabIndex(c.get(Calendar.MONTH));
         }
+        MessagesController.addInfo("Finança incluida com sucesso!");
     return "/pages/home.faces?faces-redirect=true";
+        }catch(Exception ex){
+            MessagesController.addError("Erro ao incluir finança",ex.getMessage());
+            ex.printStackTrace();
+            return null;
+        }
     }
 }
