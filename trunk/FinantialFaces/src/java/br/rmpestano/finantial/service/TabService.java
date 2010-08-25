@@ -38,6 +38,7 @@ public class TabService implements Serializable{
 
 
 
+
     public List<FinantialYear> findAll(){
         return yearCrudService.findAll(FinantialYear.class);
     }
@@ -108,6 +109,7 @@ public class TabService implements Serializable{
     public void init(){
         lastCalendarDate = getLastYear();
         firstCalendarDate = getfirstYear();
+        setInitialTabs();
 //         if(!PersistenceManager.createEntityManager().createQuery("select f from FinantialYear f").getResultList().isEmpty()){
 //            return;
 //        }
@@ -251,5 +253,20 @@ public class TabService implements Serializable{
         FinantialYear fy = findMaxNaoFunciona.get(findMaxNaoFunciona.size()-1);
         lastDate.append("31/12/").append(fy.getTitle());
        return lastDate.toString();
+    }
+
+    private void setInitialTabs() {
+        try {
+            Date d = new Date();
+            FinantialMonth fm = FinantialMonth.findById(d);
+            Calendar c = new GregorianCalendar();
+            yearTabIndex = this.findYearIndex(fm.getFinantialYear().getTitle());
+            c.setTime(d);
+            monthTabIndex = c.get(Calendar.MONTH);
+            System.out.println("Tab Month Inicial:"+monthTabIndex);
+            System.out.println("Tab Year Inicial:"+yearTabIndex);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
