@@ -23,7 +23,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="finantial_year")
-public class FinantialYear extends BaseEntity {
+public class FinantialYear extends BaseEntity implements Comparable<FinantialYear>{
 
     private String title;
     @OneToMany(mappedBy = "finantialYear",cascade=CascadeType.ALL)
@@ -70,6 +70,11 @@ public class FinantialYear extends BaseEntity {
         Query q = em.createQuery("select f FROM FinantialYear f WHERE f.title =:title");
         q.setParameter("title", title);
         return (FinantialYear) q.getResultList().get(0);
+    }
+
+    @Override
+    public int compareTo(FinantialYear o) {
+        return this.getTitle().compareTo(o.getTitle());
     }
 
 

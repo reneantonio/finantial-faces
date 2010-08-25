@@ -25,6 +25,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.From;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -167,5 +169,7 @@ public class CrudService <T> {
         TypedQuery<T> query = em.createQuery(cq);
         return query.getResultList();
     }
+
+
 
 }
