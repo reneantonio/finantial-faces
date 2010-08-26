@@ -256,10 +256,11 @@ public class TabService implements Serializable{
     private void setInitialTabs() {
         try {
             Date d = new Date();
-            FinantialMonth fm = FinantialMonth.findById(d);
+//            FinantialMonth fm = FinantialMonth.findById(d);
             Calendar c = new GregorianCalendar();
-            yearTabIndex = this.findYearIndex(fm.getFinantialYear().getTitle());
             c.setTime(d);
+            FinantialYear fy = FinantialYear.findByYear(""+c.get(Calendar.YEAR));
+            yearTabIndex = this.findYearIndex(fy.getTitle());
             monthTabIndex = c.get(Calendar.MONTH);
             System.out.println("Tab Month Inicial:"+monthTabIndex);
             System.out.println("Tab Year Inicial:"+yearTabIndex);
