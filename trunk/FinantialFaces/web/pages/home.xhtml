@@ -25,7 +25,7 @@
                                 <p:tab title="#{msg[m.title]}" >
                                     <p:ajaxStatus style="float: right">
                                         <f:facet name="start">
-                                            <h:graphicImage library="images" name="ajax-loader4gif.gif"/>
+                                            <h:graphicImage library="images" name="ajax-loader.gif"/>
                                         </f:facet>
 
                                         <f:facet name="complete">
@@ -36,9 +36,9 @@
                                     <table width="100%">
                                              <td width="50%" align="left">
                                                  <p:panel  header="Receitas">
-                                                     <p:dataTable var="r"  value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}"  paginator="true" rows="5"
+                                                     <p:dataTable  var="r"  value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}"  paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
-                                                         <p:column resizable="true" >
+                                                         <p:column resizable="true" sortBy="#{r.date}" parser="date" >
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
@@ -72,7 +72,7 @@
                                                                   <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{msg['subtipo.income.'.concat(r.type)]}"/> 
                                                               </p:commandLink>
                                                          </p:column>
-                                                         <p:column resizable="true">
+                                                         <p:column resizable="true" sortBy="#{r.value}" parser="number">
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.valor']}
                                                              </f:facet>
@@ -92,7 +92,7 @@
                                                  <p:panel header="Despesas" style="text-align: center">
                                                      <p:dataTable  var="d" value="#{m.currentUserOutcomesInTheMonth}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
-                                                         <p:column resizable="true">
+                                                         <p:column resizable="true"  sortBy="#{d.date}" parser="date" >
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
@@ -106,8 +106,9 @@
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['login.label.username']}"/>
                                                              </f:facet>
-                                                             <p:commandLink style="text-decoration: none" onclick="editModal.show()">
+                                                             <p:commandLink style="text-decoration: none" oncomplete="editModal.show()" update="edit_finance">
                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{d.user}"/>
+                                                                 <f:setPropertyActionListener value="#{d}" target="#{addBean.despesa}"/>
                                                              </p:commandLink>
                                                          </p:column>
                                                          <p:column resizable="true">
@@ -129,7 +130,7 @@
                                                                   <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{msg['subtipo.outcome.'.concat(d.type)]}"/>
                                                               </p:commandLink>
                                                          </p:column>
-                                                         <p:column resizable="true">
+                                                         <p:column resizable="true" sortBy="#{d.value}" parser="number">
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.valor']}
                                                              </f:facet>
