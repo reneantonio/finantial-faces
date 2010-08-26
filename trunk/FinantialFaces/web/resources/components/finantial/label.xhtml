@@ -23,7 +23,7 @@ and open the template in the editor.
 
     <composite:implementation>
         <div style="display: inline">
-            <h:outputLabel for="#{cc.attrs.for}" rendered="#{cc.attrs.rendered}" value="#{cc.attrs.value}" style="#{themeService.theme eq 'ui-darkness' ? '*color:white':'' or themeService.theme eq 'vader' ? '*color:white':'' or themeService.theme eq 'dot-luv' ? '*color:white':'' or themeService.theme eq 'mint-choc' ? '*color:white':''}"/> <!-- compatibility IE -->
+            <h:outputLabel for="#{cc.attrs.for}" rendered="#{cc.attrs.rendered}" value="#{cc.attrs.value}" style="#{themeService.themeProperties.COLOR} "/> <!-- compatibility IE -->
             <h:outputText value="*" style="color:red" rendered="#{cc.attrs.required or cc.attrs.rendered}"/>
         </div>
     </composite:implementation>
