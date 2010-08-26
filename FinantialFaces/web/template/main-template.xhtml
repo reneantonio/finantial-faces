@@ -26,41 +26,39 @@ and open the template in the editor.
                 <p:commandButton id="themeButton" value="#{msg['themechange']}: #{themeService.theme}" onclick="themeMenu.show()" type="button"/>
                 <p:menu widgetVar="themeMenu" position="dynamic" context="'theme_form:themeButton','tl','bl'" style="overflow: auto;width:130px;" styleClass="themeMenu" >
                             <p:submenu label="Themes">
-                                  <p:menuitem value="Bluesky" ajax="false">
-                                      <f:setPropertyActionListener value="bluesky" target="#{themeService.theme}" />
+                                <p:menuitem value="Bluesky" ajax="false" action="#{themeService.blueSkyInit}">
                                   </p:menuitem>
-                                  <p:menuitem value="Casablanca" ajax="false">
-                                      <f:setPropertyActionListener value="casablanca" target="#{themeService.theme}" />
+                                <p:menuitem value="Casablanca" ajax="false" action="#{themeService.casablancaInit}"/>
+                                 
+                                  <p:menuitem value="Ui-Darkness" ajax="false" action="#{themeService.uiDarknessInit}">
                                   </p:menuitem>
-                                  <p:menuitem value="Ui-Darkness" ajax="false">
-                                      <f:setPropertyActionListener value="ui-darkness" target="#{themeService.theme}" />
+                                <p:menuitem value="Overcast" ajax="false" action="#{themeService.overcastInit}">
                                   </p:menuitem>
-                                  <p:menuitem value="Overcast" ajax="false">
-                                      <f:setPropertyActionListener value="overcast" target="#{themeService.theme}" />
+                                <p:menuitem value="Dark-Sky" ajax="false" action="#{themeService.darkSkyInit}">
                                   </p:menuitem>
-                                  <p:menuitem value="Hot-Sneaks" ajax="false">
-                                      <f:setPropertyActionListener value="hot-sneaks" target="#{themeService.theme}" />
+                                <p:menuitem value="Pepper-Grinder" ajax="false" action="#{themeService.pepperInit}">
                                   </p:menuitem>
-                                  <p:menuitem value="Dark-Sky" ajax="false">
-                                      <f:setPropertyActionListener value="dark-sky" target="#{themeService.theme}" />
+                                  <p:menuitem value="Vader" ajax="false"  action="#{themeService.vaderInit}">
                                   </p:menuitem>
-                                  <p:menuitem value="Pepper-Grinder" ajax="false">
-                                      <f:setPropertyActionListener value="pepper-grinder" target="#{themeService.theme}" />
+                                <p:menuitem value="Mint-Choc" ajax="false" action="#{themeService.mintChocInit}">
                                   </p:menuitem>
-                                  <p:menuitem value="Vader" ajax="false">
-                                      <f:setPropertyActionListener value="vader" target="#{themeService.theme}" />
-                                  </p:menuitem>
-                                  <p:menuitem value="Mint-Choc" ajax="false">
-                                      <f:setPropertyActionListener value="mint-choc" target="#{themeService.theme}" />
-                                  </p:menuitem>
-                                  <p:menuitem value="Dot-Luv" ajax="false">
-                                      <f:setPropertyActionListener value="dot-luv" target="#{themeService.theme}" />
+                                <p:menuitem value="Dot-Luv" ajax="false" action="#{themeService.dotLuvInit}">
                                   </p:menuitem>
                             </p:submenu>
                        </p:menu>
             </div>
           </h:form>
-          
+        <div style="left:50%;top:25%">
+         <p:ajaxStatus style="float: right">
+                                        <f:facet name="start">
+                                            <h:graphicImage library="images" name="ajax-loader.gif"/>
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText value="" />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+            </div>
         <ui:insert name="content">
 
 

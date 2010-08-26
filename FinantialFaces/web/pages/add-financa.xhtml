@@ -57,7 +57,7 @@ and open the template in the editor.
 
                                 </h:selectOneMenu>
                             </p:outputPanel>
-                            <p:commandButton value="Incluir" action="#{addBean.incluir}" ajax="false" process="include_finance" style="margin-left: 10px"/>
+                            <p:commandButton value="Incluir" action="#{addBean.incluir}" ajax="false" process="include_finance" style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
                             </h:column>
 
                         </h:panelGrid>
