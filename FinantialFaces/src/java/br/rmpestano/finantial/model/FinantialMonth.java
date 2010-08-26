@@ -6,9 +6,13 @@ package br.rmpestano.finantial.model;
 
 import br.rmpestano.finantial.util.PersistenceManager;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -167,6 +171,12 @@ public class FinantialMonth implements Serializable {
         return (FinantialMonth) q.getResultList().get(0);
     }
     public static FinantialMonth findById(Date id){
+        SimpleDateFormat sdm = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            id = sdm.parse(sdm.format(id));
+        } catch (ParseException ex) {
+            Logger.getLogger(FinantialMonth.class.getName()).log(Level.SEVERE, null, ex);
+        }
         EntityManager em = PersistenceManager.createEntityManager();
         Query q = em.createQuery("select f FROM FinantialMonth f WHERE f.date =:id");
         q.setParameter("id", id);
