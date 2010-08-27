@@ -24,7 +24,7 @@
                                 <h:inputSecret id="password" value="#{loginBean.user.password}"/>
                             </h:panelGrid>
                             <div align="center" class="login-button">
-                                <p:commandButton ajax="false" value="entrar" style="background:#{themeService.themeProperties.BUTTON_BACKGROUND};color:#{themeService.themeProperties.COLOR}" action="#{loginBean.doLogin}" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
+                                <p:commandButton ajax="false" value="entrar" action="#{loginBean.doLogin}" />
                             </div>
 
                         </p:panel>
