@@ -10,6 +10,7 @@ import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.service.generic.CrudService;
 import br.rmpestano.finantial.util.MessagesController;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -25,17 +26,15 @@ import javax.inject.Named;
  * @author rmpestano
  */
 @Named(value="tabService")
-@SessionScoped//conversation
+@SessionScoped
 public class TabService implements Serializable{
     @Inject CrudService<FinantialYear> yearCrudService;
     @Inject CrudService<FinantialMonth> monthCrudService;
     private Integer monthTabIndex = 0;
     private Integer yearTabIndex = 0;
-    private String lastCalendarDate;
-    private String firstCalendarDate;
+    private Integer numberOfYearsToView = 5;
 
-
-
+  
 
     public List<FinantialYear> findAll(){
         return yearCrudService.findAll(FinantialYear.class);
@@ -98,15 +97,41 @@ public class TabService implements Serializable{
     }
 
     
+public String findfirstYear() {
+        StringBuilder firstDate = new StringBuilder();
+        List<FinantialYear> firstYear =  yearCrudService.findAll(FinantialYear.class);
+        Collections.sort(firstYear);
+        FinantialYear fy = firstYear.get(0);
+        firstDate.append("01/01/").append(fy.getTitle());
+       return firstDate.toString();
+    }
+public String findlastYear() {
+        StringBuilder lastDate = new StringBuilder();
+        List<FinantialYear> lastYear =  yearCrudService.findAll(FinantialYear.class);
+        Collections.sort(lastYear);
 
+        FinantialYear fy = lastYear.get(numberOfYearsToView-1);
+        lastDate.append("31/12/").append(fy.getTitle());
+        return lastDate.toString();
+    }
+
+public List<FinantialYear> getYearsToView(){
+      List<FinantialYear> retorno = new ArrayList<FinantialYear>();
+      List<FinantialYear> years =  yearCrudService.findAll(FinantialYear.class);
+      Collections.sort(years);
+      for (int i = 0; i <  numberOfYearsToView; i++) {
+           retorno.add(years.get(i));
+    }
+      return retorno;
+
+}
 
 
 
 
     @PostConstruct
     public void init(){
-        lastCalendarDate = getLastYear();
-        firstCalendarDate = getfirstYear();
+        
         setInitialTabs();
 //         if(!PersistenceManager.createEntityManager().createQuery("select f from FinantialYear f").getResultList().isEmpty()){
 //            return;
@@ -218,41 +243,9 @@ public class TabService implements Serializable{
 
     }
 
-    public String getFirstCalendarDate() {
-        return firstCalendarDate;
-    }
-
-    public void setFirstCalendarDate(String firstCalendarDate) {
-        this.firstCalendarDate = firstCalendarDate;
-    }
-
-    public String getLastCalendarDate() {
-        return lastCalendarDate;
-    }
-
-    public void setLastCalendarDate(String lastCalendarDate) {
-        this.lastCalendarDate = lastCalendarDate;
-    }
-
+  
     
-    private String getfirstYear() {
-        StringBuilder firstDate = new StringBuilder();
-        List<FinantialYear> findMaxNaoFunciona =  yearCrudService.findAll(FinantialYear.class);
-        Collections.sort(findMaxNaoFunciona);
-        FinantialYear fy = findMaxNaoFunciona.get(0);
-        firstDate.append("01/01/").append(fy.getTitle());
-       return firstDate.toString();
-    }
-
-    public String getLastYear(){
-        StringBuilder lastDate = new StringBuilder();
-        List<FinantialYear> findMaxNaoFunciona =  yearCrudService.findAll(FinantialYear.class);
-        Collections.sort(findMaxNaoFunciona);
-        FinantialYear fy = findMaxNaoFunciona.get(findMaxNaoFunciona.size()-1);
-        lastDate.append("31/12/").append(fy.getTitle());
-       return lastDate.toString();
-    }
-
+    
     private void setInitialTabs() {
         try {
             Date d = new Date();
@@ -268,4 +261,14 @@ public class TabService implements Serializable{
             ex.printStackTrace();
         }
     }
+
+    public Integer getNumberOfYearsToView() {
+        return numberOfYearsToView;
+    }
+
+    public void setNumberOfYearsToView(Integer numberOfYearsToView) {
+        this.numberOfYearsToView = numberOfYearsToView;
+    }
+
+
 }

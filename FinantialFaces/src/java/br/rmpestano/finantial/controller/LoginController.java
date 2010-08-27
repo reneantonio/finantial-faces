@@ -57,6 +57,7 @@ public class LoginController implements Serializable{
 
                 System.out.println("Login:"+user.getUsername());
                 return "/pages/home.faces?faces-redirect=true";
+//                return "/pages/home2.faces?faces-redirect=true";
             }
             else{
                 MessagesController.addError("senha incorreta ", "senha incorreta, verifique o CAPSLOCK");

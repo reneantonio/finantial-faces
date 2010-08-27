@@ -17,7 +17,7 @@ and open the template in the editor.
 
         <h:panelGrid id="edit_grid" columns="2">
             <h:outputLabel for="edit_data" value="Data:"/>
-            <p:calendar id="edit_data" effectDuration="0.5" value="#{addBean.despesa.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabService.firstCalendarDate}" maxdate="#{tabService.lastCalendarDate}"  popupIcon="../resources/images/calendar.png"/>
+            <p:calendar id="edit_data" effectDuration="0.5" value="#{addBean.despesa.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstCalendarDate}" maxdate="#{tabBean.lastCalendarDate}"  popupIcon="../resources/images/calendar.png"/>
             <h:outputLabel for="edit_user" value="Usuário:"/>
             <h:inputText id="edit_user" value="#{addBean.despesa.user}"/>
             <h:outputLabel for="edit_descricao" value="Descrição:"/>

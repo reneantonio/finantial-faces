@@ -16,6 +16,7 @@ public class ThemeExtraProperties {
     private String MOUSEOVER_EVENT= "";
     private String MOUSEOUT_EVENT = "";
     private String COLOR = "";
+    private String FINANCE_FOOTER_COLOR = "";
 
     public ThemeExtraProperties() {
         this.clearProperties();
@@ -54,12 +55,22 @@ public class ThemeExtraProperties {
         this.COLOR = COLOR;
     }
 
+    public String getFINANCE_FOOTER_COLOR() {
+        return FINANCE_FOOTER_COLOR;
+    }
+
+    public void setFINANCE_FOOTER_COLOR(String FINANCE_FOOTER_COLOR) {
+        this.FINANCE_FOOTER_COLOR = FINANCE_FOOTER_COLOR;
+    }
+
+
 
     private void clearProperties(){
         this.BUTTON_BACKGROUND = "";
         this.MOUSEOUT_EVENT = "";
         this.MOUSEOVER_EVENT = "";
         this.COLOR = "";
+        this.FINANCE_FOOTER_COLOR = "";
     }
 
 }

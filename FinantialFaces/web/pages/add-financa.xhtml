@@ -38,7 +38,7 @@ and open the template in the editor.
                     <h:column>
                         <h:panelGrid columns="2" id="grid_finance"  cellpadding="-2px" style="padding-left: 6px;margin-top: 5px">
                             <finantial:label for="date_income" value="#{msg['finance.label.data']}:" required="true"/>
-                            <p:calendar id="date_income" effectDuration="0.5" value="#{addBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabService.firstCalendarDate}" maxdate="#{tabService.lastCalendarDate}"  popupIcon="../resources/images/calendar.png"/>
+                            <p:calendar id="date_income" effectDuration="0.5" value="#{addBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstCalendarDate}" maxdate="#{tabBean.lastCalendarDate}"  popupIcon="../resources/images/calendar.png"/>
                             <finantial:label for="select_tipo" value="#{msg['finance.label.tipo']}:"/>
                             <h:column>
                                 <h:selectOneMenu id="select_tipo" value="#{addBean.tipoCorrete}" styleClass="tipo">

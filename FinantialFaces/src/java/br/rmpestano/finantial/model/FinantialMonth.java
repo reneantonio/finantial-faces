@@ -49,6 +49,10 @@ public class FinantialMonth implements Serializable {
     private List<Income> currentUserIncomesInTheMonth;
     @Transient
     private List<Outcome> currentUserOutcomesInTheMonth;
+    @Transient
+    private Double totalOutcomeInTheMonth;
+    @Transient
+    private Double totalIncomeInTheMonth;
 
     public List<Income> getCurrentUserIncomesInTheMonth() {
          List<Income> userIncomes = new ArrayList<Income>();
@@ -116,7 +120,23 @@ public class FinantialMonth implements Serializable {
         this.monthOutcomes = monthOutcomes;
     }
 
-
+    public Double getTotalOutcomeInTheMonth() {
+        Double total =new Double(0);
+        for (Outcome outcome : monthOutcomes) {
+                if(outcome.getValue() != null){
+                total+=outcome.getValue();
+            }
+        }
+        return total;
+    }
+    public Double getTotalIncomeInTheMonth() {
+        Double total =new Double(0);
+        for (Income income : monthIncomes) {
+            if(income.getValue() != null)
+               total+=income.getValue();
+        }
+        return total;
+    }
 
 
     @Override

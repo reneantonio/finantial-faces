@@ -5,6 +5,7 @@
 
 package br.rmpestano.finantial.service.generic;
 
+import br.rmpestano.finantial.model.FinantialYear;
 import java.lang.Class;
 import java.util.Date;
 import java.util.List;
@@ -169,6 +170,7 @@ public class CrudService <T> {
         TypedQuery<T> query = em.createQuery(cq);
         return query.getResultList();
     }
+
 
 
 
