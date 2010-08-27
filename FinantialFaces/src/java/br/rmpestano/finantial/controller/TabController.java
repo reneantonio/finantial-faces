@@ -31,6 +31,8 @@ import javax.persistence.EntityManager;
 public class TabController {
     TabService tabService;
     List<FinantialYear> tabYears;
+    private FinantialYear year2010;
+    private FinantialYear year2011;
 
 
 
@@ -39,7 +41,7 @@ public class TabController {
         tabService = (TabService) BeanManagerController.getBeanByName("tabService");
         System.out.println("Injetou tab service:" + tabService);
 //        tabService.init();
-        tabYears = tabService.findAll();
+        tabYears = tabService.findAll();//dependera do numero de anos que o uswr quer ver
     }
     public List<FinantialYear> getAbas() {
         return tabYears;
@@ -57,6 +59,23 @@ public class TabController {
     public void setTabYears(List<FinantialYear> tabYears) {
         this.tabYears = tabYears;
     }
+
+    public FinantialYear getYear2010() {
+        return tabYears.get(0);
+    }
+
+    public void setYear2010(FinantialYear year2010) {
+        this.year2010 = year2010;
+    }
+
+    public FinantialYear getYear2011() {
+        return tabYears.get(1);
+    }
+
+    public void setYear2011(FinantialYear year2011) {
+        this.year2011 = year2011;
+    }
+
 
    
 }
