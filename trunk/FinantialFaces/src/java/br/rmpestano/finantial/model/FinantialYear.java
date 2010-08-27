@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Query;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * representa uma aba do tipo ano
@@ -28,6 +29,11 @@ public class FinantialYear extends BaseEntity implements Comparable<FinantialYea
     private String title;
     @OneToMany(mappedBy = "finantialYear",cascade=CascadeType.ALL)
     private List<FinantialMonth> finantialMonths;
+
+    @Transient
+    private FinantialMonth jan;
+    @Transient
+    private FinantialMonth fev;
 
     public FinantialYear() {
     }
@@ -76,6 +82,19 @@ public class FinantialYear extends BaseEntity implements Comparable<FinantialYea
     public int compareTo(FinantialYear o) {
         return this.getTitle().compareTo(o.getTitle());
     }
+
+    public FinantialMonth getFev() {
+        return finantialMonths.get(1);
+    }
+
+
+
+    public FinantialMonth getJan() {
+         return finantialMonths.get(0);
+    }
+
+    
+
 
 
 
