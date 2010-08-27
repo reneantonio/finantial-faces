@@ -97,10 +97,7 @@
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['login.label.username']}"/>
                                                              </f:facet>
-                                                             <p:commandLink style="text-decoration: none" oncomplete="editModal.show()" update="main_form:edit_finance">
-                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{d.user}"/>  
-																 <f:setPropertyActionListener value="#{d}" target="#{addBean.despesa}"/>	
-                                                             </p:commandLink>
+                                                             <p:commandLink style="text-decoration: none" action="#{addBean.edit(d)}" oncomplete="editModal.show()" value="#{d.user}" update="edit_grid"/>
                                                          </p:column>
                                                          <p:column resizable="true">
                                                              <f:facet name="header">

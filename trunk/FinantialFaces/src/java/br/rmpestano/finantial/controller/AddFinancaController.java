@@ -55,6 +55,9 @@ public class AddFinancaController {
         return tiposFinanca;
     }
 
+    public void edit(Outcome despesa){
+        this.despesa = despesa;
+    }
     public void setTiposFinanca(List<String> tiposFinanca) {
         this.tiposFinanca = tiposFinanca;
     }

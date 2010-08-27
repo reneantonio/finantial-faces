@@ -40,9 +40,9 @@ public class ThemeService implements Serializable {
     public void darkSkyInit(){
         theme = "dark-sky";
         themeProperties = new ThemeExtraProperties();
-        themeProperties.setBUTTON_BACKGROUND("#AAADB8");
-        themeProperties.setMOUSEOUT_EVENT("this.style.background='#AAADB8'");
-        themeProperties.setMOUSEOVER_EVENT("this.style.background='#333333'");
+//        themeProperties.setBUTTON_BACKGROUND("#AAADB8");
+//        themeProperties.setMOUSEOUT_EVENT("this.style.background='#AAADB8'");
+//        themeProperties.setMOUSEOVER_EVENT("this.style.background='#333333'");
         themeProperties.setCOLOR("black");
     }
     public void uiDarknessInit(){
