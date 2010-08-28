@@ -32,7 +32,7 @@ public class TabService implements Serializable{
     @Inject CrudService<FinantialMonth> monthCrudService;
     private Integer monthTabIndex = 0;
     private Integer yearTabIndex = 0;
-    private Integer numberOfYearsToView = 5;
+    private Integer numberOfYearsToView = 6;
 
   
 

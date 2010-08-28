@@ -24,7 +24,7 @@ and open the template in the editor.
       <h:form id="theme_form">
               <p:ajaxStatus style="z-index: 5000;left:50%;top:25%;position: absolute">
                                         <f:facet name="start">
-                                            <h:graphicImage library="images" name="ajax-loader.gif"/>
+                                            <h:graphicImage library="images" name="#{themeService.themeProperties.LOADING_ICON eq '' ? 'ajax-loader-default.gif' : themeService.themeProperties.LOADING_ICON}"/>
                                         </f:facet>
 
                                         <f:facet name="complete">
@@ -55,42 +55,44 @@ and open the template in the editor.
                                   </p:menuitem>
                             </p:submenu>
                        </p:menu>
-                <p:commandButton id="yearsButton" value="Número de anos" onclick="yearMenu.show()" type="button"/>
+                <p:commandButton id="yearsButton" value="Visualisar Anos" onclick="yearMenu.show()" type="button"/>
                 <p:menu widgetVar="yearMenu" position="dynamic" context="'theme_form:yearsButton','tl','bl'" style="overflow: auto;width:130px;" styleClass="themeMenu" >
-                    <p:submenu label="Anos a partir de 2010">
-                        <p:menuitem value="1 ano" ajax="false" action="#{tabService.changeNumYearstoView(1)}">
+                    <p:submenu label="Visualisar Até:">
+                        <p:menuitem value="2010" ajax="false" action="#{tabService.changeNumYearstoView(1)}">
                             <f:setPropertyActionListener value="#{1}" target="#{tabService.numberOfYearsToView}"/>
                                   </p:menuitem>
-                        <p:menuitem value="2 anos" ajax="false" action="#{tabService.changeNumYearstoView(2)}">
-                                  </p:menuitem>
-                        <p:menuitem value="3 anos" ajax="false" action="#{tabService.changeNumYearstoView(3)}">
-                                  </p:menuitem>
-                        <p:menuitem value="4 anos" ajax="false" action="#{tabService.changeNumYearstoView(4)}">
-                                  </p:menuitem>
-                        <p:menuitem value="5 anos" ajax="false" action="#{tabService.changeNumYearstoView(5)}">
-                                  </p:menuitem>
-                        <p:menuitem value="6 anos" ajax="false" action="#{tabService.changeNumYearstoView(6)}">
-                                  </p:menuitem>
-                        <p:menuitem value="7 anos" ajax="false" action="#{tabService.changeNumYearstoView(7)}">
-                                  </p:menuitem>
-                        <p:menuitem value="8 anos" ajax="false" action="#{tabService.changeNumYearstoView(8)}">
-                                  </p:menuitem>
-                        <p:menuitem value="9 anos" ajax="false" action="#{tabService.changeNumYearstoView(9)}">
-                                  </p:menuitem>
-                        <p:menuitem value="10 anos" ajax="false" action="#{tabService.changeNumYearstoView(10)}">
-                                  </p:menuitem>
-                        <p:menuitem value="15 anos" ajax="false" action="#{tabService.changeNumYearstoView(15)}">
-                                  </p:menuitem>
-                        <p:menuitem value="20 anos" ajax="false" action="#{tabService.changeNumYearstoView(20)}">
-                                  </p:menuitem>
+                        <p:menuitem value="2011" ajax="false" action="#{tabService.changeNumYearstoView(2)}"></p:menuitem>
+                        <p:menuitem value="2012" ajax="false" action="#{tabService.changeNumYearstoView(3)}"></p:menuitem>
+                        <p:menuitem value="2013" ajax="false" action="#{tabService.changeNumYearstoView(4)}"></p:menuitem>
+                        <p:menuitem value="2014" ajax="false" action="#{tabService.changeNumYearstoView(5)}"></p:menuitem>
+                        <p:menuitem value="2015" ajax="false" action="#{tabService.changeNumYearstoView(6)}"></p:menuitem>
+                        <p:menuitem value="2016" ajax="false" action="#{tabService.changeNumYearstoView(7)}"></p:menuitem>
+                        <p:menuitem value="2017" ajax="false" action="#{tabService.changeNumYearstoView(8)}"></p:menuitem>
+                        <p:menuitem value="2018" ajax="false" action="#{tabService.changeNumYearstoView(9)}"></p:menuitem>
+                        <p:menuitem value="2019" ajax="false" action="#{tabService.changeNumYearstoView(10)}"></p:menuitem>
+                        <p:menuitem value="2020" ajax="false" action="#{tabService.changeNumYearstoView(11)}"></p:menuitem>
+                        <p:menuitem value="2025" ajax="false" action="#{tabService.changeNumYearstoView(16)}"></p:menuitem>
+                        <p:menuitem value="2030" ajax="false" action="#{tabService.changeNumYearstoView(21)}"></p:menuitem>
                         
                     </p:submenu>
 
 
                 </p:menu>
+                 <p:commandButton id="reportsButton" value="Relatórios" onclick="reportsMenu.show()" type="button"/>
+                 <p:menu widgetVar="reportsMenu" position="dynamic" context="'theme_form:reportsButton','tl','bl'" style="overflow: auto;width:130px;" styleClass="themeMenu" >
+                     <p:submenu label="Visualisar Relatórios">
+                      <p:menuitem value="relatório 1" ajax="false" ></p:menuitem>
+                      <p:menuitem value="relatório 2" ajax="false" ></p:menuitem>
+                      <p:menuitem value="relatório 3" ajax="false" ></p:menuitem>
+                      </p:submenu>
+                 </p:menu>
+                <div style="float: right">
+                    <p:commandButton id="logoutButton" value="Sair" ajax="false" actionListener="#{loginBean.doLogout}"/>
+
+                </div>
             </div>
           </h:form>
-        
+        <hr/>
         <ui:insert name="content">
 
 
