@@ -22,7 +22,16 @@ and open the template in the editor.
     <h:body>
        
       <h:form id="theme_form">
-          <div id="theme">
+              <p:ajaxStatus style="z-index: 5000;left:50%;top:25%;position: absolute">
+                                        <f:facet name="start">
+                                            <h:graphicImage library="images" name="ajax-loader.gif"/>
+                                        </f:facet>
+
+                                        <f:facet name="complete">
+                                            <h:outputText value="" />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+          <div id="theme" style="display: inline">
                 <p:commandButton id="themeButton" value="#{msg['themechange']}: #{themeService.theme}" onclick="themeMenu.show()" type="button"/>
                 <p:menu widgetVar="themeMenu" position="dynamic" context="'theme_form:themeButton','tl','bl'" style="overflow: auto;width:130px;" styleClass="themeMenu" >
                             <p:submenu label="Themes">
@@ -46,19 +55,42 @@ and open the template in the editor.
                                   </p:menuitem>
                             </p:submenu>
                        </p:menu>
+                <p:commandButton id="yearsButton" value="Número de anos" onclick="yearMenu.show()" type="button"/>
+                <p:menu widgetVar="yearMenu" position="dynamic" context="'theme_form:yearsButton','tl','bl'" style="overflow: auto;width:130px;" styleClass="themeMenu" >
+                    <p:submenu label="Anos a partir de 2010">
+                        <p:menuitem value="1 ano" ajax="false" action="#{tabService.changeNumYearstoView(1)}">
+                            <f:setPropertyActionListener value="#{1}" target="#{tabService.numberOfYearsToView}"/>
+                                  </p:menuitem>
+                        <p:menuitem value="2 anos" ajax="false" action="#{tabService.changeNumYearstoView(2)}">
+                                  </p:menuitem>
+                        <p:menuitem value="3 anos" ajax="false" action="#{tabService.changeNumYearstoView(3)}">
+                                  </p:menuitem>
+                        <p:menuitem value="4 anos" ajax="false" action="#{tabService.changeNumYearstoView(4)}">
+                                  </p:menuitem>
+                        <p:menuitem value="5 anos" ajax="false" action="#{tabService.changeNumYearstoView(5)}">
+                                  </p:menuitem>
+                        <p:menuitem value="6 anos" ajax="false" action="#{tabService.changeNumYearstoView(6)}">
+                                  </p:menuitem>
+                        <p:menuitem value="7 anos" ajax="false" action="#{tabService.changeNumYearstoView(7)}">
+                                  </p:menuitem>
+                        <p:menuitem value="8 anos" ajax="false" action="#{tabService.changeNumYearstoView(8)}">
+                                  </p:menuitem>
+                        <p:menuitem value="9 anos" ajax="false" action="#{tabService.changeNumYearstoView(9)}">
+                                  </p:menuitem>
+                        <p:menuitem value="10 anos" ajax="false" action="#{tabService.changeNumYearstoView(10)}">
+                                  </p:menuitem>
+                        <p:menuitem value="15 anos" ajax="false" action="#{tabService.changeNumYearstoView(15)}">
+                                  </p:menuitem>
+                        <p:menuitem value="20 anos" ajax="false" action="#{tabService.changeNumYearstoView(20)}">
+                                  </p:menuitem>
+                        
+                    </p:submenu>
+
+
+                </p:menu>
             </div>
           </h:form>
-        <div style="left:50%;top:25%;z-index: 500">
-         <p:ajaxStatus style="float: right">
-                                        <f:facet name="start">
-                                            <h:graphicImage library="images" name="ajax-loader.gif"/>
-                                        </f:facet>
-
-                                        <f:facet name="complete">
-                                            <h:outputText value="" />
-                                        </f:facet>
-                                    </p:ajaxStatus>
-            </div>
+        
         <ui:insert name="content">
 
 

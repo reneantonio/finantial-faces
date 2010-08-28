@@ -52,6 +52,10 @@ public class TabService implements Serializable{
 
    }
 
+     public String changeNumYearstoView(Integer years){
+         this.numberOfYearsToView = years;
+         return "/pages/home.faces?faces-redirect=true";
+     }
    public void update(FinantialMonth fm){
         try {
             monthCrudService.update(fm);
@@ -86,7 +90,6 @@ public class TabService implements Serializable{
         int index = 0;
         for (FinantialYear finantialYear : yearCrudService.findAll(FinantialYear.class)) {
             if(finantialYear.getTitle().equals(title)){
-                System.out.println("Retornou INDEX:"+index);
                 return index;
             }
              else{

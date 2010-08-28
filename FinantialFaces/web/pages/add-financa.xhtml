@@ -15,7 +15,7 @@ and open the template in the editor.
 
             <p:panel header="Incluir Finança">
 
-                <h:panelGrid columns="3" cellpadding="0" >
+                <h:panelGrid columns="3" cellpadding="0" id="grid_add" >
                     <h:column>
                         <p:outputPanel id="tipo_outcome">
                             <h:panelGrid id="grid_outcome" columns="2" cellspacing="4px" rendered="#{addBean.tipoCorrete eq addBean.OUTCOME}">
@@ -54,17 +54,16 @@ and open the template in the editor.
                                 <h:selectOneMenu id="select_subtipo_outcome" rendered="#{addBean.tipoCorrete eq addBean.OUTCOME}"  value="#{addBean.subtipoOutcomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
                                     <f:selectItems value="#{addBean.subtiposOutcome}" var="subtipo" itemLabel="#{msg['subtipo.outcome.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
                                     <f:converter converterId="outcomeConveter"/>
-
                                 </h:selectOneMenu>
                             </p:outputPanel>
-                            <p:commandButton value="Incluir" action="#{addBean.incluir}" ajax="false" process="include_finance" style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
+                            <p:commandButton value="Incluir" action="#{addBean.incluir}" process="@this" ajax="false" style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
                             </h:column>
 
                         </h:panelGrid>
                     </h:column>
                 </h:panelGrid>
 <!--                <p:messages id="messages"/>-->
-                <p:growl id="messages"/>
+        <p:growl id="messages" showDetail="true"/>
             </p:panel>
 
 

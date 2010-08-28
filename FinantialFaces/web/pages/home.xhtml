@@ -14,28 +14,38 @@
     <ui:define name="content">
 
         <h:form id="main_form" prependId="false">
-            <p:outputPanel id="tab_panel">
-                <p:panel header="Visualizar Finanças" >
+            <p:contextMenu>
+                <p:commandButton value="teste"/>
+                <p:menuitem value="Save" update="msg"
+                              />
+
+                <p:menuitem value="Update" update="msg"
+                              />
+
+
+            </p:contextMenu>
+            <p:outputPanel id="tab_panel" >
+                <p:panel header="Visualizar Finanças"  >
 
                     <p:tabView id="tabs" dynamic="false" activeIndex="#{tabService.yearTabIndex}">
                 <c:forEach id="fe" var="y" items="#{tabBean.tabYears}">
                     <p:tab title="#{y.title}" >
-                        <p:tabView  dynamic="false" activeIndex="#{tabService.monthTabIndex}" >
+                        <p:tabView  dynamic="false" activeIndex="#{tabService.monthTabIndex}" style="min-width: 100%;width: auto;min-height: 300px" >
                             <c:forEach var="m" items="#{y.finantialMonths}">
                                 <p:tab title="#{msg[m.title]}" >
 <!--                                     <p:fieldset legend="#{msg['finance.label.legend']}">-->
                                     <table width="100%">
                                              <td width="50%" align="left">
                                                   <p:outputPanel id="receitas_#{y.title.concat(msg[m.title])}">
-                                                 <p:panel  header="Receitas">
+                                                      <p:panel  header="Receitas" toggleable="true" style="text-align: center" toggleSpeed="700">
                                                      <p:dataTable  var="r" dynamic="true" value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}" paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
                                                          <p:column resizable="true" sortBy="#{r.date}" parser="date" >
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
-                                                             <p:commandLink styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" action="#{addBean.edit(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
-                                                                    <h:outputText value="#{r.date}">
+                                                             <p:commandLink style="text-decoration: none" action="#{addBean.editReceita(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
+                                                                    <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{r.date}">
                                                                      <f:convertDateTime pattern="dd/MM/yyyy"/>
                                                                     </h:outputText>
                                                                 </p:commandLink>
@@ -44,7 +54,7 @@
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['login.label.username']}"/>
                                                              </f:facet>
-                                                             <p:commandLink  style="text-decoration: none" action="#{addBean.edit(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
+                                                             <p:commandLink  style="text-decoration: none" action="#{addBean.editReceita(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{r.user}"/>
                                                              </p:commandLink>
                                                          </p:column>
@@ -52,7 +62,7 @@
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.descricao']}"/>
                                                              </f:facet>
-                                                             <p:commandLink style="text-decoration: none"  action="#{addBean.edit(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
+                                                             <p:commandLink style="text-decoration: none"  action="#{addBean.editReceita(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{r.description}"/>
                                                              </p:commandLink>
                                                          </p:column>
@@ -60,7 +70,7 @@
                                                              <f:facet name="header">
                                                                 <h:outputLabel value="#{msg['finance.label.tipo']}"/>
                                                              </f:facet>
-                                                              <p:commandLink style="text-decoration: none" action="#{addBean.edit(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
+                                                              <p:commandLink style="text-decoration: none" action="#{addBean.editReceita(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
                                                                   <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{msg['subtipo.income.'.concat(r.type)]}"/>
                                                               </p:commandLink>
                                                          </p:column>
@@ -68,7 +78,7 @@
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.valor']}
                                                              </f:facet>
-                                                             <p:commandLink style="text-decoration: none"  action="#{addBean.edit(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
+                                                             <p:commandLink style="text-decoration: none"  action="#{addBean.editReceita(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}" value="#{r.value}"/>
                                                              </p:commandLink>
                                                          </p:column>
@@ -89,14 +99,14 @@
                                              </td>
                                              <td  width="50%" align="right">
                                                  <p:outputPanel id="despesas_#{y.title.concat(msg[m.title])}">
-                                                 <p:panel header="Despesas"  style="text-align: center">
+                                                 <p:panel header="Despesas"  style="text-align: center" toggleable="true" toggleSpeed="700">
                                                      <p:dataTable dynamic="false" var="d" value="#{m.currentUserOutcomesInTheMonth}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
                                                          <p:column  sortBy="#{d.date}" parser="date" >
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
-                                                             <p:commandLink style="text-decoration: none" action="#{addBean.edit(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
+                                                             <p:commandLink style="text-decoration: none" action="#{addBean.editDespesa(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
                                                                     <h:outputText value="#{d.date}" styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}">
                                                                      <f:convertDateTime pattern="dd/MM/yyyy"/>
                                                                     </h:outputText>
@@ -107,8 +117,8 @@
                                                                  <h:outputLabel value="#{msg['login.label.username']}"/>
                                                              </f:facet>
 
-                                                             <p:commandLink style="text-decoration: none;" action="#{addBean.edit(d)}" oncomplete="editModal.show()" value="#{d.user}" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
-
+                                                             <p:commandLink style="text-decoration: none;" action="#{addBean.editDespesa(d)}" oncomplete="editModal.show()"  update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}" >
+                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{d.user}"/>
                                                              </p:commandLink>
 
                                                          </p:column>
@@ -116,7 +126,7 @@
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.descricao']}"/>
                                                              </f:facet>
-                                                             <p:commandLink style="text-decoration: none" action="#{addBean.edit(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
+                                                             <p:commandLink style="text-decoration: none" action="#{addBean.editDespesa(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{d.description}"/>
                                                              </p:commandLink>
                                                          </p:column>
@@ -124,7 +134,7 @@
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.tipo']}
                                                              </f:facet>
-                                                              <p:commandLink style="text-decoration: none" action="#{addBean.edit(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
+                                                              <p:commandLink style="text-decoration: none" action="#{addBean.editDespesa(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
                                                                   <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{msg['subtipo.outcome.'.concat(d.type)]}"/>
                                                               </p:commandLink>
                                                          </p:column>
@@ -132,7 +142,7 @@
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.valor']}
                                                              </f:facet>
-                                                             <p:commandLink styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}" action="#{addBean.edit(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
+                                                             <p:commandLink styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}" action="#{addBean.editDespesa(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}" value="#{d.value}"/>
                                                              </p:commandLink>
                                                          </p:column>
@@ -175,7 +185,7 @@
 
              </p:outputPanel>
              <p:outputPanel id="edit_finance">
-                 <p:dialog  modal="true" widgetVar="editModal" showEffect="fold" header="Editar Finança" hideEffect="fold" minHeight="150" closable="true" draggable="true">
+                 <p:dialog  modal="true" widgetVar="editModal" showEffect="fold"  hideEffect="fold" minHeight="150" closable="true" draggable="true">
                      <ui:include src="edit-financa.xhtml"/>
                  </p:dialog>
              </p:outputPanel>
