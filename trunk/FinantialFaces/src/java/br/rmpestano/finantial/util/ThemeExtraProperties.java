@@ -6,7 +6,9 @@
 package br.rmpestano.finantial.util;
 
 /**
- *
+ * This class will manage the properties which i want to customize to each Theme.
+ * for example: imagine you want to display a different loading icon in each theme so instead testing the name of the theme in the view
+ * just use the LOADING_ICON theme property. (see the ajax status in the main_template
  * @author rpestano
  */
 
@@ -17,6 +19,7 @@ public class ThemeExtraProperties {
     private String MOUSEOUT_EVENT = "";
     private String COLOR = "";
     private String FINANCE_FOOTER_COLOR = "";
+    private String LOADING_ICON = "";
 
     public ThemeExtraProperties() {
         this.clearProperties();
@@ -63,6 +66,14 @@ public class ThemeExtraProperties {
         this.FINANCE_FOOTER_COLOR = FINANCE_FOOTER_COLOR;
     }
 
+    public String getLOADING_ICON() {
+        return LOADING_ICON;
+    }
+
+    public void setLOADING_ICON(String LOADING_ICON) {
+        this.LOADING_ICON = LOADING_ICON;
+    }
+
 
 
     private void clearProperties(){
@@ -71,6 +82,7 @@ public class ThemeExtraProperties {
         this.MOUSEOVER_EVENT = "";
         this.COLOR = "";
         this.FINANCE_FOOTER_COLOR = "";
+        this.LOADING_ICON = "";
     }
 
 }

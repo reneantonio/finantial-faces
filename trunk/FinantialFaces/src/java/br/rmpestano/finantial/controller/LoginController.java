@@ -9,6 +9,7 @@ import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.UserService;
 import br.rmpestano.finantial.util.BeanManagerController;
 import br.rmpestano.finantial.util.MessagesController;
+import java.io.IOException;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,7 +17,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -75,5 +78,11 @@ public class LoginController implements Serializable{
         this.user = user;
     }
 
+
+     public void doLogout(ActionEvent event) throws IOException{
+	     final HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+	     request.getSession(false).invalidate();
+             FacesContext.getCurrentInstance().getExternalContext().redirect("/FinantialFaces");
+	}
 
 }

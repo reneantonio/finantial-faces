@@ -41,6 +41,7 @@ public class ThemeService implements Serializable {
         theme = "dark-sky";
         themeProperties = new ThemeExtraProperties();
         themeProperties.setFINANCE_FOOTER_COLOR("#0D31BA");
+        themeProperties.setLOADING_ICON("ajax-loader-dsky.gif");
 //        themeProperties.setBUTTON_BACKGROUND("#AAADB8");
 //        themeProperties.setMOUSEOUT_EVENT("this.style.background='#AAADB8'");
 //        themeProperties.setMOUSEOVER_EVENT("this.style.background='#333333'");

@@ -14,16 +14,7 @@
     <ui:define name="content">
 
         <h:form id="main_form" prependId="false">
-            <p:contextMenu>
-                <p:commandButton value="teste"/>
-                <p:menuitem value="Save" update="msg"
-                              />
 
-                <p:menuitem value="Update" update="msg"
-                              />
-
-
-            </p:contextMenu>
             <p:outputPanel id="tab_panel" >
                 <p:panel header="Visualizar Finanças"  >
 
@@ -185,7 +176,7 @@
 
              </p:outputPanel>
              <p:outputPanel id="edit_finance">
-                 <p:dialog  modal="true" widgetVar="editModal" showEffect="fold"  hideEffect="fold" minHeight="150" closable="true" draggable="true">
+                 <p:dialog  modal="true" widgetVar="editModal" header="Editar" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true">
                      <ui:include src="edit-financa.xhtml"/>
                  </p:dialog>
              </p:outputPanel>
