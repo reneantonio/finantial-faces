@@ -31,10 +31,10 @@ public class UserService {
         public User findByLogin(String username){
             HashMap hash = new HashMap();
             hash.put("username", username);
-            List<User> resultList = crudService.findWithNamedQuery(FIND_BY_LOGIN, hash);
+            User resultList = crudService.findWithTypedQuery(User.class, "username", username);
             if(resultList != null){
-                User u = resultList.get(0);
-                return u;
+
+                return resultList;
             }
             else {
                 return null;

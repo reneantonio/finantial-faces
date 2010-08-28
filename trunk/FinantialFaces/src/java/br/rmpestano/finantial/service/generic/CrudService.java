@@ -5,7 +5,6 @@
 
 package br.rmpestano.finantial.service.generic;
 
-import br.rmpestano.finantial.model.FinantialYear;
 import java.lang.Class;
 import java.util.Date;
 import java.util.List;
@@ -20,13 +19,11 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.From;
 import javax.persistence.criteria.Root;
 
 /**
@@ -43,8 +40,6 @@ public class CrudService <T> {
     public CrudService() {
 
     }
-
-
 
      public T create(T t) throws Exception {
 
@@ -169,6 +164,37 @@ public class CrudService <T> {
         cq.from(c);
         TypedQuery<T> query = em.createQuery(cq);
         return query.getResultList();
+    }
+    /**
+     * executa query com apenas 1 nivel de profundidade no path, por exemplo se uma entidade pessoa tem varios endereço e quisermos listar todos precisariamos de dois niveis  e usariamos root.get(atributeNivel1).get(atributeNivel2)) no exemplo do endereço seria root.get("pessoa").get("endereço")
+     * @param c
+     * @param atribute
+     * @param parameter
+     * @return
+     */
+    public T findWithTypedQuery(Class c,String atribute,String parameter){
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(c);
+        Root<T> root = cq.from(c);
+        return em.createQuery(cq.select(root).where(cb.equal(root.get(atribute), parameter))).getSingleResult();
+
+        
+    }
+    /**
+     * Level 2 criteria query
+     * @param c
+     * @param atributeLevel1
+     * @param atributeLevel2
+     * @param parameter
+     * @return
+     */
+    public T findWithTypedQuery(Class c,String atributeLevel1,String atributeLevel2,String parameter){
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(c);
+        Root<T> root = cq.from(c);
+        return em.createQuery(cq.select(root).where(cb.equal(root.get(atributeLevel1).get(atributeLevel2), parameter))).getSingleResult();
+
+
     }
 
 
