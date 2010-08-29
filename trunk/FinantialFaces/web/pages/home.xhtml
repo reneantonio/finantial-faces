@@ -9,10 +9,14 @@
                   xmlns:f="http://java.sun.com/jsf/core"
                   xmlns:c="http://java.sun.com/jsp/jstl/core">
 
+    <ui:define name="head">
+
+            <ui:param name="menu" value="1"/>
+        </ui:define>
     <ui:define name="theme"/>
 
     <ui:define name="content">
-
+    <ui:param name="menu" value="1"/>
         <h:form id="main_form" prependId="false">
 
             <p:outputPanel id="tab_panel" >
@@ -29,7 +33,7 @@
                                              <td width="50%" align="left">
                                                   <p:outputPanel id="receitas_#{y.title.concat(msg[m.title])}">
                                                       <p:panel  header="Receitas" toggleable="true" style="text-align: center" toggleSpeed="700">
-                                                     <p:dataTable  var="r" dynamic="true" value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}" paginator="true" rows="5"
+                                                     <p:dataTable  var="r" dynamic="false" value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}" paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
                                                          <p:column resizable="true" sortBy="#{r.date}" parser="date" >
                                                              <f:facet name="header">
@@ -173,7 +177,6 @@
          </p:outputPanel>
              <p:outputPanel id="include_finance">
                  <ui:include src="add-financa.xhtml"/>
-
              </p:outputPanel>
              <p:outputPanel id="edit_finance">
                  <p:dialog  modal="true" widgetVar="editModal" header="Editar" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true">

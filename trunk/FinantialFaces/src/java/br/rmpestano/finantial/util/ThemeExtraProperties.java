@@ -5,14 +5,16 @@
 
 package br.rmpestano.finantial.util;
 
+import java.io.Serializable;
+
 /**
  * This class will manage the properties which i want to customize to each Theme.
- * for example: imagine you want to display a different loading icon in each theme so instead testing the name of the theme in the view
+ * for example: imagine you want to display a different loading icon for each theme so instead testing the name of the theme in the view
  * just use the LOADING_ICON theme property. (see the ajax status in the main_template
  * @author rpestano
  */
 
-public class ThemeExtraProperties {
+public class ThemeExtraProperties implements Serializable{
 
     private String BUTTON_BACKGROUND = "";
     private String MOUSEOVER_EVENT= "";
