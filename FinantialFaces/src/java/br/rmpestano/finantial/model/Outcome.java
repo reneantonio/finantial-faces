@@ -30,7 +30,7 @@ public class Outcome extends BaseEntity {
     @OneToOne
     private OutcomeType type;
     private Double value;
-    private String Description;
+    private String description;
 
 
 
@@ -52,11 +52,11 @@ public class Outcome extends BaseEntity {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
-    public void setDescription(String Description) {
-        this.Description = Description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getDate() {

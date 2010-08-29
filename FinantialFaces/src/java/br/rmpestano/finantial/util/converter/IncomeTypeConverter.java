@@ -6,7 +6,6 @@
 package br.rmpestano.finantial.util.converter;
 
 import br.rmpestano.finantial.model.IncomeType;
-import br.rmpestano.finantial.model.OutcomeType;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;

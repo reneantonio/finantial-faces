@@ -8,6 +8,7 @@ package br.rmpestano.finantial.service;
 import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.generic.CrudService;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ import javax.inject.Named;
  */
 @Named("userService")
 @RequestScoped
-public class UserService {
+public class UserService implements Serializable{
         private static final String FIND_BY_LOGIN = "User.findByLogin";
         private static final String FIND_ALL = "User.findAll";
         @Inject CrudService<User> crudService;

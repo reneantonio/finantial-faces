@@ -191,12 +191,6 @@ public class FinantialMonth implements Serializable {
         return (FinantialMonth) q.getResultList().get(0);
     }
     public static FinantialMonth findById(Date id){
-        SimpleDateFormat sdm = new SimpleDateFormat("yyyy/MM/dd");
-        try {
-            id = sdm.parse(sdm.format(id));
-        } catch (ParseException ex) {
-            Logger.getLogger(FinantialMonth.class.getName()).log(Level.SEVERE, null, ex);
-        }
         EntityManager em = PersistenceManager.createEntityManager();
         Query q = em.createQuery("select f FROM FinantialMonth f WHERE f.date =:id");
         q.setParameter("id", id);

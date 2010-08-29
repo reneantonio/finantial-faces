@@ -8,6 +8,7 @@ package br.rmpestano.finantial.controller;
 import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.service.TabService;
 import br.rmpestano.finantial.util.BeanManagerController;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -19,7 +20,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean(name="tabBean")
 @ViewScoped
-public class TabController {
+public class TabController implements Serializable{
     TabService tabService;
     List<FinantialYear> tabYears;
     private String lastCalendarDate;

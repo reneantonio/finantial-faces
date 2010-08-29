@@ -11,6 +11,7 @@ import br.rmpestano.finantial.util.BeanManagerController;
 import br.rmpestano.finantial.util.MessagesController;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -34,6 +35,7 @@ public class LoginController implements Serializable{
 
     @PostConstruct
     public void getUserService(){
+        System.out.println("TIMEZONE:"+TimeZone.getDefault());
         userService = (UserService) BeanManagerController.getBeanByName("userService");
         System.out.println("Injetou:"+userService);
 
