@@ -15,53 +15,37 @@ and open the template in the editor.
         <title>Finantial Faces</title>
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/themes/#{themeService.theme}/skin.css" />
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/global.css" />
-        <f:loadBundle  basename="br.rmpestano.finantial.bundle.MessageResource_#{bundleService.currentResourceBundle}" var="msg"/>
+        <f:loadBundle  basename="br.rmpestano.finantial.bundle.MessageResource_#{i18nService.currentResourceBundle}" var="msg"/>
         <ui:insert name="head"/>
     </h:head>
     <h:body>
        
       <h:form id="theme_form" >
-              <p:ajaxStatus style="z-index: 5000;left:50%;top:25%;position: absolute">
-                                        <f:facet name="start">
-                                            <h:graphicImage library="images" name="#{themeService.themeProperties.LOADING_ICON eq '' ? 'ajax-loader-default.gif' : themeService.themeProperties.LOADING_ICON}"/>
-                                        </f:facet>
-
-                                        <f:facet name="complete">
-                                            <h:outputText value="" />
-                                        </f:facet>
-                                    </p:ajaxStatus>
-
-          <div id="theme" style="display: inline!important">
-                <p:commandButton id="themeButton" value="#{msg['themechange']}: #{themeService.theme}" onclick="themeMenu.show()" type="button"/>
-                <p:menu widgetVar="themeMenu" position="dynamic" context="'theme_form:themeButton','tl','bl'" style="overflow: auto;width:130px;" styleClass="themeMenu" >
+          <p:menu widgetVar="themeMenu" position="dynamic" y="33" x="2"  styleClass="themeMenu" >
                             <p:submenu label="Themes">
-                                <p:menuitem value="Bluesky" ajax="false" action="#{themeService.blueSkyInit}">
+                                <p:menuitem value="Bluesky" ajax="false" action="#{themeService.blueSkyInit}" style="#{themeService.theme eq 'bluesky' ? 'background-color:#DFEDFF;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Casablanca" ajax="false" action="#{themeService.casablancaInit}"/>
-                                 
-                                  <p:menuitem value="Ui-Darkness" ajax="false" action="#{themeService.uiDarknessInit}">
+                                <p:menuitem value="Casablanca" ajax="false" action="#{themeService.casablancaInit}" style="#{themeService.theme eq 'casablanca' ? 'color:red;font-weight:bolder;text-decoration:underline':''}"></p:menuitem>
+
+                                  <p:menuitem value="Ui-Darkness" ajax="false" action="#{themeService.uiDarknessInit}" style="#{themeService.theme eq 'ui-darkness' ? 'color:#F58400;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Overcast" ajax="false" action="#{themeService.overcastInit}">
+                                <p:menuitem value="Overcast" ajax="false" action="#{themeService.overcastInit}" style="#{themeService.theme eq 'overcast' ? 'color:red;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Dark-Sky" ajax="false" action="#{themeService.darkSkyInit}">
+                                <p:menuitem value="Dark-Sky" ajax="false" action="#{themeService.darkSkyInit}" style="#{themeService.theme eq 'dark-sky' ? 'color:#0D31BA;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Pepper-Grinder" ajax="false" action="#{themeService.pepperInit}">
+                                <p:menuitem value="Pepper-Grinder" ajax="false" action="#{themeService.pepperInit}" style="#{themeService.theme eq 'pepper-grinder' ? 'background-color:#674F2C;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                  <p:menuitem value="Vader" ajax="false"  action="#{themeService.vaderInit}">
+                                  <p:menuitem value="Vader" ajax="false"  action="#{themeService.vaderInit}" style="#{themeService.theme eq 'vader' ? 'color:red;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Mint-Choc" ajax="false" action="#{themeService.mintChocInit}">
+                                <p:menuitem value="Mint-Choc" ajax="false" action="#{themeService.mintChocInit}" style="#{themeService.theme eq 'mint-choc' ? 'color:#99EC7E;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Dot-Luv" ajax="false" action="#{themeService.dotLuvInit}">
+                                <p:menuitem value="Dot-Luv" ajax="false" action="#{themeService.dotLuvInit}" style="#{themeService.theme eq 'dot-luv' ? 'color:#1A558F;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
                             </p:submenu>
                        </p:menu>
-          <p:outputPanel rendered="#{menu == 1}">
-                <p:commandButton id="yearsButton" value="Visualisar Anos" onclick="yearMenu.show()" type="button"/>
-                <p:menu widgetVar="yearMenu" position="dynamic" context="'theme_form:yearsButton','tl','bl'" style="overflow: auto;width:130px;" styleClass="themeMenu" >
+          <p:menu widgetVar="yearMenu" position="dynamic" x="143" y="33" styleClass="yearsMenu" >
                     <p:submenu label="Visualisar Até:">
-                        <p:menuitem value="2010" ajax="false" action="#{tabService.changeNumYearstoView(1)}">
-                            <f:setPropertyActionListener value="#{1}" target="#{tabService.numberOfYearsToView}"/>
-                                  </p:menuitem>
+                        <p:menuitem value="2010" ajax="false" action="#{tabService.changeNumYearstoView(1)}"></p:menuitem>
                         <p:menuitem value="2011" ajax="false" action="#{tabService.changeNumYearstoView(2)}"></p:menuitem>
                         <p:menuitem value="2012" ajax="false" action="#{tabService.changeNumYearstoView(3)}"></p:menuitem>
                         <p:menuitem value="2013" ajax="false" action="#{tabService.changeNumYearstoView(4)}"></p:menuitem>
@@ -74,26 +58,37 @@ and open the template in the editor.
                         <p:menuitem value="2020" ajax="false" action="#{tabService.changeNumYearstoView(11)}"></p:menuitem>
                         <p:menuitem value="2025" ajax="false" action="#{tabService.changeNumYearstoView(16)}"></p:menuitem>
                         <p:menuitem value="2030" ajax="false" action="#{tabService.changeNumYearstoView(21)}"></p:menuitem>
-                        
                     </p:submenu>
 
-
                 </p:menu>
-
-                 <p:commandButton id="reportsButton" value="Relatórios" onclick="reportsMenu.show()" type="button"/>
-                 <p:menu widgetVar="reportsMenu" position="dynamic" context="'theme_form:reportsButton','tl','bl'" style="overflow: auto;width:130px;" styleClass="themeMenu" >
+          <p:menu widgetVar="reportsMenu" position="dynamic" x="250" y="33"  styleClass="reportsMenu" >
                      <p:submenu label="Visualisar Relatórios">
                       <p:menuitem value="relatório 1" ajax="false" ></p:menuitem>
                       <p:menuitem value="relatório 2" ajax="false" ></p:menuitem>
                       <p:menuitem value="relatório 3" ajax="false" ></p:menuitem>
                       </p:submenu>
                  </p:menu>
-                <div style="float: right">
-                    <p:commandButton id="logoutButton" value="Sair" ajax="false" actionListener="#{loginBean.doLogout}"/>
+              <p:ajaxStatus style="z-index: 5000;left:50%;top:25%;position: absolute">
+                                        <f:facet name="start">
+                                            <h:graphicImage library="images" name="#{themeService.themeProperties.LOADING_ICON eq '' ? 'ajax-loader-default.gif' : themeService.themeProperties.LOADING_ICON}"/>
+                                        </f:facet>
 
-                </div>
+                                        <f:facet name="complete">
+                                            <h:outputText value="" />
+                                        </f:facet>
+                                    </p:ajaxStatus>
+
+          <h:panelGroup id="group" layout="block" style="display:inline-table;width: 100%;">
+              <p:commandButton id="themeButton" value="#{msg['themechange']}" onclick="themeMenu.show()" type="button" style="width: 130px"/>
+              <p:outputPanel rendered="#{menu == 1}">
+                  <p:commandButton id="yearsButton" value="Visualisar Anos" onclick="yearMenu.show()" type="button" />
+                  <p:commandButton id="reportsButton" value="Relatórios" onclick="reportsMenu.show()" type="button" />
+                  <div style="position: relative;float: right">
+                  <p:commandButton id="logoutButton" value="Sair" ajax="false"   actionListener="#{loginBean.doLogout}"/>
+                  </div>
               </p:outputPanel>
-            </div>
+          </h:panelGroup>
+
                   
           </h:form>
         <hr/>

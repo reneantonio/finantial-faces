@@ -5,16 +5,19 @@
 
 package br.rmpestano.finantial.service;
 
-import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import java.io.Serializable;
+import javax.enterprise.context.SessionScoped;
+
 import javax.inject.Named;
 
 /**
  *
  * @author rmpestano
  */
-@Named(value="bundleService")
+@Named(value="i18nService")
 @SessionScoped
-public class BundleService {
+public class I18nService implements Serializable{
     private String PT_PROPERTIES = "pt";
     private String EN_PROPERTIES = "en";
     private String currentResourceBundle = PT_PROPERTIES;
@@ -66,7 +69,11 @@ public class BundleService {
         }
 
 
-        return null;
+        if (FacesContext.getCurrentInstance().getViewRoot().getViewId().trim().endsWith("login.xhtml")) {
+            return "login.faces";
+        } else {
+            return "/pages/home.faces";
+        }
 
         }
 

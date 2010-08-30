@@ -51,7 +51,7 @@ public class TabService implements Serializable{
         }
 
    }
-
+     
      public String changeNumYearstoView(Integer years){
          this.numberOfYearsToView = years;
          return "/pages/home.faces?faces-redirect=true";

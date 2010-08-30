@@ -27,7 +27,7 @@
                                 <h:inputSecret id="password" value="#{loginBean.user.password}"/>
                             </h:panelGrid>
                             <div align="center" class="login-button">
-                                <p:commandButton ajax="false" value="entrar" action="#{loginBean.doLogin}" />
+                                <p:commandButton ajax="false" value="#{msg['login.bt-entrar']}" action="#{loginBean.doLogin}" />
                             </div>
 
                         </p:panel>
