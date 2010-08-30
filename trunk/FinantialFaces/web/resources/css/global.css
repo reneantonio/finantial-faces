@@ -79,5 +79,17 @@
       margin-left: 5px;
     }
 }
- 
 
+.themeMenu{
+    overflow: auto;
+    width:125px;
+}
+.yearsMenu{
+    overflow: auto;
+    width:103px;
+}
+
+.reportsMenu{
+    overflow: auto;
+    width:130px;
+}

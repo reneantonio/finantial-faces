@@ -7,8 +7,6 @@ package br.rmpestano.finantial.service;
 
 import br.rmpestano.finantial.util.ThemeExtraProperties;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 
 import javax.inject.Named;

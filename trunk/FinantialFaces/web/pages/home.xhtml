@@ -35,6 +35,7 @@
                                                       <p:panel  header="Receitas" toggleable="true" style="text-align: center" toggleSpeed="700">
                                                      <p:dataTable  var="r" dynamic="false" value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}" paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
+                                                         <p:column selectionMode="multiple" />
                                                          <p:column resizable="true" sortBy="#{r.date}" parser="date" >
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
@@ -79,10 +80,20 @@
                                                          </p:column>
 
                                                           <f:facet name="footer">
-                                                                 <div align="center">
-                                                                     <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
-                                                                     <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{m.totalIncomeInTheMonth}"/>
-                                                                 </div>
+                                                               <table width="100%">
+                                                                     <tr>
+                                                                     <td align="left">
+                                                                         <p:commandButton title="incluir receita para o mês" value="Incluir Receita"/>
+                                                                     </td>
+                                                                     <td align="center">
+                                                                         <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
+                                                                         <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{m.totalIncomeInTheMonth}"/>
+                                                                     </td>
+                                                                     <td align="right">
+                                                                         <p:commandButton value="Remover Selecionados"/>
+                                                                     </td>
+                                                                      </tr>
+                                                                </table>
                                                              </f:facet>
 
                                                      </p:dataTable>
@@ -97,6 +108,7 @@
                                                  <p:panel header="Despesas"  style="text-align: center" toggleable="true" toggleSpeed="700">
                                                      <p:dataTable dynamic="false" var="d" value="#{m.currentUserOutcomesInTheMonth}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
+                                                         <p:column selectionMode="multiple" />
                                                          <p:column  sortBy="#{d.date}" parser="date" >
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
@@ -142,11 +154,21 @@
                                                              </p:commandLink>
                                                          </p:column>
 
-                                                             <f:facet name="footer">
-                                                                 <div align="center">
-                                                                     <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
-                                                                     <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{m.totalOutcomeInTheMonth}"/>
-                                                                 </div>
+                                                             <f:facet name="footer" >
+                                                                 <table width="100%">
+                                                                     <tr>
+                                                                     <td align="left">
+                                                                         <p:commandButton value="Incluir Despesa"/>
+                                                                     </td>
+                                                                     <td align="center">
+                                                                         <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
+                                                                         <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{m.totalOutcomeInTheMonth}"/>
+                                                                     </td>
+                                                                     <td align="right">
+                                                                         <p:commandButton value="Remover Selecionados" action="#{tabBean.removeOutcome}" />
+                                                                     </td>
+                                                                      </tr>
+                                                                </table>
                                                              </f:facet>
 
                                                      </p:dataTable>

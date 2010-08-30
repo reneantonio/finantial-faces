@@ -32,7 +32,7 @@ import javax.faces.context.FacesContext;
  *
  * @author rmpestano
  */
-@ViewScoped
+@SessionScoped
 @ManagedBean(name="addBean")
 public class AddFinancaController implements Serializable{
 
