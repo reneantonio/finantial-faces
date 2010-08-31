@@ -77,6 +77,10 @@ public class ThemeService implements Serializable {
         theme = "bluesky";
         themeProperties = new ThemeExtraProperties();
     }
+    public void cupertinoInit(){
+        theme = "cupertino";
+        themeProperties = new ThemeExtraProperties();
+    }
     public void pepperInit(){
         theme = "pepper-grinder";
         themeProperties = new ThemeExtraProperties();

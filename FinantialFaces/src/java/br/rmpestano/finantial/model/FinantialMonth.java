@@ -139,27 +139,6 @@ public class FinantialMonth implements Serializable {
     }
 
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final FinantialMonth other = (FinantialMonth) obj;
-        if ((this.title == null) ? (other.title != null) : !this.title.equals(other.title)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 29 * hash + (this.title != null ? this.title.hashCode() : 0);
-        return hash;
-    }
 
     @Override
     public String toString() {
