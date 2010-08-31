@@ -66,10 +66,12 @@ public class AddFinancaController implements Serializable{
     }
 
     public void editDespesa(Outcome despesa){
+        this.tipoCorrete = OUTCOME;
         this.receita = null;
         this.despesa = despesa;
     }
     public void editReceita(Income receita){
+        this.tipoCorrete = INCOME;
         this.despesa=null;
         this.receita = receita;
     }
