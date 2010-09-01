@@ -29,8 +29,6 @@ import javax.inject.Inject;
 public class TabController implements Serializable{
     TabService tabService;
     List<FinantialYear> tabYears;
-    @Inject
-    FinanceService financeService;
     private String lastCalendarDate;
     private String firstCalendarDate;
     private Double totalOutcomeInThemonth;
@@ -50,16 +48,7 @@ public class TabController implements Serializable{
         firstCalendarDate = tabService.findfirstYear();
     }
 
-    public void removeOutcome(){
-        for (Outcome outcome : selectedOutcomes) {
-            try {
-                financeService.removeOutcome(outcome);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                MessagesController.addError("Problema ao deletar", ex.getMessage());
-            }
-        }
-    }
+
     public List<FinantialYear> getAbas() {
         return tabYears;
     }

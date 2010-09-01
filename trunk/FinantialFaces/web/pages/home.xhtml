@@ -108,25 +108,23 @@
                                              <td  width="50%" align="right">
                                                  <p:outputPanel id="despesas_#{y.title.concat(msg[m.title])}">
                                                  <p:panel header="Despesas"  style="text-align: center" toggleable="true" toggleSpeed="700">
-                                                     <p:dataTable dynamic="false" var="d" value="#{m.currentUserOutcomesInTheMonth}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
+                                                     <p:dataTable rowStyleClass="teste"  var="d" onRowSelectUpdate="edit_grid_despesa" selectionMode="single" rowSelectListener="#{addBean.onSelectOutcome}" onRowSelectComplete="editModal.show()" value="#{m.currentUserOutcomesInTheMonth}" selection="#{addBean.despesa}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
-                                                         <p:column selectionMode="multiple" />
-                                                         <p:column  sortBy="#{d.date}" parser="date" >
+                                                         <p:column sortBy="#{d.date}" parser="date" >
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
-                                                             <p:commandLink style="text-decoration: none" action="#{addBean.editDespesa(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
+                                                             <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
                                                                     <h:outputText value="#{d.date}" styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}">
                                                                      <f:convertDateTime pattern="dd/MM/yyyy"/>
                                                                     </h:outputText>
-                                                                </p:commandLink> EDITAR!!!!!!!!
+                                                                </p:commandLink>
                                                          </p:column>
                                                          <p:column resizable="true">
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['login.label.username']}"/>
                                                              </f:facet>
-
-                                                             <p:commandLink style="text-decoration: none;" action="#{addBean.editDespesa(d)}" oncomplete="editModal.show()"  update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}" >
+                                                             <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{d.user}"/>
                                                              </p:commandLink>
 
@@ -135,7 +133,7 @@
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.descricao']}"/>
                                                              </f:facet>
-                                                             <p:commandLink style="text-decoration: none" action="#{addBean.editDespesa(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
+                                                             <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{d.description}"/>
                                                              </p:commandLink>
                                                          </p:column>
@@ -143,7 +141,7 @@
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.tipo']}
                                                              </f:facet>
-                                                              <p:commandLink style="text-decoration: none" action="#{addBean.editDespesa(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
+                                                              <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
                                                                   <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{msg['subtipo.outcome.'.concat(d.type)]}"/>
                                                               </p:commandLink>
                                                          </p:column>
@@ -151,7 +149,7 @@
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.valor']}
                                                              </f:facet>
-                                                             <p:commandLink styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}" action="#{addBean.editDespesa(d)}" oncomplete="editModal.show()" update="edit_finance" process="despesas_#{y.title.concat(msg[m.title])}">
+                                                             <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}">
                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}" value="#{d.value}"/>
                                                              </p:commandLink>
                                                          </p:column>
@@ -159,30 +157,32 @@
                                                              <f:facet name="footer" >
                                                                  <table width="100%">
                                                                      <tr>
-                                                                     <td align="left">
-                                                                         <p:commandButton value="Incluir Despesa"/>
-                                                                     </td>
+                                                                         <td align="left">
+                                                                             <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" id="newOutcome" value="Nova Despesa">
+                                                                             </p:commandButton>
+                                                                            
+                                                                         </td>
                                                                          <td align="center">
 
-                                                                             <p:panel style="min-width: 150px;width: auto;min-height: 28px;height: auto">
-                                                                                 <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
-                                                                                 <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{m.totalOutcomeInTheMonth}"/>
+                                                                         </td>
+                                                                         <td align="right" >
+                                                                             <p:panel style="min-width: 100px;max-width: 150px;min-height: 25px;height: auto ">
+                                                                                 <div align="center">
+                                                                                     <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
+                                                                                     <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{m.totalOutcomeInTheMonth}"/>
+                                                                                 </div>
                                                                              </p:panel>
                                                                          </td>
-                                                                     <td align="right">
-                                                                         <p:commandButton value="Remover Selecionados" action="#{tabBean.removeOutcome}" />
-                                                                     </td>
-                                                                      </tr>
+                                                                     </tr>
                                                                 </table>
                                                              </f:facet>
 
                                                      </p:dataTable>
-
                                                      <div align="center">
                                                          <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px" rendered="#{empty m.currentUserOutcomesInTheMonth}"/>
                                                      </div>
                                                  </p:panel>
-                                          </p:outputPanel>
+                                              </p:outputPanel>
 
                                              </td>
 
@@ -205,13 +205,16 @@
              <p:outputPanel id="include_finance">
                  <ui:include src="add-financa.xhtml"/>
              </p:outputPanel>
-             <p:outputPanel id="edit_finance">
-                 <p:dialog  modal="true" widgetVar="editModal" header="Editar" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true">
-                     <ui:include src="edit-financa.xhtml"/>
-                 </p:dialog>
-             </p:outputPanel>
+            <p:tooltip global="true" showEffect="slide"  hideEffect="slide"/>
 
         </h:form>
+             <p:outputPanel id="edit_finance">
+                 <p:dialog  modal="true" widgetVar="editModal" header="Editar" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true">
+                     <h:form prependId="false">
+                          <ui:include src="edit-financa.xhtml"/>
+                     </h:form>
+                 </p:dialog>
+             </p:outputPanel>
     </ui:define>
 
 </ui:composition>

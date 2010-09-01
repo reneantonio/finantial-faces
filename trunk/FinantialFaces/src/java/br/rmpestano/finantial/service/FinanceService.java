@@ -24,8 +24,18 @@ public class FinanceService {
     @Inject CrudService<Outcome> outcomeCrudService;
     @Inject CrudService<Income> incomeCrudService;
 
-    public void removeOutcome(Outcome outcome) throws Exception{
+    public FinanceService() {
+    }
+
+
+    public void removeOutcome(Outcome outcome){
         outcomeCrudService.delete(outcome.getId(), Outcome.class);
     }
+    public void updateOutcome(Outcome outcome){
+        outcomeCrudService.update(outcome);
+    }
+
+
+
 
 }
