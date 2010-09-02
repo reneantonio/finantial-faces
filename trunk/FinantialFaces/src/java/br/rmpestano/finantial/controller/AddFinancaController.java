@@ -252,8 +252,7 @@ public class AddFinancaController implements Serializable{
          financeService.removeOutcome(despesa);
 
     }
-    public void updateOutcome(){
-        VER se tá chamando pois edita na view mas não persiste
+    public void updateOutcome(ActionEvent ev){
          financeService.updateOutcome(despesa);
 
     }
