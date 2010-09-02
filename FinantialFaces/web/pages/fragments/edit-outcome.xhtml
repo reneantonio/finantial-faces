@@ -33,7 +33,7 @@ and open the template in the editor.
          <div align="center">
          <h:panelGrid columns="2" cellspacing="10">
              <p:commandButton value="Remover"  action="#{addBean.removeOutcome}" process="edit_grid_despesa" ajax="true" update="main_form,messages"/>
-             <p:commandButton value="salvar" action="#{addBean.updateOutcome}" process="edit_grid_despesa" ajax="true" update="main_form,messages" oncomplete="handleEdit(args)"/>
+             <p:commandButton value="salvar" actionListener="#{addBean.updateOutcome}" process="@form" ajax="true" update="main_form,messages" oncomplete="handleEdit(args)"/>
          </h:panelGrid>
          </div>
 
@@ -54,7 +54,9 @@ and open the template in the editor.
     function handleEdit(args){
         if(! args.validationFailed){
             editModal.hide();
+            return true;
         }
+        return false;
     }
 
 </script>
