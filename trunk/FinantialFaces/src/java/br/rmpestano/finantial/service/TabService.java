@@ -252,10 +252,11 @@ public List<FinantialYear> getYearsToView(){
     private void setInitialTabs() {
         try {
             Date d = new Date();
-//            FinantialMonth fm = FinantialMonth.findById(d);
             Calendar c = new GregorianCalendar();
             c.setTime(d);
-            FinantialYear fy = FinantialYear.findByYear(""+c.get(Calendar.YEAR));
+            FinantialMonth fm = FinantialMonth.findByDate(d);
+
+            FinantialYear fy = fm.getFinantialYear();
             yearTabIndex = this.findYearIndex(fy.getTitle());
             monthTabIndex = c.get(Calendar.MONTH);
             System.out.println("Tab Month Inicial:"+monthTabIndex);

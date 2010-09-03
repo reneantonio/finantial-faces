@@ -9,7 +9,9 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +27,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * representa uma aba do tipo mes
@@ -175,5 +180,17 @@ public class FinantialMonth implements Serializable {
         q.setParameter("id", id);
         return (FinantialMonth) q.getResultList().get(0);
     }
+
+    public static FinantialMonth findByDate(Date d){
+        Calendar c = new GregorianCalendar();
+        c.setTime(d);
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        EntityManager em = PersistenceManager.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<FinantialMonth> cq = cb.createQuery(FinantialMonth.class);
+        Root<FinantialMonth> root = cq.from(FinantialMonth.class);
+        return em.createQuery(cq.select(root).where(cb.equal(root.get("date"), c.getTime()))).getSingleResult();
+    }
+
 
 }
