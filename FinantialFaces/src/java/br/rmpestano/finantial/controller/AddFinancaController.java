@@ -59,12 +59,12 @@ public class AddFinancaController implements Serializable{
     private String incomeDescription;
     private Double outcomeValue;
     private String outcomeDescription;
-    @Inject
     private FinanceService financeService;
     public AddFinancaController() {
         subtiposIncome = IncomeType.findAll();
         subtiposOutcome = OutcomeType.findAll();
         tabService = (TabService) BeanManagerController.getBeanByName("tabService");
+        financeService = (FinanceService) BeanManagerController.getBeanByName("financeService");
         receita = new Income();
         despesa = new Outcome();
     }
@@ -215,7 +215,8 @@ public class AddFinancaController implements Serializable{
 
     public String incluir() {
         try {
-            FinantialMonth fm = FinantialMonth.findById(date);
+
+            FinantialMonth fm = FinantialMonth.findByDate(date);
             if (tipoCorrete.equals(INCOME)) {
                 receita = new Income();
                 receita.setDate(date);
@@ -254,6 +255,7 @@ public class AddFinancaController implements Serializable{
     }
     public void updateOutcome(ActionEvent ev){
          financeService.updateOutcome(despesa);
+         MessagesController.addInfo("Despesa modificada com sucesso");
 
     }
 
