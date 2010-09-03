@@ -108,7 +108,7 @@
                                              <td  width="50%" align="right">
                                                  <p:outputPanel id="despesas_#{y.title.concat(msg[m.title])}">
                                                  <p:panel header="Despesas"  style="text-align: center" toggleable="true" toggleSpeed="700">
-                                                     <p:dataTable rowStyleClass="teste"  var="d" onRowSelectUpdate="edit_grid_despesa" selectionMode="single" rowSelectListener="#{addBean.onSelectOutcome}" onRowSelectComplete="editModal.show()" value="#{m.currentUserOutcomesInTheMonth}" selection="#{addBean.despesa}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
+                                                     <p:dataTable rowStyleClass="teste"  var="d" onRowSelectUpdate="edit_grid_despesa,edit_msg" selectionMode="single" rowSelectListener="#{addBean.onSelectOutcome}" onRowSelectComplete="editModal.show()" value="#{m.currentUserOutcomesInTheMonth}" selection="#{addBean.despesa}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
                                                          <p:column sortBy="#{d.date}" parser="date" >
                                                              <f:facet name="header">

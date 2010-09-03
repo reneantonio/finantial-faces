@@ -6,6 +6,7 @@
 package br.rmpestano.finantial.controller;
 
 import br.rmpestano.finantial.model.FinantialMonth;
+import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.Outcome;
@@ -256,6 +257,7 @@ public class AddFinancaController implements Serializable{
     public void updateOutcome(ActionEvent ev){
          financeService.updateOutcome(despesa);
          MessagesController.addInfo("Despesa modificada com sucesso");
+        setCurrentTab(despesa.getDate());
 
     }
 
@@ -263,10 +265,14 @@ public class AddFinancaController implements Serializable{
         if(date == null){
             date = new Date();
         }
-        Calendar c = new GregorianCalendar();
-        c.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
-        c.setTime(date);
-        c.set(Calendar.DAY_OF_MONTH, 1);
-        tabService.setMonthTabIndex(c.get(Calendar.MONTH));
+        FinantialMonth fm = FinantialMonth.findByDate(date);
+        if(fm != null){
+            Calendar c = new GregorianCalendar();
+            c.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
+            c.setTime(date);
+            c.set(Calendar.DAY_OF_MONTH, 1);
+            tabService.setMonthTabIndex(c.get(Calendar.MONTH));
+            tabService.setYearTabIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
+        }
     }
 }
