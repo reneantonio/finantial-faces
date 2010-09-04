@@ -22,8 +22,8 @@ and open the template in the editor.
             <h:inputText id="edit_descricao_receita" value="#{addBean.receita.description}"/>
             <h:outputLabel for="edit_data_receita" value="Data:"/>
             <p:calendar id="edit_data_receita" effectDuration="0.5" value="#{addBean.receita.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstCalendarDate}" maxdate="#{tabBean.lastCalendarDate}"  popupIcon="../resources/images/calendar.png"/>
-            <h:outputLabel for="edit_user_despesa" value="Usuário:"/>
-            <h:inputText id="edit_user_receita" value="#{addBean.receita.user}"/>
+            <h:outputLabel for="edit_user_receita" value="Usuário:"/>
+            <h:inputText id="edit_user_receita" value="#{addBean.receita.user}"/><!-- COMBO WITH ALOWED USERS -->
             <h:outputLabel for="edit_value_receita" value="Usuário:"/>
             <h:inputText id="edit_value_receita" value="#{addBean.receita.value}"/>
             <finantial:label for="edit_subtipo_outcome"  value="&#160;&#160;&#160;#{msg['finance.label.subtipo']}:"/>
