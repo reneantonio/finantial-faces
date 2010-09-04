@@ -18,7 +18,7 @@ and open the template in the editor.
         <f:loadBundle  basename="br.rmpestano.finantial.bundle.MessageResource_#{i18nService.currentResourceBundle}" var="msg"/>
         <ui:insert name="head"/>
     </h:head>
-    <h:body>
+        <h:body onload="getClientInfo()">
        
       <h:form id="theme_form" >
           <p:menu widgetVar="themeMenu" position="dynamic" y="33" x="2"  styleClass="themeMenu" >
@@ -91,7 +91,44 @@ and open the template in the editor.
               </p:outputPanel>
           </h:panelGroup>
 
-                  
+          <p:remoteCommand rendered="#{browserService.checkCompatibility}"  id="rmt" actionListener="#{browserService.browserInfo}" name="getBrowserInfo" oncomplete="handleComplete(args)"/>
+             <p:dialog widgetVar="notSupported" header="Incompatibilidade Encontrada" modal="true" showEffect="fold" draggable="false" resizable="false" closable="false" >
+                    <p:panel>
+                       <p style="padding: 12px;font-size: 16px;font-family: helvetica">
+                            O seu browser não é suportado, por favor utilize um dos listado abaixo:
+                        </p>
+                        <div style="font-size: 14px">
+                        <ul>
+                            <li> <a href="http://www.google.com.br/chrome" target="_blank" > Google Chrome</a> </li>
+                            <li> <a href="http://www.opera.com/download/" target="_blank"> Opera</a>  </li>
+                            <li> <a href="http://br.mozdev.org/download/" target="_blank"> Firefox</a>  </li>
+                            <li> <a href="http://www.apple.com/safari/download/" target="_blank"> Safari</a>  </li>
+                        </ul>
+                        </div>
+                    </p:panel>
+                </p:dialog>
+
+             <p:dialog widgetVar="notTested" header="Incompatibilidade Encontrada" modal="true" showEffect="fold" draggable="false" resizable="false" closable="false" >
+                    <p:panel>
+                       <p style="padding: 12px;font-size: 16px;font-family: helvetica">
+                            O seu browser não foi testado pela nossa equipe e pode ter incompatibilidades com o sistema,<br/>
+                            para evitar surpresas utilize um dos navegadores abaixo:
+                        </p>
+                        <div style="font-size: 14px">
+                        <ul>
+                            <li> <a href="http://www.google.com.br/chrome" target="_blank" > Google Chrome</a> </li>
+                            <li> <a href="http://www.opera.com/download/" target="_blank"> Opera</a>  </li>
+                            <li> <a href="http://br.mozdev.org/download/" target="_blank"> Firefox</a>  </li>
+                            <li> <a href="http://www.apple.com/safari/download/" target="_blank"> Safari</a>  </li>
+                        </ul>
+                        </div>
+                        <div align="center">
+                            <p:commandButton value="continuar mesmo assim" oncomplete="notTested.hide()"/>
+
+                         </div>
+                    </p:panel>
+                </p:dialog>
+        
           </h:form>
         <hr/>
             <p:growl id="messages" showDetail="true"/>
@@ -101,6 +138,24 @@ and open the template in the editor.
         </ui:insert>
 
 
+            
+
+
+        <script type="text/javascript">
+        function getClientInfo(){
+             getBrowserInfo();
+        }
+
+        function handleComplete(args){
+            if(args.compatible == -1){
+                notSupported.show();
+            }
+             if(args.compatible == 0){
+                notTested.show();
+            }
+        }
+
+        </script>
     </h:body>
 
         </f:view>
