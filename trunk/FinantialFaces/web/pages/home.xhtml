@@ -42,7 +42,7 @@
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
                                                              <p:commandLink style="text-decoration: none" action="#{addBean.editReceita(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
-                                                                    <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{r.date}">
+                                                                    <h:outputText  value="#{r.date}">
                                                                      <f:convertDateTime pattern="dd/MM/yyyy"/>
                                                                     </h:outputText>
                                                                 </p:commandLink>
@@ -52,7 +52,7 @@
                                                                  <h:outputLabel value="#{msg['login.label.username']}"/>
                                                              </f:facet>
                                                              <p:commandLink  style="text-decoration: none" action="#{addBean.editReceita(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
-                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{r.user}"/>
+                                                                 <h:outputText  value="#{r.user}"/>
                                                              </p:commandLink>
                                                          </p:column>
                                                          <p:column resizable="true">
@@ -60,7 +60,7 @@
                                                                  <h:outputLabel value="#{msg['finance.label.descricao']}"/>
                                                              </f:facet>
                                                              <p:commandLink style="text-decoration: none"  action="#{addBean.editReceita(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
-                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{r.description}"/>
+                                                                 <h:outputText  value="#{r.description}"/>
                                                              </p:commandLink>
                                                          </p:column>
                                                           <p:column resizable="true">
@@ -68,7 +68,7 @@
                                                                 <h:outputLabel value="#{msg['finance.label.tipo']}"/>
                                                              </f:facet>
                                                               <p:commandLink style="text-decoration: none" action="#{addBean.editReceita(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
-                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{msg['subtipo.income.'.concat(r.type)]}"/>
+                                                                  <h:outputText  value="#{msg['subtipo.income.'.concat(r.type)]}"/>
                                                               </p:commandLink>
                                                          </p:column>
                                                          <p:column resizable="true" sortBy="#{r.value}" parser="number">
@@ -109,14 +109,14 @@
                                              <td  width="50%" align="right">
                                                  <p:outputPanel id="despesas_#{y.title.concat(msg[m.title])}">
                                                  <p:panel header="Despesas"  style="text-align: center" toggleable="true" toggleSpeed="700">
-                                                     <p:dataTable rowStyleClass="teste"  var="d" onRowSelectUpdate="edit_grid_despesa,edit_msg" selectionMode="single" rowSelectListener="#{addBean.onSelectOutcome}" onRowSelectComplete="editModal.show()" value="#{m.currentUserOutcomesInTheMonth}" selection="#{addBean.despesa}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
+                                                     <p:dataTable rowStyleClass="teste" onselectComplete="unselect(this)" var="d" onRowSelectUpdate="edit_grid_despesa,edit_msg" selectionMode="single" rowSelectListener="#{addBean.onSelectOutcome}" onRowSelectComplete="editModal.show()" value="#{m.currentUserOutcomesInTheMonth}" selection="#{addBean.despesa}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
                                                          <p:column sortBy="#{d.date}" parser="date" >
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
                                                              </f:facet>
                                                              <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
-                                                                    <h:outputText value="#{d.date}" styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}">
+                                                                    <h:outputText value="#{d.date}" >
                                                                      <f:convertDateTime pattern="dd/MM/yyyy"/>
                                                                     </h:outputText>
                                                                 </p:commandLink>
@@ -126,7 +126,7 @@
                                                                  <h:outputLabel value="#{msg['login.label.username']}"/>
                                                              </f:facet>
                                                              <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
-                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{d.user}"/>
+                                                                 <h:outputText  value="#{d.user}"/>
                                                              </p:commandLink>
 
                                                          </p:column>
@@ -135,7 +135,7 @@
                                                                  <h:outputLabel value="#{msg['finance.label.descricao']}"/>
                                                              </f:facet>
                                                              <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
-                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{d.description}"/>
+                                                                 <h:outputText  value="#{d.description}"/>
                                                              </p:commandLink>
                                                          </p:column>
                                                           <p:column resizable="true">
@@ -143,15 +143,15 @@
                                                                 #{msg['finance.label.tipo']}
                                                              </f:facet>
                                                               <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
-                                                                  <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-orange': ''}" value="#{msg['subtipo.outcome.'.concat(d.type)]}"/>
+                                                                  <h:outputText  value="#{msg['subtipo.outcome.'.concat(d.type)]}"/>
                                                               </p:commandLink>
                                                          </p:column>
                                                          <p:column resizable="true" sortBy="#{d.value}" parser="number">
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.valor']}
                                                              </f:facet>
-                                                             <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}">
-                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}" value="#{d.value}"/>
+                                                             <p:commandLink title="#{msg['finance.tooltip.edit-remove']}">
+                                                                 <h:outputText style="font-weight: bold;" value="#{d.value}"/>
                                                              </p:commandLink>
                                                          </p:column>
 
@@ -216,6 +216,10 @@
                      </h:form>
                  </p:dialog>
              </p:outputPanel>
+    <script type="text/javascript">
+        function unselect(id){
+            alert(id);
+        }
+    </script>
     </ui:define>
-
 </ui:composition>
