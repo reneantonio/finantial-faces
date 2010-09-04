@@ -34,14 +34,7 @@ public class TabService implements Serializable{
     private Integer yearTabIndex = 0;
     private Integer numberOfYearsToView = 6;
 
-  
 
-    public List<FinantialYear> findAll(){
-        return yearCrudService.findAll(FinantialYear.class);
-    }
-    public FinantialYear findById(Long id){
-        return yearCrudService.findById(id,FinantialYear.class);
-    }
 
      public void create(FinantialMonth fm){
         try {

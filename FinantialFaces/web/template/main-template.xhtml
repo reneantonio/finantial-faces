@@ -49,7 +49,7 @@ and open the template in the editor.
                     <p:submenu label="Visualisar Até:">
                         <p:menuitem value="2010" ajax="false" action="#{tabService.changeNumYearstoView(1)}"></p:menuitem>
                         <p:menuitem value="2011" ajax="false" action="#{tabService.changeNumYearstoView(2)}"></p:menuitem>
-                        <p:menuitem value="2012" ajax="false" action="#{tabService.changeNumYearstoView(3)}"></p:menuitem>
+                        <p:menuitem value="2012" ajax="true" action="#{tabService.changeNumYearstoView(3)}"></p:menuitem>
                         <p:menuitem value="2013" ajax="false" action="#{tabService.changeNumYearstoView(4)}"></p:menuitem>
                         <p:menuitem value="2014" ajax="false" action="#{tabService.changeNumYearstoView(5)}"></p:menuitem>
                         <p:menuitem value="2015" ajax="false" action="#{tabService.changeNumYearstoView(6)}"></p:menuitem>
@@ -70,9 +70,9 @@ and open the template in the editor.
                       <p:menuitem value="relatório 3" ajax="false" ></p:menuitem>
                       </p:submenu>
                  </p:menu>
-              <p:ajaxStatus style="z-index: 5000;left:50%;top:25%;position: absolute">
+              <p:ajaxStatus style="z-index: 9999;left:87%;top:10%;position: absolute">
                                         <f:facet name="start">
-                                            <h:graphicImage library="images" name="#{themeService.themeProperties.LOADING_ICON eq '' ? 'ajax-loader-default.gif' : themeService.themeProperties.LOADING_ICON}"/>
+                                            <h:graphicImage library="images" name="#{themeService.themeProperties.LOADING_ICON eq '' ? 'ajax-loader-red.gif' : themeService.themeProperties.LOADING_ICON}"/>
                                         </f:facet>
 
                                         <f:facet name="complete">

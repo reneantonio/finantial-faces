@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
@@ -35,13 +36,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 import javax.inject.Inject;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.SelectEvent;
 
 /**
  *
  * @author rmpestano
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name="addBean")
 public class AddFinancaController implements Serializable{
 
@@ -63,6 +65,8 @@ public class AddFinancaController implements Serializable{
     private Double outcomeValue;
     private String outcomeDescription;
     private FinanceService financeService;
+
+
     public AddFinancaController() {
         subtiposIncome = IncomeType.findAll();
         subtiposOutcome = OutcomeType.findAll();
@@ -214,8 +218,6 @@ public class AddFinancaController implements Serializable{
     }
 
 
-
-
     public void incluir(ActionEvent ev) {
         try {
 
@@ -258,6 +260,8 @@ public class AddFinancaController implements Serializable{
 
     }
     public void updateOutcome(ActionEvent ev){
+        Map<String,Object> map =  FacesContext.getCurrentInstance().getViewRoot().getViewMap();
+        TabController tabController = (TabController) map.get("tabBean");
         Calendar c = new GregorianCalendar();
         c.setTime(despesa.getDate());
         c.set(Calendar.DAY_OF_MONTH, 1);
@@ -266,8 +270,6 @@ public class AddFinancaController implements Serializable{
             fm.getMonthOutcomes().add(despesa);
             despesa.setFinantialMonth(fm);
             financeService.updateMonth(fm);
-            Map<String,Object> map =  FacesContext.getCurrentInstance().getViewRoot().getViewMap();
-            TabController tabController = (TabController) map.get("tabBean");
             tabController.setTabYears(tabService.getYearsToView());
         }
          else{
@@ -275,6 +277,7 @@ public class AddFinancaController implements Serializable{
          }
          MessagesController.addInfo("Despesa modificada com sucesso");
          setCurrentTab(despesa.getDate());
+         tabController.clearSelection();
 
     }
 

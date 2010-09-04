@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.component.datatable.DataTable;
 
 /**
  *
@@ -32,8 +33,7 @@ public class TabController implements Serializable{
     private String lastCalendarDate;
     private String firstCalendarDate;
     private Double totalOutcomeInThemonth;
-    private List<Income> selectedIncomes = new ArrayList<Income>();
-    private List<Outcome> selectedOutcomes = new ArrayList<Outcome>();
+    private DataTable outcomeTable;
 
     public TabController() {
     }
@@ -90,21 +90,23 @@ public class TabController implements Serializable{
         this.totalOutcomeInThemonth = totalOutcomeInThemonth;
     }
 
-    public List<Income> getSelectedIncomes() {
-        return selectedIncomes;
+    public DataTable getOutcomeTable() {
+        return outcomeTable;
     }
 
-    public void setSelectedIncomes(List<Income> selectedIncomes) {
-        this.selectedIncomes = selectedIncomes;
+    /**
+     * clear datatable selection after editing
+     */
+    public void clearSelection(){
+        outcomeTable.getSelectedRowIndexes().clear();
+    }
+    public void setOutcomeTable(DataTable outcomeTable) {
+        this.outcomeTable = outcomeTable;
+
     }
 
-    public List<Outcome> getSelectedOutcomes() {
-        return selectedOutcomes;
-    }
 
-    public void setSelectedOutcomes(List<Outcome> selectedOutcomes) {
-        this.selectedOutcomes = selectedOutcomes;
-    }
+
 
 
 
