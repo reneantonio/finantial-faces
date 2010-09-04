@@ -5,6 +5,7 @@
 
 package br.rmpestano.finantial.service;
 
+import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.Outcome;
 import br.rmpestano.finantial.service.generic.CrudService;
@@ -23,6 +24,7 @@ public class FinanceService {
 
     @Inject CrudService<Outcome> outcomeCrudService;
     @Inject CrudService<Income> incomeCrudService;
+    @Inject CrudService<FinantialMonth> monthCrudService;
 
     public FinanceService() {
     }
@@ -33,6 +35,10 @@ public class FinanceService {
     }
     public void updateOutcome(Outcome outcome){
         outcomeCrudService.update(outcome);
+    }
+
+    public void updateMonth(FinantialMonth fm){
+        monthCrudService.update(fm);
     }
 
 

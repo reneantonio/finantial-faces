@@ -56,14 +56,12 @@ and open the template in the editor.
                                     <f:converter converterId="outcomeConveter"/>
                                 </h:selectOneMenu>
                             </p:outputPanel>
-                            <p:commandButton value="Incluir" action="#{addBean.incluir}" process="grid_add" ajax="true" update="main_form,messages" style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
+                            <p:commandButton value="Incluir" actionListener="#{addBean.incluir}" process="grid_add" ajax="true" update="main_form,messages" style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
                             </h:column>
-
                         </h:panelGrid>
                     </h:column>
                 </h:panelGrid>
-<!--                <p:messages id="messages"/>-->
-        <p:growl id="messages" showDetail="true"/>
+
             </p:panel>
 
 

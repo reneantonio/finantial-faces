@@ -21,8 +21,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 import javax.faces.bean.ManagedBean;
@@ -214,7 +216,7 @@ public class AddFinancaController implements Serializable{
 
 
 
-    public String incluir() {
+    public void incluir(ActionEvent ev) {
         try {
 
             FinantialMonth fm = FinantialMonth.findByDate(date);
@@ -242,11 +244,12 @@ public class AddFinancaController implements Serializable{
             tabService.setYearTabIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
             MessagesController.addInfo("Finança incluida com sucesso!");
             this.setCurrentTab(date);
-            return "/pages/home.faces?faces-redirect=true";
+            Map<String,Object> map =  FacesContext.getCurrentInstance().getViewRoot().getViewMap();
+            TabController tabController = (TabController) map.get("tabBean");
+            tabController.setTabYears(tabService.getYearsToView());
         } catch (Exception ex) {
             MessagesController.addError("Erro ao incluir finança", ex.getMessage());
             ex.printStackTrace();
-            return null;
         }
     }
 
@@ -255,9 +258,23 @@ public class AddFinancaController implements Serializable{
 
     }
     public void updateOutcome(ActionEvent ev){
-         financeService.updateOutcome(despesa);
+        Calendar c = new GregorianCalendar();
+        c.setTime(despesa.getDate());
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        if(! c.getTime().equals(despesa.getFinantialMonth().getDate())){
+            FinantialMonth fm = FinantialMonth.findByDate(despesa.getDate());
+            fm.getMonthOutcomes().add(despesa);
+            despesa.setFinantialMonth(fm);
+            financeService.updateMonth(fm);
+            Map<String,Object> map =  FacesContext.getCurrentInstance().getViewRoot().getViewMap();
+            TabController tabController = (TabController) map.get("tabBean");
+            tabController.setTabYears(tabService.getYearsToView());
+        }
+         else{
+          financeService.updateOutcome(despesa);
+         }
          MessagesController.addInfo("Despesa modificada com sucesso");
-        setCurrentTab(despesa.getDate());
+         setCurrentTab(despesa.getDate());
 
     }
 
