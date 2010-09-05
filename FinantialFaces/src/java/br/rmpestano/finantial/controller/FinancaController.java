@@ -44,8 +44,8 @@ import org.primefaces.event.SelectEvent;
  * @author rmpestano
  */
 @ViewScoped
-@ManagedBean(name="addBean")
-public class AddFinancaController implements Serializable{
+@ManagedBean(name="financeBean")
+public class FinancaController implements Serializable{
 
     private TabService tabService;
     private final String INCOME = "income";
@@ -67,7 +67,7 @@ public class AddFinancaController implements Serializable{
     private FinanceService financeService;
 
 
-    public AddFinancaController() {
+    public FinancaController() {
         subtiposIncome = IncomeType.findAll();
         subtiposOutcome = OutcomeType.findAll();
         tabService = (TabService) BeanManagerController.getBeanByName("tabService");
@@ -277,8 +277,6 @@ public class AddFinancaController implements Serializable{
          }
          MessagesController.addInfo("Despesa modificada com sucesso");
          setCurrentTab(despesa.getDate());
-         tabController.clearSelection();
-
     }
 
     private void setCurrentTab(Date date) {

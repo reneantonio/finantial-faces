@@ -97,9 +97,9 @@ public class TabController implements Serializable{
     /**
      * clear datatable selection after editing
      */
-    public void clearSelection(){
-        outcomeTable.getSelectedRowIndexes().clear();
-    }
+//    public void clearSelection(){
+//        outcomeTable.getSelectedRowIndexes().clear();
+//    }
     public void setOutcomeTable(DataTable outcomeTable) {
         this.outcomeTable = outcomeTable;
 

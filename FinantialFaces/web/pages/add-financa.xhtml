@@ -18,19 +18,19 @@ and open the template in the editor.
                 <h:panelGrid columns="3" cellpadding="0" id="grid_add">
                     <h:column>
                         <p:outputPanel id="tipo_outcome">
-                            <h:panelGrid id="grid_outcome" columns="2" cellspacing="4px" rendered="#{addBean.tipoCorrete eq addBean.OUTCOME}">
+                            <h:panelGrid id="grid_outcome" columns="2" cellspacing="4px" rendered="#{financeBean.tipoCorrete eq financeBean.OUTCOME}">
                                 <finantial:label for="outcome_descricao" value="#{msg['finance.label.descricao']}:" required="true"/>
-                                <h:inputText id="outcome_descricao" value="#{addBean.outcomeDescription}"/>
+                                <h:inputText id="outcome_descricao" value="#{financeBean.outcomeDescription}"/>
                                 <finantial:label for="outcome_valor" value="#{msg['finance.label.valor']}:" required="true"/>
-                                <h:inputText id="outcome_valor" value="#{addBean.outcomeValue}"/>
+                                <h:inputText id="outcome_valor" value="#{financeBean.outcomeValue}"/>
                             </h:panelGrid>
                         </p:outputPanel>
                         <p:outputPanel id="tipo_income">
-                            <h:panelGrid id="grid_income" columns="2" rendered="#{addBean.tipoCorrete eq addBean.INCOME}">
+                            <h:panelGrid id="grid_income" columns="2" rendered="#{financeBean.tipoCorrete eq financeBean.INCOME}">
                                 <finantial:label for="income_descricao" value="#{msg['finance.label.descricao']}:" required="true"/>
-                                <h:inputText id="income_descricao" value="#{addBean.incomeDescription}"/>
+                                <h:inputText id="income_descricao" value="#{financeBean.incomeDescription}"/>
                                 <finantial:label for="income_valor" value="#{msg['finance.label.valor']}:" required="true"/>
-                                <h:inputText id="income_valor" value="#{addBean.incomeValue}"/>
+                                <h:inputText id="income_valor" value="#{financeBean.incomeValue}"/>
                             </h:panelGrid>
                         </p:outputPanel>
                     </h:column>
@@ -38,25 +38,25 @@ and open the template in the editor.
                     <h:column>
                         <h:panelGrid columns="2" id="grid_finance"  cellpadding="-2px" style="padding-left: 6px;margin-top: 5px">
                             <finantial:label for="date_income" value="#{msg['finance.label.data']}:" required="true"/>
-                            <p:calendar id="date_income" effectDuration="0.5" value="#{addBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstCalendarDate}" maxdate="#{tabBean.lastCalendarDate}"  popupIcon="../resources/images/calendar.png"/>
+                            <p:calendar id="date_income" effectDuration="0.5" value="#{financeBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstCalendarDate}" maxdate="#{tabBean.lastCalendarDate}"  popupIcon="../resources/images/calendar.png"/>
                             <finantial:label for="select_tipo" value="#{msg['finance.label.tipo']}:"/>
                             <h:column>
-                                <h:selectOneMenu id="select_tipo" value="#{addBean.tipoCorrete}" styleClass="tipo">
-                                <f:selectItems value="#{addBean.tiposFinanca}" var="tipo" itemLabel="#{tipo eq addBean.INCOME ? msg['finance.label.tipo.income'] : msg['finance.label.tipo.outcome']}" itemValue="#{tipo}"/>
+                                <h:selectOneMenu id="select_tipo" value="#{financeBean.tipoCorrete}" styleClass="tipo">
+                                <f:selectItems value="#{financeBean.tiposFinanca}" var="tipo" itemLabel="#{tipo eq financeBean.INCOME ? msg['finance.label.tipo.income'] : msg['finance.label.tipo.outcome']}" itemValue="#{tipo}"/>
                                 <f:ajax execute="grid_add" render="select_subtipo"/>
                             </h:selectOneMenu>
-                            <finantial:label for="select_subtipo_#{addBean.tipoCorrete}"  value="&#160;&#160;&#160;#{msg['finance.label.subtipo']}:"/>
+                            <finantial:label for="select_subtipo_#{financeBean.tipoCorrete}"  value="&#160;&#160;&#160;#{msg['finance.label.subtipo']}:"/>
                             <p:outputPanel id="select_subtipo">
-                                <h:selectOneMenu id="select_subtipo_income" rendered="#{addBean.tipoCorrete eq addBean.INCOME}"  value="#{addBean.subtipoIncomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
-                                    <f:selectItems value="#{addBean.subtiposIncome}" var="subtipo" itemLabel="#{msg['subtipo.income.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
+                                <h:selectOneMenu id="select_subtipo_income" rendered="#{financeBean.tipoCorrete eq financeBean.INCOME}"  value="#{financeBean.subtipoIncomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
+                                    <f:selectItems value="#{financeBean.subtiposIncome}" var="subtipo" itemLabel="#{msg['subtipo.income.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
                                     <f:converter converterId="incomeConveter"/>
                                 </h:selectOneMenu>
-                                <h:selectOneMenu id="select_subtipo_outcome" rendered="#{addBean.tipoCorrete eq addBean.OUTCOME}"  value="#{addBean.subtipoOutcomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
-                                    <f:selectItems value="#{addBean.subtiposOutcome}" var="subtipo" itemLabel="#{msg['subtipo.outcome.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
+                                <h:selectOneMenu id="select_subtipo_outcome" rendered="#{financeBean.tipoCorrete eq financeBean.OUTCOME}"  value="#{financeBean.subtipoOutcomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
+                                    <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{msg['subtipo.outcome.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
                                     <f:converter converterId="outcomeConveter"/>
                                 </h:selectOneMenu>
                             </p:outputPanel>
-                            <p:commandButton value="Incluir" actionListener="#{addBean.incluir}" process="grid_add" ajax="true" update="main_form,messages" style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
+                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add" ajax="true" update="main_form,messages" style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
                             </h:column>
                         </h:panelGrid>
                     </h:column>

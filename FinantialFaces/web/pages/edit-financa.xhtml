@@ -15,10 +15,10 @@ and open the template in the editor.
 
 
 
-    <p:outputPanel rendered="#{addBean.tipoCorrete eq addBean.OUTCOME}">
+    <p:outputPanel rendered="#{financeBean.tipoCorrete eq financeBean.OUTCOME}">
         <ui:include src="fragments/edit-outcome.xhtml"/>
     </p:outputPanel>
-    <p:outputPanel rendered="#{addBean.tipoCorrete eq addBean.INCOME}">
+    <p:outputPanel rendered="#{financeBean.tipoCorrete eq financeBean.INCOME}">
         <ui:include src="fragments/edit-income.xhtml"/>
     </p:outputPanel>
 
