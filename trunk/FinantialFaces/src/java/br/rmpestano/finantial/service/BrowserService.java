@@ -27,11 +27,8 @@ public class BrowserService implements Serializable{
      * @param ev
      */
      public void browserInfo(ActionEvent ev){
-         System.out.println("CHAMOU");
          RequestContext context = RequestContext.getCurrentInstance();
-//         context.addCallbackParam("compatible", isBrowserCompatible());
          context.addCallbackParam("compatible", browserCompatibility());
-
     }
 
 /**
@@ -47,7 +44,6 @@ public class BrowserService implements Serializable{
         String agent = (String) requestHeaders.get("User-Agent");
          System.out.println("AGENT:"+agent);
         checkCompatibility = false;
-
         if(agent.toLowerCase().contains("chrome")){//chrome
            return 1;
         }
@@ -57,12 +53,27 @@ public class BrowserService implements Serializable{
         if(agent.toLowerCase().contains("applewebkit")){//safari
             return 1;
         }
-        if(agent.toLowerCase().contains("firefox")){ //firefox
-            return 1;
+        if(agent.toLowerCase().contains("firefox")){ //firefox 3.6 >
+             String version = agent.toLowerCase().substring(agent.indexOf("Firefox/") + 8, agent.indexOf("Firefox/") + 14);
+             String dgt1 = version.substring(0, 1);
+                 if(Integer.parseInt(dgt1) >=4){
+                    return 1;
+                }
+                else if(Integer.parseInt(dgt1) >= 3) {
+                    String dgt2 = version.substring(2, 3);
+                    if (Integer.parseInt(dgt2) >= 6) { //Firefox 3.6 ou maior suportado
+                        return 1;
+                    } else {
+                        return 0;//firefox 3.0 -- 3.5, algumas incompatibilidades(deixa not tested)
+                    }
+                } else{
+                  checkCompatibility = true;//pra continuar chamando
+                 return -1;//firefox < 3(netscape & cia)  not supported
+                }
         }
         if(agent.toLowerCase().contains("msie")){//IE
             checkCompatibility = true;//pra continuar chamando
-            return -1;
+            return -1;//not supported
         }
 
 
