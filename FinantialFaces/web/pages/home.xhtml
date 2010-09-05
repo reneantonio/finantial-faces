@@ -22,7 +22,6 @@
 
             <p:outputPanel id="tab_panel" >
                 <p:panel header="Visualizar Finanças"  >
-
                     <p:tabView id="tabs" dynamic="false" activeIndex="#{tabService.yearTabIndex}">
                 <c:forEach id="fe" var="y" items="#{tabBean.tabYears}">
                     <p:tab title="#{y.title}" >
@@ -34,9 +33,8 @@
                                              <td width="50%" align="left">
                                                   <p:outputPanel id="receitas_#{y.title.concat(msg[m.title])}">
                                                       <p:panel  header="Receitas" toggleable="true" style="text-align: center" toggleSpeed="700">
-                                                          <p:dataTable  var="r" dynamic="false" value="#{m.currentUserIncomesInTheMonth}" onRowSelectUpdate="edit_grid_receita,edit_msg_income" selectionMode="single" rowSelectListener="#{financeBean.onSelectIncome}" onRowSelectComplete="editModal.show()" rendered="#{not empty m.currentUserIncomesInTheMonth}" paginator="true" rows="5"
+                                                          <p:dataTable  var="r" dynamic="false" value="#{m.currentUserIncomesInTheMonth}" onRowSelectUpdate="edit_grid_receita,edit_panel,edit_msg_income" selectionMode="single" rowSelectListener="#{financeBean.onSelectIncome}" selection="#{financeBean.receita}" onRowSelectComplete="editModal.show()" rendered="#{not empty m.currentUserIncomesInTheMonth}" paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
-                                                         <p:column selectionMode="multiple" />
                                                          <p:column resizable="true" sortBy="#{r.date}" parser="date" >
                                                              <f:facet name="header">
                                                                  <h:outputLabel value="#{msg['finance.label.data']}"/>
@@ -75,27 +73,26 @@
                                                              <f:facet name="header">
                                                                 #{msg['finance.label.valor']}
                                                              </f:facet>
-                                                             <p:commandLink style="text-decoration: none"  action="#{financeBean.editReceita(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
-                                                                 <h:outputText styleClass="#{themeService.theme eq 'ui-darkness' ? 'link-white': ''}" value="#{r.value}"/>
+                                                             <p:commandLink action="#{financeBean.editReceita(r)}" oncomplete="editModal.show()" update="edit_finance" process="receitas_#{y.title.concat(msg[m.title])}">
+                                                                 <h:outputText style="font-weight: bold;" value="#{r.value}"/>
                                                              </p:commandLink>
                                                          </p:column>
 
-                                                          <f:facet name="footer">
-                                                               <table width="100%">
+                                                           <f:facet name="footer" >
+                                                                 <table width="100%">
                                                                      <tr>
-                                                                     <td align="left">
-                                                                         <p:commandButton title="incluir receita para o mês" value="Incluir Receita"/>
-                                                                     </td>
+
                                                                          <td align="center">
-                                                                             <p:panel style="min-width: 150px;width: auto;min-height: 28px;height: auto">
-                                                                                 <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
-                                                                                 <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{m.totalIncomeInTheMonth}"/>
+                                                                             <p:panel style="width: 200px;min-height: 25px;height: auto ">
+                                                                                 <div align="center">
+                                                                                     <h:outputLabel style="font-weight: bold" for="total_receita" value="#{msg['finance.label.total']}:"/>
+                                                                                     <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_receita" value="#{m.totalIncomeInTheMonth}"/>
+                                                                                 </div>
                                                                              </p:panel>
+
                                                                          </td>
-                                                                     <td align="right">
-                                                                         <p:commandButton value="Remover Selecionados"/>
-                                                                     </td>
-                                                                      </tr>
+
+                                                                     </tr>
                                                                 </table>
                                                              </f:facet>
 
@@ -103,13 +100,17 @@
                                                      <div align="center">
                                                          <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px" rendered="#{empty m.currentUserIncomesInTheMonth}"/>
                                                      </div>
+                                                          <div align="center">
+                                                              <p:commandButton title="#{msg['finance.tooltip.add-income']}" value="Nova Receita">
+                                                              </p:commandButton>
+                                                          </div>
                                                  </p:panel>
                                             </p:outputPanel>
                                              </td>
                                              <td  width="50%" align="right">
                                                  <p:outputPanel id="despesas_#{y.title.concat(msg[m.title])}">
                                                  <p:panel header="Despesas"  style="text-align: center" toggleable="true" toggleSpeed="700">
-                                                     <p:dataTable  var="d" onRowSelectUpdate="edit_grid_despesa,edit_msg_outcome" selectionMode="single" rowSelectListener="#{financeBean.onSelectOutcome}" onRowSelectComplete="editModal.show()" value="#{m.currentUserOutcomesInTheMonth}" selection="#{financeBean.despesa}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
+                                                     <p:dataTable  var="d" onRowSelectUpdate="edit_grid_despesa,edit_panel,edit_msg_outcome" selectionMode="single" rowSelectListener="#{financeBean.onSelectOutcome}" onRowSelectComplete="editModal.show()" value="#{m.currentUserOutcomesInTheMonth}" selection="#{financeBean.despesa}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
                                                          <p:column sortBy="#{d.date}" parser="date" >
                                                              <f:facet name="header">

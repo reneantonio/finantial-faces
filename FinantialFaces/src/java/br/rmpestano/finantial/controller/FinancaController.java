@@ -54,16 +54,13 @@ public class FinancaController implements Serializable{
     private List<OutcomeType> subtiposOutcome;
     private List<IncomeType> subtiposIncome;
     private Outcome despesa;
-    private Outcome selectedOutcome;
     private Income  receita;
     private String tipoCorrete = OUTCOME;
     private IncomeType subtipoIncomeCorrete;
     private OutcomeType subtipoOutcomeCorrete;
     private Date date;
-    private Double incomeValue;
-    private String incomeDescription;
-    private Double outcomeValue;
-    private String outcomeDescription;
+    private Double financeValue;
+    private String financeDescription;
     private FinanceService financeService;
 
 
@@ -127,12 +124,12 @@ public class FinancaController implements Serializable{
         this.receita = receita;
     }
 
-    public Outcome getSelectedOutcome() {
-        return selectedOutcome;
+    public String getFinanceDescription() {
+        return financeDescription;
     }
 
-    public void setSelectedOutcome(Outcome selectedOutcome) {
-        this.selectedOutcome = selectedOutcome;
+    public void setFinanceDescription(String financeDescription) {
+        this.financeDescription = financeDescription;
     }
 
 
@@ -160,37 +157,14 @@ public class FinancaController implements Serializable{
         this.date = date;
     }
 
-    public String getIncomeDescription() {
-        return incomeDescription;
+    public Double getFinanceValue() {
+        return financeValue;
     }
 
-    public void setIncomeDescription(String incomeDescription) {
-        this.incomeDescription = incomeDescription;
+    public void setFinanceValue(Double financeValue) {
+        this.financeValue = financeValue;
     }
 
-    public Double getIncomeValue() {
-        return incomeValue;
-    }
-
-    public void setIncomeValue(Double incomeValue) {
-        this.incomeValue = incomeValue;
-    }
-
-    public String getOutcomeDescription() {
-        return outcomeDescription;
-    }
-
-    public void setOutcomeDescription(String outcomeDescription) {
-        this.outcomeDescription = outcomeDescription;
-    }
-
-    public Double getOutcomeValue() {
-        return outcomeValue;
-    }
-
-    public void setOutcomeValue(Double outcomeValue) {
-        this.outcomeValue = outcomeValue;
-    }
 
 
     public String getINCOME() {
@@ -225,8 +199,8 @@ public class FinancaController implements Serializable{
             if (tipoCorrete.equals(INCOME)) {
                 receita = new Income();
                 receita.setDate(date);
-                receita.setDescription(incomeDescription);
-                receita.setValue(incomeValue);
+                receita.setDescription(financeDescription);
+                receita.setValue(financeValue);
                 receita.setType(subtipoIncomeCorrete);
                 fm.getMonthIncomes().add(receita);
                 receita.setFinantialMonth(fm);
@@ -235,8 +209,8 @@ public class FinancaController implements Serializable{
             if (tipoCorrete.equals(OUTCOME)) {
                 despesa = new Outcome();
                 despesa.setDate(date);
-                despesa.setValue(outcomeValue);
-                despesa.setDescription(outcomeDescription);
+                despesa.setValue(financeValue);
+                despesa.setDescription(financeDescription);
                 despesa.setType(subtipoOutcomeCorrete);
                 fm.getMonthOutcomes().add(despesa);
                 despesa.setFinantialMonth(fm);
