@@ -71,15 +71,16 @@ public class FinantialMonth implements Serializable {
         return userIncomes;
     }
     public List<Outcome> getCurrentUserOutcomesInTheMonth() {
-         List<Outcome> userOutcomes = new ArrayList<Outcome>();
+//         List<Outcome> userOutcomes = new ArrayList<Outcome>();
             User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-             for (Outcome outcome : monthOutcomes) {
-                if(outcome.getUser().getId().equals(u.getId())){
-                    userOutcomes.add(outcome);
-                }
-            }
-
-        return userOutcomes;
+//             for (Outcome outcome : monthOutcomes) {
+//                if(outcome.getUser() != null && outcome.getUser().getId().equals(u.getId())){
+//                    userOutcomes.add(outcome);
+//                }
+//            }
+//
+//        return userOutcomes;
+        return Outcome.findMonthOutcomesByUser(u.getId(),this.date);
     }
 
     
@@ -191,6 +192,7 @@ public class FinantialMonth implements Serializable {
         Root<FinantialMonth> root = cq.from(FinantialMonth.class);
         return em.createQuery(cq.select(root).where(cb.equal(root.get("date"), c.getTime()))).getSingleResult();
     }
+
 
 
 }

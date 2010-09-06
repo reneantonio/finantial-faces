@@ -6,7 +6,6 @@
 package br.rmpestano.finantial.controller;
 
 import br.rmpestano.finantial.model.FinantialMonth;
-import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.Outcome;
@@ -21,22 +20,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
-import javax.inject.Inject;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -59,6 +49,8 @@ public class FinancaController implements Serializable{
     private IncomeType subtipoIncomeCorrete;
     private OutcomeType subtipoOutcomeCorrete;
     private Date date;
+    private String lastDayOfMonth;
+    private String firstDayOfMonth;
     private Double financeValue;
     private String financeDescription;
     private FinanceService financeService;
@@ -108,6 +100,15 @@ public class FinancaController implements Serializable{
         this.tipoCorrete = tipoCorrete;
     }
 
+    public String getFirstDayOfMonth() {
+        return firstDayOfMonth;
+    }
+
+    public void setFirstDayOfMonth(String firstDayOfMonth) {
+        this.firstDayOfMonth = firstDayOfMonth;
+    }
+
+
     public Outcome getDespesa() {
         return despesa;
     }
@@ -130,6 +131,14 @@ public class FinancaController implements Serializable{
 
     public void setFinanceDescription(String financeDescription) {
         this.financeDescription = financeDescription;
+    }
+
+    public String getLastDayOfMonth() {
+        return lastDayOfMonth;
+    }
+
+    public void setLastDayOfMonth(String lastDayOfMonth) {
+        this.lastDayOfMonth = lastDayOfMonth;
     }
 
 
@@ -223,6 +232,7 @@ public class FinancaController implements Serializable{
             Map<String,Object> map =  FacesContext.getCurrentInstance().getViewRoot().getViewMap();
             TabController tabController = (TabController) map.get("tabBean");
             tabController.setTabYears(tabService.getYearsToView());
+            Calendar c = new GregorianCalendar();
         } catch (Exception ex) {
             MessagesController.addError("Erro ao incluir finança", ex.getMessage());
             ex.printStackTrace();
@@ -239,6 +249,7 @@ public class FinancaController implements Serializable{
         Calendar c = new GregorianCalendar();
         c.setTime(despesa.getDate());
         c.set(Calendar.DAY_OF_MONTH, 1);
+
         if(! c.getTime().equals(despesa.getFinantialMonth().getDate())){
             FinantialMonth fm = FinantialMonth.findByDate(despesa.getDate());
             fm.getMonthOutcomes().add(despesa);
@@ -251,6 +262,25 @@ public class FinancaController implements Serializable{
          }
          MessagesController.addInfo("Despesa modificada com sucesso");
          setCurrentTab(despesa.getDate());
+    }
+    public void updateIncome(ActionEvent ev){
+        Map<String,Object> map =  FacesContext.getCurrentInstance().getViewRoot().getViewMap();
+        TabController tabController = (TabController) map.get("tabBean");
+        Calendar c = new GregorianCalendar();
+        c.setTime(receita.getDate());
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        if(! c.getTime().equals(receita.getFinantialMonth().getDate())){
+            FinantialMonth fm = FinantialMonth.findByDate(receita.getDate());
+            fm.getMonthIncomes().add(receita);
+            receita.setFinantialMonth(fm);
+            financeService.updateMonth(fm);
+            tabController.setTabYears(tabService.getYearsToView());
+        }
+         else{
+          financeService.updateIncome(receita);
+         }
+         MessagesController.addInfo("Receita modificada com sucesso");
+         setCurrentTab(receita.getDate());
     }
 
     private void setCurrentTab(Date date) {
@@ -266,5 +296,18 @@ public class FinancaController implements Serializable{
             tabService.setMonthTabIndex(c.get(Calendar.MONTH));
             tabService.setYearTabIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
         }
+    }
+
+    public void prepareAddMonthOutcome(FinantialMonth fm){
+        despesa = new Outcome();
+        tipoCorrete = OUTCOME;
+        Calendar c = new GregorianCalendar();
+        c.setTime(fm.getDate());
+        Integer month = c.get(Calendar.MONTH) +1;
+        String year = fm.getFinantialYear().getTitle();
+        StringBuilder sb = new StringBuilder();
+        sb.append(""+c.getActualMaximum(Calendar.DAY_OF_MONTH)).append("/").append(month).append("/").append(year);
+        lastDayOfMonth = sb.toString();
+        firstDayOfMonth = "01/"+month +"/"+year;
     }
 }
