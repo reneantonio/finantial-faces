@@ -35,10 +35,7 @@ public class LoginController implements Serializable{
 
     @PostConstruct
     public void getUserService(){
-        System.out.println("TIMEZONE:"+TimeZone.getDefault());
         userService = (UserService) BeanManagerController.getBeanByName("userService");
-        System.out.println("Injetou:"+userService);
-
     }
     public String doLogin(){
 

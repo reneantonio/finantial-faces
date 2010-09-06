@@ -36,6 +36,9 @@ public class FinanceService {
     public void updateOutcome(Outcome outcome){
         outcomeCrudService.update(outcome);
     }
+    public void updateIncome(Income income){
+        incomeCrudService.update(income);
+    }
 
     public void updateMonth(FinantialMonth fm){
         monthCrudService.update(fm);

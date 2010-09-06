@@ -176,11 +176,10 @@
 
                                                      </p:dataTable>
                                                      <div align="center">
-                                                         <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px" rendered="#{empty m.currentUserOutcomesInTheMonth}"/>
+                                                         <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty m.currentUserOutcomesInTheMonth}"/>
                                                      </div>
                                                      <div align="center">
-                                                     <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" value="Nova Despesa">
-                                                                             </p:commandButton>
+                                                         <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" oncomplete="monthOutcomeModal.show()" update="month_outcome"/>
                                                          </div>
                                                  </p:panel>
                                               </p:outputPanel>
@@ -213,6 +212,13 @@
                  <p:dialog  modal="true" widgetVar="editModal" header="Editar" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true">
                      <h:form prependId="false">
                           <ui:include src="edit-financa.xhtml"/>
+                     </h:form>
+                 </p:dialog>
+             </p:outputPanel>
+             <p:outputPanel id="month_outcome">
+                 <p:dialog  modal="true" widgetVar="monthOutcomeModal" header="Incluir Despesa" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true">
+                     <h:form prependId="false">
+                          <ui:include src="fragments/add-month-outcome.xhtml"/>
                      </h:form>
                  </p:dialog>
              </p:outputPanel>

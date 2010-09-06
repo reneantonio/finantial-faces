@@ -4,12 +4,19 @@
  */
 package br.rmpestano.finantial.model;
 
+import br.rmpestano.finantial.util.PersistenceManager;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * entidade que representa as despesas (saidas)
@@ -31,6 +38,7 @@ public class Outcome extends BaseEntity {
     private OutcomeType type;
     private Double value;
     private String description;
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 
 
@@ -68,6 +76,9 @@ public class Outcome extends BaseEntity {
     }
 
     public FinantialMonth getFinantialMonth() {
+        if(finantialMonth == null && date !=null){
+            this.setFinantialMonth(FinantialMonth.findByDate(date));
+        }
         return finantialMonth;
     }
 
@@ -87,5 +98,16 @@ public class Outcome extends BaseEntity {
     @Override
     public String toString() {
         return "br.rmpestano.finantial.model.Outcome[id=" + id + "]";
+    }
+
+    /**
+     *
+     * @param userId
+     * @return
+     */
+     public static List<Outcome> findMonthOutcomesByUser(Long userId, Date month) {
+        EntityManager em = PersistenceManager.createEntityManager();
+        String sql = "select * from outcome o where o.USER_ID = '" + userId + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "'";
+        return em.createNativeQuery(sql, Outcome.class).getResultList();
     }
 }
