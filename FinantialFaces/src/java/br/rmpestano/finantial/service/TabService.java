@@ -32,7 +32,10 @@ public class TabService implements Serializable{
     @Inject CrudService<FinantialMonth> monthCrudService;
     private Integer monthTabIndex = 0;
     private Integer yearTabIndex = 0;
-    private Integer numberOfYearsToView = 6;
+    private Integer numberOfYearsToView = 1;
+    private String yearToView = "2010";
+    private List<String> listOfYears;
+    private boolean specificYear = false;
 
 
 
@@ -47,7 +50,12 @@ public class TabService implements Serializable{
      
      public String changeNumYearstoView(Integer years){
          this.numberOfYearsToView = years;
+         this.specificYear = false;
          return "/pages/home.faces?faces-redirect=true";
+     }
+
+     public void specificYearMode() {
+         this.specificYear = true;
      }
    public void update(FinantialMonth fm){
         try {
@@ -77,6 +85,15 @@ public class TabService implements Serializable{
         this.yearTabIndex = yearTabIndex;
     }
 
+    public boolean isEspecificYear() {
+        return specificYear;
+    }
+
+    public void setEspecificYear(boolean especificYear) {
+        this.specificYear = especificYear;
+    }
+
+
 
 
     public int findYearIndex(String title){
@@ -95,39 +112,75 @@ public class TabService implements Serializable{
     
 public String findfirstYear() {
         StringBuilder firstDate = new StringBuilder();
-        List<FinantialYear> firstYear =  yearCrudService.findAll(FinantialYear.class);
+        if (specificYear == true) {
+            FinantialYear fy = FinantialYear.findByYear(yearToView);
+            firstDate.append("01/01/").append(fy.getTitle());
+    } else {
+        List<FinantialYear> firstYear = yearCrudService.findAll(FinantialYear.class);
         Collections.sort(firstYear);
         FinantialYear fy = firstYear.get(0);
         firstDate.append("01/01/").append(fy.getTitle());
+    }
+
        return firstDate.toString();
     }
 public String findlastYear() {
-        StringBuilder lastDate = new StringBuilder();
-        List<FinantialYear> lastYear =  yearCrudService.findAll(FinantialYear.class);
+      StringBuilder lastDate = new StringBuilder();
+    if (specificYear == true) {
+        FinantialYear fy = FinantialYear.findByYear(yearToView);
+        lastDate.append("31/12/").append(fy.getTitle());
+    } else {
+
+        List<FinantialYear> lastYear = yearCrudService.findAll(FinantialYear.class);
         Collections.sort(lastYear);
 
-        FinantialYear fy = lastYear.get(numberOfYearsToView-1);
+        FinantialYear fy = lastYear.get(numberOfYearsToView - 1);
         lastDate.append("31/12/").append(fy.getTitle());
-        return lastDate.toString();
+    }
+    return lastDate.toString();
     }
 
 public List<FinantialYear> getYearsToView(){
       List<FinantialYear> retorno = new ArrayList<FinantialYear>();
       List<FinantialYear> years =  yearCrudService.findAll(FinantialYear.class);
       Collections.sort(years);
-      for (int i = 0; i <  numberOfYearsToView; i++) {
-           retorno.add(years.get(i));
+      if (this.specificYear == false) {
+        for (int i = 0; i < numberOfYearsToView; i++) {
+            retorno.add(years.get(i));
+        }
+    } else {
+        retorno.add(FinantialYear.findByYear(yearToView));
     }
+
       return retorno;
 
 }
+
+    public List<String> getListOfYears() {
+        return listOfYears;
+    }
+
+    public void setListOfYears(List<String> listOfYears) {
+        this.listOfYears = listOfYears;
+    }
+
+    public String getYearToView() {
+        return yearToView;
+    }
+
+    public void setYearToView(String yearToView) {
+        this.yearToView = yearToView;
+    }
 
 
 
 
     @PostConstruct
     public void init(){
-        
+        listOfYears = new ArrayList<String>();
+        for(int i=2010;i<=2030;i++){
+            listOfYears.add(new String(""+i));
+        }
         setInitialTabs();
 //         if(!PersistenceManager.createEntityManager().createQuery("select f from FinantialYear f").getResultList().isEmpty()){
 //            return;
