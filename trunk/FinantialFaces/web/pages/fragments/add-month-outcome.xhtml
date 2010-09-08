@@ -18,20 +18,20 @@ and open the template in the editor.
      <p:panel>
         <h:panelGrid id="month_outcome_grid" columns="2">
             <h:outputLabel for="month_outcome_description" value="Descrição:"/>
-            <h:inputText id="month_outcome_description" value="#{financeBean.financeDescription}"/>
+            <h:inputText id="month_outcome_description" value="#{financeBean.despesa.description}"/>
             <h:outputLabel for="month_outcome_data" value="Data:"/>
-            <p:calendar id="month_outcome_data" effectDuration="0.5" value="#{financeBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{financeBean.firstDayOfMonth}" maxdate="#{financeBean.lastDayOfMonth}"  popupIcon="../resources/images/calendar.png"/>
+            <p:calendar id="month_outcome_data" effectDuration="0.5" value="#{financeBean.despesa.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{financeBean.firstDayOfMonth}" maxdate="#{financeBean.lastDayOfMonth}"  popupIcon="../resources/images/calendar.png"/>
             <h:outputLabel for="month_outcome_value" value="Valor:"/>
-            <h:inputText id="month_outcome_value" value="#{financeBean.financeValue}"/>
+            <h:inputText id="month_outcome_value" value="#{financeBean.despesa.value}"/>
             <finantial:label for="month_outcome_subtipo"  value="#{msg['finance.label.subtipo']}:"/>
-            <h:selectOneMenu id="month_outcome_subtipo" value="#{financeBean.subtipoOutcomeCorrete}" style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
+            <h:selectOneMenu id="month_outcome_subtipo" value="#{financeBean.despesa.type}" style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
                 <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{msg['subtipo.outcome.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
                                     <f:converter converterId="outcomeConveter"/>
                                 </h:selectOneMenu>
         </h:panelGrid>
          <div align="center">
          <h:panelGrid columns="2" cellspacing="10">
-             <p:commandButton value="salvar" actionListener="#{financeBean.incluir}" process="@form" ajax="true" update="main_form,month_outcome_msg,messages" oncomplete="handleAdd(args)"/>
+             <p:commandButton value="salvar" async="true" actionListener="#{financeBean.addMonthOutcome}" process="month_form" ajax="true" update="main_form,month_outcome_msg,messages" oncomplete="handleAdd(args)"/>
          </h:panelGrid>
          </div>
          <p:messages id="month_outcome_msg"/>
@@ -48,7 +48,7 @@ and open the template in the editor.
     }
 
     function wait(){
-        editModal.hide();
+        monthOutcomeModal.hide();
     }
 
 </script>

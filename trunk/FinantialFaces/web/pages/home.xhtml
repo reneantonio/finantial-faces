@@ -25,13 +25,11 @@
                     <p:tabView id="tabs" dynamic="false" activeIndex="#{tabService.yearTabIndex}">
                 <c:forEach id="fe" var="y" items="#{tabBean.tabYears}">
                     <p:tab title="#{y.title}" >
-                        <p:tabView  dynamic="false" activeIndex="#{tabService.monthTabIndex}" style="min-width: 100%;width: auto;min-height: 300px" >
+                            <p:tabView  dynamic="false" activeIndex="#{tabService.monthTabIndex}" style="min-width: 100%;width: auto;min-height: 300px" >
                             <c:forEach var="m" items="#{y.finantialMonths}">
                                 <p:tab title="#{msg[m.title]}" >
-<!--                                     <p:fieldset legend="#{msg['finance.label.legend']}">-->
                                     <table width="100%">
                                              <td width="50%" align="left">
-                                                  <p:outputPanel id="receitas_#{y.title.concat(msg[m.title])}">
                                                       <p:panel  header="Receitas" toggleable="true" style="text-align: center" toggleSpeed="700">
                                                           <p:dataTable  var="r" dynamic="false" value="#{m.currentUserIncomesInTheMonth}" onRowSelectUpdate="edit_grid_receita,edit_panel,edit_msg_income" selectionMode="single" rowSelectListener="#{financeBean.onSelectIncome}" selection="#{financeBean.receita}" onRowSelectComplete="editModal.show()" rendered="#{not empty m.currentUserIncomesInTheMonth}" paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
@@ -105,10 +103,9 @@
                                                               </p:commandButton>
                                                           </div>
                                                  </p:panel>
-                                            </p:outputPanel>
+
                                              </td>
                                              <td  width="50%" align="right">
-                                                 <p:outputPanel id="despesas_#{y.title.concat(msg[m.title])}">
                                                  <p:panel header="Despesas"  style="text-align: center" toggleable="true" toggleSpeed="700">
                                                      <p:dataTable  var="d" onRowSelectUpdate="edit_grid_despesa,edit_panel,edit_msg_outcome" selectionMode="single" rowSelectListener="#{financeBean.onSelectOutcome}" onRowSelectComplete="editModal.show()" value="#{m.currentUserOutcomesInTheMonth}" selection="#{financeBean.despesa}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
@@ -179,10 +176,10 @@
                                                          <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty m.currentUserOutcomesInTheMonth}"/>
                                                      </div>
                                                      <div align="center">
-                                                         <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" oncomplete="monthOutcomeModal.show()" update="month_outcome"/>
+                                                         <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" immediate="true"  oncomplete="monthOutcomeModal.show()" update="month_outcome"/>
                                                          </div>
                                                  </p:panel>
-                                              </p:outputPanel>
+
 
                                              </td>
 
@@ -190,8 +187,6 @@
 
                                          </table>
 
-
-<!--                                    </p:fieldset>-->
 
                                 </p:tab>
                             </c:forEach>
@@ -215,13 +210,13 @@
                      </h:form>
                  </p:dialog>
              </p:outputPanel>
-             <p:outputPanel id="month_outcome">
+                 <p:outputPanel id="month_outcome">
+                 <h:form prependId="false" id="month_form">
                  <p:dialog  modal="true" widgetVar="monthOutcomeModal" header="Incluir Despesa" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true">
-                     <h:form prependId="false">
                           <ui:include src="fragments/add-month-outcome.xhtml"/>
-                     </h:form>
                  </p:dialog>
-             </p:outputPanel>
+                 </h:form>
+                 </p:outputPanel>
 
     </ui:define>
 </ui:composition>

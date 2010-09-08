@@ -45,7 +45,7 @@ and open the template in the editor.
                                   </p:menuitem>
                             </p:submenu>
                        </p:menu>
-          <p:menu widgetVar="yearMenu" position="dynamic" x="143" y="33" >
+          <p:menu widgetVar="yearMenu" position="dynamic" x="143" y="33" styleClass="yearsMenu">
                     <p:submenu label="Visualisar Até:">
                         <p:menuitem value="2010" ajax="false" action="#{tabService.changeNumYearstoView(1)}"></p:menuitem>
                         <p:menuitem value="2011" ajax="false" action="#{tabService.changeNumYearstoView(2)}"></p:menuitem>
@@ -60,9 +60,21 @@ and open the template in the editor.
                         <p:menuitem value="2020" ajax="false" action="#{tabService.changeNumYearstoView(11)}"></p:menuitem>
                         <p:menuitem value="2025" ajax="false" action="#{tabService.changeNumYearstoView(16)}"></p:menuitem>
                         <p:menuitem value="2030" ajax="false" action="#{tabService.changeNumYearstoView(21)}"></p:menuitem>
+                        <p:menuitem value="apenas..." ajax="true" action="#{tabService.specificYearMode}" oncomplete="yearModal.show()"/>
                     </p:submenu>
 
                 </p:menu>
+          <p:dialog widgetVar="yearModal" modal="true" header="Escolha o Ano">
+              <div align="center">
+                  <h:panelGrid columns="2">
+                      <h:outputLabel for="yearList" value="Escolha o ano:"/>
+                      <h:selectOneMenu id="yearList" value="#{tabService.yearToView}">
+                          <f:selectItems var="y" value="#{tabService.listOfYears}" itemLabel="#{y}" itemValue="#{y}"/>
+                      </h:selectOneMenu>
+                  </h:panelGrid>
+              <p:commandButton value="ok" action="/pages/home.faces?faces-redirect=true" ajax="false"/>
+              </div>
+          </p:dialog>
           <p:menu widgetVar="reportsMenu" position="dynamic" x="250" y="33"  styleClass="reportsMenu" >
                      <p:submenu label="Visualisar Relatórios">
                       <p:menuitem value="relatório 1" ajax="false" ></p:menuitem>

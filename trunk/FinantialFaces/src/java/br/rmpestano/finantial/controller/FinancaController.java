@@ -16,6 +16,7 @@ import br.rmpestano.finantial.service.TabService;
 import br.rmpestano.finantial.util.BeanManagerController;
 import br.rmpestano.finantial.util.MessagesController;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -232,7 +233,6 @@ public class FinancaController implements Serializable{
             Map<String,Object> map =  FacesContext.getCurrentInstance().getViewRoot().getViewMap();
             TabController tabController = (TabController) map.get("tabBean");
             tabController.setTabYears(tabService.getYearsToView());
-            Calendar c = new GregorianCalendar();
         } catch (Exception ex) {
             MessagesController.addError("Erro ao incluir finança", ex.getMessage());
             ex.printStackTrace();
@@ -243,6 +243,16 @@ public class FinancaController implements Serializable{
          financeService.removeOutcome(despesa);
 
     }
+
+    public void addMonthOutcome(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        FinantialMonth fm = FinantialMonth.findByDate(despesa.getDate());
+        fm.getMonthOutcomes().add(despesa);
+        despesa.setFinantialMonth(fm);
+        tabService.update(fm);
+        MessagesController.addInfo("Despesa incluida com sucesso em:"+sdf.format(despesa.getDate()));
+
+    }
     public void updateOutcome(ActionEvent ev){
         Map<String,Object> map =  FacesContext.getCurrentInstance().getViewRoot().getViewMap();
         TabController tabController = (TabController) map.get("tabBean");
@@ -250,7 +260,7 @@ public class FinancaController implements Serializable{
         c.setTime(despesa.getDate());
         c.set(Calendar.DAY_OF_MONTH, 1);
 
-        if(! c.getTime().equals(despesa.getFinantialMonth().getDate())){
+        if(! c.getTime().equals(despesa.getFinantialMonth().getDate())){//se o mes for diferente
             FinantialMonth fm = FinantialMonth.findByDate(despesa.getDate());
             fm.getMonthOutcomes().add(despesa);
             despesa.setFinantialMonth(fm);
@@ -295,6 +305,8 @@ public class FinancaController implements Serializable{
             c.set(Calendar.DAY_OF_MONTH, 1);
             tabService.setMonthTabIndex(c.get(Calendar.MONTH));
             tabService.setYearTabIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
+
+
         }
     }
 
