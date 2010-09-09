@@ -13,7 +13,8 @@ and open the template in the editor.
         xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
         xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-            <p:panel header="Incluir Finança">
+
+    <p:panel header="Incluir Finança em #{y.title}">
 
                 <h:panelGrid columns="3" cellpadding="0" id="grid_add">
                     <h:column>
@@ -38,7 +39,7 @@ and open the template in the editor.
                     <h:column>
                         <h:panelGrid columns="2" id="grid_finance"  >
                             <finantial:label for="date_income" value="#{msg['finance.label.data']}:" required="true"/>
-                            <p:calendar id="date_income" effectDuration="0.5" value="#{financeBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstCalendarDate}" maxdate="#{tabBean.lastCalendarDate}"  popupIcon="../resources/images/calendar.png"/>
+                            <p:calendar id="date_income" effectDuration="0.5" value="#{financeBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{y.firstDateOfYear}" maxdate="#{y.lastDateOfYear}"  popupIcon="../resources/images/calendar.png"/>
                             <finantial:label for="select_tipo" value="#{msg['finance.label.tipo']}:"/>
                             <h:column>
                                 <h:selectOneMenu id="select_tipo" value="#{financeBean.tipoCorrete}" styleClass="tipo">
@@ -56,7 +57,7 @@ and open the template in the editor.
                                     <f:converter converterId="outcomeConveter"/>
                                 </h:selectOneMenu>
                             </p:outputPanel>
-                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add" ajax="true" update="main_form,messages" style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
+                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add" ajax="true" update="year_#{y.title},messages"  style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
                             </h:column>
                         </h:panelGrid>
                     </h:column>
@@ -64,11 +65,5 @@ and open the template in the editor.
 
             </p:panel>
 
-
-
-
-            <p:panel header="Estatísticas">
-                
-            </p:panel>
         
 </ui:composition>

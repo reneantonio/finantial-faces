@@ -35,6 +35,12 @@ public class FinantialYear extends BaseEntity implements Comparable<FinantialYea
     @Transient
     private FinantialMonth fev;
 
+    @Transient
+    private String firstDateOfYear;
+    @Transient
+    private String lastDateOfYear;
+
+
     public FinantialYear() {
     }
 
@@ -54,6 +60,15 @@ public class FinantialYear extends BaseEntity implements Comparable<FinantialYea
     public void setFinantialMonths(List<FinantialMonth> finantialMonths) {
         this.finantialMonths = finantialMonths;
     }
+
+    public String getFirstDateOfYear() {
+        return "01/01/"+this.getTitle();
+    }
+
+    public String getLastDateOfYear() {
+         return "31/12/"+this.getTitle();
+    }
+
 
     public static void create(FinantialYear fy){
         EntityManager em = PersistenceManager.createEntityManager();

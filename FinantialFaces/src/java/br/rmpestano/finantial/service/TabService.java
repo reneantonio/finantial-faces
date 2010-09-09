@@ -7,6 +7,7 @@ package br.rmpestano.finantial.service;
 
 import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.FinantialYear;
+import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.generic.CrudService;
 import br.rmpestano.finantial.util.MessagesController;
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -36,7 +38,8 @@ public class TabService implements Serializable{
     private String yearToView = "2010";
     private List<String> listOfYears;
     private boolean specificYear = false;
-
+    private User user;
+    private String update = "yearIdToUpdate";
 
 
      public void create(FinantialMonth fm){
@@ -68,6 +71,15 @@ public class TabService implements Serializable{
         MessagesController.addInfo("Finança incluida com sucesso!");
 
    }
+
+
+     public String getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(String update) {
+        this.update = update;
+    }
 
     public Integer getMonthTabIndex() {
         return monthTabIndex;
@@ -182,6 +194,7 @@ public List<FinantialYear> getYearsToView(){
             listOfYears.add(new String(""+i));
         }
         setInitialTabs();
+
 //         if(!PersistenceManager.createEntityManager().createQuery("select f from FinantialYear f").getResultList().isEmpty()){
 //            return;
 //        }
@@ -292,8 +305,17 @@ public List<FinantialYear> getYearsToView(){
 
     }
 
-  
-    
+    public User getUser() {
+        if(user == null){
+         user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+        }
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     
     private void setInitialTabs() {
         try {

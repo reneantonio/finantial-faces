@@ -55,6 +55,7 @@ public class FinancaController implements Serializable{
     private Double financeValue;
     private String financeDescription;
     private FinanceService financeService;
+    
 
 
     public FinancaController() {
@@ -69,6 +70,9 @@ public class FinancaController implements Serializable{
     public List<String> getTiposFinanca() {
         return tiposFinanca;
     }
+
+  
+
 
     public void editDespesa(Outcome despesa){
         this.tipoCorrete = OUTCOME;
@@ -89,6 +93,7 @@ public class FinancaController implements Serializable{
     }
 
      public void onSelectOutcome(SelectEvent event) {
+            FinantialMonth fm = FinantialMonth.findByDate(despesa.getDate());
             tipoCorrete = OUTCOME;
             this.receita = null;
      }
