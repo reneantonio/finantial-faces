@@ -18,13 +18,12 @@
     <ui:define name="content">
     <ui:param name="menu" value="1"/>
 
-        <h:form id="main_form" prependId="false">
 
-            <p:outputPanel id="tab_panel" >
-                <p:panel header="Visualizar Finanças"  >
-                    <p:tabView id="tabs" dynamic="false" activeIndex="#{tabService.yearTabIndex}">
+            <p:panel header="Finanças de #{tabService.user.fullname}"  >
+                    <p:tabView id="tabs" dynamic="false" activeIndex="#{tabService.yearTabIndex}" >
                 <c:forEach id="fe" var="y" items="#{tabBean.tabYears}">
-                    <p:tab title="#{y.title}" >
+                    <p:tab title="#{y.title}"  >
+                    <h:form id="year_#{y.title}">
                             <p:tabView  dynamic="false" activeIndex="#{tabService.monthTabIndex}" style="min-width: 100%;width: auto;min-height: 300px" >
                             <c:forEach var="m" items="#{y.finantialMonths}">
                                 <p:tab title="#{msg[m.title]}" >
@@ -176,7 +175,9 @@
                                                          <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty m.currentUserOutcomesInTheMonth}"/>
                                                      </div>
                                                      <div align="center">
-                                                         <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" immediate="true"  oncomplete="monthOutcomeModal.show()" update="month_outcome"/>
+                                                         <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" immediate="true"  oncomplete="monthOutcomeModal.show()" update="month_outcome">
+                                                             <f:setPropertyActionListener target="#{financeBean.update}" value="year_#{y.title}"/>
+                                                         </p:commandButton>
                                                          </div>
                                                  </p:panel>
 
@@ -192,17 +193,16 @@
                             </c:forEach>
 
                             </p:tabView>
+                         <p:outputPanel id="include_finance">
+                             <ui:include src="add-financa.xhtml"/>
+                         </p:outputPanel>
+                        </h:form>
                     </p:tab>
                 </c:forEach>
             </p:tabView>
                     </p:panel>
-         </p:outputPanel>
-             <p:outputPanel id="include_finance">
-                 <ui:include src="add-financa.xhtml"/>
-             </p:outputPanel>
             <p:tooltip global="true" showEffect="slide"  hideEffect="slide"/>
 
-        </h:form>
              <p:outputPanel id="edit_finance">
                  <p:dialog  modal="true" widgetVar="editModal" header="Editar" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true">
                      <h:form prependId="false">
@@ -211,11 +211,11 @@
                  </p:dialog>
              </p:outputPanel>
                  <p:outputPanel id="month_outcome">
-                 <h:form prependId="false" id="month_form">
                  <p:dialog  modal="true" widgetVar="monthOutcomeModal" header="Incluir Despesa" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true">
+                     <h:form prependId="false" id="month_form">
                           <ui:include src="fragments/add-month-outcome.xhtml"/>
+                     </h:form>
                  </p:dialog>
-                 </h:form>
                  </p:outputPanel>
 
     </ui:define>

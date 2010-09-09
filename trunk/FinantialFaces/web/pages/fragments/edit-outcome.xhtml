@@ -30,7 +30,7 @@ and open the template in the editor.
          <div align="center">
          <h:panelGrid columns="2" cellspacing="10">
              <p:commandButton value="Remover"  action="#{financeBean.removeOutcome}" process="edit_grid_despesa" ajax="true" update="main_form,messages"/>
-             <p:commandButton value="salvar" actionListener="#{financeBean.updateOutcome}" process="edit_finance" ajax="true" update="main_form,edit_msg_outcome,messages" oncomplete="handleEdit(args)"/>
+             <p:commandButton value="salvar" actionListener="#{financeBean.updateOutcome}" process="edit_finance" ajax="true" update="#{financeBean.update},edit_msg_outcome,messages" oncomplete="handleEdit(args)"/>
          </h:panelGrid>
          </div>
          <p:messages id="edit_msg_outcome"/>
