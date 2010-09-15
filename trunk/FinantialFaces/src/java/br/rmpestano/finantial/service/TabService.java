@@ -22,6 +22,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.event.TabChangeEvent;
 
 /**
  * this class manage the years and the months in TabPanel
@@ -39,7 +40,10 @@ public class TabService implements Serializable{
     private List<String> listOfYears;
     private boolean specificYear = false;
     private User user;
-    private String update = "yearIdToUpdate";
+    private String currentTab;
+
+
+
 
 
      public void create(FinantialMonth fm){
@@ -60,6 +64,16 @@ public class TabService implements Serializable{
      public void specificYearMode() {
          this.specificYear = true;
      }
+
+    public String getCurrentTab() {
+        return currentTab;
+    }
+
+    public void setCurrentTab(String currentTab) {
+        this.currentTab = currentTab;
+    }
+
+
    public void update(FinantialMonth fm){
         try {
             monthCrudService.update(fm);
@@ -73,13 +87,6 @@ public class TabService implements Serializable{
    }
 
 
-     public String getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(String update) {
-        this.update = update;
-    }
 
     public Integer getMonthTabIndex() {
         return monthTabIndex;
@@ -342,5 +349,10 @@ public List<FinantialYear> getYearsToView(){
         this.numberOfYearsToView = numberOfYearsToView;
     }
 
+   public void onTabChange(TabChangeEvent event) {
+       this.currentTab = event.getTab().getTitle();
+
+
+    }
 
 }

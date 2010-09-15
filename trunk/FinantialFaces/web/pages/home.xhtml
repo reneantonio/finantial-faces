@@ -17,10 +17,12 @@
 
     <ui:define name="content">
     <ui:param name="menu" value="1"/>
+    <ui:param name="currentTab" value="year_#{tabService.currentTab}"/>
 
 
             <p:panel header="Finanças de #{tabService.user.fullname}"  >
-                    <p:tabView id="tabs" dynamic="false" activeIndex="#{tabService.yearTabIndex}" >
+                <h:form id="main" prependId="false">
+                <p:tabView id="tabs" dynamic="false" activeIndex="#{tabService.yearTabIndex}" tabChangeListener="#{tabService.onTabChange}" >
                 <c:forEach id="fe" var="y" items="#{tabBean.tabYears}">
                     <p:tab title="#{y.title}"  >
                     <h:form id="year_#{y.title}">
@@ -200,7 +202,9 @@
                     </p:tab>
                 </c:forEach>
             </p:tabView>
+    </h:form>
                     </p:panel>
+
             <p:tooltip global="true" showEffect="slide"  hideEffect="slide"/>
 
              <p:outputPanel id="edit_finance">
