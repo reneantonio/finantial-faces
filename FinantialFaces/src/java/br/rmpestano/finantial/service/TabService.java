@@ -33,15 +33,15 @@ import org.primefaces.event.TabChangeEvent;
 public class TabService implements Serializable{
     @Inject CrudService<FinantialYear> yearCrudService;
     @Inject CrudService<FinantialMonth> monthCrudService;
-    private Integer monthTabIndex = 0;
-    private Integer yearTabIndex = 0;
     private Integer numberOfYearsToView = 1;
     private String yearToView = "2010";
     private List<String> listOfYears;
     private boolean specificYear = false;
     private User user;
     private String currentYearForm = "year_2010";
+    private int currentYearIndex;
     private int currentMonthIndex;
+    private String selectedMonthName;
 
      public void create(FinantialMonth fm){
         try {
@@ -72,7 +72,6 @@ public class TabService implements Serializable{
     }
 
     public int getCurrentMonthIndex() {
-        System.out.println("MonthIndex:"+monthTabIndex);
         return currentMonthIndex;
     }
 
@@ -92,21 +91,14 @@ public class TabService implements Serializable{
 
    }
 
-    public Integer getMonthTabIndex() {
-        return monthTabIndex;
+    public int getCurrentYearIndex() {
+        return currentYearIndex;
     }
 
-    public void setMonthTabIndex(Integer monthTabIndex) {
-        this.monthTabIndex = monthTabIndex;
+    public void setCurrentYearIndex(int currentYearIndex) {
+        this.currentYearIndex = currentYearIndex;
     }
 
-    public Integer getYearTabIndex() {
-        return yearTabIndex;
-    }
-
-    public void setYearTabIndex(Integer yearTabIndex) {
-        this.yearTabIndex = yearTabIndex;
-    }
 
     public boolean isEspecificYear() {
         return specificYear;
@@ -115,6 +107,62 @@ public class TabService implements Serializable{
     public void setEspecificYear(boolean especificYear) {
         this.specificYear = especificYear;
     }
+
+    public String getSelectedMonthName() {
+        switch(currentMonthIndex){
+            case 0:{
+                selectedMonthName = "Janeiro";
+                break;
+            }
+            case 1:{
+                selectedMonthName = "Fevereiro";
+                break;
+            }
+            case 2:{
+                selectedMonthName = "Março";
+                break;
+            }
+            case 3:{
+                selectedMonthName = "Abril";
+                break;
+            }
+            case 4:{
+                selectedMonthName = "Maio";
+                break;
+            }
+            case 5:{
+                selectedMonthName = "Junho";
+                break;
+            }
+            case 6:{
+                selectedMonthName = "Julho";
+                break;
+            }
+            case 7:{
+                selectedMonthName = "Agosto";
+                break;
+            }
+            case 8:{
+                selectedMonthName = "Setembro";
+                break;
+            }
+            case 9:{
+                selectedMonthName = "Outubro";
+                break;
+            }
+            case 10:{
+                selectedMonthName = "Novembro";
+                break;
+            }
+            case 11:{
+                selectedMonthName = "Dezembro";
+                break;
+            }
+
+        }
+        return selectedMonthName;
+    }
+
 
 
 
@@ -349,8 +397,8 @@ public List<FinantialYear> getYearsToView(){
             c.setTime(d);
             FinantialMonth fm = FinantialMonth.findByDate(d);
             FinantialYear fy = fm.getFinantialYear();
-            yearTabIndex = this.findYearIndex(fy.getTitle());
-            monthTabIndex = c.get(Calendar.MONTH);
+            currentYearIndex = this.findYearIndex(fy.getTitle());
+            currentMonthIndex = c.get(Calendar.MONTH);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -371,5 +419,7 @@ public List<FinantialYear> getYearsToView(){
        }
 
     }
+
+
 
 }

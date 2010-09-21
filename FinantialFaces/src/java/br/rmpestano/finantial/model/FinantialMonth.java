@@ -203,7 +203,11 @@ public class FinantialMonth implements Serializable {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<FinantialMonth> cq = cb.createQuery(FinantialMonth.class);
         Root<FinantialMonth> root = cq.from(FinantialMonth.class);
-        return em.createQuery(cq.select(root).where(cb.equal(root.get("date"), c.getTime()))).getSingleResult();
+        try {
+            return em.createQuery(cq.select(root).where(cb.equal(root.get("date"), c.getTime()))).getSingleResult();
+        } catch (Exception e) {
+        }
+        return null;
     }
 
 

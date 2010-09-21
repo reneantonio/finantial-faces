@@ -61,7 +61,7 @@ and open the template in the editor.
                                 </h:selectOneMenu>
                             </p:outputPanel>
                            
-                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add" update="@form,messages"  style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
+                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="year_#{y.title},messages"  style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
                             </h:column>
                         </h:panelGrid>
                     </h:column>
@@ -70,28 +70,33 @@ and open the template in the editor.
                 </h:panelGrid>
         <table width="100%">
             <tr>
-                <td style="width: 110px">
-                    <h:panelGrid columns="2" cellspacing="2">
-                    <h:outputLabel value="Propagar Finança:"/>
-                    <h:graphicImage library="images" name="info1.png" title="Escolha os meses em que a finança deve ser incluida. Note que o dia e o ano permanecem os mesmos, apenas o mês é mudado."/>
-                     </h:panelGrid>
+                <td style="width: 170px;padding-left: 5px">
+                        <h:outputLabel value="Propagar finança nos proximos:"/>
                 </td>
                 <td align="left">
-                    <h:selectManyCheckbox layout="lineDirection" id="repeat_menu" value="#{financeBean.months}">
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 0}" itemLabel="jan" itemValue="#{y.title}-01-01"/>
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 1}" itemLabel="fev" itemValue="#{y.title}-02-01"/>
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 2}" itemLabel="mar" itemValue="#{y.title}-03-01"/>
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 3}" itemLabel="abr" itemValue="#{y.title}-04-01"/>
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 4}" itemLabel="mai" itemValue="#{y.title}-05-01"/>
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 5}" itemLabel="jun" itemValue="#{y.title}-06-01"/>
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 6}" itemLabel="jul" itemValue="#{y.title}-07-01"/>
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 7}" itemLabel="ago" itemValue="#{y.title}-08-01"/>
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 8}" itemLabel="set" itemValue="#{y.title}-09-01"/>
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 9}" itemLabel="out" itemValue="#{y.title}-10-01"/>
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 10}" itemLabel="nov" itemValue="#{y.title}-11-01"/>
-                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 11}" itemLabel="dez" itemValue="#{y.title}-12-01"/>
-
-                                </h:selectManyCheckbox>
+                    <div style="display: inline;margin-left: -15px">
+                    <h:selectOneMenu  id="repeat_menu" value="#{financeBean.numberOfMonthToPropagate}">
+                        <f:selectItem itemLabel="selecione uma opção" noSelectionOption="true" itemValue="0"/>
+                        <f:selectItem itemLabel="1 mês" itemValue="1"/>
+                        <f:selectItem itemLabel="2 meses" itemValue="2"/>
+                        <f:selectItem itemLabel="3 meses" itemValue="3"/>
+                        <f:selectItem itemLabel="4 meses" itemValue="4"/>
+                        <f:selectItem itemLabel="5 meses" itemValue="5"/>
+                        <f:selectItem itemLabel="6 meses" itemValue="6"/>
+                        <f:selectItem itemLabel="7 meses" itemValue="7"/>
+                        <f:selectItem itemLabel="8 meses" itemValue="8"/>
+                        <f:selectItem itemLabel="9 meses" itemValue="9"/>
+                        <f:selectItem itemLabel="10 meses" itemValue="10"/>
+                        <f:selectItem itemLabel="11 meses" itemValue="11"/>
+                        <f:selectItem itemLabel="1 ano" itemValue="12"/>
+                        <f:selectItem itemLabel="1 ano e 6 meses" itemValue="18"/>
+                        <f:selectItem itemLabel="2 anos" itemValue="24"/>
+                        <f:selectItem itemLabel="2 anos e 6 meses" itemValue="30"/>
+                        <f:selectItem itemLabel="3 anos" itemValue="36"/>
+                        <f:selectItem itemLabel="5 anos" itemValue="60"/>
+                    </h:selectOneMenu>
+                        <h:graphicImage style="margin-bottom:-4px ;margin-left: 2px" library="images" name="info1.png" id="info" title="Escolha o número de meses a partir da data escolhida no campo 'data' em que a finança também deve ser incluida."/>
+                    </div>
                 </td>
             </tr>
                 
