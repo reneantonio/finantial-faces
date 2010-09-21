@@ -45,7 +45,7 @@ public class LoginController implements Serializable{
             user = userService.findByLogin(this.user.getUsername());
 
         } catch (Exception e) {
-            MessagesController.addError( "problemas ao identificar usuário, por favor tente mais tarde",e.getMessage());
+            MessagesController.addError("problemas ao identificar usuário, por favor tente mais tarde",e.getMessage());
             e.printStackTrace();
             return null;
         }

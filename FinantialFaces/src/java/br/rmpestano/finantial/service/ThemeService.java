@@ -22,7 +22,8 @@ public class ThemeService implements Serializable {
     private ThemeExtraProperties themeProperties;
 
     public ThemeService() {
-        darkSkyInit();
+//        darkSkyInit();
+        uiDarknessInit();
     }
 
 

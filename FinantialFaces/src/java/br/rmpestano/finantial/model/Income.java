@@ -5,10 +5,13 @@
 
 package br.rmpestano.finantial.model;
 
-import java.io.Serializable;
+import br.rmpestano.finantial.util.PersistenceManager;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -21,9 +24,9 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name="income")
 public class Income extends BaseEntity {
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     private User user;
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     private FinantialMonth finantialMonth;
 
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -32,7 +35,7 @@ public class Income extends BaseEntity {
     private IncomeType type;
     private Double value;
     private String description;
-
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 
     public IncomeType getType() {
@@ -83,6 +86,11 @@ public class Income extends BaseEntity {
         this.user = user;
     }
 
+     public static List<Income> findMonthIncomesByUser(Long userId, Date month) {
+        EntityManager em = PersistenceManager.createEntityManager();
+        String sql = "select * from income o where o.USER_ID = '" + userId + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "'";
+        return em.createNativeQuery(sql, Income.class).getResultList();
+    }
 
     @Override
     public String toString() {

@@ -33,6 +33,9 @@ public class FinanceService {
     public void removeOutcome(Outcome outcome){
         outcomeCrudService.delete(outcome.getId(), Outcome.class);
     }
+    public void removeIncome(Income income){
+        incomeCrudService.delete(income.getId(), Income.class);
+    }
     public void updateOutcome(Outcome outcome){
         outcomeCrudService.update(outcome);
     }

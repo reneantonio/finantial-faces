@@ -40,11 +40,8 @@ public class TabService implements Serializable{
     private List<String> listOfYears;
     private boolean specificYear = false;
     private User user;
-    private String currentTab;
-
-
-
-
+    private String currentYearForm = "year_2010";
+    private int currentMonthIndex;
 
      public void create(FinantialMonth fm){
         try {
@@ -65,12 +62,22 @@ public class TabService implements Serializable{
          this.specificYear = true;
      }
 
-    public String getCurrentTab() {
-        return currentTab;
+    public String getCurrentYearForm() {
+        System.out.println("CurrentForm:"+currentYearForm);
+        return currentYearForm;
     }
 
-    public void setCurrentTab(String currentTab) {
-        this.currentTab = currentTab;
+    public void setCurrentYearForm(String currentYearForm) {
+        this.currentYearForm = currentYearForm;
+    }
+
+    public int getCurrentMonthIndex() {
+        System.out.println("MonthIndex:"+monthTabIndex);
+        return currentMonthIndex;
+    }
+
+    public void setCurrentMonthIndex(int currentMonthIndex) {
+        this.currentMonthIndex = currentMonthIndex;
     }
 
 
@@ -82,11 +89,8 @@ public class TabService implements Serializable{
             ex.printStackTrace();
             return;
         }
-        MessagesController.addInfo("Finança incluida com sucesso!");
 
    }
-
-
 
     public Integer getMonthTabIndex() {
         return monthTabIndex;
@@ -128,7 +132,21 @@ public class TabService implements Serializable{
         return -1;//não encontrou
     }
 
-    
+    /** get the tab year title looking to the tab index, ex: tab index of tab 2010 is 0, so the title which is returned is 2010 (2010 + 0 =2010)
+     *
+     * @param index
+     * @return
+     */
+    public String yearIndexToString(int index) {
+        Integer baseYear = 2010 + index;
+        return baseYear.toString();
+    }
+
+
+    /**
+     * ou a data é de um ano especifico ou é de 2010 até yearToView
+     * @return
+     */
 public String findfirstYear() {
         StringBuilder firstDate = new StringBuilder();
         if (specificYear == true) {
@@ -330,12 +348,9 @@ public List<FinantialYear> getYearsToView(){
             Calendar c = new GregorianCalendar();
             c.setTime(d);
             FinantialMonth fm = FinantialMonth.findByDate(d);
-
             FinantialYear fy = fm.getFinantialYear();
             yearTabIndex = this.findYearIndex(fy.getTitle());
             monthTabIndex = c.get(Calendar.MONTH);
-            System.out.println("Tab Month Inicial:"+monthTabIndex);
-            System.out.println("Tab Year Inicial:"+yearTabIndex);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -350,8 +365,10 @@ public List<FinantialYear> getYearsToView(){
     }
 
    public void onTabChange(TabChangeEvent event) {
-       this.currentTab = event.getTab().getTitle();
-
+       if (event.getTab() != null) {
+           this.currentYearForm = "year_"+event.getTab().getClientId().substring(5, 9);
+           this.currentMonthIndex = Integer.parseInt(event.getTab().getId().substring(event.getTab().getId().indexOf("b")+1));
+       }
 
     }
 
