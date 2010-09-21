@@ -34,6 +34,8 @@ and open the template in the editor.
                                 <h:inputText id="income_valor" value="#{financeBean.financeValue}"/>
                             </h:panelGrid>
                         </p:outputPanel>
+                        
+                        
                     </h:column>
                    
                     <h:column>
@@ -47,6 +49,7 @@ and open the template in the editor.
                                 <f:ajax execute="grid_add" render="select_subtipo grid_add"/>
                             </h:selectOneMenu>
                             <finantial:label for="select_subtipo_#{financeBean.tipoCorrete}"  value="&#160;&#160;&#160;#{msg['finance.label.subtipo']}:"/>
+
                             <p:outputPanel id="select_subtipo">
                                 <h:selectOneMenu id="select_subtipo_income" rendered="#{financeBean.tipoCorrete eq financeBean.INCOME}"  value="#{financeBean.subtipoIncomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
                                     <f:selectItems value="#{financeBean.subtiposIncome}" var="subtipo" itemLabel="#{msg['subtipo.income.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
@@ -57,12 +60,42 @@ and open the template in the editor.
                                     <f:converter converterId="outcomeConveter"/>
                                 </h:selectOneMenu>
                             </p:outputPanel>
-                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add" ajax="true" update="year_#{y.title},messages"  style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
+                           
+                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add" update="@form,messages"  style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
                             </h:column>
                         </h:panelGrid>
                     </h:column>
-                </h:panelGrid>
 
+
+                </h:panelGrid>
+        <table width="100%">
+            <tr>
+                <td style="width: 110px">
+                    <h:panelGrid columns="2" cellspacing="2">
+                    <h:outputLabel value="Propagar Finança:"/>
+                    <h:graphicImage library="images" name="info1.png" title="Escolha os meses em que a finança deve ser incluida. Note que o dia e o ano permanecem os mesmos, apenas o mês é mudado."/>
+                     </h:panelGrid>
+                </td>
+                <td align="left">
+                    <h:selectManyCheckbox layout="lineDirection" id="repeat_menu" value="#{financeBean.months}">
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 0}" itemLabel="jan" itemValue="#{y.title}-01-01"/>
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 1}" itemLabel="fev" itemValue="#{y.title}-02-01"/>
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 2}" itemLabel="mar" itemValue="#{y.title}-03-01"/>
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 3}" itemLabel="abr" itemValue="#{y.title}-04-01"/>
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 4}" itemLabel="mai" itemValue="#{y.title}-05-01"/>
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 5}" itemLabel="jun" itemValue="#{y.title}-06-01"/>
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 6}" itemLabel="jul" itemValue="#{y.title}-07-01"/>
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 7}" itemLabel="ago" itemValue="#{y.title}-08-01"/>
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 8}" itemLabel="set" itemValue="#{y.title}-09-01"/>
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 9}" itemLabel="out" itemValue="#{y.title}-10-01"/>
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 10}" itemLabel="nov" itemValue="#{y.title}-11-01"/>
+                        <f:selectItem itemDisabled="#{tabService.monthTabIndex eq 11}" itemLabel="dez" itemValue="#{y.title}-12-01"/>
+
+                                </h:selectManyCheckbox>
+                </td>
+            </tr>
+                
+              </table>
             </p:panel>
 
         

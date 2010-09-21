@@ -59,16 +59,19 @@ public class FinantialMonth implements Serializable {
     @Transient
     private Double totalIncomeInTheMonth;
 
-    public List<Income> getCurrentUserIncomesInTheMonth() {
-         List<Income> userIncomes = new ArrayList<Income>();
-            User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-             for (Income income : monthIncomes) {
-                if(income.getUser().getId().equals(u.getId())){
-                    userIncomes.add(income);
-                }
-            }
+    @Transient
+    private int monthIndex;
 
-        return userIncomes;
+    public List<Income> getCurrentUserIncomesInTheMonth() {
+//         List<Income> userIncomes = new ArrayList<Income>();
+            User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+//             for (Income income : monthIncomes) {
+//                if(income.getUser().getId().equals(u.getId())){
+//                    userIncomes.add(income);
+//                }
+//            }
+
+      return Income.findMonthIncomesByUser(u.getId(),this.date);
     }
     public List<Outcome> getCurrentUserOutcomesInTheMonth() {
 //         List<Outcome> userOutcomes = new ArrayList<Outcome>();
@@ -81,6 +84,12 @@ public class FinantialMonth implements Serializable {
 //
 //        return userOutcomes;
         return Outcome.findMonthOutcomesByUser(u.getId(),this.date);
+    }
+
+    public int getMonthIndex() {
+        Calendar c = new GregorianCalendar();
+        c.setTime(date);
+        return c.get(Calendar.MONTH);
     }
 
     
@@ -128,7 +137,7 @@ public class FinantialMonth implements Serializable {
 
     public Double getTotalOutcomeInTheMonth() {
         Double total =new Double(0);
-        for (Outcome outcome : monthOutcomes) {
+        for (Outcome outcome : getCurrentUserOutcomesInTheMonth()) {
                 if(outcome.getValue() != null){
                 total+=outcome.getValue();
             }
@@ -137,7 +146,7 @@ public class FinantialMonth implements Serializable {
     }
     public Double getTotalIncomeInTheMonth() {
         Double total =new Double(0);
-        for (Income income : monthIncomes) {
+        for (Income income : getCurrentUserIncomesInTheMonth()) {
             if(income.getValue() != null)
                total+=income.getValue();
         }
@@ -164,26 +173,30 @@ public class FinantialMonth implements Serializable {
         em.merge(fm);
         em.getTransaction().commit();
     }
-    public List<FinantialMonth> findAll(){
+    public static List<FinantialMonth> findAll(){
         EntityManager em = PersistenceManager.createEntityManager();
         return em.createQuery("select f FROM FinantialMonth f").getResultList();
     }
 
-    public static FinantialMonth findByTitle(String title){
-        EntityManager em = PersistenceManager.createEntityManager();
-        Query q = em.createQuery("select f FROM FinantialMonth f WHERE f.title =:title");
-        q.setParameter("title", title);
-        return (FinantialMonth) q.getResultList().get(0);
-    }
+//    public static FinantialMonth findByTitle(String title){
+//        EntityManager em = PersistenceManager.createEntityManager();
+//        Query q = em.createQuery("select f FROM FinantialMonth f WHERE f.title =:title");
+//        q.setParameter("title", title);
+//        return (FinantialMonth) q.getResultList().get(0);
+//    }
     public static FinantialMonth findById(Date id){
-        EntityManager em = PersistenceManager.createEntityManager();
+            EntityManager em = PersistenceManager.createEntityManager();
         Query q = em.createQuery("select f FROM FinantialMonth f WHERE f.date =:id");
         q.setParameter("id", id);
         return (FinantialMonth) q.getResultList().get(0);
     }
 
+
     public static FinantialMonth findByDate(Date d){
         Calendar c = new GregorianCalendar();
+        if(d == null){
+            d = new Date();
+        }
         c.setTime(d);
         c.set(Calendar.DAY_OF_MONTH, 1);
         EntityManager em = PersistenceManager.createEntityManager();

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.prime.com.tr/ui"
+        xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+     <p:panel>
+
+         <p:fieldset legend="Tem certeza que deseja deletar esta receita?" style="text-align: center;padding: 10px">
+             <div style="display: inline;">
+                     <p:commandButton value="cancelar" onclick="removeModal.hide()" action="#{financeBean.cancelRemove}" style="margin-left:-10px"/>
+                     <p:commandButton value="ok" actionListener="#{financeBean.removeIncome}" async="true" ajax="true" update="#{tabService.currentYearForm}:panel#{tabService.currentMonthIndex},remove_msg_income,messages" oncomplete="handleRemove(args)" style="margin-left: 10px" />
+             </div>
+             </p:fieldset>
+         <p:messages id="remove_msg_income"/>
+     </p:panel>
+
+
+
+
+<script type="text/javascript">
+    function handleRemove(args){
+            setTimeout("wait()",1000);
+
+    }
+
+    function wait(){
+        removeModal.hide();
+    }
+
+</script>
+</ui:composition>

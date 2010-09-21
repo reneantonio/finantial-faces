@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.prime.com.tr/ui"
+        xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+
+     <p:panel>
+        <h:panelGrid id="month_income_grid" columns="2">
+            <h:outputLabel for="month_income_description" value="Descrição:"/>
+            <h:inputText required="true" id="month_income_description" value="#{financeBean.receita.description}"/>
+            <h:outputLabel for="month_income_data" value="Data:"/>
+            <p:calendar id="month_income_data" effectDuration="0.5" value="#{financeBean.receita.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{financeBean.firstDayOfMonth}" maxdate="#{financeBean.lastDayOfMonth}"  popupIcon="../resources/images/calendar.png"/>
+            <h:outputLabel for="month_income_value" value="Valor:"/>
+            <h:inputText id="month_income_value" value="#{financeBean.receita.value}"/>
+            <finantial:label for="month_income_subtipo"  value="#{msg['finance.label.subtipo']}:"/>
+            <h:selectOneMenu id="month_income_subtipo" value="#{financeBean.receita.type}" style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
+                <f:selectItems value="#{financeBean.subtiposIncome}" var="subtipo" itemLabel="#{msg['subtipo.income.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
+                                    <f:converter converterId="incomeConveter"/>
+                                </h:selectOneMenu>
+        </h:panelGrid>
+         <div align="center">
+         <h:panelGrid columns="2" cellspacing="10">
+             <p:commandButton value="salvar"  action="#{financeBean.addMonthIncome}" async="true" ajax="true"  update="#{tabService.currentYearForm}:panel#{tabService.currentMonthIndex},month_income_msg" oncomplete="handleAdd(args)"/>
+         </h:panelGrid>
+         </div>
+         <p:messages id="month_income_msg"/>
+     </p:panel>
+
+    <script type="text/javascript">
+    function handleAdd(args){
+        if(args.validationFailed == false){
+            setTimeout("wait()",1000);
+        }
+    }
+
+    function wait(){
+        monthModal.hide();
+    }
+
+</script>
+</ui:composition>
