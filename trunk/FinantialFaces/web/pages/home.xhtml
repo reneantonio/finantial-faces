@@ -19,11 +19,11 @@
     <ui:param name="menu" value="1"/>
     <ui:param name="monthIndex" value="#{tabService.currentMonthIndex}"/>
             <p:panel header="Finanças de #{tabService.user.fullname}"  >
-                <p:tabView id="tabs" dynamic="false"  activeIndex="#{tabService.yearTabIndex}" >
+                <p:tabView id="tabs" dynamic="false"  activeIndex="#{tabService.currentYearIndex}" >
                 <c:forEach id="fe" var="y" items="#{tabBean.tabYears}">
                     <p:tab title="#{y.title}"  >
                     <h:form id="year_#{y.title}">
-                        <p:tabView dynamic="false" activeIndex="#{tabService.monthTabIndex}" onTabChangeUpdate="panel#{tabService.currentMonthIndex},repeat_menu" tabChangeListener="#{tabService.onTabChange}" style="min-width: 100%;width: auto;min-height: 300px" >
+                        <p:tabView dynamic="true" activeIndex="#{tabService.currentMonthIndex}" onTabChangeUpdate="panel#{tabService.currentMonthIndex}" tabChangeListener="#{tabService.onTabChange}" style="min-width: 100%;width: auto;min-height: 300px" >
                             <c:forEach var="m" items="#{y.finantialMonths}">
                                 <p:tab title="#{msg[m.title]}" id="tab#{m.monthIndex}" >
                                     <p:outputPanel id="panel#{m.monthIndex}">

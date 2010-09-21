@@ -59,9 +59,7 @@ public class FinancaController implements Serializable{
     private Outcome selectedOutcome;
     private Income selectedIncome;
     private FinanceService financeService;
-    private List<Date> months;
-
-    
+    private int numberOfMonthToPropagate;
 
 
     public FinancaController() {
@@ -71,7 +69,6 @@ public class FinancaController implements Serializable{
         financeService = (FinanceService) BeanManagerController.getBeanByName("financeService");
         receita = new Income();
         despesa = new Outcome();
-        months = new ArrayList<Date>();
     }
 
     public List<String> getTiposFinanca() {
@@ -96,12 +93,12 @@ public class FinancaController implements Serializable{
         return firstDayOfMonth;
     }
 
-    public List<Date> getMonths() {
-        return months;
+    public int getNumberOfMonthToPropagate() {
+        return numberOfMonthToPropagate;
     }
 
-    public void setMonths(List<Date> months) {
-        this.months = months;
+    public void setNumberOfMonthToPropagate(int numberOfMonthToPropagate) {
+        this.numberOfMonthToPropagate = numberOfMonthToPropagate;
     }
 
 
@@ -211,7 +208,9 @@ public class FinancaController implements Serializable{
 
     public void incluir(ActionEvent ev) {
         try {
-
+            if(numberOfMonthToPropagate > 0){
+                propagateFinance(numberOfMonthToPropagate);
+            }
             FinantialMonth fm = FinantialMonth.findByDate(date);
             if (tipoCorrete.equals(INCOME)) {
                 receita = new Income();
@@ -222,7 +221,6 @@ public class FinancaController implements Serializable{
                 fm.getMonthIncomes().add(receita);
                 receita.setFinantialMonth(fm);
                 receita.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
-                selectedIncome = receita;
             }
             if (tipoCorrete.equals(OUTCOME)) {
                 despesa = new Outcome();
@@ -233,10 +231,9 @@ public class FinancaController implements Serializable{
                 fm.getMonthOutcomes().add(despesa);
                 despesa.setFinantialMonth(fm);
                 despesa.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
-                selectedOutcome = despesa;
             }
             tabService.update(fm);
-            tabService.setYearTabIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
+            tabService.setCurrentYearIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
             MessagesController.addInfo(tipoCorrete.equals(INCOME) ? "Receita incluida com sucesso!": "Despesa incluida com sucesso");
             this.setCurrentTab(date);
             Map<String,Object> map =  FacesContext.getCurrentInstance().getViewRoot().getViewMap();
@@ -347,8 +344,8 @@ public class FinancaController implements Serializable{
             c.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
             c.setTime(date);
             c.set(Calendar.DAY_OF_MONTH, 1);
-            tabService.setMonthTabIndex(c.get(Calendar.MONTH));
-            tabService.setYearTabIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
+            tabService.setCurrentMonthIndex(c.get(Calendar.MONTH));
+            tabService.setCurrentYearIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
         }
 
     }
@@ -459,6 +456,38 @@ public class FinancaController implements Serializable{
     public void rowSelectIncome(SelectEvent event){
         tipoCorrete = INCOME;
         selectedOutcome = new Outcome();
+    }
+
+    private void propagateFinance(int numberOfMonthToPropagate) {
+        for (int i = 1; i <= numberOfMonthToPropagate; i++) {
+            Calendar c = new GregorianCalendar();
+            c.setTime(date);
+            c.add(Calendar.MONTH, i);
+            FinantialMonth fm = FinantialMonth.findByDate(c.getTime());
+            if (fm != null) {
+                if (tipoCorrete.equals(INCOME)) {
+                    receita = new Income();
+                    receita.setDate(c.getTime());
+                    receita.setDescription(financeDescription);
+                    receita.setValue(financeValue);
+                    receita.setType(subtipoIncomeCorrete);
+                    fm.getMonthIncomes().add(receita);
+                    receita.setFinantialMonth(fm);
+                    receita.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
+                } else {
+                    despesa = new Outcome();
+                    despesa.setDate(c.getTime());
+                    despesa.setDescription(financeDescription);
+                    despesa.setValue(financeValue);
+                    despesa.setType(subtipoOutcomeCorrete);
+                    fm.getMonthOutcomes().add(despesa);
+                    despesa.setFinantialMonth(fm);
+                    despesa.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
+                }
+                 tabService.update(fm);
+            }
+        }
+
     }
 
 }
