@@ -17,19 +17,30 @@
 
     <ui:define name="content">
     <ui:param name="menu" value="1"/>
-            <p:panel header="Finanças de #{tabService.user.fullname}"  >
-                <p:tabView id="tabs" dynamic="false"  activeIndex="#{tabService.currentYearIndex}" >
-                <c:forEach id="fe" var="y" items="#{tabBean.tabYears}">
-                    <p:tab title="#{y.title}"  >
-                    <h:form id="year_#{y.title}">
-                        <p:tabView dynamic="true" cache="false" activeIndex="#{tabService.currentMonthIndex}" onTabChangeUpdate="panel#{tabService.currentMonthIndex}" tabChangeListener="#{tabService.onTabChange}" style="min-width: 100%;width: auto;min-height: 300px" >
-                            <c:forEach var="m" items="#{y.finantialMonths}">
-                                <p:tab title="#{msg[m.title]}" id="tab#{m.monthIndex}" >
-                                    <p:outputPanel id="panel#{m.monthIndex}">
-                                    <table width="100%">
+        
+    <p:panel header="Finanças de #{tabService.user.fullname}"  >
+       
+            <table width="100%">
+                <tr>
+                    <td align="center" valign="middle">
+                        <h:panelGrid columns="3" cellspacing="10" style="margin-top: 25px">
+                            <h:graphicImage library="images" name="backward.png"/>
+                            <p:commandButton value="#{tabBean.currentYear.title}"  style="font-size: 13px!important;" type="button"/>
+                            <h:graphicImage library="images" name="forward.png"/>
+                        </h:panelGrid>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <h:form id="months_form">
+                        <p:outputPanel id="months_panel">
+                            <p:tabView dynamic="false" activeIndex="#{tabService.currentMonthIndex}">
+                                <p:tab title="#{msg[tabBean.currentYear.jan.title]}" >
+                                    <ui:param name="jan" value="#{tabBean.currentYear.jan}"/>
+                                     <table width="100%">
                                              <td width="50%" align="left">
                                                       <p:panel  header="Receitas" toggleable="true" style="text-align: center" toggleSpeed="700">
-                                                          <p:dataTable var="r" id="income_table#{m.monthIndex}"  value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}" paginator="true" rows="5"
+                                                          <p:dataTable var="r" id="income_table#{jan.monthIndex}"  value="#{jan.currentUserIncomesInTheMonth}" rendered="#{not empty jan.currentUserIncomesInTheMonth}" paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
                                                          <p:column resizable="true" sortBy="#{r.date}" parser="date" >
                                                              <f:facet name="header">
@@ -86,7 +97,7 @@
                                                                              <p:panel style="width: 200px;min-height: 25px;height: auto ">
                                                                                  <div align="center">
                                                                                      <h:outputLabel style="font-weight: bold" for="total_receita" value="#{msg['finance.label.total']}:"/>
-                                                                                     <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_receita" value="#{m.totalIncomeInTheMonth}"/>
+                                                                                     <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_receita" value="#{jan.totalIncomeInTheMonth}"/>
                                                                                  </div>
                                                                              </p:panel>
 
@@ -98,17 +109,17 @@
 
                                                      </p:dataTable>
                                                      <div align="center">
-                                                         <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px" rendered="#{empty m.currentUserIncomesInTheMonth}"/>
+                                                         <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px" rendered="#{empty jan.currentUserIncomesInTheMonth}"/>
                                                      </div>
                                                           <div align="center" style="padding-top: 15px">
-                                                         <p:commandButton title="#{msg['finance.tooltip.add-income']}" action="#{financeBean.prepareAddMonthIncome(m)}" value="Nova Receita" async="true" immediate="true" update="month_panel,month_income_msg"  oncomplete="monthModal.show()" />
+                                                         <p:commandButton title="#{msg['finance.tooltip.add-income']}" action="#{financeBean.prepareAddMonthIncome(jan)}" value="Nova Receita" async="true" immediate="true" update="month_panel,month_income_msg"  oncomplete="monthModal.show()" />
                                                          </div>
                                                  </p:panel>
 
                                              </td>
                                              <td  width="50%" align="right">
                                                  <p:panel header="Despesas"  style="text-align: center" toggleable="true" toggleSpeed="700">
-                                                     <p:dataTable id="outcome_table#{m.monthIndex}" var="d" value="#{m.currentUserOutcomesInTheMonth}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
+                                                     <p:dataTable id="outcome_table#{jan.monthIndex}" var="d" value="#{jan.currentUserOutcomesInTheMonth}" rendered="#{not empty jan.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
                                                          <p:column sortBy="#{d.date}" parser="date" >
                                                              <f:facet name="header">
@@ -170,7 +181,7 @@
                                                                              <p:panel style="width: 200px;min-height: 25px;height: auto ">
                                                                                  <div align="center">
                                                                                      <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
-                                                                                     <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{m.totalOutcomeInTheMonth}"/>
+                                                                                     <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{jan.totalOutcomeInTheMonth}"/>
                                                                                  </div>
                                                                              </p:panel>
 
@@ -182,27 +193,57 @@
 
                                                      </p:dataTable>
                                                      <div align="center">
-                                                         <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty m.currentUserOutcomesInTheMonth}"/>
+                                                         <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty jan.currentUserOutcomesInTheMonth}"/>
                                                      </div>
                                                      <div align="center" style="padding-top: 15px">
-                                                         <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" async="true" immediate="true" update="month_panel,month_outcome_msg"  oncomplete="monthModal.show()" />
+                                                         <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(jan)}" value="Nova Despesa" async="true" immediate="true" update="month_panel,month_outcome_msg"  oncomplete="monthModal.show()" />
                                                          </div>
                                                  </p:panel>
 
                                              </td>
                                          </table>
-                                       </p:outputPanel>
+
                                 </p:tab>
-                            </c:forEach>
+                                <p:tab title="#{msg[tabBean.currentYear.fev.title]}" >
+                                
+                                </p:tab>
+                                <p:tab title="#{msg[tabBean.currentYear.mar.title]}" >
+                                
+                                </p:tab>
+                                <p:tab title="#{msg[tabBean.currentYear.abr.title]}" >
+                                
+                                </p:tab>
+                                <p:tab title="#{msg[tabBean.currentYear.mai.title]}" >
+                                
+                                </p:tab>
+                                <p:tab title="#{msg[tabBean.currentYear.jun.title]}" >
+                                
+                                </p:tab>
+                                <p:tab title="#{msg[tabBean.currentYear.jul.title]}" >
+                                
+                                </p:tab>
+                                <p:tab title="#{msg[tabBean.currentYear.ago.title]}" >
+                                
+                                </p:tab>
+                                <p:tab title="#{msg[tabBean.currentYear.set.title]}" >
+                                
+                                </p:tab>
+                                <p:tab title="#{msg[tabBean.currentYear.out.title]}" >
+                                
+                                </p:tab>
+                                <p:tab title="#{msg[tabBean.currentYear.nov.title]}" >
+                                
+                                </p:tab>
+                                <p:tab title="#{msg[tabBean.currentYear.dez.title]}" >
+                                
+                                </p:tab>
                             </p:tabView>
-                         <p:outputPanel id="include_finance">
-                                <ui:include src="add-financa.xhtml"/>
-                         </p:outputPanel>
+                            </p:outputPanel>
                         </h:form>
-                    </p:tab>
-                </c:forEach>
-            </p:tabView>
-                    </p:panel>
+                    </td>
+                </tr>
+            </table>
+            </p:panel>
 
             <p:tooltip global="true" showEffect="slide"  hideEffect="slide"/>
 

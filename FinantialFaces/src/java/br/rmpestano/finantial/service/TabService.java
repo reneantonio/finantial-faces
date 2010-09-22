@@ -42,7 +42,8 @@ public class TabService implements Serializable{
     private int currentYearIndex;
     private int currentMonthIndex;
     private String selectedMonthName;
-
+    private int maxYearIndex;
+    
      public void create(FinantialMonth fm){
         try {
             monthCrudService.create(fm);
@@ -51,6 +52,11 @@ public class TabService implements Serializable{
         }
 
    }
+
+    public int getMaxYearIndex() {
+        return maxYearIndex;
+    }
+     
      
      public String changeNumYearstoView(Integer years){
          this.numberOfYearsToView = years;
@@ -165,7 +171,9 @@ public class TabService implements Serializable{
 
 
 
-
+    public List<FinantialYear> getAllFinantialYears(){
+        return yearCrudService.findAll(FinantialYear.class);
+    }
 
     public int findYearIndex(String title){
         int index = 0;
@@ -190,11 +198,23 @@ public class TabService implements Serializable{
         return baseYear.toString();
     }
 
-
+/**
+ * 
+ * @return ano corrente
+ */
+    public FinantialYear getInitialFinantialYear(){
+        Date d = new Date();
+        Calendar c = new GregorianCalendar();
+        c.setTime(d);
+        c.get(Calendar.YEAR);
+        return FinantialYear.findByYear(""+ c.get(Calendar.YEAR));
+    }
+    
     /**
      * ou a data é de um ano especifico ou é de 2010 até yearToView
      * @return
      */
+    
 public String findfirstYear() {
         StringBuilder firstDate = new StringBuilder();
         if (specificYear == true) {
@@ -259,11 +279,14 @@ public List<FinantialYear> getYearsToView(){
 
 
 
-
+    
+    
     @PostConstruct
     public void init(){
+        List<FinantialYear> years = yearCrudService.findAll(FinantialYear.class);
+        maxYearIndex = years.size();
         listOfYears = new ArrayList<String>();
-        for(int i=2010;i<=2030;i++){
+        for(int i=2010;i<=2010+maxYearIndex;i++){
             listOfYears.add(new String(""+i));
         }
         setInitialTabs();
@@ -401,6 +424,17 @@ public List<FinantialYear> getYearsToView(){
             currentMonthIndex = c.get(Calendar.MONTH);
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    public void nextYear(){
+        if(currentYearIndex < maxYearIndex){
+            currentYearIndex ++;
+        }
+    }
+    public void previousYear(){
+        if(currentYearIndex > 0){
+            currentYearIndex --;
         }
     }
 
