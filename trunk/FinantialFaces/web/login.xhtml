@@ -3,11 +3,11 @@
     <ui:composition  xmlns:ui="http://java.sun.com/jsf/facelets"
                      xmlns="http://www.w3.org/1999/xhtml"
                   template="/template/main-template.xhtml"
-                  xmlns:p="http://primefaces.prime.com.tr/ui"
                   xmlns:h="http://java.sun.com/jsf/html"
                   xmlns:f="http://java.sun.com/jsf/core"
                   xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
-                  xmlns:c="http://java.sun.com/jsp/jstl/core">
+                  xmlns:c="http://java.sun.com/jsp/jstl/core"
+                  xmlns:p="http://primefaces.prime.com.tr/ui">
         <ui:define name="head">
 
             <ui:param name="menu" value="0"/>
@@ -17,6 +17,7 @@
         <h:form id="login_form">
             <div id="login_content">
                 <table width="100%">
+                    <tr>
                     <td align="center">
                         <p:panel header="#{msg['login.panel.header']}"  style="width: 420px;height: auto;margin: 15px">
                             <p:messages />
@@ -32,7 +33,7 @@
 
                         </p:panel>
                     </td>
-
+                    </tr>
                 </table>
             </div>
         </h:form>

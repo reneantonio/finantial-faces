@@ -34,7 +34,28 @@ public class FinantialYear extends BaseEntity implements Comparable<FinantialYea
     private FinantialMonth jan;
     @Transient
     private FinantialMonth fev;
-
+    @Transient
+    private FinantialMonth mar;
+    @Transient
+    private FinantialMonth abr;
+    @Transient
+    private FinantialMonth mai;
+    @Transient
+    private FinantialMonth jun;
+    @Transient
+    private FinantialMonth jul;
+    @Transient
+    private FinantialMonth ago;
+    @Transient
+    private FinantialMonth set;
+    @Transient
+    private FinantialMonth out;
+    @Transient
+    private FinantialMonth nov;
+    @Transient
+    private FinantialMonth dez;
+     
+          
     @Transient
     private String firstDateOfYear;
     @Transient
@@ -103,12 +124,55 @@ public class FinantialYear extends BaseEntity implements Comparable<FinantialYea
     }
 
 
-
     public FinantialMonth getJan() {
          return finantialMonths.get(0);
     }
 
+    public FinantialMonth getAbr() {
+        return finantialMonths.get(3);
+    }
+
+    public FinantialMonth getAgo() {
+        return finantialMonths.get(7);
+    }
+
+    public FinantialMonth getDez() {
+        return finantialMonths.get(11);
+    }
+
+    public FinantialMonth getJul() {
+        return finantialMonths.get(6);
+    }
+
+    public FinantialMonth getJun() {
+        return finantialMonths.get(5);
+    }
+
+    public FinantialMonth getMai() {
+        return finantialMonths.get(4);
+    }
+
+    public FinantialMonth getMar() {
+        return finantialMonths.get(2);
+    }
+
+    public FinantialMonth getNov() {
+        return finantialMonths.get(10);
+    }
+
+    public FinantialMonth getOut() {
+        return finantialMonths.get(9);
+    }
+
+    public FinantialMonth getSet() {
+        return finantialMonths.get(8);
+    }
     
+
+    @Override
+    public String toString(){
+        return this.title;
+    }
 
 
 

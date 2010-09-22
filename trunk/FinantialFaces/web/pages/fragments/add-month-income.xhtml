@@ -31,7 +31,7 @@ and open the template in the editor.
         </h:panelGrid>
          <div align="center">
          <h:panelGrid columns="2" cellspacing="10">
-             <p:commandButton value="salvar"  action="#{financeBean.addMonthIncome}" async="true" ajax="true"  update="#{tabService.currentYearForm}:panel#{tabService.currentMonthIndex},month_income_msg" oncomplete="handleAdd(args)"/>
+             <p:commandButton value="salvar"  action="#{financeBean.addMonthIncome}" async="true" ajax="true"  update="months_form:months_panel,month_income_msg" oncomplete="handleAdd(args)"/>
          </h:panelGrid>
          </div>
          <p:messages id="month_income_msg"/>
