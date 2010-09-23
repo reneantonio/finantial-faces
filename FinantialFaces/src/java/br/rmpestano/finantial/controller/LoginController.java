@@ -81,7 +81,7 @@ public class LoginController implements Serializable{
      public void doLogout(ActionEvent event) throws IOException{
 	     final HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	     request.getSession(false).invalidate();
-             FacesContext.getCurrentInstance().getExternalContext().redirect("/FinantialFaces");
+             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getContextName());
 	}
 
 }

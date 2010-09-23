@@ -14,7 +14,7 @@ and open the template in the editor.
         xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 
-    <p:panel header="Incluir Finança em #{y.title}">
+    <p:panel header="Inclusão de Finanças">
 
                 <h:panelGrid columns="3" cellpadding="0" id="grid_add">
                     <h:column>
@@ -61,7 +61,7 @@ and open the template in the editor.
                                 </h:selectOneMenu>
                             </p:outputPanel>
                            
-                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="year_#{y.title},messages"  style="background: #{themeService.themeProperties.BUTTON_BACKGROUND};margin-left: 10px" onmouseover="#{themeService.themeProperties.MOUSEOVER_EVENT}" onmouseout="#{themeService.themeProperties.MOUSEOUT_EVENT}"/>
+                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="@form,messages" style="margin-left: 6px" />
                             </h:column>
                         </h:panelGrid>
                     </h:column>
