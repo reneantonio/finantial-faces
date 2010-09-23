@@ -7,6 +7,7 @@
                   xmlns:p="http://primefaces.prime.com.tr/ui"
                   xmlns:h="http://java.sun.com/jsf/html"
                   xmlns:f="http://java.sun.com/jsf/core"
+                  xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
                   xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <ui:define name="head">
@@ -23,10 +24,16 @@
             <table width="100%">
                 <tr>
                     <td align="center" valign="middle">
-                        <h:panelGrid columns="3" cellspacing="10" style="margin-top: 25px">
-                            <h:graphicImage library="images" name="backward.png"/>
-                            <p:commandButton value="#{tabBean.currentYear.title}"  style="font-size: 13px!important;" type="button"/>
-                            <h:graphicImage library="images" name="forward.png"/>
+                        <h:panelGrid columns="3" cellspacing="10" id="grid_carroussel" style="margin-top: 25px">
+                            <h:graphicImage library="images" name="backward.png" style="cursor: pointer">
+                                    <p:effect type="explode" speed="1000" for="currentYearBt" event="click" />
+                                    <f:ajax event="click" render="grid_carroussel months_form" execute="grid_carroussel" listener="#{tabService.previousYear}"/>
+                            </h:graphicImage>
+                            <p:commandButton  value="#{tabBean.currentYear.title}" id="currentYearBt" style="font-size: 13px!important;" type="button"/>
+                            <h:graphicImage library="images" name="forward.png" style="cursor: pointer">
+                                <p:effect type="explode" speed="1000" for="currentYearBt" event="click" />
+                                <f:ajax event="click" render="grid_carroussel months_form" execute="grid_carroussel" listener="#{tabService.nextYear}"/>
+                            </h:graphicImage>
                         </h:panelGrid>
                     </td>
                 </tr>
@@ -36,206 +43,41 @@
                         <p:outputPanel id="months_panel">
                             <p:tabView dynamic="false" activeIndex="#{tabService.currentMonthIndex}">
                                 <p:tab title="#{msg[tabBean.currentYear.jan.title]}" >
-                                    <ui:param name="jan" value="#{tabBean.currentYear.jan}"/>
-                                     <table width="100%">
-                                             <td width="50%" align="left">
-                                                      <p:panel  header="Receitas" toggleable="true" style="text-align: center" toggleSpeed="700">
-                                                          <p:dataTable var="r" id="income_table#{jan.monthIndex}"  value="#{jan.currentUserIncomesInTheMonth}" rendered="#{not empty jan.currentUserIncomesInTheMonth}" paginator="true" rows="5"
-                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
-                                                         <p:column resizable="true" sortBy="#{r.date}" parser="date" >
-                                                             <f:facet name="header">
-                                                                 <h:outputLabel value="#{msg['finance.label.data']}"/>
-                                                             </f:facet>
-                                                             <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
-                                                                    <h:outputText value="#{r.date}" >
-                                                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                                                    </h:outputText>
-                                                                </p:commandLink>
-                                                         </p:column>
-                                                         <p:column resizable="true">
-                                                             <f:facet name="header">
-                                                                 <h:outputLabel value="#{msg['login.label.username']}"/>
-                                                             </f:facet>
-                                                             <p:commandLink  value="#{r.user}" style="text-decoration: none" />
-                                                         </p:column>
-                                                         <p:column resizable="true">
-                                                             <f:facet name="header">
-                                                                 <h:outputLabel value="#{msg['finance.label.descricao']}"/>
-                                                             </f:facet>
-                                                             <p:commandLink value="#{r.description}" style="text-decoration: none"/>
-                                                         </p:column>
-                                                          <p:column resizable="true">
-                                                             <f:facet name="header">
-                                                                <h:outputLabel value="#{msg['finance.label.tipo']}"/>
-                                                             </f:facet>
-                                                              <p:commandLink value="#{msg['subtipo.income.'.concat(r.type)]}" style="text-decoration: none" />
-                                                         </p:column>
-                                                         <p:column resizable="true" sortBy="#{r.value}" parser="number">
-                                                             <f:facet name="header">
-                                                                #{msg['finance.label.valor']}
-                                                             </f:facet>
-                                                             <p:commandLink  >
-                                                                 <h:outputText style="font-weight: bold;" value="#{r.value}"/>
-                                                             </p:commandLink>
-                                                         </p:column>
-                                                              <p:column>
-                                                             <f:facet name="header">
-                                                                #{msg['finance.label.operacoes']}
-                                                             </f:facet>
-                                                             <div style="display: inline;" >
-                                                                 <p:commandLink value="editar" action="#{financeBean.prepareEditIncome(r)}"  oncomplete="editModal.show()"  update="edit_panel" />
-                                                                  &#160;/&#160;
-                                                                  <p:commandLink value="remover" action="#{financeBean.prepareRemoveIncome(r)}" oncomplete="removeModal.show()" update="remove_panel"/>
-                                                                 </div>
-                                                         </p:column>
-
-                                                           <f:facet name="footer" >
-                                                                 <table width="100%">
-                                                                     <tr>
-
-                                                                         <td align="center">
-                                                                             <p:panel style="width: 200px;min-height: 25px;height: auto ">
-                                                                                 <div align="center">
-                                                                                     <h:outputLabel style="font-weight: bold" for="total_receita" value="#{msg['finance.label.total']}:"/>
-                                                                                     <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_receita" value="#{jan.totalIncomeInTheMonth}"/>
-                                                                                 </div>
-                                                                             </p:panel>
-
-                                                                         </td>
-
-                                                                     </tr>
-                                                                </table>
-                                                             </f:facet>
-
-                                                     </p:dataTable>
-                                                     <div align="center">
-                                                         <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px" rendered="#{empty jan.currentUserIncomesInTheMonth}"/>
-                                                     </div>
-                                                          <div align="center" style="padding-top: 15px">
-                                                         <p:commandButton title="#{msg['finance.tooltip.add-income']}" action="#{financeBean.prepareAddMonthIncome(jan)}" value="Nova Receita" async="true" immediate="true" update="month_panel,month_income_msg"  oncomplete="monthModal.show()" />
-                                                         </div>
-                                                 </p:panel>
-
-                                             </td>
-                                             <td  width="50%" align="right">
-                                                 <p:panel header="Despesas"  style="text-align: center" toggleable="true" toggleSpeed="700">
-                                                     <p:dataTable id="outcome_table#{jan.monthIndex}" var="d" value="#{jan.currentUserOutcomesInTheMonth}" rendered="#{not empty jan.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
-                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
-                                                         <p:column sortBy="#{d.date}" parser="date" >
-                                                             <f:facet name="header">
-                                                                 <h:outputLabel value="#{msg['finance.label.data']}"/>
-                                                             </f:facet>
-                                                             <p:commandLink style="text-decoration: none">
-                                                                    <h:outputText value="#{d.date}" >
-                                                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                                                    </h:outputText>
-                                                                </p:commandLink>
-                                                         </p:column>
-                                                         <p:column resizable="true">
-                                                             <f:facet name="header">
-                                                                 <h:outputLabel value="#{msg['login.label.username']}"/>
-                                                             </f:facet>
-                                                             <p:commandLink  style="text-decoration: none">
-                                                                 <h:outputText value="#{d.user}"/>
-                                                             </p:commandLink>
-
-                                                         </p:column>
-                                                         <p:column resizable="true">
-                                                             <f:facet name="header">
-                                                                 <h:outputLabel value="#{msg['finance.label.descricao']}"/>
-                                                             </f:facet>
-                                                             <p:commandLink style="text-decoration: none">
-                                                                 <h:outputText value="#{d.description}"/>
-                                                             </p:commandLink>
-                                                         </p:column>
-                                                          <p:column resizable="true">
-                                                             <f:facet name="header">
-                                                                #{msg['finance.label.tipo']}
-                                                             </f:facet>
-                                                              <p:commandLink  style="text-decoration: none">
-                                                                  <h:outputText  value="#{msg['subtipo.outcome.'.concat(d.type)]}"/>
-                                                              </p:commandLink>
-                                                         </p:column>
-                                                         <p:column resizable="true" sortBy="#{d.value}" parser="number">
-                                                             <f:facet name="header">
-                                                                #{msg['finance.label.valor']}
-                                                             </f:facet>
-                                                             <p:commandLink style="font-weight: bold;text-decoration: none" value="#{d.value}"/>
-                                                         </p:column>
-
-                                                         <p:column>
-                                                             <f:facet name="header">
-                                                                #{msg['finance.label.operacoes']}
-                                                             </f:facet>
-                                                             <div style="display: inline;" >
-                                                                 <p:commandLink value="editar" action="#{financeBean.prepareEditOutcome(d)}"  oncomplete="editModal.show()"  update="edit_panel" />
-                                                                  &#160;/&#160;
-                                                                  <p:commandLink value="remover" action="#{financeBean.prepareRemoveOutcome(d)}" oncomplete="removeModal.show()" update="remove_panel"/>
-                                                                 </div>
-                                                         </p:column>
-
-                                                             <f:facet name="footer" >
-                                                                 <table width="100%">
-                                                                     <tr>
-                                                                         <td align="center">
-                                                                             <p:panel style="width: 200px;min-height: 25px;height: auto ">
-                                                                                 <div align="center">
-                                                                                     <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
-                                                                                     <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{jan.totalOutcomeInTheMonth}"/>
-                                                                                 </div>
-                                                                             </p:panel>
-
-                                                                         </td>
-
-                                                                     </tr>
-                                                                </table>
-                                                             </f:facet>
-
-                                                     </p:dataTable>
-                                                     <div align="center">
-                                                         <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty jan.currentUserOutcomesInTheMonth}"/>
-                                                     </div>
-                                                     <div align="center" style="padding-top: 15px">
-                                                         <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(jan)}" value="Nova Despesa" async="true" immediate="true" update="month_panel,month_outcome_msg"  oncomplete="monthModal.show()" />
-                                                         </div>
-                                                 </p:panel>
-
-                                             </td>
-                                         </table>
-
+                                    <finantial:month month="#{tabBean.currentYear.jan}"/>
                                 </p:tab>
                                 <p:tab title="#{msg[tabBean.currentYear.fev.title]}" >
-                                
+                                    <finantial:month month="#{tabBean.currentYear.fev}"/>
                                 </p:tab>
                                 <p:tab title="#{msg[tabBean.currentYear.mar.title]}" >
-                                
+                                    <finantial:month month="#{tabBean.currentYear.mar}"/>
                                 </p:tab>
                                 <p:tab title="#{msg[tabBean.currentYear.abr.title]}" >
-                                
+                                    <finantial:month month="#{tabBean.currentYear.abr}"/>
                                 </p:tab>
                                 <p:tab title="#{msg[tabBean.currentYear.mai.title]}" >
-                                
+                                    <finantial:month month="#{tabBean.currentYear.mai}"/>
                                 </p:tab>
                                 <p:tab title="#{msg[tabBean.currentYear.jun.title]}" >
-                                
+                                    <finantial:month month="#{tabBean.currentYear.jun}"/>
+
                                 </p:tab>
                                 <p:tab title="#{msg[tabBean.currentYear.jul.title]}" >
-                                
+                                    <finantial:month month="#{tabBean.currentYear.jul}"/>
                                 </p:tab>
                                 <p:tab title="#{msg[tabBean.currentYear.ago.title]}" >
-                                
+                                    <finantial:month month="#{tabBean.currentYear.ago}"/>
                                 </p:tab>
                                 <p:tab title="#{msg[tabBean.currentYear.set.title]}" >
-                                
+                                    <finantial:month month="#{tabBean.currentYear.set}"/>
                                 </p:tab>
                                 <p:tab title="#{msg[tabBean.currentYear.out.title]}" >
-                                
+                                    <finantial:month month="#{tabBean.currentYear.out}"/>
                                 </p:tab>
                                 <p:tab title="#{msg[tabBean.currentYear.nov.title]}" >
-                                
+                                    <finantial:month month="#{tabBean.currentYear.nov}"/>
                                 </p:tab>
                                 <p:tab title="#{msg[tabBean.currentYear.dez.title]}" >
-                                
+                                    <finantial:month month="#{tabBean.currentYear.dez}"/>
                                 </p:tab>
                             </p:tabView>
                             </p:outputPanel>
