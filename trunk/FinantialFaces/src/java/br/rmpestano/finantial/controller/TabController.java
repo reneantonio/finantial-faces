@@ -103,7 +103,7 @@ public class TabController implements Serializable{
     }
 
     public FinantialYear getCurrentYear() {
-        return currentYear;
+        return tabYears.get(tabService.getCurrentYearIndex());
     }
 
     public void setCurrentYear(FinantialYear currentYear) {

@@ -20,6 +20,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.event.TabChangeEvent;
@@ -427,7 +428,7 @@ public List<FinantialYear> getYearsToView(){
         }
     }
     
-    public void nextYear(){
+    public void nextYear(AjaxBehaviorEvent event){
         if(currentYearIndex < maxYearIndex){
             currentYearIndex ++;
         }
