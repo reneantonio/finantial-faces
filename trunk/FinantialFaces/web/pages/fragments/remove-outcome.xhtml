@@ -16,13 +16,29 @@ and open the template in the editor.
 
    
          <p:fieldset legend="Tem certeza que deseja deletar esta despesa?" style="text-align: center;padding: 10px">
+             <div align="center" style="font-size: 13px;margin-bottom: 6px">
+             <h:panelGrid columns="2">
+                 <h:outputLabel for="remove_outcome_des" value="Descrição:"/>
+                 <h:inputText disabled="true" id="remove_outcome_des" value="#{financeBean.selectedOutcome.description}"/>
+                  <h:outputLabel for="remove_outcome_date" value="Data:"/>
+                  <h:inputText disabled="true" id="remove_outcome_date" value="#{financeBean.selectedOutcome.date}">
+                      <f:convertDateTime pattern="dd/MM/yyyy"/>
+                  </h:inputText>
+                   <h:outputLabel for="remove_outcome_val" value="Valor:"/>
+                   <h:inputText disabled="true" id="remove_outcome_val" value="#{financeBean.selectedOutcome.value}"/>
+                   <h:outputLabel for="remove_outcome_type" value="Subtipo:"/>
+                   <h:inputText disabled="true" id="remove_outcome_type" value="#{financeBean.selectedOutcome.type}"/>
+             </h:panelGrid>
+
+            </div>
              <div style="display: inline;">
                      <p:commandButton value="cancelar" onclick="removeModal.hide()" action="#{financeBean.cancelRemove}" style="margin-left:-10px"/>
                      <p:commandButton value="ok" actionListener="#{financeBean.removeOutcome}" async="true" ajax="true" update="months_form:months_panel,remove_msg_outcome,messages" oncomplete="handleRemove(args)" style="margin-left: 10px" />
              </div>
              </p:fieldset>
-         <p:messages id="remove_msg_outcome"/>
-
+    <div align="center">
+         <p:messages id="remove_msg_outcome" />
+</div>   
 
 
  

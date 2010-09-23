@@ -19,19 +19,19 @@
     <ui:define name="content">
     <ui:param name="menu" value="1"/>
         
-    <p:panel header="Finanças de #{tabService.user.fullname}" style="padding-top: -30px" >
+    <p:panel header="Finanças de #{tabService.user.fullname}" style="padding-top: -30px;overflow: auto" >
        
             <table width="100%">
                 <tr>
                     <td align="center" valign="middle">
                         <h:panelGrid columns="3" cellspacing="10" id="grid_carroussel" style="margin-top: 25px">
                             <h:graphicImage library="images" name="backward.png" style="cursor: pointer">
-                                    <p:effect type="explode" speed="50" for="currentYearBt" event="click" />
+                                    <p:effect type="explode" speed="1000" for="currentYearBt" event="click" />
                                     <f:ajax event="click" render="grid_carroussel months_form" execute="grid_carroussel" listener="#{tabService.previousYear}"/>
                             </h:graphicImage>
                             <p:commandButton  value="#{tabBean.currentYear.title}" id="currentYearBt" style="font-size: 13px!important;" type="button"/>
                             <h:graphicImage library="images" name="forward.png" style="cursor: pointer">
-                                <p:effect type="explode" speed="50" for="currentYearBt" event="click" />
+                                <p:effect type="explode" speed="1000" for="currentYearBt" event="click" />
                                 <f:ajax event="click" render="grid_carroussel months_form" execute="grid_carroussel" listener="#{tabService.nextYear}"/>
                             </h:graphicImage>
                         </h:panelGrid>
@@ -41,7 +41,7 @@
                     <td align="right">
                         <h:form id="months_form">
                         <p:outputPanel id="months_panel">
-                            <p:tabView dynamic="false" activeIndex="#{tabService.currentMonthIndex}">
+                            <p:tabView dynamic="false" activeIndex="#{tabService.currentMonthIndex}" >
                                 <p:tab title="#{msg[tabBean.currentYear.jan.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.jan}"/>
                                 </p:tab>
