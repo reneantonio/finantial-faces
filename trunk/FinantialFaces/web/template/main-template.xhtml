@@ -18,7 +18,7 @@ and open the template in the editor.
         <f:loadBundle  basename="br.rmpestano.finantial.bundle.MessageResource_#{i18nService.currentResourceBundle}" var="msg"/>
         <ui:insert name="head"/>
     </h:head>
-        <h:body onload="getClientInfo()">
+        <h:body onload="getBrowserInfo()">
        
       <h:form id="theme_form" >
           <p:menu widgetVar="themeMenu" position="dynamic" y="33" x="2"  styleClass="themeMenu" >
@@ -144,6 +144,7 @@ and open the template in the editor.
           </h:form>
         <hr/>
             <p:growl id="messages" showDetail="true"/>
+            
         <ui:insert name="content">
 
 

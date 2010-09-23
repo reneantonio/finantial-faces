@@ -38,6 +38,7 @@ public class UserLoggedInListener implements PhaseListener{
 //        }
     }
 
+    @Override
     public void beforePhase(PhaseEvent event) {
 
         FacesContext fc = event.getFacesContext();
@@ -55,7 +56,7 @@ public class UserLoggedInListener implements PhaseListener{
             final HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             request.getSession(false).invalidate();
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/FinantialFaces");
+                FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

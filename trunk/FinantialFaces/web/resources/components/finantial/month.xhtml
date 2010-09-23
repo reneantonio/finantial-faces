@@ -25,7 +25,7 @@ and open the template in the editor.
         <table width="100%">
             <td width="50%" align="left">
                 <p:panel  header="Receitas" toggleable="true" style="text-align: center" toggleSpeed="700">
-                    <p:dataTable var="r" id="income_table#{m.monthIndex}"  value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}" paginator="true" rows="5"
+                    <p:dataTable  var="r" id="income_table#{m.monthIndex}"  value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}" paginator="true" rows="5"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
                         <p:column resizable="true" sortBy="#{r.date}" parser="date" >
                             <f:facet name="header">
@@ -183,6 +183,8 @@ and open the template in the editor.
                     <div align="center" style="padding-top: 15px">
                         <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" async="true" immediate="true" update="month_panel,month_outcome_msg"  oncomplete="monthModal.show()" />
                     </div>
+                    
+                   
                 </p:panel>
 
             </td>
