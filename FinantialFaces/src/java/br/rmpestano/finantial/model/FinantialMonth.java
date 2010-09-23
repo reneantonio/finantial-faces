@@ -59,6 +59,14 @@ public class FinantialMonth implements Serializable {
     private Double totalOutcomeInTheMonth;
     @Transient
     private Double totalIncomeInTheMonth;
+    @Transient
+    private boolean showMonthIncomes;
+    @Transient
+    private boolean showMonthIncomeReports;
+    @Transient
+    private boolean showMonthOutcomes;
+    @Transient
+    private boolean showMonthOutcomeReports;
 
     @Transient
     private int monthIndex;
@@ -93,7 +101,23 @@ public class FinantialMonth implements Serializable {
         return c.get(Calendar.MONTH);
     }
 
-    
+    public boolean isShowMonthIncomes() {
+        return showMonthIncomes;
+    }
+
+    public void setShowMonthIncomes(boolean showMonthIncomes) {
+        this.showMonthIncomes = showMonthIncomes;
+    }
+
+    public boolean isShowMonthOutcomes() {
+        return showMonthOutcomes;
+    }
+
+    public void setShowMonthOutcomes(boolean showMonthOutcomes) {
+        this.showMonthOutcomes = showMonthOutcomes;
+    }
+
+
 
 
 
@@ -104,6 +128,24 @@ public class FinantialMonth implements Serializable {
     public void setFinantialYear(FinantialYear finantialYear) {
         this.finantialYear = finantialYear;
     }
+
+    public boolean isShowMonthIncomeReports() {
+        return showMonthIncomeReports;
+    }
+
+    public void setShowMonthIncomeReports(boolean showMonthIncomeReports) {
+        this.showMonthIncomeReports = showMonthIncomeReports;
+    }
+
+    public boolean isShowMonthOutcomeReports() {
+        return showMonthOutcomeReports;
+    }
+
+    public void setShowMonthOutcomeReports(boolean showMonthOutcomeReports) {
+        this.showMonthOutcomeReports = showMonthOutcomeReports;
+    }
+
+
 
 
 

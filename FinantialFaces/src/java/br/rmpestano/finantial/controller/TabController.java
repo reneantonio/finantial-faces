@@ -5,6 +5,7 @@
 
 package br.rmpestano.finantial.controller;
 
+import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.Outcome;
@@ -110,7 +111,22 @@ public class TabController implements Serializable{
         this.currentYear = currentYear;
     }
     
-    
+    public void showOutcome(FinantialMonth fm){
+        fm.setShowMonthOutcomes(true);
+        fm.setShowMonthOutcomeReports(false);
+    }
+    public void showIncome(FinantialMonth fm){
+        fm.setShowMonthIncomes(true);
+        fm.setShowMonthIncomeReports(false);
+    }
+    public void showIncomeReports(FinantialMonth fm){
+         fm.setShowMonthIncomes(false);
+         fm.setShowMonthIncomeReports(true);
+    }
+    public void showOutcomeReports(FinantialMonth fm){
+         fm.setShowMonthOutcomes(false);
+         fm.setShowMonthOutcomeReports(true);
+    }
 
     /**
      * clear datatable selection after editing

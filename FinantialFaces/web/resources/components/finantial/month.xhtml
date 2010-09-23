@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
 To change this template, choose Tools | Templates
 and open the template in the editor.
@@ -22,10 +22,21 @@ and open the template in the editor.
 
     <composite:implementation>
         <ui:param name="m" value="#{cc.attrs.month}"/>
-        <table width="100%">
+        <table width="100%" >
             <td width="50%" align="left">
-                <p:panel  header="Receitas" toggleable="true" style="text-align: center" toggleSpeed="700">
-                    <p:dataTable  var="r" id="income_table#{m.monthIndex}"  value="#{m.currentUserIncomesInTheMonth}" rendered="#{not empty m.currentUserIncomesInTheMonth}" paginator="true" rows="5"
+                <p:panel  header="Receitas" id="panel_receitas" toggleable="true" style="text-align: center;" toggleSpeed="700"  >
+                    <div style="min-height: 150px">
+                        <p:panel>
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="visualisar receitas" title="despesas de #{msg[m.title]}" action="#{tabBean.showIncome(m)}" disabled="#{m.showMonthIncomes == true}" update="panel_receitas"/>
+                                <p:commandButton value="visualisar relatórios" title="relatórios de #{msg[m.title]}" action="#{tabBean.showIncomeReports(m)}" disabled="#{m.showMonthIncomeReports == true}"  update="panel_receitas"/>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:outputPanel  rendered="#{m.showMonthIncomeReports == true}">
+                                Relatórios
+                        </p:outputPanel>
+                    <p:outputPanel rendered="#{(not empty m.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}">
+                    <p:dataTable  var="r" id="income_table#{m.monthIndex}"  value="#{m.currentUserIncomesInTheMonth}"  paginator="true" rows="5"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
                         <p:column resizable="true" sortBy="#{r.date}" parser="date" >
                             <f:facet name="header">
@@ -94,17 +105,33 @@ and open the template in the editor.
 
                     </p:dataTable>
                     <div align="center">
-                        <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px" rendered="#{empty m.currentUserIncomesInTheMonth}"/>
+                        <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px" rendered="#{(empty m.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}"/>
                     </div>
                     <div align="center" style="padding-top: 15px">
                         <p:commandButton title="#{msg['finance.tooltip.add-income']}" action="#{financeBean.prepareAddMonthIncome(m)}" value="Nova Receita" async="true" immediate="true" update="month_panel,month_income_msg"  oncomplete="monthModal.show()" />
+                    </div>
+             </p:outputPanel>
                     </div>
                 </p:panel>
 
             </td>
             <td  width="50%" align="right">
-                <p:panel header="Despesas"  style="text-align: center" toggleable="true" toggleSpeed="700">
-                    <p:dataTable id="outcome_table#{m.monthIndex}" var="d" value="#{m.currentUserOutcomesInTheMonth}" rendered="#{not empty m.currentUserOutcomesInTheMonth}"  paginator="true" rows="5"
+                <p:panel header="Despesas" id="panel_despesas" style="text-align: center;" toggleable="true" toggleSpeed="700" >
+
+                    <div style="min-height: 150px">
+                        <p:panel>
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="visualisar despesas" title="despesas de #{msg[m.title]}" action="#{tabBean.showOutcome(m)}" disabled="#{m.showMonthOutcomes == true}" update="panel_despesas"/>
+                                <p:commandButton value="visualisar relatórios" title="relatórios de #{msg[m.title]}" action="#{tabBean.showOutcomeReports(m)}" disabled="#{m.showMonthOutcomeReports == true}"  update="panel_despesas"/>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:outputPanel  rendered="#{m.showMonthOutcomeReports == true}">
+
+                                Relatórios
+
+                        </p:outputPanel>
+                    <p:outputPanel  rendered="#{(not empty m.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
+                    <p:dataTable id="outcome_table#{m.monthIndex}" var="d" value="#{m.currentUserOutcomesInTheMonth}"   paginator="true" rows="5"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
                         <p:column sortBy="#{d.date}" parser="date" >
                             <f:facet name="header">
@@ -129,7 +156,7 @@ and open the template in the editor.
                             <f:facet name="header">
                                 <h:outputLabel value="#{msg['finance.label.descricao']}"/>
                             </f:facet>
-                            <p:commandLink style="text-decoration: none">
+                            <p:commandLink style="text-decoration: none; white-space: nowrap ">
                                 <h:outputText value="#{d.description}"/>
                             </p:commandLink>
                         </p:column>
@@ -177,14 +204,14 @@ and open the template in the editor.
                         </f:facet>
 
                     </p:dataTable>
-                    <div align="center">
-                        <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty m.currentUserOutcomesInTheMonth}"/>
-                    </div>
                     <div align="center" style="padding-top: 15px">
                         <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" async="true" immediate="true" update="month_panel,month_outcome_msg"  oncomplete="monthModal.show()" />
                     </div>
-                    
-                   
+                    </p:outputPanel>
+                        <div align="center" style="margin-top: 15px;">
+                        <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty m.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}"/>
+                    </div>
+                    </div>
                 </p:panel>
 
             </td>
