@@ -37,6 +37,7 @@ public class TabController implements Serializable{
     private Double totalOutcomeInThemonth;
     private DataTable outcomeTable;
     private FinantialYear currentYear;
+    private boolean editYear ;
     
     
 
@@ -56,14 +57,12 @@ public class TabController implements Serializable{
         currentYear = tabYears.get(tabService.getCurrentYearIndex());
     }
 
-
-
-    public List<FinantialYear> getAbas() {
-        return tabYears;
+    public boolean isEditYear() {
+        return editYear;
     }
 
-    public void setAbas(List<FinantialYear> abas) {
-        this.tabYears = abas;
+    public void setEditYear(boolean editYear) {
+        this.editYear = editYear;
     }
 
 
@@ -112,20 +111,32 @@ public class TabController implements Serializable{
     }
     
     public void showOutcome(FinantialMonth fm){
-        fm.setShowMonthOutcomes(true);
-        fm.setShowMonthOutcomeReports(false);
+         if(fm.isShowMonthOutcomes()){
+            fm.setShowMonthOutcomes(false);
+        }
+         else{
+            fm.setShowMonthOutcomes(true);
+         }
     }
+
+
     public void showIncome(FinantialMonth fm){
-        fm.setShowMonthIncomes(true);
-        fm.setShowMonthIncomeReports(false);
+        if(fm.isShowMonthIncomes()){
+            fm.setShowMonthIncomes(false);
+        }
+         else{
+            fm.setShowMonthIncomes(true);
+         }
     }
     public void showIncomeReports(FinantialMonth fm){
-         fm.setShowMonthIncomes(false);
          fm.setShowMonthIncomeReports(true);
     }
     public void showOutcomeReports(FinantialMonth fm){
-         fm.setShowMonthOutcomes(false);
          fm.setShowMonthOutcomeReports(true);
+    }
+
+    public void prepareEditYear(){
+        editYear = true;
     }
 
     /**

@@ -233,12 +233,8 @@ public class FinancaController implements Serializable{
                 despesa.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
             }
             tabService.update(fm);
-            tabService.setCurrentYearIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
             MessagesController.addInfo(tipoCorrete.equals(INCOME) ? "Receita incluida com sucesso!": "Despesa incluida com sucesso");
             this.setCurrentTab(date);
-            Map<String,Object> map =  FacesContext.getCurrentInstance().getViewRoot().getViewMap();
-            TabController tabController = (TabController) map.get("tabBean");
-            tabController.setTabYears(tabService.getYearsToView());
         } catch (Exception ex) {
             MessagesController.addError("Erro ao incluir finança", ex.getMessage());
             ex.printStackTrace();

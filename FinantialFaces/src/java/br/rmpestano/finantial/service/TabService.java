@@ -5,6 +5,7 @@
 
 package br.rmpestano.finantial.service;
 
+import br.rmpestano.finantial.controller.TabController;
 import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.model.User;
@@ -17,6 +18,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -428,8 +430,8 @@ public List<FinantialYear> getYearsToView(){
         }
     }
     
-    public void nextYear(AjaxBehaviorEvent event){
-        if(currentYearIndex < maxYearIndex){
+    public void nextYear(){
+        if(currentYearIndex < maxYearIndex-1){
             currentYearIndex ++;
         }
     }
@@ -438,6 +440,11 @@ public List<FinantialYear> getYearsToView(){
             currentYearIndex --;
         }
     }
+    
+     public void changeYear(int index){
+        setCurrentYearIndex(index);
+    }
+
 
     public Integer getNumberOfYearsToView() {
         return numberOfYearsToView;
