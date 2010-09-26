@@ -22,6 +22,8 @@ public class ThemeExtraProperties implements Serializable{
     private String COLOR = "";
     private String FINANCE_FOOTER_COLOR = "";
     private String LOADING_ICON = "";
+    private String FORWARD_ARROW = "";
+    private String BACKWARD_ARROW = "";
 
     public ThemeExtraProperties() {
         this.clearProperties();
@@ -39,6 +41,23 @@ public class ThemeExtraProperties implements Serializable{
     public String getMOUSEOVER_EVENT() {
         return MOUSEOVER_EVENT;
     }
+
+    public String getBACKWARD_ARROW() {
+        return BACKWARD_ARROW;
+    }
+
+    public void setBACKWARD_ARROW(String BACKWARD_ARROW) {
+        this.BACKWARD_ARROW = BACKWARD_ARROW;
+    }
+
+    public String getFORWARD_ARROW() {
+        return FORWARD_ARROW;
+    }
+
+    public void setFORWARD_ARROW(String FORWARD_ARROW) {
+        this.FORWARD_ARROW = FORWARD_ARROW;
+    }
+
 
     public void setBUTTON_BACKGROUND(String BUTTON_BACKGROUND) {
         this.BUTTON_BACKGROUND = BUTTON_BACKGROUND;

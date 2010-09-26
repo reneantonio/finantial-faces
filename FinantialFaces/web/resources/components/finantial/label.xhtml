@@ -17,14 +17,15 @@ and open the template in the editor.
       <composite:attribute name="for"  />
       <composite:attribute name="required"  />
       <composite:attribute name="rendered"  />
+      <composite:attribute name="style"  />
 
 
   </composite:interface>
 
     <composite:implementation>
         <div style="display: inline">
-            <h:outputLabel for="#{cc.attrs.for}" rendered="#{cc.attrs.rendered}" value="#{cc.attrs.value}" style="#{themeService.themeProperties.COLOR} "/> <!-- compatibility IE -->
-            <h:outputText value="*" style="color:red" rendered="#{cc.attrs.required or cc.attrs.rendered}"/>
+            <h:outputLabel for="#{cc.attrs.for}" rendered="#{cc.attrs.rendered}" value="#{cc.attrs.value}" style="#{cc.attrs.style}"/> <!-- compatibility IE -->
+            <h:outputText value="*" style="color:red" rendered="#{cc.attrs.required and cc.attrs.rendered}"/>
         </div>
     </composite:implementation>
 

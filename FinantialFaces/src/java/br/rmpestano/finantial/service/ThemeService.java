@@ -8,6 +8,7 @@ package br.rmpestano.finantial.service;
 import br.rmpestano.finantial.util.ThemeExtraProperties;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 
 import javax.inject.Named;
 
@@ -15,8 +16,9 @@ import javax.inject.Named;
  *
  * @author rmpestano
  */
+
+@ManagedBean(name="themeService")
 @SessionScoped
-@Named(value="themeService")
 public class ThemeService implements Serializable {
     private String theme = "";
     private ThemeExtraProperties themeProperties;
@@ -73,22 +75,29 @@ public class ThemeService implements Serializable {
         theme = "overcast";
         themeProperties = new ThemeExtraProperties();
         themeProperties.setLOADING_ICON("ajax-loader-red.gif");
+        themeProperties.setBACKWARD_ARROW("backward_gray.png");
+        themeProperties.setFORWARD_ARROW("forward_gray.png");
 
     }
     public void casablancaInit(){
         theme = "casablanca";
         themeProperties = new ThemeExtraProperties();
         themeProperties.setLOADING_ICON("ajax-loader-black.gif");
+         themeProperties.setBACKWARD_ARROW("backward_red.png");
+        themeProperties.setFORWARD_ARROW("forward_red.png");
     }
     public void blueSkyInit(){
         theme = "bluesky";
-        themeProperties.setLOADING_ICON("ajax-loader-black.gif");
         themeProperties = new ThemeExtraProperties();
+        themeProperties.setBACKWARD_ARROW("backward_blue.png");
+        themeProperties.setFORWARD_ARROW("forward_blue.png");
     }
     public void cupertinoInit(){
         theme = "cupertino";
-        themeProperties.setLOADING_ICON("ajax-loader-black.gif");
         themeProperties = new ThemeExtraProperties();
+        themeProperties.setLOADING_ICON("ajax-loader-black.gif");
+        themeProperties.setBACKWARD_ARROW("backward_blue.png");
+        themeProperties.setFORWARD_ARROW("forward_blue.png");
     }
     public void pepperInit(){
         theme = "pepper-grinder";

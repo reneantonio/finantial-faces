@@ -9,13 +9,14 @@ import br.rmpestano.finantial.util.PersistenceManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *  entidade que representa as receitas (entradas)
@@ -33,7 +34,9 @@ public class Income extends BaseEntity {
     private Date date;
     @OneToOne
     private IncomeType type;
+    @NotNull(message="Forneça um valor para a receita")
     private Double value;
+    @Size(min=0,max=40,message="Tamanho máximo da descrição:40 caracteres")
     private String description;
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
