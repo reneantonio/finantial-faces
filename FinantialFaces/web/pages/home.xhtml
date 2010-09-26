@@ -28,78 +28,78 @@
                         <h:panelGrid columns="3" cellspacing="10" id="grid_carroussel" style="margin-top: 25px">
                             <h:graphicImage library="images" name="backward.png" style="cursor: pointer">
                                     <p:effect type="pulsate" speed="1900" for="currentYearBt" event="click" />
-                                    <p:ajax event="click" global="false" update=":months_form:months_panel, currentYearBt" process="@this" listener="#{tabService.previousYear}" />
+                                    <p:ajax event="click" global="false" update=":months_form:months_panel, currentYearBt" process="@this" listener="#{tabBean.previousYear}" />
                             </h:graphicImage>
                             <p:menuButton value="#{tabBean.currentYear.title}" id="currentYearBt" style="font-size: 13px!important;" >
-                                <p:menuitem value="2010" action="#{tabService.changeYear(0)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2011" action="#{tabService.changeYear(1)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2012" action="#{tabService.changeYear(2)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2013" action="#{tabService.changeYear(3)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2014" action="#{tabService.changeYear(4)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2015" action="#{tabService.changeYear(5)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2016" action="#{tabService.changeYear(6)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2017" action="#{tabService.changeYear(7)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2018" action="#{tabService.changeYear(8)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2019" action="#{tabService.changeYear(9)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2020" action="#{tabService.changeYear(10)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2021" action="#{tabService.changeYear(11)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2022" action="#{tabService.changeYear(12)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2023" action="#{tabService.changeYear(13)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2024" action="#{tabService.changeYear(14)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2025" action="#{tabService.changeYear(15)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2026" action="#{tabService.changeYear(16)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2027" action="#{tabService.changeYear(17)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2028" action="#{tabService.changeYear(18)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2029" action="#{tabService.changeYear(19)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
-                                <p:menuitem value="2030" action="#{tabService.changeYear(20)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2010" action="#{tabBean.changeYear(0)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2011" action="#{tabBean.changeYear(1)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2012" action="#{tabBean.changeYear(2)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2013" action="#{tabBean.changeYear(3)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2014" action="#{tabBean.changeYear(4)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2015" action="#{tabBean.changeYear(5)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2016" action="#{tabBean.changeYear(6)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2017" action="#{tabBean.changeYear(7)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2018" action="#{tabBean.changeYear(8)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2019" action="#{tabBean.changeYear(9)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2020" action="#{tabBean.changeYear(10)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2021" action="#{tabBean.changeYear(11)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2022" action="#{tabBean.changeYear(12)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2023" action="#{tabBean.changeYear(13)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2024" action="#{tabBean.changeYear(14)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2025" action="#{tabBean.changeYear(15)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2026" action="#{tabBean.changeYear(16)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2027" action="#{tabBean.changeYear(17)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2028" action="#{tabBean.changeYear(18)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2029" action="#{tabBean.changeYear(19)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
+                                <p:menuitem value="2030" action="#{tabBean.changeYear(20)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel"/>
                             </p:menuButton>
                             <h:graphicImage library="images" name="forward.png" style="cursor: pointer">
                                 <p:effect type="pulsate" speed="1900" for="currentYearBt" event="click" />
-                                <p:ajax event="click" global="false" update=":months_form:months_panel, currentYearBt" process="@this" listener="#{tabService.nextYear}" />
+                                <p:ajax event="click" global="false" update=":months_form:months_panel, currentYearBt" process="@this" listener="#{tabBean.nextYear}" />
                             </h:graphicImage>
                         </h:panelGrid>
                         </h:form>
                     </td>
                 </tr>
                 <tr>
-                    <td align="right">
-                          <h:form id="months_form">
+                    <td align="left">
+                     <h:form id="months_form">
                         <p:outputPanel id="months_panel">
-                            <p:tabView dynamic="false" activeIndex="#{tabService.currentMonthIndex}" >
-                                <p:tab title="#{msg[tabBean.currentYear.jan.title]}" >
+                            <p:tabView dynamic="true" cache="false" tabChangeListener="#{tabBean.onMonthChange}" onTabChangeUpdate="@this,tab#{tabBean.currentMonthIndex},month_#{tabBean.currentMonthIndex}" activeIndex="#{tabBean.currentMonthIndex}"  >
+                                <p:tab id="tab#{tabBean.currentYear.jan.monthIndex}" title="#{msg[tabBean.currentYear.jan.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.jan}"/>
                                 </p:tab>
-                                <p:tab title="#{msg[tabBean.currentYear.fev.title]}" >
+                                <p:tab id="tab#{tabBean.currentYear.fev.monthIndex}" title="#{msg[tabBean.currentYear.fev.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.fev}"/>
                                 </p:tab>
-                                <p:tab title="#{msg[tabBean.currentYear.mar.title]}" >
+                                <p:tab id="tab#{tabBean.currentYear.mar.monthIndex}" title="#{msg[tabBean.currentYear.mar.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.mar}"/>
                                 </p:tab>
-                                <p:tab title="#{msg[tabBean.currentYear.abr.title]}" >
+                                <p:tab id="tab#{tabBean.currentYear.abr.monthIndex}" title="#{msg[tabBean.currentYear.abr.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.abr}"/>
                                 </p:tab>
-                                <p:tab title="#{msg[tabBean.currentYear.mai.title]}" >
+                                <p:tab id="tab#{tabBean.currentYear.mai.monthIndex}" title="#{msg[tabBean.currentYear.mai.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.mai}"/>
                                 </p:tab>
-                                <p:tab title="#{msg[tabBean.currentYear.jun.title]}" >
+                                <p:tab id="tab#{tabBean.currentYear.jun.monthIndex}" title="#{msg[tabBean.currentYear.jun.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.jun}"/>
                                 </p:tab>
-                                <p:tab title="#{msg[tabBean.currentYear.jul.title]}" >
+                                <p:tab id="tab#{tabBean.currentYear.jul.monthIndex}" title="#{msg[tabBean.currentYear.jul.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.jul}"/>
                                 </p:tab>
-                                <p:tab title="#{msg[tabBean.currentYear.ago.title]}" >
+                                <p:tab id="tab#{tabBean.currentYear.ago.monthIndex}" title="#{msg[tabBean.currentYear.ago.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.ago}"/>
                                 </p:tab>
-                                <p:tab title="#{msg[tabBean.currentYear.set.title]}" >
+                                <p:tab id="tab#{tabBean.currentYear.set.monthIndex}" title="#{msg[tabBean.currentYear.set.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.set}"/>
                                 </p:tab>
-                                <p:tab title="#{msg[tabBean.currentYear.out.title]}" >
+                                <p:tab id="tab#{tabBean.currentYear.out.monthIndex}" title="#{msg[tabBean.currentYear.out.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.out}"/>
                                 </p:tab>
-                                <p:tab title="#{msg[tabBean.currentYear.nov.title]}" >
+                                <p:tab id="tab#{tabBean.currentYear.nov.monthIndex}" title="#{msg[tabBean.currentYear.nov.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.nov}"/>
                                 </p:tab>
-                                <p:tab title="#{msg[tabBean.currentYear.dez.title]}" >
+                                <p:tab id="tab#{tabBean.currentYear.dez.monthIndex}" title="#{msg[tabBean.currentYear.dez.title]}" >
                                     <finantial:month month="#{tabBean.currentYear.dez}"/>
                                 </p:tab>
                             </p:tabView>
@@ -120,7 +120,7 @@
     <p:tooltip global="true" id="tooltip" showEffect="slide" hideEffect="slide"/>
 
 
-                 <p:dialog  modal="true" widgetVar="editModal" header="Editar" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true" >
+                 <p:dialog  modal="true" widgetVar="editModal" header="Editar" showEffect="explode"   hideEffect="explode" minHeight="150" closable="true" draggable="true" >
                      <h:form id="edit_form" prependId="false">
                               <ui:include src="edit-financa.xhtml"/>
                      </h:form>

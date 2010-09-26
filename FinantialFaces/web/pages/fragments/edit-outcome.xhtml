@@ -18,7 +18,7 @@ and open the template in the editor.
             <h:outputLabel for="edit_descricao_despesa" value="Descrição:"/>
             <h:inputText id="edit_descricao_despesa" value="#{financeBean.selectedOutcome.description}"/>
             <h:outputLabel for="edit_data_despesa" value="Data:"/>
-            <p:calendar id="edit_data_despesa" effectDuration="0.5" value="#{financeBean.selectedOutcome.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{financeBean.firstDayOfMonth}" maxdate="#{financeBean.lastDayOfMonth}"  popupIcon="../resources/images/calendar.png"/>
+            <p:calendar id="edit_data_despesa" effectDuration="0.5" value="#{financeBean.selectedOutcome.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstYearDate}" maxdate="#{tabBean.lastYearDate}"  popupIcon="../resources/images/calendar.png"/>
             <h:outputLabel for="edit_value_despesa" value="Valor:"/>
             <h:inputText id="edit_value_despesa" value="#{financeBean.selectedOutcome.value}"/>
             <finantial:label for="edit_subtipo_outcome"  value="#{msg['finance.label.subtipo']}:"/>
@@ -28,7 +28,7 @@ and open the template in the editor.
                                 </h:selectOneMenu>
         </h:panelGrid>
          <div align="center">
-             <p:commandButton value="salvar" actionListener="#{financeBean.updateOutcome}" async="true" ajax="true" update="months_form:months_panel,edit_msg_outcome,messages" oncomplete="handleEdit(xhr, status, args)" />
+             <p:commandButton value="salvar" actionListener="#{financeBean.updateOutcome}" async="true" ajax="true" update="months_form:months_panel,edit_msg_outcome,messages,:form_carroussel:grid_carroussel" oncomplete="handleEdit(xhr, status, args)" />
          </div>
          <p:messages id="edit_msg_outcome"/>
      </p:panel>

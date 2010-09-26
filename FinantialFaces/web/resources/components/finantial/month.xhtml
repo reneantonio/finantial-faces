@@ -21,91 +21,13 @@ and open the template in the editor.
   </composite:interface>
 
     <composite:implementation>
+        <p:outputPanel id="month_#{cc.attrs.month.monthIndex}">
         <ui:param name="m" value="#{cc.attrs.month}"/>
-        <table width="100%" >
-            <tr>
-            <td width="50%" align="left">
-                <p:panel  header="Receitas" id="panel_receitas" toggleable="true" onToggleUpdate="panel_receitas" collapsed="true" style="text-align: center;" toggleSpeed="700" toggleListener="#{tabBean.showIncome(m)}" >
-                    <div style="min-height: 150px">
-                    <p:outputPanel rendered="#{(not empty m.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}">
-                    <p:dataTable  var="r" id="income_table#{m.monthIndex}"  value="#{m.currentUserIncomesInTheMonth}"  paginator="true" rows="5"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
-                        <p:column resizable="true" sortBy="#{r.date}" parser="date" >
-                            <f:facet name="header">
-                                <h:outputLabel value="#{msg['finance.label.data']}"/>
-                            </f:facet>
-                            <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
-                                <h:outputText value="#{r.date}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                </h:outputText>
-                            </p:commandLink>
-                        </p:column>
-                        <p:column resizable="true">
-                            <f:facet name="header">
-                                <h:outputLabel value="#{msg['finance.label.descricao']}"/>
-                            </f:facet>
-                            <p:commandLink value="#{r.description}" style="text-decoration: none"/>
-                        </p:column>
-                        <p:column resizable="true">
-                            <f:facet name="header">
-                                <h:outputLabel value="#{msg['finance.label.tipo']}"/>
-                            </f:facet>
-                            <p:commandLink value="#{msg['subtipo.income.'.concat(r.type)]}" style="text-decoration: none" />
-                        </p:column>
-                        <p:column resizable="true" sortBy="#{r.value}" parser="number">
-                            <f:facet name="header">
-                                                                #{msg['finance.label.valor']}
-                            </f:facet>
-                            <p:commandLink  >
-                                <h:outputText style="font-weight: bold;" value="#{r.value}"/>
-                            </p:commandLink>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                                                #{msg['finance.label.operacoes']}
-                            </f:facet>
-                            <div style="display: inline;" >
-                                <p:commandLink value="editar" action="#{financeBean.prepareEditIncome(r)}"  oncomplete="editModal.show()"  update="edit_panel" />
-                                &#160;/&#160;
-                                <p:commandLink value="remover" action="#{financeBean.prepareRemoveIncome(r)}" oncomplete="removeModal.show()" update="remove_panel"/>
-                            </div>
-                        </p:column>
-
-                        <f:facet name="footer" >
-                            <table width="100%">
-                                <tr>
-
-                                    <td align="center">
-                                        <p:panel style="width: 200px;min-height: 25px;height: auto ">
-                                            <div align="center">
-                                                <h:outputLabel style="font-weight: bold" for="total_receita" value="#{msg['finance.label.total']}:"/>
-                                                <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_receita" value="#{m.totalIncomeInTheMonth}"/>
-                                            </div>
-                                        </p:panel>
-
-                                    </td>
-
-                                </tr>
-                            </table>
-                        </f:facet>
-
-                    </p:dataTable>
-                   <div align="center" style="padding-top: 15px;" >
-                        <p:commandButton title="#{msg['finance.tooltip.add-income']}" action="#{financeBean.prepareAddMonthIncome(m)}" value="Nova Receita" async="true" immediate="true" update="month_panel,month_income_msg"  oncomplete="monthModal.show()" />
-                    </div>
-                    </p:outputPanel>
-                        <div align="center" style="padding-top: 15px;">
-                        <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty m.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}"/>
-                    </div>
-                    </div>
-                </p:panel>
-            </td>
-            <td  width="50%" align="right">
-                <p:panel header="Despesas" id="panel_despesas" style="text-align: center;" toggleable="true" onToggleUpdate="panel_despesas" collapsed="true" toggleListener="#{tabBean.showOutcome(m)}" toggleSpeed="700" >
-                    <div style="min-height: 150px">
-                    <p:outputPanel  rendered="#{(not empty m.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
+        <p:accordionPanel activeIndex="#{tabBean.financesActiveIndex}" cache="false" effect="bounceslide" tabChangeListener="#{tabBean.tabChange}" onTabChangeUpdate="month_#{cc.attrs.month.monthIndex}">
+                <p:tab title="Despesas">
+                     <p:outputPanel  rendered="#{(not empty m.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
                     <p:dataTable id="outcome_table#{m.monthIndex}" var="d" value="#{m.currentUserOutcomesInTheMonth}"   paginator="true" rows="5"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15" style="border: none">
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,#{m.userOutcomesSize}" style="border: none">
                         <p:column sortBy="#{d.date}" parser="date" >
                             <f:facet name="header">
                                 <h:outputLabel value="#{msg['finance.label.data']}"/>
@@ -116,7 +38,7 @@ and open the template in the editor.
                                 </h:outputText>
                             </p:commandLink>
                         </p:column>
-                        <p:column resizable="true">
+                        <p:column >
                             <f:facet name="header">
                                 <h:outputLabel value="#{msg['finance.label.descricao']}"/>
                             </f:facet>
@@ -124,17 +46,18 @@ and open the template in the editor.
                                 <h:outputText value="#{d.description}"/>
                             </p:commandLink>
                         </p:column>
-                        <p:column resizable="true">
+                        <p:column filterBy="#{d.type.description}" filterOptions="#{tabBean.outcomeFilterOptions}"
+                          filterMatchMode="exact" >
                             <f:facet name="header">
-                                                                #{msg['finance.label.tipo']}
+                                             #{msg['finance.label.tipo']}
                             </f:facet>
                             <p:commandLink  style="text-decoration: none">
                                 <h:outputText  value="#{msg['subtipo.outcome.'.concat(d.type)]}"/>
                             </p:commandLink>
                         </p:column>
-                        <p:column resizable="true" sortBy="#{d.value}" parser="number">
+                        <p:column sortBy="#{d.value}" parser="number">
                             <f:facet name="header">
-                                                                #{msg['finance.label.valor']}
+                                        #{msg['finance.label.valor']}
                             </f:facet>
                             <p:commandLink style="font-weight: bold;text-decoration: none" value="#{d.value}"/>
                         </p:column>
@@ -166,19 +89,89 @@ and open the template in the editor.
                         </f:facet>
 
                     </p:dataTable>
-                    <div align="center" style="padding-top: 15px;" >
-                        <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" async="true" immediate="true" update="month_panel,month_outcome_msg"  oncomplete="monthModal.show()" />
-                    </div>
                     </p:outputPanel>
+                        <div align="center" style="padding-top: 15px;" >
+                            <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" async="true" immediate="true" update="month_panel,month_outcome_msg"  oncomplete="monthModal.show()" />
+                        </div>
                         <div align="center" style="padding-top: 15px;">
                         <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty m.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}"/>
                     </div>
+                </p:tab>
+                <p:tab title="Receitas">
+                    <p:outputPanel rendered="#{(not empty m.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}">
+                    <p:dataTable  var="r" id="income_table#{m.monthIndex}"  value="#{m.currentUserIncomesInTheMonth}"  paginator="true" rows="5"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,#{m.userIncomesSize}" style="border: none">
+                        <p:column  sortBy="#{r.date}" parser="date" >
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['finance.label.data']}"/>
+                            </f:facet>
+                            <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
+                                <h:outputText value="#{r.date}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:commandLink>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['finance.label.descricao']}"/>
+                            </f:facet>
+                            <p:commandLink value="#{r.description}" style="text-decoration: none"/>
+                        </p:column>
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['finance.label.tipo']}"/>
+                            </f:facet>
+                            <p:commandLink value="#{msg['subtipo.income.'.concat(r.type)]}" style="text-decoration: none" />
+                        </p:column>
+                        <p:column  sortBy="#{r.value}" parser="number">
+                            <f:facet name="header">
+                                  #{msg['finance.label.valor']}
+                            </f:facet>
+                            <p:commandLink  >
+                                <h:outputText style="font-weight: bold;" value="#{r.value}"/>
+                            </p:commandLink>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                   #{msg['finance.label.operacoes']}
+                            </f:facet>
+                            <div style="display: inline;" >
+                                <p:commandLink value="editar" action="#{financeBean.prepareEditIncome(r)}"  oncomplete="editModal.show()"  update="edit_panel" />
+                                &#160;/&#160;
+                                <p:commandLink value="remover" action="#{financeBean.prepareRemoveIncome(r)}" oncomplete="removeModal.show()" update="remove_panel"/>
+                            </div>
+                        </p:column>
+                        <f:facet name="footer" >
+                            <table width="100%">
+                                <tr>
+                                    <td align="center">
+                                        <p:panel style="width: 200px;min-height: 25px;height: auto ">
+                                            <div align="center">
+                                                <h:outputLabel style="font-weight: bold" for="total_receita" value="#{msg['finance.label.total']}:"/>
+                                                <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_receita" value="#{m.totalIncomeInTheMonth}"/>
+                                            </div>
+                                        </p:panel>
+                                    </td>
+                                </tr>
+                            </table>
+                        </f:facet>
+                    </p:dataTable>
+                    </p:outputPanel>
+                       <div align="center" style="padding-top: 15px;" >
+                           <p:commandButton title="#{msg['finance.tooltip.add-income']}"  action="#{financeBean.prepareAddMonthIncome(m)}" value="Nova Receita" async="true" immediate="true" update="month_panel,month_income_msg"  oncomplete="monthModal.show()" />
+                        </div>
+                        <div align="center" style="padding-top: 15px;">
+                        <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty m.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}"/>
                     </div>
-                </p:panel>
+                    
+                </p:tab>
+            <p:tab title="Relatórios de #{msg[m.title]}">
+                
+            </p:tab>
+                 
+            </p:accordionPanel>
+        </p:outputPanel>
 
-            </td>
-                </tr>
-        </table>
     </composite:implementation>
 
 

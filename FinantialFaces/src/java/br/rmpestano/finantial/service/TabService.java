@@ -5,30 +5,27 @@
 
 package br.rmpestano.finantial.service;
 
-import br.rmpestano.finantial.controller.TabController;
 import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.FinantialYear;
+import br.rmpestano.finantial.model.IncomeType;
+import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.generic.CrudService;
 import br.rmpestano.finantial.util.MessagesController;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.event.TabChangeEvent;
 
 /**
- * this class manage the years and the months in TabPanel
+ * this class provides services over years and months
+ * it may not be referenced in the view, to do so you must use the TabCopntroller
  * @author rmpestano
  */
 @Named(value="tabService")
@@ -36,16 +33,8 @@ import org.primefaces.event.TabChangeEvent;
 public class TabService implements Serializable{
     @Inject CrudService<FinantialYear> yearCrudService;
     @Inject CrudService<FinantialMonth> monthCrudService;
-    private Integer numberOfYearsToView = 1;
-    private String yearToView = "2010";
-    private List<String> listOfYears;
-    private boolean specificYear = false;
+   
     private User user;
-    private String currentYearForm = "year_2010";
-    private int currentYearIndex;
-    private int currentMonthIndex;
-    private String selectedMonthName;
-    private int maxYearIndex;
     
      public void create(FinantialMonth fm){
         try {
@@ -55,40 +44,6 @@ public class TabService implements Serializable{
         }
 
    }
-
-    public int getMaxYearIndex() {
-        return maxYearIndex;
-    }
-     
-     
-     public String changeNumYearstoView(Integer years){
-         this.numberOfYearsToView = years;
-         this.specificYear = false;
-         return "/pages/home.faces?faces-redirect=true";
-     }
-
-     public void specificYearMode() {
-         this.specificYear = true;
-     }
-
-    public String getCurrentYearForm() {
-        System.out.println("CurrentForm:"+currentYearForm);
-        return currentYearForm;
-    }
-
-    public void setCurrentYearForm(String currentYearForm) {
-        this.currentYearForm = currentYearForm;
-    }
-
-    public int getCurrentMonthIndex() {
-        return currentMonthIndex;
-    }
-
-    public void setCurrentMonthIndex(int currentMonthIndex) {
-        this.currentMonthIndex = currentMonthIndex;
-    }
-
-
    public void update(FinantialMonth fm){
         try {
             monthCrudService.update(fm);
@@ -100,81 +55,64 @@ public class TabService implements Serializable{
 
    }
 
-    public int getCurrentYearIndex() {
-        return currentYearIndex;
-    }
-
-    public void setCurrentYearIndex(int currentYearIndex) {
-        this.currentYearIndex = currentYearIndex;
+    public int getMaxYearIndex() {
+        List<FinantialYear> years = yearCrudService.findAll(FinantialYear.class);
+        return years.size();
     }
 
 
-    public boolean isEspecificYear() {
-        return specificYear;
-    }
-
-    public void setEspecificYear(boolean especificYear) {
-        this.specificYear = especificYear;
-    }
-
-    public String getSelectedMonthName() {
-        switch(currentMonthIndex){
+    public String getSelectedMonthName(int monthIndex) {
+        switch(monthIndex){
             case 0:{
-                selectedMonthName = "Janeiro";
-                break;
+                return "Janeiro";
             }
             case 1:{
-                selectedMonthName = "Fevereiro";
-                break;
+                return "Fevereiro";
             }
             case 2:{
-                selectedMonthName = "Março";
-                break;
+                return "Março";
             }
             case 3:{
-                selectedMonthName = "Abril";
-                break;
+                return "Abril";
             }
             case 4:{
-                selectedMonthName = "Maio";
-                break;
+                return "Maio";
             }
             case 5:{
-                selectedMonthName = "Junho";
-                break;
+                return "Junho";
             }
             case 6:{
-                selectedMonthName = "Julho";
-                break;
+                return "Julho";
             }
             case 7:{
-                selectedMonthName = "Agosto";
-                break;
+                return "Agosto";
             }
             case 8:{
-                selectedMonthName = "Setembro";
-                break;
+                return "Setembro";
             }
             case 9:{
-                selectedMonthName = "Outubro";
-                break;
+                return "Outubro";
             }
             case 10:{
-                selectedMonthName = "Novembro";
-                break;
+                return "Novembro";
             }
             case 11:{
-                selectedMonthName = "Dezembro";
-                break;
+                return "Dezembro";
             }
-
+            default:return null;
         }
-        return selectedMonthName;
     }
 
 
 
-    public List<FinantialYear> getAllFinantialYears(){
+    public List<OutcomeType> getOutcomeTypes(){
+        return OutcomeType.findAll();
+    }
+    public List<IncomeType> getIncomeTypes(){
+        return IncomeType.findAll();
+    }
+
+    public List<FinantialYear> getFinantialYears(){
         return yearCrudService.findAll(FinantialYear.class);
     }
 
@@ -201,98 +139,37 @@ public class TabService implements Serializable{
         return baseYear.toString();
     }
 
-/**
- * 
- * @return ano corrente
- */
-    public FinantialYear getInitialFinantialYear(){
+    public FinantialYear getCurrentFinantialYear(){
         Date d = new Date();
         Calendar c = new GregorianCalendar();
         c.setTime(d);
         c.get(Calendar.YEAR);
         return FinantialYear.findByYear(""+ c.get(Calendar.YEAR));
     }
+    public FinantialMonth getCurrentFinantialMonth(){
+        Date d = new Date();
+        return FinantialMonth.findByDate(d);
+    }
     
-    /**
-     * ou a data é de um ano especifico ou é de 2010 até yearToView
-     * @return
-     */
     
-public String findfirstYear() {
-        StringBuilder firstDate = new StringBuilder();
-        if (specificYear == true) {
-            FinantialYear fy = FinantialYear.findByYear(yearToView);
-            firstDate.append("01/01/").append(fy.getTitle());
-    } else {
-        List<FinantialYear> firstYear = yearCrudService.findAll(FinantialYear.class);
-        Collections.sort(firstYear);
-        FinantialYear fy = firstYear.get(0);
-        firstDate.append("01/01/").append(fy.getTitle());
+    public String findLastYear() {
+        StringBuilder lastDate = new StringBuilder();
+        List<FinantialYear> availableYears = this.getFinantialYears();
+        int yearsSize = availableYears.size();
+        FinantialYear lastYear = availableYears.get(yearsSize-1);
+        lastDate.append("31/12/").append(lastYear.getTitle());
+        return lastDate.toString();
     }
-
-       return firstDate.toString();
-    }
-public String findlastYear() {
-      StringBuilder lastDate = new StringBuilder();
-    if (specificYear == true) {
-        FinantialYear fy = FinantialYear.findByYear(yearToView);
-        lastDate.append("31/12/").append(fy.getTitle());
-    } else {
-
-        List<FinantialYear> lastYear = yearCrudService.findAll(FinantialYear.class);
-        Collections.sort(lastYear);
-
-        FinantialYear fy = lastYear.get(numberOfYearsToView - 1);
-        lastDate.append("31/12/").append(fy.getTitle());
-    }
-    return lastDate.toString();
-    }
-
-public List<FinantialYear> getYearsToView(){
-      List<FinantialYear> retorno = new ArrayList<FinantialYear>();
-      List<FinantialYear> years =  yearCrudService.findAll(FinantialYear.class);
-      Collections.sort(years);
-      if (this.specificYear == false) {
-        for (int i = 0; i < numberOfYearsToView; i++) {
-            retorno.add(years.get(i));
+    public String findFirstYear() {
+          StringBuilder firstDate = new StringBuilder();
+          FinantialYear fy = getFinantialYears().get(0);
+          firstDate.append("01/01/").append(fy.getTitle());
+        return firstDate.toString();
         }
-    } else {
-        retorno.add(FinantialYear.findByYear(yearToView));
-    }
 
-      return retorno;
-
-}
-
-    public List<String> getListOfYears() {
-        return listOfYears;
-    }
-
-    public void setListOfYears(List<String> listOfYears) {
-        this.listOfYears = listOfYears;
-    }
-
-    public String getYearToView() {
-        return yearToView;
-    }
-
-    public void setYearToView(String yearToView) {
-        this.yearToView = yearToView;
-    }
-
-
-
-    
-    
     @PostConstruct
     public void init(){
-        List<FinantialYear> years = yearCrudService.findAll(FinantialYear.class);
-        maxYearIndex = years.size();
-        listOfYears = new ArrayList<String>();
-        for(int i=2010;i<=2010+maxYearIndex;i++){
-            listOfYears.add(new String(""+i));
-        }
-        setInitialTabs();
+        
 
 //         if(!PersistenceManager.createEntityManager().createQuery("select f from FinantialYear f").getResultList().isEmpty()){
 //            return;
@@ -415,52 +292,6 @@ public List<FinantialYear> getYearsToView(){
         this.user = user;
     }
 
-    
-    private void setInitialTabs() {
-        try {
-            Date d = new Date();
-            Calendar c = new GregorianCalendar();
-            c.setTime(d);
-            FinantialMonth fm = FinantialMonth.findByDate(d);
-            FinantialYear fy = fm.getFinantialYear();
-            currentYearIndex = this.findYearIndex(fy.getTitle());
-            currentMonthIndex = c.get(Calendar.MONTH);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    public void nextYear(){
-        if(currentYearIndex < maxYearIndex-1){
-            currentYearIndex ++;
-        }
-    }
-    public void previousYear(){
-        if(currentYearIndex > 0){
-            currentYearIndex --;
-        }
-    }
-    
-     public void changeYear(int index){
-        setCurrentYearIndex(index);
-    }
-
-
-    public Integer getNumberOfYearsToView() {
-        return numberOfYearsToView;
-    }
-
-    public void setNumberOfYearsToView(Integer numberOfYearsToView) {
-        this.numberOfYearsToView = numberOfYearsToView;
-    }
-
-   public void onTabChange(TabChangeEvent event) {
-       if (event.getTab() != null) {
-           this.currentYearForm = "year_"+event.getTab().getClientId().substring(5, 9);
-           this.currentMonthIndex = Integer.parseInt(event.getTab().getId().substring(event.getTab().getId().indexOf("b")+1));
-       }
-
-    }
 
 
 

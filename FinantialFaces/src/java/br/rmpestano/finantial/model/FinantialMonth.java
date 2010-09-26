@@ -70,6 +70,21 @@ public class FinantialMonth implements Serializable {
 
     @Transient
     private int monthIndex;
+    @Transient
+    private int userIncomesSize;
+    @Transient
+    private int userOutcomesSize;
+
+    public int getUserIncomesSize() {
+        return getCurrentUserIncomesInTheMonth().size();
+    }
+
+    public int getUserOutcomesSize() {
+        return getCurrentUserOutcomesInTheMonth().size();
+    }
+
+
+
 
     public List<Income> getCurrentUserIncomesInTheMonth() {
 //         List<Income> userIncomes = new ArrayList<Income>();

@@ -7,24 +7,25 @@ package br.rmpestano.finantial.controller;
 
 import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.FinantialYear;
-import br.rmpestano.finantial.model.Income;
-import br.rmpestano.finantial.model.Outcome;
-import br.rmpestano.finantial.service.FinanceService;
+import br.rmpestano.finantial.model.IncomeType;
+import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.service.TabService;
 import br.rmpestano.finantial.util.BeanManagerController;
-import br.rmpestano.finantial.util.MessagesController;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import org.primefaces.component.datatable.DataTable;
+import javax.faces.model.SelectItem;
+
+
+import org.primefaces.event.TabChangeEvent;
 
 
 /**
- *
+ * this bean is responsible for the months and their finances in View
+ * no sql queries here, use tabService
  * @author rmpestano
  */
 @ManagedBean(name="tabBean")
@@ -32,12 +33,19 @@ import org.primefaces.component.datatable.DataTable;
 public class TabController implements Serializable{
     TabService tabService;
     List<FinantialYear> tabYears;
-    private String lastCalendarDate;
-    private String firstCalendarDate;
+    private String lastYearDate; //its used in the addFinance calendar minDate and maxdate atributes
+    private String firstYearDate;
     private Double totalOutcomeInThemonth;
-    private DataTable outcomeTable;
     private FinantialYear currentYear;
+    private FinantialMonth currentMonth;
     private boolean editYear ;
+    private int currentMonthIndex;
+    private List<String> listOfYears;
+    private String currentYearTitle;
+    private int currentYearIndex;
+    private int financesActiveIndex = -1;
+    private SelectItem[] outcomeFilterOptions;
+    private SelectItem[] incomeFilterOptions;
     
     
 
@@ -46,16 +54,52 @@ public class TabController implements Serializable{
 
     @PostConstruct
     public void initMonthsAndYears() {
-        tabService = (TabService) BeanManagerController.getBeanByName("tabService");//@ManagedProperty
-        //financeService = (FinanceService) BeanManagerController.getBeanByName("financeService");
-//        tabService.init();
-//        tabYears = tabService.getYearsToView();//dependera do numero de anos que o user quer ver
-        tabYears = tabService.getAllFinantialYears();
+        tabService = (TabService) BeanManagerController.getBeanByName("tabService");//colocar esse bean em enterprise.context.viewScoope e dar inject ao inves dessa gambia
+        tabYears = tabService.getFinantialYears();
         Collections.sort(tabYears);
-        lastCalendarDate = tabService.findlastYear();
-        firstCalendarDate = tabService.findfirstYear();
-        currentYear = tabYears.get(tabService.getCurrentYearIndex());
+        setInitialTabs();
+        lastYearDate = tabService.findLastYear();
+        firstYearDate = tabService.findFirstYear();
+        currentYear = tabYears.get(currentYearIndex);
+        outcomeFilterOptions = createOutcomeFilterOptions();
+        incomeFilterOptions = createIncomeFilterOptions();
     }
+
+    private SelectItem[] createOutcomeFilterOptions(){
+        List<OutcomeType> types = tabService.getOutcomeTypes();
+        SelectItem[] retorno = new SelectItem[types.size()+1];
+        retorno[0] = new SelectItem("", "Todos");
+        for (int i = 0; i < types.size(); i++) {
+             retorno[i+1] = new SelectItem(types.get(i).getDescription(), types.get(i).getDescription());
+        }
+        return retorno;
+    }
+    private SelectItem[] createIncomeFilterOptions(){
+        List<IncomeType> types = tabService.getIncomeTypes();
+        SelectItem[] retorno = new SelectItem[types.size()+1];
+        retorno[0] = new SelectItem("", "Todos");
+        for (int i = 0; i < types.size(); i++) {
+             retorno[i+1] = new SelectItem(types.get(i).getDescription(), types.get(i).getDescription());
+        }
+        return retorno;
+    }
+
+    public SelectItem[] getOutcomeFilterOptions() {
+        return outcomeFilterOptions;
+    }
+
+    public void setOutcomeFilterOptions(SelectItem[] outcomeFilterOptions) {
+        this.outcomeFilterOptions = outcomeFilterOptions;
+    }
+
+    public SelectItem[] getIncomeFilterOptions() {
+        return incomeFilterOptions;
+    }
+
+    public void setIncomeFilterOptions(SelectItem[] incomeFilterOptions) {
+        this.incomeFilterOptions = incomeFilterOptions;
+    }
+
 
     public boolean isEditYear() {
         return editYear;
@@ -65,8 +109,63 @@ public class TabController implements Serializable{
         this.editYear = editYear;
     }
 
+    public int getCurrentYearIndex() {
+        return currentYearIndex;
+    }
+
+    public int getFinancesActiveIndex() {
+        return financesActiveIndex;
+    }
+
+    public void setFinancesActiveIndex(int financesActiveIndex) {
+        this.financesActiveIndex = financesActiveIndex;
+    }
+
+
+    public void setCurrentYearIndex(int currentYearIndex) {
+        currentYear = tabYears.get(currentYearIndex);
+        this.currentYearIndex = currentYearIndex;
+    }
+
+    public String getCurrentYearTitle() {
+        return currentYearTitle;
+    }
+
+    public void setCurrentYearTitle(String currentYearTitle) {
+        this.currentYearTitle = currentYearTitle;
+    }
+
+    public FinantialMonth getCurrentMonth() {
+        return currentMonth;
+    }
+
+    public void setCurrentMonth(FinantialMonth currentMonth) {
+        this.currentMonth = currentMonth;
+    }
+
+    public String getFirstYearDate() {
+        return firstYearDate;
+    }
+
+    public void setFirstYearDate(String firstYearDate) {
+        this.firstYearDate = firstYearDate;
+    }
+
+    public String getLastYearDate() {
+        return lastYearDate;
+    }
+
+    public void setLastYearDate(String lastYearDate) {
+        this.lastYearDate = lastYearDate;
+    }
+
+
 
     public List<FinantialYear> getTabYears() {
+        if(tabYears == null){
+            tabYears = tabService.getFinantialYears();
+        }
+
         return tabYears;
     }
 
@@ -74,21 +173,6 @@ public class TabController implements Serializable{
         this.tabYears = tabYears;
     }
 
-    public String getFirstCalendarDate() {
-        return firstCalendarDate;
-    }
-
-    public void setFirstCalendarDate(String firstCalendarDate) {
-        this.firstCalendarDate = firstCalendarDate;
-    }
-
-    public String getLastCalendarDate() {
-        return lastCalendarDate;
-    }
-
-    public void setLastCalendarDate(String lastCalendarDate) {
-        this.lastCalendarDate = lastCalendarDate;
-    }
 
     public Double getTotalOutcomeInThemonth() {
         return totalOutcomeInThemonth;
@@ -98,12 +182,28 @@ public class TabController implements Serializable{
         this.totalOutcomeInThemonth = totalOutcomeInThemonth;
     }
 
-    public DataTable getOutcomeTable() {
-        return outcomeTable;
+    public int getCurrentMonthIndex() {
+        return currentMonthIndex;
     }
 
+    public void setCurrentMonthIndex(int currentMonthIndex) {
+        this.currentMonthIndex = currentMonthIndex;
+    }
+
+     private void setInitialTabs() {
+            try {
+                FinantialMonth fm = tabService.getCurrentFinantialMonth();
+                FinantialYear fy = fm.getFinantialYear();
+                currentYearTitle = fy.getTitle();
+                currentYearIndex = tabService.findYearIndex(fy.getTitle());
+                currentMonthIndex = fm.getMonthIndex();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
     public FinantialYear getCurrentYear() {
-        return tabYears.get(tabService.getCurrentYearIndex());
+        return tabYears.get(currentYearIndex);
     }
 
     public void setCurrentYear(FinantialYear currentYear) {
@@ -119,6 +219,21 @@ public class TabController implements Serializable{
          }
     }
 
+    public List<String> getListOfYears() {
+        return listOfYears;
+    }
+
+    public void setListOfYears(List<String> listOfYears) {
+        this.listOfYears = listOfYears;
+    }
+
+        public String getYearToView() {
+        return currentYearTitle;
+    }
+
+    public void setYearToView(String yearToView) {
+        this.currentYearTitle = yearToView;
+    }
 
     public void showIncome(FinantialMonth fm){
         if(fm.isShowMonthIncomes()){
@@ -145,11 +260,48 @@ public class TabController implements Serializable{
 //    public void clearSelection(){
 //        outcomeTable.getSelectedRowIndexes().clear();
 //    }
-    public void setOutcomeTable(DataTable outcomeTable) {
-        this.outcomeTable = outcomeTable;
 
+
+     public void tabChange(TabChangeEvent event){
+        String tabTitle = event.getTab().getTitle();
+        if(tabTitle.equalsIgnoreCase("despesas")){
+           FinantialMonth fm = currentYear.getFinantialMonths().get(currentMonthIndex);
+           fm.setShowMonthOutcomes(true);
+           fm.setShowMonthIncomes(false);
+        }
+        if(tabTitle.equalsIgnoreCase("receitas")){
+           FinantialMonth fm = currentYear.getFinantialMonths().get(currentMonthIndex);
+           fm.setShowMonthOutcomes(false);
+           fm.setShowMonthIncomes(true);
+        }
     }
 
+       public void onMonthChange(TabChangeEvent event){
+        String tabId = event.getTab().getId();
+        this.currentMonthIndex = Integer.parseInt(tabId.substring(tabId.indexOf("b")+1));
+        financesActiveIndex = -1;
+    }
+
+    public void nextYear(){
+        if(currentYearIndex < tabService.getMaxYearIndex()-1){
+            currentYearIndex ++;
+            currentYear = tabYears.get(currentYearIndex);
+            financesActiveIndex = -1;
+        }
+    }
+    public void previousYear(){
+        if(currentYearIndex > 0){
+            currentYearIndex --;
+            currentYear = tabYears.get(currentYearIndex);
+            financesActiveIndex = -1;
+        }
+    }
+
+     public void changeYear(int index){
+        setCurrentYearIndex(index);
+        currentYear = tabYears.get(index);
+        financesActiveIndex = -1;
+    }
 
 
 
