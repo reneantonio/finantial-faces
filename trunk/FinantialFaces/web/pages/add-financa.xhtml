@@ -42,7 +42,7 @@ and open the template in the editor.
                     <h:column>
                         <h:panelGrid columns="2" id="grid_finance"  >
                             <finantial:label for="date_income" value="#{msg['finance.label.data']}:" required="true"/>
-                            <p:calendar id="date_income" effectDuration="0.5" value="#{financeBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{y.firstDateOfYear}" maxdate="#{y.lastDateOfYear}"  popupIcon="../resources/images/calendar.png"/>
+                            <p:calendar id="date_income" effectDuration="0.5" value="#{financeBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstYearDate}" maxdate="#{tabBean.lastYearDate}"  popupIcon="../resources/images/calendar.png"/>
                             <finantial:label for="select_tipo" value="#{msg['finance.label.tipo']}:"/>
                             <h:column>
                                 <h:selectOneMenu id="select_tipo" value="#{financeBean.tipoCorrete}" styleClass="tipo">
@@ -62,7 +62,7 @@ and open the template in the editor.
                                 </h:selectOneMenu>
                             </p:outputPanel>
                            
-                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="@form,messages" style="margin-left: 6px" />
+                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="@form,:form_carroussel:grid_carroussel,messages" style="margin-left: 6px" />
                             </h:column>
                         </h:panelGrid>
                     </h:column>

@@ -17,6 +17,9 @@ import javax.persistence.Temporal;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * entidade que representa as despesas (saidas)
@@ -31,12 +34,14 @@ public class Outcome extends BaseEntity {
 
     @ManyToOne
     private FinantialMonth finantialMonth;
-    
+
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     @OneToOne
     private OutcomeType type;
+    @NotNull(message="Forneça um valor para a despesa")
     private Double value;
+    @Size(min=0,max=35,message="Tamanho máximo da descrição:35 caracteres")
     private String description;
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 

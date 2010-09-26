@@ -26,7 +26,7 @@ and open the template in the editor.
                    <h:outputLabel for="remove_income_val" value="Valor:"/>
                    <h:inputText disabled="true" id="remove_income_val" value="#{financeBean.selectedIncome.value}"/>
                    <h:outputLabel for="remove_income_type" value="Subtipo:"/>
-                   <h:inputText disabled="true" id="remove_income_type" value="#{financeBean.selectedIncome.type}"/>
+                   <h:inputText disabled="true" id="remove_income_type" value="#{msg['subtipo.income.'.concat(financeBean.selectedIncome.type)]}"/>
              </h:panelGrid>
 
             </div>

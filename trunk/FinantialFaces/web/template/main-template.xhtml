@@ -45,37 +45,8 @@ and open the template in the editor.
                                   </p:menuitem>
                             </p:submenu>
                        </p:menu>
-          <p:menu widgetVar="yearMenu" position="dynamic" x="143" y="33" styleClass="yearsMenu">
-                    <p:submenu label="Visualisar Até:">
-                        <p:menuitem value="2010" ajax="false" action="#{tabService.changeNumYearstoView(1)}"></p:menuitem>
-                        <p:menuitem value="2011" ajax="false" action="#{tabService.changeNumYearstoView(2)}"></p:menuitem>
-                        <p:menuitem value="2012" ajax="true"  action="#{tabService.changeNumYearstoView(3)}"></p:menuitem>
-                        <p:menuitem value="2013" ajax="false" action="#{tabService.changeNumYearstoView(4)}"></p:menuitem>
-                        <p:menuitem value="2014" ajax="false" action="#{tabService.changeNumYearstoView(5)}"></p:menuitem>
-                        <p:menuitem value="2015" ajax="false" action="#{tabService.changeNumYearstoView(6)}"></p:menuitem>
-                        <p:menuitem value="2016" ajax="false" action="#{tabService.changeNumYearstoView(7)}"></p:menuitem>
-                        <p:menuitem value="2017" ajax="false" action="#{tabService.changeNumYearstoView(8)}"></p:menuitem>
-                        <p:menuitem value="2018" ajax="false" action="#{tabService.changeNumYearstoView(9)}"></p:menuitem>
-                        <p:menuitem value="2019" ajax="false" action="#{tabService.changeNumYearstoView(10)}"></p:menuitem>
-                        <p:menuitem value="2020" ajax="false" action="#{tabService.changeNumYearstoView(11)}"></p:menuitem>
-                        <p:menuitem value="2025" ajax="false" action="#{tabService.changeNumYearstoView(16)}"></p:menuitem>
-                        <p:menuitem value="2030" ajax="false" action="#{tabService.changeNumYearstoView(21)}"></p:menuitem>
-                        <p:menuitem value="apenas..." ajax="true" action="#{tabService.specificYearMode}" oncomplete="yearModal.show()"/>
-                    </p:submenu>
 
-                </p:menu>
-          <p:dialog widgetVar="yearModal" modal="true" header="Escolha o Ano">
-              <div align="center">
-                  <h:panelGrid columns="2">
-                      <h:outputLabel for="yearList" value="Escolha o ano:"/>
-                      <h:selectOneMenu id="yearList" value="#{tabService.yearToView}">
-                          <f:selectItems var="y" value="#{tabService.listOfYears}" itemLabel="#{y}" itemValue="#{y}"/>
-                      </h:selectOneMenu>
-                  </h:panelGrid>
-              <p:commandButton value="ok" action="/pages/home.faces?faces-redirect=true" ajax="false"/>
-              </div>
-          </p:dialog>
-          <p:menu widgetVar="reportsMenu" position="dynamic" x="250" y="33"  styleClass="reportsMenu" >
+          <p:menu widgetVar="reportsMenu" position="dynamic" x="143" y="33"  styleClass="reportsMenu" >
                      <p:submenu label="Visualisar Relatórios">
                       <p:menuitem value="relatório 1" ajax="false" ></p:menuitem>
                       <p:menuitem value="relatório 2" ajax="false" ></p:menuitem>
@@ -95,8 +66,7 @@ and open the template in the editor.
           <h:panelGroup id="group" layout="block" style="display:inline-table;width: 100%;">
               <p:commandButton id="themeButton" value="#{msg['themechange']}" onclick="themeMenu.show()" type="button" style="width: 130px"/>
               <p:outputPanel rendered="#{menu == 1}">
-                  <p:commandButton id="yearsButton" value="Visualisar Anos" onclick="yearMenu.show()" type="button" />
-                  <p:commandButton id="reportsButton" value="Relatórios" onclick="reportsMenu.show()" type="button" />
+                  <p:commandButton id="reportsButton" value="Relatórios Gerais" onclick="reportsMenu.show()" type="button" />
                   <div style="position: relative;float: right">
                   <p:commandButton id="logoutButton" value="Sair" ajax="false"   actionListener="#{loginBean.doLogout}"/>
                   </div>

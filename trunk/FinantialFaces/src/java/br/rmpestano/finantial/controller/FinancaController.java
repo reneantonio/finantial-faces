@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -60,6 +61,8 @@ public class FinancaController implements Serializable{
     private Income selectedIncome;
     private FinanceService financeService;
     private int numberOfMonthToPropagate;
+    @ManagedProperty(value="#{tabBean}")
+    private TabController tabController;
 
 
     public FinancaController() {
@@ -75,6 +78,15 @@ public class FinancaController implements Serializable{
         return tiposFinanca;
     }
 
+    public TabController getTabController() {
+        return tabController;
+    }
+
+    public void setTabController(TabController tabController) {
+        this.tabController = tabController;
+    }
+
+    
 
     public void setTiposFinanca(List<String> tiposFinanca) {
         this.tiposFinanca = tiposFinanca;
@@ -302,7 +314,6 @@ public class FinancaController implements Serializable{
             fm.getMonthOutcomes().add(selectedOutcome);
             selectedOutcome.setFinantialMonth(fm);
             financeService.updateMonth(fm);
-            tabController.setTabYears(tabService.getYearsToView());
         }
          else{
           financeService.updateOutcome(selectedOutcome);
@@ -321,7 +332,6 @@ public class FinancaController implements Serializable{
             fm.getMonthIncomes().add(selectedIncome);
             selectedIncome.setFinantialMonth(fm);
             financeService.updateMonth(fm);
-            tabController.setTabYears(tabService.getYearsToView());
         }
          else{
           financeService.updateIncome(selectedIncome);
@@ -340,8 +350,9 @@ public class FinancaController implements Serializable{
             c.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
             c.setTime(date);
             c.set(Calendar.DAY_OF_MONTH, 1);
-            tabService.setCurrentMonthIndex(c.get(Calendar.MONTH));
-            tabService.setCurrentYearIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
+            tabController.setCurrentMonthIndex(c.get(Calendar.MONTH));
+            tabController.setCurrentYearIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
+            tabController.setFinancesActiveIndex(-1);
         }
 
     }
@@ -357,8 +368,7 @@ public class FinancaController implements Serializable{
         sb.append(""+c.getActualMaximum(Calendar.DAY_OF_MONTH)).append("/").append(month).append("/").append(year);
         lastDayOfMonth = sb.toString();
         firstDayOfMonth = "01/"+month +"/"+year;
-        tabService.setCurrentYearForm("year_"+year);
-        tabService.setCurrentMonthIndex(fm.getMonthIndex());
+//        tabController.setCurrentMonthIndex(fm.getMonthIndex());
     }
     public void prepareAddMonthIncome(FinantialMonth fm){
         receita = new Income();
@@ -371,15 +381,14 @@ public class FinancaController implements Serializable{
         sb.append(""+c.getActualMaximum(Calendar.DAY_OF_MONTH)).append("/").append(month).append("/").append(year);
         lastDayOfMonth = sb.toString();
         firstDayOfMonth = "01/"+month +"/"+year;
-        tabService.setCurrentYearForm("year_"+year);
-        tabService.setCurrentMonthIndex(fm.getMonthIndex());
+//        tabController.setCurrentMonthIndex(fm.getMonthIndex());
     }
 
     public void prepareEditOutcome(Outcome despesa){
         selectedOutcome = despesa;
         tipoCorrete = OUTCOME;
         String year = despesa.getFinantialMonth().getFinantialYear().getTitle();
-        tabService.setCurrentMonthIndex(despesa.getFinantialMonth().getMonthIndex());
+//        tabController.setCurrentMonthIndex(despesa.getFinantialMonth().getMonthIndex());
         Calendar c = new GregorianCalendar();
         c.setTime(selectedOutcome.getFinantialMonth().getDate());
         Integer month = c.get(Calendar.MONTH) +1;
@@ -387,13 +396,12 @@ public class FinancaController implements Serializable{
         sb.append(""+c.getActualMaximum(Calendar.DAY_OF_MONTH)).append("/").append(month).append("/").append(year);
         lastDayOfMonth = sb.toString();
         firstDayOfMonth = "01/"+month +"/"+year;
-        tabService.setCurrentYearForm("year_"+year);
     }
     public void prepareEditIncome(Income receita){
         selectedIncome = receita;
         tipoCorrete = INCOME;
         String year = receita.getFinantialMonth().getFinantialYear().getTitle();
-        tabService.setCurrentMonthIndex(receita.getFinantialMonth().getMonthIndex());
+//        tabController.setCurrentMonthIndex(receita.getFinantialMonth().getMonthIndex());
         Calendar c = new GregorianCalendar();
         c.setTime(selectedIncome.getFinantialMonth().getDate());
         Integer month = c.get(Calendar.MONTH) +1;
@@ -401,13 +409,12 @@ public class FinancaController implements Serializable{
         sb.append(""+c.getActualMaximum(Calendar.DAY_OF_MONTH)).append("/").append(month).append("/").append(year);
         lastDayOfMonth = sb.toString();
         firstDayOfMonth = "01/"+month +"/"+year;
-        tabService.setCurrentYearForm("year_"+year);
     }
     public void prepareRemoveOutcome(Outcome despesa){
         selectedOutcome = despesa;
         tipoCorrete = OUTCOME;
         String year = despesa.getFinantialMonth().getFinantialYear().getTitle();
-        tabService.setCurrentMonthIndex(despesa.getFinantialMonth().getMonthIndex());
+//        tabController.setCurrentMonthIndex(despesa.getFinantialMonth().getMonthIndex());
         Calendar c = new GregorianCalendar();
         c.setTime(selectedOutcome.getFinantialMonth().getDate());
         Integer month = c.get(Calendar.MONTH) +1;
@@ -415,13 +422,12 @@ public class FinancaController implements Serializable{
         sb.append(""+c.getActualMaximum(Calendar.DAY_OF_MONTH)).append("/").append(month).append("/").append(year);
         lastDayOfMonth = sb.toString();
         firstDayOfMonth = "01/"+month +"/"+year;
-        tabService.setCurrentYearForm("year_"+year);
     }
     public void prepareRemoveIncome(Income receita){
         selectedIncome = receita;
         tipoCorrete = INCOME;
         String year = receita.getFinantialMonth().getFinantialYear().getTitle();
-        tabService.setCurrentMonthIndex(receita.getFinantialMonth().getMonthIndex());
+//        tabController.setCurrentMonthIndex(receita.getFinantialMonth().getMonthIndex());
         Calendar c = new GregorianCalendar();
         c.setTime(selectedIncome.getFinantialMonth().getDate());
         Integer month = c.get(Calendar.MONTH) +1;
@@ -429,7 +435,6 @@ public class FinancaController implements Serializable{
         sb.append(""+c.getActualMaximum(Calendar.DAY_OF_MONTH)).append("/").append(month).append("/").append(year);
         lastDayOfMonth = sb.toString();
         firstDayOfMonth = "01/"+month +"/"+year;
-        tabService.setCurrentYearForm("year_"+year);
     }
 
 //    public void onEditPanelClose(CloseEvent event) {

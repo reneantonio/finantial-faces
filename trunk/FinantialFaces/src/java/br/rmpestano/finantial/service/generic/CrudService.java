@@ -19,6 +19,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
@@ -34,7 +35,7 @@ import javax.persistence.criteria.Root;
 @Dependent
 @Stateless
 public class CrudService <T> {
-    @PersistenceContext
+    @PersistenceContext(type=PersistenceContextType.TRANSACTION)
     EntityManager em;
 
     public CrudService() {
