@@ -68,15 +68,10 @@
 .even {}
 
 .tipo{
-    padding-top: 1px;
-    padding-bottom: 1px;
     height: 21px;
-    width: 118px;
+    margin-left: 2px;
+    width: 142px;
     *width: 183px
-    @media screen and (-webkit-min-device-pixel-ratio:0) {
-      width:130px;
-      margin-left: 5px;
-    }
 }
 
 .themeMenu{
@@ -91,4 +86,11 @@
 .reportsMenu{
     overflow: auto;
     width:130px;
+}
+
+.bt-income{
+    background-image: url('../images/coins_add.png') !important;
+}
+.bt-outcome{
+    background-image: url('../images/coins_delete.png') !important;
 }

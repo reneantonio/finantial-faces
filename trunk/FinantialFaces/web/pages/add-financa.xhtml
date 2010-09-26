@@ -15,66 +15,46 @@ and open the template in the editor.
 
 
     <p:panel header="Inclusão de Finanças">
+               
+        <h:panelGrid columns="4" cellpadding="0" id="grid_add" style="overflow: auto">
+                      <finantial:label for="outcome_descricao" value="#{msg['finance.label.descricao']}:" required="true"/>
+                      <h:inputText id="outcome_descricao" value="#{financeBean.financeDescription}"/>
+                      <finantial:label for="date_income" value="#{msg['finance.label.data']}:" required="true" style="padding-left: 10px" />
+                      <p:calendar id="date_income" effectDuration="0.5" value="#{financeBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstYearDate}" maxdate="#{tabBean.lastYearDate}"  popupIcon="../resources/images/calendar.png"/>
 
-                <h:panelGrid columns="3" cellpadding="0" id="grid_add">
-                    <h:column>
-                        <p:outputPanel id="tipo_outcome">
-                            <h:panelGrid id="grid_outcome" columns="2" cellspacing="4px" rendered="#{financeBean.tipoCorrete eq financeBean.OUTCOME}">
-                                <finantial:label for="outcome_descricao" value="#{msg['finance.label.descricao']}:" required="true"/>
-                                <h:inputText id="outcome_descricao" value="#{financeBean.financeDescription}"/>
-                                <finantial:label for="outcome_valor" value="#{msg['finance.label.valor']}:" required="true"/>
-                                <h:inputText id="outcome_valor" value="#{financeBean.financeValue}"/>
-                            </h:panelGrid>
-                        </p:outputPanel>
-                        <p:outputPanel id="tipo_income">
-                            <h:panelGrid id="grid_income" columns="2" cellspacing="4px"  rendered="#{financeBean.tipoCorrete eq financeBean.INCOME}">
-                                <finantial:label for="income_descricao" value="#{msg['finance.label.descricao']}:" required="true"/>
-                                <h:inputText id="income_descricao" value="#{financeBean.financeDescription}"/>
-                                <finantial:label for="income_valor" value="#{msg['finance.label.valor']}:" required="true"/>
-                                <h:inputText id="income_valor" value="#{financeBean.financeValue}"/>
-
-                            </h:panelGrid>
-                        </p:outputPanel>
-                        
-                        
-                    </h:column>
-                   
-                    <h:column>
-                        <h:panelGrid columns="2" id="grid_finance"  >
-                            <finantial:label for="date_income" value="#{msg['finance.label.data']}:" required="true"/>
-                            <p:calendar id="date_income" effectDuration="0.5" value="#{financeBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstYearDate}" maxdate="#{tabBean.lastYearDate}"  popupIcon="../resources/images/calendar.png"/>
-                            <finantial:label for="select_tipo" value="#{msg['finance.label.tipo']}:"/>
-                            <h:column>
-                                <h:selectOneMenu id="select_tipo" value="#{financeBean.tipoCorrete}" styleClass="tipo">
+                      <finantial:label for="select_tipo" value="#{msg['finance.label.tipo']}:" />
+                                <h:selectOneMenu id="select_tipo" value="#{financeBean.tipoCorrete}"  styleClass="tipo">
                                 <f:selectItems value="#{financeBean.tiposFinanca}" var="tipo" itemLabel="#{tipo eq financeBean.INCOME ? msg['finance.label.tipo.income'] : msg['finance.label.tipo.outcome']}" itemValue="#{tipo}"/>
-                                <f:ajax execute="grid_add" render="select_subtipo grid_add"/>
+                                <f:ajax execute="grid_add" render="select_subtipo grid_add bt-add"/>
                             </h:selectOneMenu>
+
                             <finantial:label for="select_subtipo_#{financeBean.tipoCorrete}"  value="&#160;&#160;&#160;#{msg['finance.label.subtipo']}:"/>
 
                             <p:outputPanel id="select_subtipo">
-                                <h:selectOneMenu id="select_subtipo_income" rendered="#{financeBean.tipoCorrete eq financeBean.INCOME}"  value="#{financeBean.subtipoIncomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
+                                <h:selectOneMenu id="select_subtipo_income" rendered="#{financeBean.tipoCorrete eq financeBean.INCOME}"  value="#{financeBean.subtipoIncomeCorrete}"  style="margin-bottom: 3px;margin-top: 3px;margin-left: 2px;height: 21px;width: 145px;*width: 183px">
                                     <f:selectItems value="#{financeBean.subtiposIncome}" var="subtipo" itemLabel="#{msg['subtipo.income.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
                                     <f:converter converterId="incomeConveter"/>
                                 </h:selectOneMenu>
-                                <h:selectOneMenu id="select_subtipo_outcome" rendered="#{financeBean.tipoCorrete eq financeBean.OUTCOME}"  value="#{financeBean.subtipoOutcomeCorrete}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
+                                <h:selectOneMenu id="select_subtipo_outcome" rendered="#{financeBean.tipoCorrete eq financeBean.OUTCOME}"  value="#{financeBean.subtipoOutcomeCorrete}"  style="margin-bottom: 3px;margin-top: 3px;margin-left: 2px;height: 21px;width: 145px;*width: 183px;">
                                     <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{msg['subtipo.outcome.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
                                     <f:converter converterId="outcomeConveter"/>
                                 </h:selectOneMenu>
                             </p:outputPanel>
-                           
-                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="months_panel,month_#{tabBean.currentMonthIndex},:form_carroussel:grid_carroussel,messages" style="margin-left: 6px" />
-                            </h:column>
-                        </h:panelGrid>
-                    </h:column>
+
+
+                      <finantial:label for="outcome_valor" value="#{msg['finance.label.valor']}:" required="true"/>
+                      <h:inputText id="outcome_valor" value="#{financeBean.financeValue}"/>
+                      <h:inputHidden />
+                      <p:commandButton value="Incluir" id="bt-add" style="width: 140px!important" image="#{financeBean.tipoCorrete eq financeBean.INCOME ? 'bt-income':'bt-outcome'}" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="months_panel,month_#{tabBean.currentMonthIndex},:form_carroussel:grid_carroussel,messages" />
 
 
                 </h:panelGrid>
-        <table width="100%">
+        <table width="100%" style="padding-top: 20px">
             <tr>
-                <td style="width: 170px;padding-left: 5px">
+                <td style="width: 60px;padding-left: 5px">
                         <h:outputLabel value="Propagar finança nos proximos:"/>
                 </td>
-                <td align="left">
+                <td align="left" style="width: 165px">
                     <div style="display: inline;margin-left: -15px">
                     <h:selectOneMenu  id="repeat_menu" value="#{financeBean.numberOfMonthToPropagate}">
                         <f:selectItem itemLabel="selecione uma opção" noSelectionOption="true" itemValue="0"/>
@@ -99,9 +79,15 @@ and open the template in the editor.
                         <h:graphicImage style="margin-bottom:-4px ;margin-left: 2px" library="images" name="info1.png" id="info" title="Escolha o número de meses a partir da data escolhida no campo 'data' em que a finança também deve ser incluida."/>
                     </div>
                 </td>
+
+
+
+
             </tr>
-                
+
+
               </table>
+
             </p:panel>
 
         

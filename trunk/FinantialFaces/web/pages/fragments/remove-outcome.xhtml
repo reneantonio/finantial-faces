@@ -33,7 +33,7 @@ and open the template in the editor.
             </div>
              <div style="display: inline;">
                      <p:commandButton value="cancelar" onclick="removeModal.hide()" action="#{financeBean.cancelRemove}" style="margin-left:-10px"/>
-                     <p:commandButton value="ok" actionListener="#{financeBean.removeOutcome}" async="true" ajax="true" update="months_form:months_panel,remove_msg_outcome,messages" oncomplete="handleRemove(args)" style="margin-left: 10px" />
+                     <p:commandButton value="remover" actionListener="#{financeBean.removeOutcome}" async="true" ajax="true" update="months_form:months_panel,remove_msg_outcome,messages" oncomplete="handleRemove(args)" style="margin-left: 10px" />
              </div>
              </p:fieldset>
     <div align="center">

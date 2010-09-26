@@ -23,9 +23,9 @@ and open the template in the editor.
     <composite:implementation>
         <p:outputPanel id="month_#{cc.attrs.month.monthIndex}">
         <ui:param name="m" value="#{cc.attrs.month}"/>
-        <p:accordionPanel activeIndex="#{tabBean.financesActiveIndex}" cache="false" effect="bounceslide" tabChangeListener="#{tabBean.tabChange}" onTabChangeUpdate="month_#{cc.attrs.month.monthIndex}">
+        <p:accordionPanel  activeIndex="#{tabBean.financesActiveIndex}" cache="false" effect="bounceslide" tabChangeListener="#{tabBean.tabChange}" onTabChangeUpdate="month_#{cc.attrs.month.monthIndex}">
                 <p:tab title="Despesas">
-                     <p:outputPanel  rendered="#{(not empty m.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
+                    <p:outputPanel  rendered="#{(not empty m.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
                     <p:dataTable id="outcome_table#{m.monthIndex}" var="d" value="#{m.currentUserOutcomesInTheMonth}"   paginator="true" rows="5"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{m.userOutcomesSize > 15 ? m.userOutcomesSize : ''}" style="border: none">
                         <p:column sortBy="#{d.date}" parser="date" >
@@ -62,14 +62,18 @@ and open the template in the editor.
                             <p:commandLink style="font-weight: bold;text-decoration: none" value="#{d.value}"/>
                         </p:column>
 
-                        <p:column>
+                        <p:column style="width: 75px!important">
                             <f:facet name="header">
                                                                 #{msg['finance.label.operacoes']}
                             </f:facet>
                             <div style="display: inline;" >
-                                <p:commandLink value="editar" action="#{financeBean.prepareEditOutcome(d)}"  oncomplete="editModal.show()"  update="edit_panel" />
-                                &#160;/&#160;
-                                <p:commandLink value="remover" action="#{financeBean.prepareRemoveOutcome(d)}" oncomplete="removeModal.show()" update="remove_panel"/>
+                                <p:commandLink title="Editar despesa" action="#{financeBean.prepareEditOutcome(d)}"  oncomplete="editModal.show()"  update="edit_panel" >
+                                    <h:graphicImage library="images" name="edit.png" style="border: none;"/>
+                                </p:commandLink>
+                                &#160;&#160;
+                                <p:commandLink title="Remover despesa" action="#{financeBean.prepareRemoveOutcome(d)}" oncomplete="removeModal.show()" update="remove_panel">
+                                    <h:graphicImage library="images" name="garbage.png" style="border: none;margin-top: -2px"/>
+                                </p:commandLink>
                             </div>
                         </p:column>
 
@@ -117,7 +121,8 @@ and open the template in the editor.
                             </f:facet>
                             <p:commandLink value="#{r.description}" style="text-decoration: none"/>
                         </p:column>
-                        <p:column >
+                        <p:column filterBy="#{r.type.description}" filterOptions="#{tabBean.incomeFilterOptions}"
+                          filterMatchMode="exact" >
                             <f:facet name="header">
                                 <h:outputLabel value="#{msg['finance.label.tipo']}"/>
                             </f:facet>
@@ -131,14 +136,18 @@ and open the template in the editor.
                                 <h:outputText style="font-weight: bold;" value="#{r.value}"/>
                             </p:commandLink>
                         </p:column>
-                        <p:column>
+                        <p:column style="width: 75px!important">
                             <f:facet name="header">
                                    #{msg['finance.label.operacoes']}
                             </f:facet>
                             <div style="display: inline;" >
-                                <p:commandLink value="editar" action="#{financeBean.prepareEditIncome(r)}"  oncomplete="editModal.show()"  update="edit_panel" />
-                                &#160;/&#160;
-                                <p:commandLink value="remover" action="#{financeBean.prepareRemoveIncome(r)}" oncomplete="removeModal.show()" update="remove_panel"/>
+                                <p:commandLink title="Editar receita" action="#{financeBean.prepareEditIncome(r)}"  oncomplete="editModal.show()"  update="edit_panel" >
+                                    <h:graphicImage style="border: none;" library="images" name="edit.png"/>
+                                </p:commandLink>
+                                 &#160;&#160;
+                                <p:commandLink  title="Excluir receita" action="#{financeBean.prepareRemoveIncome(r)}" oncomplete="removeModal.show()" update="remove_panel">
+                                    <h:graphicImage style="border: none;" library="images" name="garbage.png"/>
+                                </p:commandLink>
                             </div>
                         </p:column>
                         <f:facet name="footer" >
