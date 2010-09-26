@@ -27,7 +27,7 @@ and open the template in the editor.
                 <p:tab title="Despesas">
                      <p:outputPanel  rendered="#{(not empty m.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
                     <p:dataTable id="outcome_table#{m.monthIndex}" var="d" value="#{m.currentUserOutcomesInTheMonth}"   paginator="true" rows="5"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,#{m.userOutcomesSize}" style="border: none">
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{m.userOutcomesSize > 15 ? m.userOutcomesSize : ''}" style="border: none">
                         <p:column sortBy="#{d.date}" parser="date" >
                             <f:facet name="header">
                                 <h:outputLabel value="#{msg['finance.label.data']}"/>
@@ -100,7 +100,7 @@ and open the template in the editor.
                 <p:tab title="Receitas">
                     <p:outputPanel rendered="#{(not empty m.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}">
                     <p:dataTable  var="r" id="income_table#{m.monthIndex}"  value="#{m.currentUserIncomesInTheMonth}"  paginator="true" rows="5"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15,#{m.userIncomesSize}" style="border: none">
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{m.userIncomesSize > 15 ? m.userIncomesSize : ''}" style="border: none">
                         <p:column  sortBy="#{r.date}" parser="date" >
                             <f:facet name="header">
                                 <h:outputLabel value="#{msg['finance.label.data']}"/>
