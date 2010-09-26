@@ -46,6 +46,10 @@ public class TabController implements Serializable{
     private int financesActiveIndex = -1;
     private SelectItem[] outcomeFilterOptions;
     private SelectItem[] incomeFilterOptions;
+    private final int ACORDION_NOT_SELECTED_INDEX = -1;
+    private final int ACORDION_OUTCOME_INDEX = 0;
+    private final int ACORDION_INCOME_INDEX = 1;
+    private final int ACORDION_REPORT_INDEX = 2;
     
     
 
@@ -64,6 +68,23 @@ public class TabController implements Serializable{
         outcomeFilterOptions = createOutcomeFilterOptions();
         incomeFilterOptions = createIncomeFilterOptions();
     }
+
+    public int getACORDION_NOT_SELECTED_INDEX() {
+        return ACORDION_NOT_SELECTED_INDEX;
+    }
+
+    public int getACORDION_INCOME_INDEX() {
+        return ACORDION_INCOME_INDEX;
+    }
+
+    public int getACORDION_OUTCOME_INDEX() {
+        return ACORDION_OUTCOME_INDEX;
+    }
+
+    public int getACORDION_REPORT_INDEX() {
+        return ACORDION_REPORT_INDEX;
+    }
+
 
     private SelectItem[] createOutcomeFilterOptions(){
         List<OutcomeType> types = tabService.getOutcomeTypes();
@@ -279,28 +300,28 @@ public class TabController implements Serializable{
        public void onMonthChange(TabChangeEvent event){
         String tabId = event.getTab().getId();
         this.currentMonthIndex = Integer.parseInt(tabId.substring(tabId.indexOf("b")+1));
-        financesActiveIndex = -1;
+        financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
     }
 
     public void nextYear(){
         if(currentYearIndex < tabService.getMaxYearIndex()-1){
             currentYearIndex ++;
             currentYear = tabYears.get(currentYearIndex);
-            financesActiveIndex = -1;
+            financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
         }
     }
     public void previousYear(){
         if(currentYearIndex > 0){
             currentYearIndex --;
             currentYear = tabYears.get(currentYearIndex);
-            financesActiveIndex = -1;
+            financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
         }
     }
 
      public void changeYear(int index){
         setCurrentYearIndex(index);
         currentYear = tabYears.get(index);
-        financesActiveIndex = -1;
+        financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
     }
 
 

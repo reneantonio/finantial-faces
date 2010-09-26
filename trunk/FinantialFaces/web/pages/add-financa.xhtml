@@ -62,7 +62,7 @@ and open the template in the editor.
                                 </h:selectOneMenu>
                             </p:outputPanel>
                            
-                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="@form,:form_carroussel:grid_carroussel,messages" style="margin-left: 6px" />
+                            <p:commandButton value="Incluir" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="months_panel,month_#{tabBean.currentMonthIndex},:form_carroussel:grid_carroussel,messages" style="margin-left: 6px" />
                             </h:column>
                         </h:panelGrid>
                     </h:column>
