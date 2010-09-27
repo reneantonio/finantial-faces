@@ -106,6 +106,15 @@ public class TabController implements Serializable{
         return retorno;
     }
 
+    public int getFinancesLastTabIndex() {
+        return financesLastTabIndex;
+    }
+
+    public void setFinancesLastTabIndex(int financesLastTabIndex) {
+        this.financesLastTabIndex = financesLastTabIndex;
+    }
+
+
     public SelectItem[] getOutcomeFilterOptions() {
         return outcomeFilterOptions;
     }
@@ -287,28 +296,28 @@ public class TabController implements Serializable{
      public void tabChange(TabChangeEvent event){
         String tabTitle = event.getTab().getTitle();
         if(tabTitle.equalsIgnoreCase("despesas")){
-           if(financesLastTabIndex == this.ACORDION_OUTCOME_INDEX){
-               financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
-               financesLastTabIndex = this.ACORDION_NOT_SELECTED_INDEX;
-           }
-             else{
-                   FinantialMonth fm = currentYear.getFinantialMonths().get(currentMonthIndex);
-                   fm.setShowMonthOutcomes(true);
-                   fm.setShowMonthIncomes(false);
-                   financesLastTabIndex = this.ACORDION_OUTCOME_INDEX;
-             }
+            if (financesLastTabIndex == this.ACORDION_OUTCOME_INDEX) {
+                financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
+                financesLastTabIndex = this.ACORDION_NOT_SELECTED_INDEX;
+            } else {
+                FinantialMonth fm = currentYear.getFinantialMonths().get(currentMonthIndex);
+                fm.setShowMonthOutcomes(true);
+                fm.setShowMonthIncomes(false);
+                financesLastTabIndex = this.ACORDION_OUTCOME_INDEX;
+                return;
+            }
         }
         if(tabTitle.equalsIgnoreCase("receitas")){
-           if(financesLastTabIndex == this.ACORDION_INCOME_INDEX){
-               financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
-               financesLastTabIndex = this.ACORDION_NOT_SELECTED_INDEX;
-           }
-         else{
-           FinantialMonth fm = currentYear.getFinantialMonths().get(currentMonthIndex);
-           fm.setShowMonthOutcomes(false);
-           fm.setShowMonthIncomes(true);
-           financesLastTabIndex = this.ACORDION_INCOME_INDEX;
-         }
+            if (financesLastTabIndex == this.ACORDION_INCOME_INDEX) {
+                financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
+                financesLastTabIndex = this.ACORDION_NOT_SELECTED_INDEX;
+            } else {
+                FinantialMonth fm = currentYear.getFinantialMonths().get(currentMonthIndex);
+                fm.setShowMonthOutcomes(false);
+                fm.setShowMonthIncomes(true);
+                financesLastTabIndex = this.ACORDION_INCOME_INDEX;
+                return;
+            }
         }
         if(tabTitle.contains("Relat")){
             if(financesLastTabIndex == ACORDION_REPORT_INDEX){
@@ -333,7 +342,7 @@ public class TabController implements Serializable{
             currentYearIndex ++;
             currentYear = tabYears.get(currentYearIndex);
             financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
-            financesLastTabIndex = this.ACORDION_NOT_SELECTED_INDEX;
+            financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
         }
     }
     public void previousYear(){
@@ -341,7 +350,7 @@ public class TabController implements Serializable{
             currentYearIndex --;
             currentYear = tabYears.get(currentYearIndex);
             financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
-            financesLastTabIndex = this.ACORDION_NOT_SELECTED_INDEX;
+            financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
         }
     }
 
@@ -349,7 +358,7 @@ public class TabController implements Serializable{
         setCurrentYearIndex(index);
         currentYear = tabYears.get(index);
         financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
-        financesLastTabIndex = this.ACORDION_NOT_SELECTED_INDEX;
+        financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
     }
 
 

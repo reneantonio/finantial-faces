@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -29,14 +31,14 @@ public class Income extends BaseEntity {
     private User user;
     @ManyToOne
     private FinantialMonth finantialMonth;
-
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     @OneToOne
     private IncomeType type;
-    @NotNull(message="Forneça um valor para a receita")
+    @NotNull(message="Forneça um valor para a receita.")
+    @Min(value=0, message="Valores negativos não são aceitos.")
     private Double value;
-    @Size(min=0,max=40,message="Tamanho máximo da descrição:40 caracteres")
+    @Size(min=0,max=40,message="Tamanho máximo da descrição:40 caracteres.")
     private String description;
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 

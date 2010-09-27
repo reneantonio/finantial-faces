@@ -17,10 +17,10 @@ and open the template in the editor.
     <p:panel header="Inclusão de Finanças">
                
         <h:panelGrid columns="4" cellpadding="0" id="grid_add" style="overflow: auto">
-                     <h:outputLabel for="outcome_descricao" value="#{msg['finance.label.descricao']}:"/>
+                      <h:outputLabel for="outcome_descricao" value="#{msg['finance.label.descricao']}:"/>
                       <h:inputText id="outcome_descricao" value="#{financeBean.financeDescription}"/>
                       <finantial:label for="date_income" value="#{msg['finance.label.data']}:" required="true" style="padding-left: 10px" />
-                      <p:calendar id="date_income" effectDuration="0.5" value="#{financeBean.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstYearDate}" maxdate="#{tabBean.lastYearDate}" required="true" requiredMessage="A data da finança é obrigatória"  popupIcon="../resources/images/calendar.png"/>
+                      <p:calendar id="date_income" effectDuration="0.5" value="#{financeBean.date}" required="true" requiredMessage="A data da finança é obrigatória"  pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstYearDate}" maxdate="#{tabBean.lastYearDate}"  popupIcon="../resources/images/calendar.png"/>
 
                       <finantial:label for="select_tipo" value="#{msg['finance.label.tipo']}:" />
                                 <h:selectOneMenu id="select_tipo" value="#{financeBean.tipoCorrete}"  styleClass="tipo">
@@ -48,10 +48,11 @@ and open the template in the editor.
                         <f:validateLength minimum="0"/>
                       </h:inputText>
                       <h:inputHidden />
-                      <p:commandButton value="Incluir" id="bt-add" style="width: 140px!important" image="#{financeBean.tipoCorrete eq financeBean.INCOME ? 'bt-income':'bt-outcome'}" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="months_panel,month_#{tabBean.currentMonthIndex},:form_carroussel:grid_carroussel,messages" />
+                      <p:commandButton value="Incluir" id="bt-add" style="width: 140px!important" image="#{financeBean.tipoCorrete eq financeBean.INCOME ? 'bt-income':'bt-outcome'}" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="months_panel,month_#{tabBean.currentMonthIndex},:form_carroussel:grid_carroussel,messages,msg" />
 
 
                 </h:panelGrid>
+        <p:messages id="msg"/>
         <table width="100%" style="padding-top: 20px">
             <tr>
                 <td style="width: 10px;padding-left: 0px;">

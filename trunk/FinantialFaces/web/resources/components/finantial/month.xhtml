@@ -23,7 +23,7 @@ and open the template in the editor.
     <composite:implementation>
         <p:outputPanel id="month_#{cc.attrs.month.monthIndex}">
         <ui:param name="m" value="#{cc.attrs.month}"/>
-        <p:accordionPanel  activeIndex="#{tabBean.financesActiveIndex}" cache="false" autoHeight="false" effect="bounceslide" tabChangeListener="#{tabBean.tabChange}" collapsible="true" fillSpace="true" onTabChangeUpdate="month_#{cc.attrs.month.monthIndex}">
+        <p:accordionPanel  activeIndex="#{tabBean.financesActiveIndex}" cache="false" autoHeight="false" effect="bounceslide" tabChangeListener="#{tabBean.tabChange}" collapsible="true" fillSpace="true" onTabChangeUpdate="msg,month_#{cc.attrs.month.monthIndex}">
                 <p:tab title="Despesas">
                     <h:panelGroup layout="block" style="min-height:320px ">
                     <p:outputPanel  rendered="#{(not empty m.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
@@ -37,6 +37,14 @@ and open the template in the editor.
                                 <h:outputText value="#{d.date}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </h:outputText>
+                            </p:commandLink>
+                        </p:column>
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['login.label.username']}"/>
+                            </f:facet>
+                            <p:commandLink  style="text-decoration: none">
+                                <h:outputText value="#{d.user}" />
                             </p:commandLink>
                         </p:column>
                         <p:column >
@@ -72,11 +80,11 @@ and open the template in the editor.
                                               #{msg['finance.label.operacoes']}
                             </f:facet>
                             <div style="display: inline;margin-left: 5px" >
-                                <p:commandLink title="Editar despesa" action="#{financeBean.prepareEditOutcome(d)}"  oncomplete="editModal.show()"  update="edit_panel" >
+                                <p:commandLink title="Editar despesa" action="#{financeBean.prepareEditOutcome(d)}"  oncomplete="editModal.show()" process="@this"  update="edit_panel" >
                                     <h:graphicImage library="images" name="edit20x20.png" style="border: none;"/>
                                 </p:commandLink>
                                 &#160;&#160;
-                                <p:commandLink title="Remover despesa" action="#{financeBean.prepareRemoveOutcome(d)}" oncomplete="removeModal.show()" update="remove_panel">
+                                <p:commandLink title="Remover despesa" action="#{financeBean.prepareRemoveOutcome(d)}" oncomplete="removeModal.show()" process="@this" update="remove_panel">
                                     <h:graphicImage library="images" name="garbage20x20.png" style="border: none;"/>
                                 </p:commandLink>
                             </div>
@@ -119,6 +127,14 @@ and open the template in the editor.
                                 <h:outputText value="#{r.date}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </h:outputText>
+                            </p:commandLink>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="#{msg['login.label.username']}"/>
+                            </f:facet>
+                            <p:commandLink  style="text-decoration: none">
+                                <h:outputText value="#{r.user}" />
                             </p:commandLink>
                         </p:column>
                         <p:column>
@@ -183,7 +199,31 @@ and open the template in the editor.
                     
                 </p:tab>
                 <p:tab title="Relatórios de #{msg[m.title]}">
-
+                    <p:dataTable value="#{reportBean.reports}" var="r">
+                        <f:facet name="header">
+                            Relatórios Disponíveis
+                        </f:facet>
+                        <p:column>
+                            <f:facet name="header">
+                                Título
+                            </f:facet>
+                            #{r.title}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                Descrição
+                            </f:facet>
+                            #{r.description}
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                Visualisar
+                            </f:facet>
+                            <p:commandLink value="Abrir" action="#{reportBean.prepareMonthReport(m)}" oncomplete="monthReportsModal.show()" update="month_report_panel" process="@this">
+                                <f:setPropertyActionListener value="#{r.number}" target="#{reportBean.currentReportNumber}"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
                 </p:tab>
                  
             </p:accordionPanel>

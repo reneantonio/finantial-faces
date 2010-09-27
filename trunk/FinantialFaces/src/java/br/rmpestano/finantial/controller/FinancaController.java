@@ -221,7 +221,7 @@ public class FinancaController implements Serializable{
     public void incluir(ActionEvent ev) {
         try {
             if(financeValue < 0){
-                MessagesController.addError("Valores negativos não são aceitos");//como eu não estou associando uma finança na view o Bean Validator não funciona por isso to validando no controller
+                MessagesController.addError("Valores negativos não são aceitos");////como eu não estou associando uma finança na view o Bean Validator não funciona por isso to validando no controller e criar um validator para esse teste não vale a pena
                 return;
             }
             if(numberOfMonthToPropagate > 0){
@@ -252,6 +252,7 @@ public class FinancaController implements Serializable{
             }
             tabService.update(fm);
             tabController.setFinancesActiveIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
+            tabController.setFinancesLastTabIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
             MessagesController.addInfo(tipoCorrete.equals(INCOME) ? "Receita incluida com sucesso!": "Despesa incluida com sucesso");
             this.setCurrentTab(date);
         } catch (Exception ex) {
