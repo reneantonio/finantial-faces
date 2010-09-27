@@ -46,13 +46,6 @@ and open the template in the editor.
                             </p:submenu>
                        </p:menu>
 
-          <p:menu widgetVar="reportsMenu" position="dynamic" x="143" y="33"  styleClass="reportsMenu" >
-                     <p:submenu label="Visualisar Relatórios">
-                      <p:menuitem value="relatório 1" ajax="false" ></p:menuitem>
-                      <p:menuitem value="relatório 2" ajax="false" ></p:menuitem>
-                      <p:menuitem value="relatório 3" ajax="false" ></p:menuitem>
-                      </p:submenu>
-                 </p:menu>
               <p:ajaxStatus style="z-index: 9999;left:87%;top:10%;position: absolute">
                                         <f:facet name="start">
                                             <h:graphicImage library="images" name="#{themeService.themeProperties.LOADING_ICON eq '' ? 'ajax-loader-red.gif' : themeService.themeProperties.LOADING_ICON}"/>
@@ -66,7 +59,6 @@ and open the template in the editor.
           <h:panelGroup id="group" layout="block" style="display:inline-table;width: 100%;">
               <p:commandButton id="themeButton" value="#{msg['themechange']}" onclick="themeMenu.show()" type="button" style="width: 130px"/>
               <p:outputPanel rendered="#{menu == 1}">
-                  <p:commandButton id="reportsButton" value="Relatórios Gerais" onclick="reportsMenu.show()" type="button" />
                   <div style="position: relative;float: right">
                   <p:commandButton id="logoutButton" value="Sair" ajax="false"   actionListener="#{loginBean.doLogout}"/>
                   </div>
@@ -121,10 +113,7 @@ and open the template in the editor.
         </ui:insert>
 
         <script type="text/javascript">
-        function getClientInfo(){
-             getBrowserInfo();
 
-        }
 
         function handleComplete(args){
             if(args.compatible == -1){

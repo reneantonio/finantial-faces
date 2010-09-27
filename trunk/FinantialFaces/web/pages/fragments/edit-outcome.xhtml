@@ -20,7 +20,10 @@ and open the template in the editor.
             <h:outputLabel for="edit_data_despesa" value="Data:"/>
             <p:calendar id="edit_data_despesa" effectDuration="0.5" value="#{financeBean.selectedOutcome.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstYearDate}" maxdate="#{tabBean.lastYearDate}"  popupIcon="../resources/images/calendar.png"/>
             <h:outputLabel for="edit_value_despesa" value="Valor:"/>
-            <h:inputText id="edit_value_despesa" value="#{financeBean.selectedOutcome.value}"/>
+            <h:inputText id="edit_value_despesa" value="#{financeBean.selectedOutcome.value}">
+                <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                <f:ajax event="blur" render="@this"/>
+            </h:inputText>
             <finantial:label for="edit_subtipo_outcome"  value="#{msg['finance.label.subtipo']}:"/>
             <h:selectOneMenu id="edit_subtipo_outcome" value="#{financeBean.selectedOutcome.type}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
                                     <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{msg['subtipo.outcome.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>

@@ -220,6 +220,10 @@ public class FinancaController implements Serializable{
 
     public void incluir(ActionEvent ev) {
         try {
+            if(financeValue < 0){
+                MessagesController.addError("Valores negativos não são aceitos");//como eu não estou associando uma finança na view o Bean Validator não funciona por isso to validando no controller
+                return;
+            }
             if(numberOfMonthToPropagate > 0){
                 propagateFinance(numberOfMonthToPropagate);
             }
