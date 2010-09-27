@@ -25,7 +25,10 @@ and open the template in the editor.
                       <f:convertDateTime pattern="dd/MM/yyyy"/>
                   </h:inputText>
                    <h:outputLabel for="remove_outcome_val" value="Valor:"/>
-                   <h:inputText disabled="true" id="remove_outcome_val" value="#{financeBean.selectedOutcome.value}"/>
+                   <h:inputText disabled="true" id="remove_outcome_val" value="#{financeBean.selectedOutcome.value}">
+                       <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                       <f:ajax event="blur" render="@this"/>
+                   </h:inputText>
                    <h:outputLabel for="remove_outcome_type" value="Subtipo:"/>
                    <h:inputText disabled="true" id="remove_outcome_type" value="#{msg['subtipo.outcome.'.concat(financeBean.selectedOutcome.type)]}"/>
              </h:panelGrid>

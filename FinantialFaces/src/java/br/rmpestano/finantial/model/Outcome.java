@@ -14,8 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * entidade que representa as despesas (saidas)
@@ -36,12 +39,12 @@ public class Outcome extends BaseEntity {
     @OneToOne
     private OutcomeType type;
     @NotNull(message="Forneça um valor para a despesa")
+    @Min(value=0,message="Valores negativos não são aceitos")
+    @Max(value=Long.MAX_VALUE,message="valor máximo atingido")
     private Double value;
     @Size(min=0,max=40,message="Tamanho máximo da descrição:40 caracteres")
     private String description;
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-
 
 
     public OutcomeType getType() {
