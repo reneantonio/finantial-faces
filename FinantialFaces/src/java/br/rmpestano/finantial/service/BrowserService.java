@@ -33,9 +33,9 @@ public class BrowserService implements Serializable{
 
 /**
  *
- * @return -1 = no compatibility
+ * @return -1 = not supported
  *          0 = not tested
- *          1 = compatinle
+ *          1 = compatible
  *
  */
      private byte browserCompatibility() {
@@ -61,7 +61,7 @@ public class BrowserService implements Serializable{
                 }
                 else if(Integer.parseInt(dgt1) >= 3) {
                     String dgt2 = version.substring(2, 3);
-                    if (Integer.parseInt(dgt2) >= 6) { //Firefox 3.6 ou maior suportado
+                    if (Integer.parseInt(dgt2) >= 5) { //Firefox 3.5 ou maior suportado
                         return 1;
                     } else {
                         return 0;//firefox 3.0 -- 3.5, algumas incompatibilidades(deixa not tested)
