@@ -106,7 +106,9 @@ and open the template in the editor.
                                         <p:panel style="width: 200px;min-height: 25px;height: auto ">
                                             <div align="center">
                                                 <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
-                                                <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{m.totalOutcomeInTheMonth}"/>
+                                                <h:outputText style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{m.totalOutcomeInTheMonth}">
+                                                    <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                                                </h:outputText>
                                             </div>
                                         </p:panel>
                                     </td>
@@ -190,7 +192,9 @@ and open the template in the editor.
                                         <p:panel style="width: 200px;min-height: 25px;height: auto ">
                                             <div align="center">
                                                 <h:outputLabel style="font-weight: bold" for="total_receita" value="#{msg['finance.label.total']}:"/>
-                                                <h:outputLabel style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_receita" value="#{m.totalIncomeInTheMonth}"/>
+                                                <h:outputText style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_receita" value="#{m.totalIncomeInTheMonth}">
+                                                    <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                                                </h:outputText>
                                             </div>
                                         </p:panel>
                                     </td>

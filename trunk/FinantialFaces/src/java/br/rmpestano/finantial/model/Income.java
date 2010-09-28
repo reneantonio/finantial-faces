@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name="income")
-public class Income extends BaseEntity {
+public class Income extends BaseEntity implements Finance {
     @ManyToOne
     private User user;
     @ManyToOne

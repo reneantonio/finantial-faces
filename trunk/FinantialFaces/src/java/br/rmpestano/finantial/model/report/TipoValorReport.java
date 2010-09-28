@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package br.rmpestano.finantial.model;
+package br.rmpestano.finantial.model.report;
 
 /**
  *

@@ -163,6 +163,9 @@
                     <p:outputPanel rendered="#{reportBean.currentReportNumber eq reportBean.REPORT_NUMBER_ONE}">
                         <ui:include src="fragments/monthReport1.xhtml" />
                     </p:outputPanel>
+                    <p:outputPanel rendered="#{reportBean.currentReportNumber eq reportBean.REPORT_NUMBER_TWO}">
+                        <ui:include src="fragments/monthReport2.xhtml" />
+                    </p:outputPanel>
                 </p:outputPanel>
             </h:form>
         </p:dialog>

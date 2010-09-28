@@ -12,10 +12,19 @@
         <filter-class>br.rmpestano.finantial.util.CharacterEncodingFilter</filter-class>
     </filter>
 
-    <filter-mapping>
+<!--    <filter-mapping>
         <filter-name>Character Encoding Filter</filter-name>
         <servlet-name>Faces Servlet</servlet-name>
+    </filter-mapping>-->
+    <filter>
+        <filter-name>Session Filter</filter-name>
+        <filter-class>br.rmpestano.finantial.util.SessionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Session Filter</filter-name>
+        <url-pattern>*.faces</url-pattern>
     </filter-mapping>
+
 
      <context-param>
         <param-name>primefaces.skin</param-name>
@@ -27,7 +36,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            10
         </session-timeout>
     </session-config>
     <welcome-file-list>

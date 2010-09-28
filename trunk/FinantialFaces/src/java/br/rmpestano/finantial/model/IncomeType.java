@@ -5,12 +5,8 @@
 package br.rmpestano.finantial.model;
 
 import br.rmpestano.finantial.util.PersistenceManager;
-import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Query;
 import javax.persistence.Table;
 

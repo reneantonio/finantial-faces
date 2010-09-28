@@ -95,7 +95,6 @@ public class ThemeService implements Serializable {
     public void cupertinoInit(){
         theme = "cupertino";
         themeProperties = new ThemeExtraProperties();
-        themeProperties.setLOADING_ICON("ajax-loader-black.gif");
         themeProperties.setBACKWARD_ARROW("backward_blue.png");
         themeProperties.setFORWARD_ARROW("forward_blue.png");
     }

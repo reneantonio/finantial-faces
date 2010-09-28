@@ -13,9 +13,8 @@ and open the template in the editor.
         xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
         xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    
-        <div align="center" style="margin-top: 15px">
 
+        <div align="center" style="margin-top: 15px">
             <p:pieChart id="pie" rendered="#{reportBean.isReportOneEnable}" style="chartStyle" value="#{reportBean.tipoValorReport}" var="d" categoryField="#{d.type}"
                         dataField="#{d.valor}"/>
 
