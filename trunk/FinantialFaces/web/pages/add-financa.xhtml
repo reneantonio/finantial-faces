@@ -43,7 +43,7 @@ and open the template in the editor.
                             <finantial:label for="outcome_valor" value="#{msg['finance.label.valor']}:" required="true"/>
 
                             <h:inputText id="outcome_valor" value="#{financeBean.financeValue}"  required="true" requiredMessage="O valor da finança é obrigatório">
-                        <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                            <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
                         <f:ajax event="blur" render="@this"/>
                         <f:validateLength minimum="0"/>
                       </h:inputText>

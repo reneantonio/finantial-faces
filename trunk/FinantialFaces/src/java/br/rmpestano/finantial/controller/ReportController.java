@@ -7,7 +7,9 @@ package br.rmpestano.finantial.controller;
 
 import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.Outcome;
+import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.model.Report;
+import br.rmpestano.finantial.model.TipoValorReport;
 import br.rmpestano.finantial.service.FinanceService;
 import br.rmpestano.finantial.util.BeanManagerController;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ public class ReportController {
     private List<Outcome> despesas;
     private Integer currentReportNumber;
     private Report currentMonthReport;
+    private List<TipoValorReport> tipoValorReport;
+
 
     private final int REPORT_NUMBER_ONE = 1;
 
@@ -95,13 +99,45 @@ public class ReportController {
 
     public void prepareMonthReport(FinantialMonth fm){
         currentMonthReport = reports.get(currentReportNumber-1);
-        despesas = fm.getCurrentUserOutcomesInTheMonth();
-        isReportOneEnable = true;
+        switch(currentReportNumber){
+            case 1:{
+                generateReport1(fm);
+            }
+        }
+
+       
     }
 
         public void clearReport(CloseEvent event){
             currentReportNumber = -1;
             isReportOneEnable = false;
         }
+
+    private void generateReport1(FinantialMonth fm) {
+         isReportOneEnable = true;
+         tipoValorReport = new ArrayList<TipoValorReport>();
+         despesas = fm.getCurrentUserOutcomesInTheMonth();
+         int currentIndex = 0;
+         List<OutcomeType> tipos = OutcomeType.findAll();
+         for (OutcomeType outcomeType : tipos) {
+             tipoValorReport.add(new TipoValorReport(outcomeType.getDescription(), 0.0));
+             Double sum = 0.0;
+             for (Outcome outcome : financeService.findUserOutcomeByDateAndType(outcomeType.getId(), fm.getDate())) {
+                sum += outcome.getValue();
+            }
+            tipoValorReport.get(currentIndex).setValor(sum);
+            currentIndex++;
+        }
+    }
+
+    public List<TipoValorReport> getTipoValorReport() {
+        return tipoValorReport;
+    }
+
+    public void setTipoValorReport(List<TipoValorReport> tipoValorReport) {
+        this.tipoValorReport = tipoValorReport;
+    }
+
+
 
 }

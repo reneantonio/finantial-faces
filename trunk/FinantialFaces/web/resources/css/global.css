@@ -94,3 +94,7 @@
 .bt-outcome{
     background-image: url('../images/coins_delete.png') !important;
 }
+.bt-report{
+    width: 99px!important;
+    background-image: url('../images/report3.png') !important;
+}

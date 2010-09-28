@@ -112,4 +112,9 @@ public class Outcome extends BaseEntity {
         String sql = "select * from outcome o where o.USER_ID = '" + userId + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "'";
         return em.createNativeQuery(sql, Outcome.class).getResultList();
     }
+     public static List<Outcome> findMonthOutcomesByUserAndType(Long userId, Date month, Long type_id) {
+        EntityManager em = PersistenceManager.createEntityManager();
+        String sql = "select * from outcome o where o.USER_ID = '" + userId + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "' and TYPE_ID = '"+type_id+"'";
+        return em.createNativeQuery(sql, Outcome.class).getResultList();
+    }
 }
