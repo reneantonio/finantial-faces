@@ -8,9 +8,12 @@ package br.rmpestano.finantial.service;
 import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.Outcome;
+import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.generic.CrudService;
-import javax.ejb.Stateless;
+import java.util.Date;
+import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -45,6 +48,15 @@ public class FinanceService {
 
     public void updateMonth(FinantialMonth fm){
         monthCrudService.update(fm);
+    }
+
+    public List<Outcome> findUserOutcomeByDateAndType(Long type_id, Date d){
+        User currentUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+        try {
+            return Outcome.findMonthOutcomesByUserAndType(currentUser.getId(), d, type_id);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
 

@@ -23,6 +23,15 @@ and open the template in the editor.
     <composite:implementation>
         <p:outputPanel id="month_#{cc.attrs.month.monthIndex}">
         <ui:param name="m" value="#{cc.attrs.month}"/>
+        <table width="100%" style="margin-top: -10px">
+            <td align="right">
+                <h:outputLabel for="saldo" value="Saldo Mensal:" style="font-size: 10px;padding-right: 5px;font-weight: bold"/>
+                <h:outputText id="saldo" value="#{m.saldoMensal}" style="font-size: 10px;font-weight: bold;text-decoration: underline">
+                     <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                </h:outputText>
+            </td>
+        </table>
+            
         <p:accordionPanel  activeIndex="#{tabBean.financesActiveIndex}" cache="false" autoHeight="false" effect="bounceslide" tabChangeListener="#{tabBean.tabChange}" collapsible="true" fillSpace="true" onTabChangeUpdate="msg,month_#{cc.attrs.month.monthIndex}">
                 <p:tab title="Despesas">
                     <h:panelGroup layout="block" style="min-height:320px ">
@@ -215,11 +224,14 @@ and open the template in the editor.
                             </f:facet>
                             #{r.description}
                         </p:column>
-                        <p:column>
+                        <p:column style="width: 60px!important">
                             <f:facet name="header">
                                 Visualisar
                             </f:facet>
-                            <p:commandLink value="Abrir" action="#{reportBean.prepareMonthReport(m)}" oncomplete="monthReportsModal.show()" update="month_report_panel" process="@this">
+                            <p:commandLink action="#{reportBean.prepareMonthReport(m)}"  oncomplete="monthReportsModal.show()" update="month_report_panel" process="@this" >
+                                <div align="center">
+                                    <h:graphicImage style="border: none;" title="Visualisar relatório" library="images" name="report3.png"/>
+                                </div>
                                 <f:setPropertyActionListener value="#{r.number}" target="#{reportBean.currentReportNumber}"/>
                             </p:commandLink>
                         </p:column>
