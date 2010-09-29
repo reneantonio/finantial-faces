@@ -23,13 +23,18 @@ and open the template in the editor.
     <composite:implementation>
         <p:outputPanel id="month_#{cc.attrs.month.monthIndex}">
         <ui:param name="m" value="#{cc.attrs.month}"/>
-        <table width="100%" style="margin-top: -10px">
-            <td align="right">
-                <h:outputLabel for="saldo" value="Saldo Mensal:" style="font-size: 10px;padding-right: 5px;font-weight: bold"/>
-                <h:outputText id="saldo" value="#{m.saldoMensal}" style="font-size: 10px;font-weight: bold;text-decoration: underline">
-                     <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
-                </h:outputText>
-            </td>
+        <table width="100%">
+            <tr>
+                <td align="right">
+                    <h:panelGrid columns="3" style="margin-top: -15px">
+                        <h:graphicImage library="images" title="Saldo mensal" id="img" name="#{m.saldoMensal eq 0 ? 'money.png' : m.saldoMensal > 0 ? 'money_add.png' : 'money_delete.png'}" style="padding-top: 6px;padding-right: 2px;"/>
+                        <h:outputLabel for="img" value=":" style="font-weight: bold"/>
+                        <h:outputText  value="#{m.saldoMensal}" style="font-size: 10px;font-weight: bold;text-decoration: underline;">
+                            <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                        </h:outputText>
+                    </h:panelGrid>
+                </td>
+            </tr>
         </table>
             
         <p:accordionPanel  activeIndex="#{tabBean.financesActiveIndex}" cache="false" autoHeight="false" effect="bounceslide" tabChangeListener="#{tabBean.tabChange}" collapsible="true" fillSpace="true" onTabChangeUpdate="msg,month_#{cc.attrs.month.monthIndex}">

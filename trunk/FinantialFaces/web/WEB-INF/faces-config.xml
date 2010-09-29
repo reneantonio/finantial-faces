@@ -22,4 +22,10 @@
 
     </application>
 
+
+    <!-- ViewExpiration Handler -->
+<!--    <factory>
+        <exception-handler-factory>br.rmpestano.finantial.util.ViewExpiredExceptionExceptionHandlerFactory</exception-handler-factory>
+    </factory>-->
+
 </faces-config>

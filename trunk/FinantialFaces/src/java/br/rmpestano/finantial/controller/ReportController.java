@@ -15,6 +15,7 @@ import br.rmpestano.finantial.model.report.ValorIntervaloReport;
 import br.rmpestano.finantial.service.FinanceService;
 import br.rmpestano.finantial.util.BeanManagerController;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -251,18 +252,25 @@ public class ReportController {
 
     public void reportTwoReloaded(){
          valorIntervaloReport = new ArrayList<ValorIntervaloReport>();
+         Collections.sort(intervalosPickList.getTarget());
          List<Range> reportRanges = intervalosPickList.getTarget();
          for (Range range : reportRanges) {
             valorIntervaloReport.add(new ValorIntervaloReport(range));
         }
          if(reportRanges.size()>0){
+         Range firstRange = null;
+         if(valorIntervaloReport.get(0).getIntervalo().getFirstValue() != 0){
+             firstRange = new Range(0,valorIntervaloReport.get(0).getIntervalo().getFirstValue()-1);
+             valorIntervaloReport.add(new ValorIntervaloReport(firstRange));
+         }
+         Collections.sort(valorIntervaloReport);
          Range lastRange = new Range(valorIntervaloReport.get(valorIntervaloReport.size()-1).getIntervalo().getSecondValue(), Integer.MAX_VALUE);
          lastRange.setLastRange(true);
          valorIntervaloReport.add(new ValorIntervaloReport(lastRange));
          despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
          for (Outcome outcome : despesas) {
              boolean rangeMatched = false;
-             int index = 0;
+             int index = firstRange == null ? 0 : 1;
              for (Range range : reportRanges) {
                   if((outcome.getValue() >= range.getFirstValue()) && (outcome.getValue() <= range.getSecondValue()) ){
                    int num = valorIntervaloReport.get(index).getNumFinancas();
@@ -273,8 +281,15 @@ public class ReportController {
                   index++;
              }
                  if(! rangeMatched){
-                     int lastIndex = valorIntervaloReport.size()-1;
-                     valorIntervaloReport.get(lastIndex).setNumFinancas(valorIntervaloReport.get(lastIndex).getNumFinancas()+1);
+
+                     if(firstRange != null && (outcome.getValue() <= firstRange.getSecondValue()) ){
+                         valorIntervaloReport.get(0).setNumFinancas( valorIntervaloReport.get(0).getNumFinancas()+1);
+                     }
+                     else{
+                         int lastIndex = valorIntervaloReport.size()-1;
+                         valorIntervaloReport.get(lastIndex).setNumFinancas(valorIntervaloReport.get(lastIndex).getNumFinancas()+1);
+
+                     }
                  }
              }
         }

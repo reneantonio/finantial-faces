@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author rmpestano
  */
-public class ValorIntervaloReport {
+public class ValorIntervaloReport implements Comparable<ValorIntervaloReport>{
     int numFinancas;//numero de finanças naquele intervalo
     Range intervalo;
 
@@ -35,6 +35,11 @@ public class ValorIntervaloReport {
 
     public void setNumFinancas(int numFinancas) {
         this.numFinancas = numFinancas;
+    }
+
+    @Override
+    public int compareTo(ValorIntervaloReport o) {
+        return this.getIntervalo().compareTo(o.getIntervalo());
     }
 
 

@@ -15,9 +15,9 @@
         <Node id="pages/fragments/edit-outcome.xhtml" x="650" y="300" zoom="true"/>
         <Node id="resources/components/finantial/month.xhtml" x="900" y="300" zoom="true"/>
         <Node id="pages/fragments/monthReport1.xhtml" x="1400" y="150" zoom="true"/>
-        <Node id="pages/add-financa.xhtml" x="650" y="150" zoom="true"/>
         <Node id="resources/components/finantial/label.xhtml" x="400" y="150" zoom="true"/>
         <Node id="pages/fragments/edit-income.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="pages/add-financa.xhtml" x="650" y="150" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>
