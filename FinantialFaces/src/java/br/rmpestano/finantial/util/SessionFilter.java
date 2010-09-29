@@ -104,7 +104,6 @@ public class SessionFilter  implements Filter{
     }
 
 
-
     public String getTimeoutPage() {
         return timeoutPage;
     }

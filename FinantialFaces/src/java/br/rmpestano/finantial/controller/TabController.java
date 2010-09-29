@@ -11,6 +11,7 @@ import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.service.TabService;
 import br.rmpestano.finantial.util.BeanManagerController;
+import br.rmpestano.finantial.util.MessagesController;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
+import org.primefaces.event.IdleEvent;
 
 
 import org.primefaces.event.TabChangeEvent;
@@ -240,6 +242,10 @@ public class TabController implements Serializable{
     public void setCurrentYear(FinantialYear currentYear) {
         this.currentYear = currentYear;
     }
+    public void idleListener(IdleEvent event) {
+         MessagesController.addError("Sessão Expirada!");
+          //invalidate session
+      }
     
     public void showOutcome(FinantialMonth fm){
          if(fm.isShowMonthOutcomes()){
@@ -357,7 +363,7 @@ public class TabController implements Serializable{
      public void changeYear(int index){
         setCurrentYearIndex(index);
         currentYear = tabYears.get(index);
-        financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
+        financesActiveIndex = ACORDION_NOT_SELECTED_INDEX;
         financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
     }
 

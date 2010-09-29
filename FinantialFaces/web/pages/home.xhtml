@@ -25,6 +25,7 @@
                 <tr>
                     <td align="center" valign="middle">
                         <h:form id="form_carroussel" prependId="false">
+
                             <h:panelGrid columns="3" cellspacing="10" id="grid_carroussel" style="margin-top: 25px">
                                 <h:graphicImage library="images" name="#{themeService.themeProperties.BACKWARD_ARROW eq '' ? 'backward.png':themeService.themeProperties.BACKWARD_ARROW}" style="cursor: pointer">
                                     <p:effect type="pulsate" speed="1900" for="currentYearBt" event="click" />
@@ -157,7 +158,7 @@
                          </p:outputPanel>
                      </h:form>
                  </p:dialog>
-    <p:dialog  modal="true" widgetVar="monthReportsModal" header="#{reportBean.currentMonthReport.title}" showEffect="slide"  hideEffect="slide" minHeight="500" minWidth="800" closable="true" draggable="true" closeListener="#{reportBean.clearReport}">
+    <p:dialog  modal="true" widgetVar="monthReportsModal" header="#{reportBean.currentMonthReport.title}" showEffect="clip"  hideEffect="clip" minHeight="500" minWidth="800" closable="true" draggable="true"  >
             <h:form id="month_report_form" prependId="false">
                 <p:outputPanel id="month_report_panel">
                     <p:outputPanel rendered="#{reportBean.currentReportNumber eq reportBean.REPORT_NUMBER_ONE}">
