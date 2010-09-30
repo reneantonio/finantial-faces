@@ -5,11 +5,13 @@
 package br.rmpestano.finantial.controller;
 
 import br.rmpestano.finantial.model.FinantialMonth;
+import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.Outcome;
 import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.model.report.Range;
+import br.rmpestano.finantial.model.report.ReceitaPorDespesaReport;
 import br.rmpestano.finantial.model.report.Report;
 import br.rmpestano.finantial.model.report.TipoValorReport;
 import br.rmpestano.finantial.model.report.ValorIntervaloReport;
@@ -46,6 +48,7 @@ public class ReportController {
     private Report currentMonthReport;
     private List<TipoValorReport> tipoValorReport;
     private List<ValorIntervaloReport> valorIntervaloReport;
+    private List<ReceitaPorDespesaReport> receitaXDespesaReport;
     private final String INCOME = "income";
     private final String OUTCOME = "outcome";
     private String tipoCorrente = OUTCOME;
@@ -58,16 +61,19 @@ public class ReportController {
     };
     private final int REPORT_NUMBER_ONE = 1;
     private final int REPORT_NUMBER_TWO = 2;
+    private final int REPORT_NUMBER_THREE = 3;
 
     public ReportController() {
         financeService = (FinanceService) BeanManagerController.getBeanByName("financeService");
     }
 
+
     @PostConstruct
     public void initReports() {
         reports = new ArrayList<Report>();
-        reports.add(new Report("Relatório de Finanças por Tipo", "Neste relatório é possivel visualizar finanças em função do tipo de gasto", 1));
-        reports.add(new Report("Relatório de Finanças por Intervalo", "Neste relatório é possivel visualizar finanças em função do seu valor", 2));
+        reports.add(new Report("Relatório de Finanças por Tipo", "Neste relatório é possivel visualizar finanças em função do tipo de gasto ao longo do <span style='text-decoration: underline;font-weight:bold'>MÊS</span>", 1));
+        reports.add(new Report("Relatório de Finanças por Intervalo", "Neste relatório é possivel visualizar finanças em função do seu valor ao longo do <span style='text-decoration: underline;font-weight:bold'>MÊS</span>", 2));
+        reports.add(new Report("Relatório de saldos", "Neste relatório é possivel visualizar o comportamento das receitas e despesas ao longo do <span style='text-decoration: underline;font-weight:bold'>ANO</span>", 3));
         initPickLists();
     }
 
@@ -86,6 +92,19 @@ public class ReportController {
     public void setTiposFinanca(List<String> tiposFinanca) {
         this.tiposFinanca = tiposFinanca;
     }
+
+    public int getREPORT_NUMBER_THREE() {
+        return REPORT_NUMBER_THREE;
+    }
+
+    public List<ReceitaPorDespesaReport> getReceitaXDespesaReport() {
+        return receitaXDespesaReport;
+    }
+
+    public void setReceitaXDespesaReport(List<ReceitaPorDespesaReport> receitaXDespesaReport) {
+        this.receitaXDespesaReport = receitaXDespesaReport;
+    }
+
 
     private void initPickLists() {
         List<OutcomeType> sourceOutcomeType = new ArrayList<OutcomeType>();
@@ -230,6 +249,10 @@ public class ReportController {
             }
             case 2: {
                 generateReport2();
+                break;
+            }
+            case 3: {
+                generateReport3();
                 break;
             }
         }
@@ -406,5 +429,13 @@ public class ReportController {
 
     public void setTipoValorReport(List<TipoValorReport> tipoValorReport) {
         this.tipoValorReport = tipoValorReport;
+    }
+
+    public void generateReport3() {
+        FinantialYear fy = currentMonth.getFinantialYear();
+        receitaXDespesaReport = new ArrayList<ReceitaPorDespesaReport>();
+        for (FinantialMonth finantialMonth : fy.getFinantialMonths()) {
+            receitaXDespesaReport.add(new ReceitaPorDespesaReport(finantialMonth.getCurrentUserIncomesInTheMonth(), finantialMonth.getCurrentUserOutcomesInTheMonth(), finantialMonth.getMonthAbreviation()));
+        }
     }
 }

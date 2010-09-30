@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.prime.com.tr/ui"
+        xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+    <p:outputPanel id="line_panel">
+
+        <div align="center" style="margin-top: 15px">
+
+            <p:lineChart rendered="#{reportBean.currentReportNumber eq reportBean.REPORT_NUMBER_THREE}" value="#{reportBean.receitaXDespesaReport}" var="rxd"  xfield="#{rxd.mes}">
+                <p:chartSeries label="Despesas" value="#{rxd.somaDespesas}"/>
+                <p:chartSeries label="Receitas" value="#{rxd.somaReceitas}"/>
+            </p:lineChart>
+
+        </div>
+    
+    </p:outputPanel>
+</ui:composition>

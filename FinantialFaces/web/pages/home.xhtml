@@ -116,8 +116,8 @@
 
                                  </td>
                                  <td align="left" width="50%" style="overflow: auto">
-                                     <p:outputPanel id="reports"  >
-                                        <ui:include src="reports.xhtml"/>
+                                     <p:outputPanel id="search"  >
+                                        <ui:include src="search.xhtml"/>
                                  </p:outputPanel>
                                  </td>
                              </tr>
@@ -158,7 +158,7 @@
                          </p:outputPanel>
                      </h:form>
                  </p:dialog>
-    <p:dialog  modal="true" widgetVar="monthReportsModal" header="#{reportBean.currentMonthReport.title}" showEffect="clip"  hideEffect="clip" minHeight="500" minWidth="800" closable="true" draggable="true"  >
+    <p:dialog  modal="true" widgetVar="monthReportsModal" showEffect="clip"  hideEffect="clip" minHeight="500" minWidth="800" closable="true" draggable="true"  >
             <h:form id="month_report_form" prependId="false">
                 <p:outputPanel id="month_report_panel">
                     <p:outputPanel rendered="#{reportBean.currentReportNumber eq reportBean.REPORT_NUMBER_ONE}">
@@ -166,6 +166,9 @@
                     </p:outputPanel>
                     <p:outputPanel rendered="#{reportBean.currentReportNumber eq reportBean.REPORT_NUMBER_TWO}">
                         <ui:include src="fragments/monthReport2.xhtml" />
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{reportBean.currentReportNumber eq reportBean.REPORT_NUMBER_THREE}">
+                        <ui:include src="fragments/monthReport3.xhtml" />
                     </p:outputPanel>
                 </p:outputPanel>
             </h:form>

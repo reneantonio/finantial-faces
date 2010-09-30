@@ -216,7 +216,7 @@ and open the template in the editor.
                     </div>
                     
                 </p:tab>
-                <p:tab title="Relatórios de #{msg[m.title]}">
+                <p:tab title="Relatórios">
                     <p:dataTable value="#{reportBean.reports}" var="r">
                         <f:facet name="header">
                             Relatórios Disponíveis
@@ -231,13 +231,13 @@ and open the template in the editor.
                             <f:facet name="header">
                                 Descrição
                             </f:facet>
-                            #{r.description}
+                            <h:outputText value="#{r.description}" escape="false"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 Tipo
                             </f:facet>
-                            <h:selectOneMenu id="selectTipos" value="#{reportBean.tipoCorrente}">
+                            <h:selectOneMenu disabled="#{r.number eq reportBean.REPORT_NUMBER_THREE}" id="selectTipos" value="#{reportBean.tipoCorrente}">
                                 <f:selectItems value="#{reportBean.tiposFinanca}" var="tipo" itemLabel="#{tipo eq reportBean.INCOME ? msg['finance.label.tipo.income'] : msg['finance.label.tipo.outcome']}" itemValue="#{tipo}"/>
                             </h:selectOneMenu>
                         </p:column>
@@ -245,7 +245,7 @@ and open the template in the editor.
                             <f:facet name="header">
                                 Visualisar
                             </f:facet>
-                            <p:commandLink action="#{reportBean.prepareMonthReport(m)}"  oncomplete="monthReportsModal.show()" update="month_report_panel" process="@this selectTipos" >
+                        <p:commandLink action="#{reportBean.prepareMonthReport(m)}"  oncomplete="monthReportsModal.show()" update="month_report_panel" process="@this selectTipos" >
                                 <div align="center">
                                     <h:graphicImage style="border: none;" title="Visualisar relatório" library="images" name="report3.png"/>
                                 </div>

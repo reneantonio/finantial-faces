@@ -10,16 +10,17 @@ package br.rmpestano.finantial.model.report;
  * @author rmpestano
  */
 public class Report {
-    private String Title;
+    private String title;
     private String Description;
     private Integer number;
 
 
     public Report(String Title, String Description, Integer number) {
-        this.Title = Title;
+        this.title = Title;
         this.Description = Description;
         this.number = number;
     }
+
 
 
     public Integer getNumber() {
@@ -40,11 +41,11 @@ public class Report {
 
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String Title) {
-        this.Title = Title;
+        this.title = Title;
     }
 
 
