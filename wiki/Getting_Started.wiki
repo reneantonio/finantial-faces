@@ -1,4 +1,4 @@
-               =*Getting Started with Movie Collector*=
+               =*Getting Started with Finantial Faces*=
 
 
 ==1 - Running Finantial Faces from WAR file==
