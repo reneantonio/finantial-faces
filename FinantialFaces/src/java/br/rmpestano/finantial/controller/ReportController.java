@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.rmpestano.finantial.controller;
 
 import br.rmpestano.finantial.model.FinantialMonth;
@@ -29,9 +28,10 @@ import org.primefaces.model.DualListModel;
  *
  * @author rmpestano
  */
-@ManagedBean(name="reportBean")
+@ManagedBean(name = "reportBean")
 @SessionScoped
 public class ReportController {
+
     private boolean isReportOneEnable;
     private boolean isReportTwoEnable;
     private List<Report> reports;
@@ -49,9 +49,13 @@ public class ReportController {
     private final String INCOME = "income";
     private final String OUTCOME = "outcome";
     private String tipoCorrente = OUTCOME;
-     private List<String> tiposFinanca = new ArrayList<String>(){{add(INCOME);add(OUTCOME);}};
+    private List<String> tiposFinanca = new ArrayList<String>() {
 
-
+        {
+            add(INCOME);
+            add(OUTCOME);
+        }
+    };
     private final int REPORT_NUMBER_ONE = 1;
     private final int REPORT_NUMBER_TWO = 2;
 
@@ -59,12 +63,11 @@ public class ReportController {
         financeService = (FinanceService) BeanManagerController.getBeanByName("financeService");
     }
 
-
     @PostConstruct
-    public void initReports(){
+    public void initReports() {
         reports = new ArrayList<Report>();
-        reports.add(new Report("Relatório de Despesas por Tipo", "Neste relatório é possivel visualizar os gastos mensais em função do tipo de gasto",1));
-        reports.add(new Report("Relatório de Despesas por Intervalo", "Neste relatório é possivel visualizar os gastos mensais em função do seu valor",2));
+        reports.add(new Report("Relatório de Finanças por Tipo", "Neste relatório é possivel visualizar finanças em função do tipo de gasto", 1));
+        reports.add(new Report("Relatório de Finanças por Intervalo", "Neste relatório é possivel visualizar finanças em função do seu valor", 2));
         initPickLists();
     }
 
@@ -84,15 +87,12 @@ public class ReportController {
         this.tiposFinanca = tiposFinanca;
     }
 
-
-
-
-    private void initPickLists(){
-        List<OutcomeType> sourceOutcomeType =  new ArrayList<OutcomeType>();
-        List<OutcomeType> targetOutcomeType =  OutcomeType.findAll();
+    private void initPickLists() {
+        List<OutcomeType> sourceOutcomeType = new ArrayList<OutcomeType>();
+        List<OutcomeType> targetOutcomeType = OutcomeType.findAll();
         outcomeTypesPickList = new DualListModel<OutcomeType>(sourceOutcomeType, targetOutcomeType);
-        List<IncomeType> sourceIncomeType =  new ArrayList<IncomeType>();
-        List<IncomeType> targetIncomeType =  IncomeType.findAll();
+        List<IncomeType> sourceIncomeType = new ArrayList<IncomeType>();
+        List<IncomeType> targetIncomeType = IncomeType.findAll();
         incomeTypesPickList = new DualListModel<IncomeType>(sourceIncomeType, targetIncomeType);
         List<Range> sourceInterval = new ArrayList<Range>();
         List<Range> targetInterval = new ArrayList<Range>();
@@ -112,6 +112,7 @@ public class ReportController {
         intervalosPickList = new DualListModel<Range>(sourceInterval, targetInterval);
 
     }
+
     public DualListModel<Range> getIntervalos() {
         return intervalosPickList;
     }
@@ -119,7 +120,6 @@ public class ReportController {
     public void setIntervalos(DualListModel<Range> intervalos) {
         this.intervalosPickList = intervalos;
     }
-
 
     public boolean isIsReportOneEnable() {
         return isReportOneEnable;
@@ -133,7 +133,6 @@ public class ReportController {
         return OUTCOME;
     }
 
-
     public void setIsReportOneEnable(boolean isReportOneEnable) {
         this.isReportOneEnable = isReportOneEnable;
     }
@@ -142,7 +141,6 @@ public class ReportController {
         return REPORT_NUMBER_TWO;
     }
 
-    
     public List<Outcome> getDespesas() {
         return despesas;
     }
@@ -163,7 +161,6 @@ public class ReportController {
         this.incomeTypesPickList = incomeTypesPickList;
     }
 
-
     public List<ValorIntervaloReport> getValorIntervaloReport() {
         return valorIntervaloReport;
     }
@@ -171,7 +168,6 @@ public class ReportController {
     public void setValorIntervaloReport(List<ValorIntervaloReport> valorIntervaloReport) {
         this.valorIntervaloReport = valorIntervaloReport;
     }
-
 
     public List<Report> getReports() {
         return reports;
@@ -201,7 +197,6 @@ public class ReportController {
         this.isReportTwoEnable = isReportTwoEnable;
     }
 
-
     public void setCurrentMonthReport(Report currentMonthReport) {
         this.currentMonthReport = currentMonthReport;
     }
@@ -222,32 +217,31 @@ public class ReportController {
         this.outcomeTypesPickList = outcomeTypesPickList;
     }
 
-
-    public void prepareMonthReport(FinantialMonth fm){
-        currentMonthReport = reports.get(currentReportNumber-1);
+    public void prepareMonthReport(FinantialMonth fm) {
+        currentMonthReport = reports.get(currentReportNumber - 1);
         currentMonth = fm;
         initPickLists();
-         despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
-         receitas = currentMonth.getCurrentUserIncomesInTheMonth();
-        switch(currentReportNumber){
-            case 1:{
+        despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
+        receitas = currentMonth.getCurrentUserIncomesInTheMonth();
+        switch (currentReportNumber) {
+            case 1: {
                 generateReport1();
                 break;
             }
-            case 2:{
+            case 2: {
                 generateReport2();
                 break;
             }
         }
 
-       
+
     }
 
-        public void clearReport(CloseEvent event){
-            currentReportNumber = -1;
-            isReportOneEnable = false;
-            isReportTwoEnable = false;
-        }
+    public void clearReport(CloseEvent event) {
+        currentReportNumber = -1;
+        isReportOneEnable = false;
+        isReportTwoEnable = false;
+    }
 
     public void generateReport1() {
         isReportOneEnable = true;
@@ -280,37 +274,60 @@ public class ReportController {
 
 
     }
+
     public void generateReport2() {
-         isReportTwoEnable = true;
-         isReportOneEnable = false;
-         valorIntervaloReport = new ArrayList<ValorIntervaloReport>();
-         intervalosPickList.setTarget(intervalosPickList.getSource());
-         intervalosPickList.setSource(new ArrayList<Range>());
-         List<Range> reportRanges = intervalosPickList.getTarget();
-         for (Range range : reportRanges) {
+        isReportTwoEnable = true;
+        isReportOneEnable = false;
+        valorIntervaloReport = new ArrayList<ValorIntervaloReport>();
+        intervalosPickList.setTarget(intervalosPickList.getSource());
+        intervalosPickList.setSource(new ArrayList<Range>());
+        List<Range> reportRanges = intervalosPickList.getTarget();
+        for (Range range : reportRanges) {
             valorIntervaloReport.add(new ValorIntervaloReport(range));
         }
-         Range lastRange = new Range(valorIntervaloReport.get(valorIntervaloReport.size()-1).getIntervalo().getSecondValue(), Integer.MAX_VALUE);
-         lastRange.setLastRange(true);
-         valorIntervaloReport.add(new ValorIntervaloReport(lastRange));
-         despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
-         for (Outcome outcome : despesas) {
-             int index = 0;
-             boolean rangeMatched = false;
-             for (Range range : reportRanges) {
-                  if((outcome.getValue() >= range.getFirstValue()) && (outcome.getValue() <= range.getSecondValue()) ){
-                   int num = valorIntervaloReport.get(index).getNumFinancas();
-                    valorIntervaloReport.get(index).setNumFinancas(++num);
-                    rangeMatched = true;
-                  }
+        Range lastRange = new Range(valorIntervaloReport.get(valorIntervaloReport.size() - 1).getIntervalo().getSecondValue(), Integer.MAX_VALUE);
+        lastRange.setLastRange(true);
+        valorIntervaloReport.add(new ValorIntervaloReport(lastRange));
+        if (tipoCorrente.equals(OUTCOME)) {//acabar com esses testes e fazer Income e Outcome extender de Finança ou implementar uma interface em comum
+            despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
+            for (Outcome outcome : despesas) {
+                int index = 0;
+                boolean rangeMatched = false;
+                for (Range range : reportRanges) {
+                    if ((outcome.getValue() >= range.getFirstValue()) && (outcome.getValue() <= range.getSecondValue())) {
+                        int num = valorIntervaloReport.get(index).getNumFinancas();
+                        valorIntervaloReport.get(index).setNumFinancas(++num);
+                        rangeMatched = true;
+                    }
 
-                  index++;
-             }
-             if(! rangeMatched){
-                 int lastIndex = valorIntervaloReport.size()-1;
-                 valorIntervaloReport.get(lastIndex).setNumFinancas(valorIntervaloReport.get(lastIndex).getNumFinancas()+1);
-             }
+                    index++;
+                }
+                if (!rangeMatched) {
+                    int lastIndex = valorIntervaloReport.size() - 1;
+                    valorIntervaloReport.get(lastIndex).setNumFinancas(valorIntervaloReport.get(lastIndex).getNumFinancas() + 1);
+                }
+            }
+        } else {
+            receitas = currentMonth.getCurrentUserIncomesInTheMonth();
+            for (Income income : receitas) {
+                int index = 0;
+                boolean rangeMatched = false;
+                for (Range range : reportRanges) {
+                    if ((income.getValue() >= range.getFirstValue()) && (income.getValue() <= range.getSecondValue())) {
+                        int num = valorIntervaloReport.get(index).getNumFinancas();
+                        valorIntervaloReport.get(index).setNumFinancas(++num);
+                        rangeMatched = true;
+                    }
+
+                    index++;
+                }
+                if (!rangeMatched) {
+                    int lastIndex = valorIntervaloReport.size() - 1;
+                    valorIntervaloReport.get(lastIndex).setNumFinancas(valorIntervaloReport.get(lastIndex).getNumFinancas() + 1);
+                }
+            }
         }
+
     }
 
     public void reportTwoReloaded() {
@@ -330,27 +347,53 @@ public class ReportController {
             Range lastRange = new Range(valorIntervaloReport.get(valorIntervaloReport.size() - 1).getIntervalo().getSecondValue(), Integer.MAX_VALUE);
             lastRange.setLastRange(true);
             valorIntervaloReport.add(new ValorIntervaloReport(lastRange));
-            despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
-            for (Outcome outcome : despesas) {
-                boolean rangeMatched = false;
-                int index = firstRange == null ? 0 : 1;
-                for (Range range : reportRanges) {
-                    if ((outcome.getValue() >= range.getFirstValue()) && (outcome.getValue() <= range.getSecondValue())) {
-                        int num = valorIntervaloReport.get(index).getNumFinancas();
-                        valorIntervaloReport.get(index).setNumFinancas(++num);
-                        rangeMatched = true;
+            if (tipoCorrente.equals(OUTCOME)) {//acabar com esses testes e fazer Income e Outcome extender de Finança ou implementar uma interface em comum
+                despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
+                for (Outcome outcome : despesas) {
+                    boolean rangeMatched = false;
+                    int index = firstRange == null ? 0 : 1;
+                    for (Range range : reportRanges) {
+                        if ((outcome.getValue() >= range.getFirstValue()) && (outcome.getValue() <= range.getSecondValue())) {
+                            int num = valorIntervaloReport.get(index).getNumFinancas();
+                            valorIntervaloReport.get(index).setNumFinancas(++num);
+                            rangeMatched = true;
+                        }
+
+                        index++;
                     }
+                    if (!rangeMatched) {
 
-                    index++;
+                        if (firstRange != null && (outcome.getValue() <= firstRange.getSecondValue())) {
+                            valorIntervaloReport.get(0).setNumFinancas(valorIntervaloReport.get(0).getNumFinancas() + 1);
+                        } else if (outcome.getValue() >= lastRange.getFirstValue() && outcome.getValue() <= lastRange.getSecondValue()){
+                            int lastIndex = valorIntervaloReport.size() - 1;
+                            valorIntervaloReport.get(lastIndex).setNumFinancas(valorIntervaloReport.get(lastIndex).getNumFinancas() + 1);
+
+                        }
+                    }
                 }
-                if (!rangeMatched) {
+            } else {
+                receitas = currentMonth.getCurrentUserIncomesInTheMonth();
+                for (Income income : receitas) {
+                    boolean rangeMatched = false;
+                    int index = firstRange == null ? 0 : 1;
+                    for (Range range : reportRanges) {
+                        if ((income.getValue() >= range.getFirstValue()) && (income.getValue() <= range.getSecondValue())) {
+                            int num = valorIntervaloReport.get(index).getNumFinancas();
+                            valorIntervaloReport.get(index).setNumFinancas(++num);
+                            rangeMatched = true;
+                        }
 
-                    if (firstRange != null && (outcome.getValue() <= firstRange.getSecondValue())) {
-                        valorIntervaloReport.get(0).setNumFinancas(valorIntervaloReport.get(0).getNumFinancas() + 1);
-                    } else {
-                        int lastIndex = valorIntervaloReport.size() - 1;
-                        valorIntervaloReport.get(lastIndex).setNumFinancas(valorIntervaloReport.get(lastIndex).getNumFinancas() + 1);
+                        index++;
+                    }
+                    if (!rangeMatched) {
 
+                        if (firstRange != null && (income.getValue() <= firstRange.getSecondValue())) {
+                            valorIntervaloReport.get(0).setNumFinancas(valorIntervaloReport.get(0).getNumFinancas() + 1);
+                        } else if (income.getValue() >= lastRange.getFirstValue() && income.getValue() <= lastRange.getSecondValue()){
+                            int lastIndex = valorIntervaloReport.size() - 1;
+                            valorIntervaloReport.get(lastIndex).setNumFinancas(valorIntervaloReport.get(lastIndex).getNumFinancas() + 1);
+                        }
                     }
                 }
             }
@@ -364,7 +407,4 @@ public class ReportController {
     public void setTipoValorReport(List<TipoValorReport> tipoValorReport) {
         this.tipoValorReport = tipoValorReport;
     }
-
-
-
 }

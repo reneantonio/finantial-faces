@@ -181,11 +181,11 @@ and open the template in the editor.
                                    #{msg['finance.label.operacoes']}
                             </f:facet>
                             <div style="display: inline;margin-left: 5px" >
-                                <p:commandLink title="Editar receita" action="#{financeBean.prepareEditIncome(r)}"  oncomplete="editModal.show()"  update="edit_panel" >
+                                <p:commandLink title="Editar receita" action="#{financeBean.prepareEditIncome(r)}"  oncomplete="editModal.show()" process="@this"  update="edit_panel" >
                                     <h:graphicImage style="border: none;" library="images" name="edit20x20.png"/>
                                 </p:commandLink>
                                  &#160;&#160;
-                                <p:commandLink  title="Excluir receita" action="#{financeBean.prepareRemoveIncome(r)}" oncomplete="removeModal.show()" update="remove_panel">
+                                 <p:commandLink  title="Excluir receita" action="#{financeBean.prepareRemoveIncome(r)}" oncomplete="removeModal.show()" process="@this" update="remove_panel">
                                     <h:graphicImage style="border: none;" library="images" name="garbage20x20.png"/>
                                 </p:commandLink>
                             </div>

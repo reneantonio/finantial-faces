@@ -5,7 +5,6 @@
 
 package br.rmpestano.finantial.model.report;
 
-import br.rmpestano.finantial.model.Finance;
 import java.util.List;
 
 /**
