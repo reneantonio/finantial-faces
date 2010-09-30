@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "outcome_type")
-public class OutcomeType extends BaseEntity {
+public class OutcomeType extends BaseEntity     {
 
     private String description;
 

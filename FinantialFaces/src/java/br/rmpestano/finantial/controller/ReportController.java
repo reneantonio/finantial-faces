@@ -6,6 +6,8 @@
 package br.rmpestano.finantial.controller;
 
 import br.rmpestano.finantial.model.FinantialMonth;
+import br.rmpestano.finantial.model.Income;
+import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.Outcome;
 import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.model.report.Range;
@@ -36,12 +38,18 @@ public class ReportController {
     private FinanceService financeService;
     private FinantialMonth currentMonth;
     private List<Outcome> despesas;
+    private List<Income> receitas;
     private DualListModel<OutcomeType> outcomeTypesPickList;
+    private DualListModel<IncomeType> incomeTypesPickList;
     private DualListModel<Range> intervalosPickList;
     private Integer currentReportNumber;
     private Report currentMonthReport;
     private List<TipoValorReport> tipoValorReport;
     private List<ValorIntervaloReport> valorIntervaloReport;
+    private final String INCOME = "income";
+    private final String OUTCOME = "outcome";
+    private String tipoCorrente = OUTCOME;
+     private List<String> tiposFinanca = new ArrayList<String>(){{add(INCOME);add(OUTCOME);}};
 
 
     private final int REPORT_NUMBER_ONE = 1;
@@ -60,11 +68,33 @@ public class ReportController {
         initPickLists();
     }
 
+    public String getTipoCorrente() {
+        return tipoCorrente;
+    }
+
+    public void setTipoCorrente(String tipoCorrent) {
+        this.tipoCorrente = tipoCorrent;
+    }
+
+    public List<String> getTiposFinanca() {
+        return tiposFinanca;
+    }
+
+    public void setTiposFinanca(List<String> tiposFinanca) {
+        this.tiposFinanca = tiposFinanca;
+    }
+
+
+
+
     private void initPickLists(){
-         List<OutcomeType> sourceOutcomeType =  OutcomeType.findAll();
-         List<OutcomeType> targetOutcomeType =  new ArrayList<OutcomeType>();
-         outcomeTypesPickList = new DualListModel<OutcomeType>(sourceOutcomeType, targetOutcomeType);
-          List<Range> sourceInterval = new ArrayList<Range>();
+        List<OutcomeType> sourceOutcomeType =  new ArrayList<OutcomeType>();
+        List<OutcomeType> targetOutcomeType =  OutcomeType.findAll();
+        outcomeTypesPickList = new DualListModel<OutcomeType>(sourceOutcomeType, targetOutcomeType);
+        List<IncomeType> sourceIncomeType =  new ArrayList<IncomeType>();
+        List<IncomeType> targetIncomeType =  IncomeType.findAll();
+        incomeTypesPickList = new DualListModel<IncomeType>(sourceIncomeType, targetIncomeType);
+        List<Range> sourceInterval = new ArrayList<Range>();
         List<Range> targetInterval = new ArrayList<Range>();
         sourceInterval.add(new Range(0, 10));
         sourceInterval.add(new Range(11, 20));
@@ -95,6 +125,15 @@ public class ReportController {
         return isReportOneEnable;
     }
 
+    public String getINCOME() {
+        return INCOME;
+    }
+
+    public String getOUTCOME() {
+        return OUTCOME;
+    }
+
+
     public void setIsReportOneEnable(boolean isReportOneEnable) {
         this.isReportOneEnable = isReportOneEnable;
     }
@@ -114,6 +153,14 @@ public class ReportController {
 
     public int getREPORT_NUMBER_ONE() {
         return REPORT_NUMBER_ONE;
+    }
+
+    public DualListModel<IncomeType> getIncomeTypesPickList() {
+        return incomeTypesPickList;
+    }
+
+    public void setIncomeTypesPickList(DualListModel<IncomeType> incomeTypesPickList) {
+        this.incomeTypesPickList = incomeTypesPickList;
     }
 
 
@@ -180,6 +227,8 @@ public class ReportController {
         currentMonthReport = reports.get(currentReportNumber-1);
         currentMonth = fm;
         initPickLists();
+         despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
+         receitas = currentMonth.getCurrentUserIncomesInTheMonth();
         switch(currentReportNumber){
             case 1:{
                 generateReport1();
@@ -200,24 +249,38 @@ public class ReportController {
             isReportTwoEnable = false;
         }
 
-    private void generateReport1() {
-         isReportOneEnable = true;
-         isReportTwoEnable = false;
-         tipoValorReport = new ArrayList<TipoValorReport>();
-         despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
-         int currentIndex = 0;
-         List<OutcomeType> reportOutcomeTypes = outcomeTypesPickList.getSource();//na primeira vez usa todos do source, depois vai atualizando via ajax
-         for (OutcomeType outcomeType : reportOutcomeTypes) {
-             tipoValorReport.add(new TipoValorReport(outcomeType.getDescription(), 0.0));
-             Double sum = 0.0;
-             for (Outcome outcome : financeService.findUserOutcomeByDateAndType(outcomeType.getId(), currentMonth.getDate())) {
-                sum += outcome.getValue();
+    public void generateReport1() {
+        isReportOneEnable = true;
+        isReportTwoEnable = false;
+        tipoValorReport = new ArrayList<TipoValorReport>();
+        int currentIndex = 0;
+        if (tipoCorrente.equals(OUTCOME)) {
+            List<OutcomeType> reportOutcomeTypes = outcomeTypesPickList.getTarget();//na primeira vez usa todos do source, depois vai atualizando via ajax
+            for (OutcomeType outcomeType : reportOutcomeTypes) {
+                tipoValorReport.add(new TipoValorReport(outcomeType.getDescription(), 0.0));
+                Double sum = 0.0;
+                for (Outcome outcome : financeService.findUserOutcomeByDateAndType(outcomeType.getId(), currentMonth.getDate())) {
+                    sum += outcome.getValue();
+                }
+                tipoValorReport.get(currentIndex).setValor(sum);
+                currentIndex++;
             }
-            tipoValorReport.get(currentIndex).setValor(sum);
-            currentIndex++;
+        } else {
+            List<IncomeType> reportIncomeTypes = incomeTypesPickList.getTarget();//na primeira vez usa todos do source, depois vai atualizando via ajax
+            for (IncomeType incomeType : reportIncomeTypes) {
+                tipoValorReport.add(new TipoValorReport(incomeType.getDescription(), 0.0));
+                Double sum = 0.0;
+                for (Outcome outcome : financeService.findUserOutcomeByDateAndType(incomeType.getId(), currentMonth.getDate())) {
+                    sum += outcome.getValue();
+                }
+                tipoValorReport.get(currentIndex).setValor(sum);
+                currentIndex++;
+            }
         }
+
+
     }
-    private void generateReport2() {
+    public void generateReport2() {
          isReportTwoEnable = true;
          isReportOneEnable = false;
          valorIntervaloReport = new ArrayList<ValorIntervaloReport>();
@@ -250,48 +313,47 @@ public class ReportController {
         }
     }
 
-    public void reportTwoReloaded(){
-         valorIntervaloReport = new ArrayList<ValorIntervaloReport>();
-         Collections.sort(intervalosPickList.getTarget());
-         List<Range> reportRanges = intervalosPickList.getTarget();
-         for (Range range : reportRanges) {
+    public void reportTwoReloaded() {
+        valorIntervaloReport = new ArrayList<ValorIntervaloReport>();
+        Collections.sort(intervalosPickList.getTarget());
+        List<Range> reportRanges = intervalosPickList.getTarget();
+        for (Range range : reportRanges) {
             valorIntervaloReport.add(new ValorIntervaloReport(range));
         }
-         if(reportRanges.size()>0){
-         Range firstRange = null;
-         if(valorIntervaloReport.get(0).getIntervalo().getFirstValue() != 0){
-             firstRange = new Range(0,valorIntervaloReport.get(0).getIntervalo().getFirstValue()-1);
-             valorIntervaloReport.add(new ValorIntervaloReport(firstRange));
-         }
-         Collections.sort(valorIntervaloReport);
-         Range lastRange = new Range(valorIntervaloReport.get(valorIntervaloReport.size()-1).getIntervalo().getSecondValue(), Integer.MAX_VALUE);
-         lastRange.setLastRange(true);
-         valorIntervaloReport.add(new ValorIntervaloReport(lastRange));
-         despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
-         for (Outcome outcome : despesas) {
-             boolean rangeMatched = false;
-             int index = firstRange == null ? 0 : 1;
-             for (Range range : reportRanges) {
-                  if((outcome.getValue() >= range.getFirstValue()) && (outcome.getValue() <= range.getSecondValue()) ){
-                   int num = valorIntervaloReport.get(index).getNumFinancas();
-                    valorIntervaloReport.get(index).setNumFinancas(++num);
-                    rangeMatched = true;
-                  }
+        if (reportRanges.size() > 0) {
+            Range firstRange = null;
+            if (valorIntervaloReport.get(0).getIntervalo().getFirstValue() != 0) {
+                firstRange = new Range(0, valorIntervaloReport.get(0).getIntervalo().getFirstValue() - 1);
+                valorIntervaloReport.add(new ValorIntervaloReport(firstRange));
+            }
+            Collections.sort(valorIntervaloReport);
+            Range lastRange = new Range(valorIntervaloReport.get(valorIntervaloReport.size() - 1).getIntervalo().getSecondValue(), Integer.MAX_VALUE);
+            lastRange.setLastRange(true);
+            valorIntervaloReport.add(new ValorIntervaloReport(lastRange));
+            despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
+            for (Outcome outcome : despesas) {
+                boolean rangeMatched = false;
+                int index = firstRange == null ? 0 : 1;
+                for (Range range : reportRanges) {
+                    if ((outcome.getValue() >= range.getFirstValue()) && (outcome.getValue() <= range.getSecondValue())) {
+                        int num = valorIntervaloReport.get(index).getNumFinancas();
+                        valorIntervaloReport.get(index).setNumFinancas(++num);
+                        rangeMatched = true;
+                    }
 
-                  index++;
-             }
-                 if(! rangeMatched){
+                    index++;
+                }
+                if (!rangeMatched) {
 
-                     if(firstRange != null && (outcome.getValue() <= firstRange.getSecondValue()) ){
-                         valorIntervaloReport.get(0).setNumFinancas( valorIntervaloReport.get(0).getNumFinancas()+1);
-                     }
-                     else{
-                         int lastIndex = valorIntervaloReport.size()-1;
-                         valorIntervaloReport.get(lastIndex).setNumFinancas(valorIntervaloReport.get(lastIndex).getNumFinancas()+1);
+                    if (firstRange != null && (outcome.getValue() <= firstRange.getSecondValue())) {
+                        valorIntervaloReport.get(0).setNumFinancas(valorIntervaloReport.get(0).getNumFinancas() + 1);
+                    } else {
+                        int lastIndex = valorIntervaloReport.size() - 1;
+                        valorIntervaloReport.get(lastIndex).setNumFinancas(valorIntervaloReport.get(lastIndex).getNumFinancas() + 1);
 
-                     }
-                 }
-             }
+                    }
+                }
+            }
         }
     }
 
