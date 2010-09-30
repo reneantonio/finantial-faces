@@ -58,6 +58,14 @@ public class FinanceService {
             return null;
         }
     }
+    public List<Income> findUserIncomeByDateAndType(Long type_id, Date d){
+        User currentUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+        try {
+            return Income.findMonthIncomesByUserAndType(currentUser.getId(), d, type_id);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
 
 
 

@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name="income")
-public class Income extends BaseEntity implements Finance {
+public class Income extends BaseEntity  {
     @ManyToOne
     private User user;
     @ManyToOne
@@ -94,6 +94,12 @@ public class Income extends BaseEntity implements Finance {
      public static List<Income> findMonthIncomesByUser(Long userId, Date month) {
         EntityManager em = PersistenceManager.createEntityManager();
         String sql = "select * from income o where o.USER_ID = '" + userId + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "'";
+        return em.createNativeQuery(sql, Income.class).getResultList();
+    }
+
+     public static List<Income> findMonthIncomesByUserAndType(Long userId, Date month, Long type_id) {
+        EntityManager em = PersistenceManager.createEntityManager();
+        String sql = "select * from income i where i.USER_ID = '" + userId + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "' and TYPE_ID = '"+type_id+"'";
         return em.createNativeQuery(sql, Income.class).getResultList();
     }
 

@@ -233,11 +233,19 @@ and open the template in the editor.
                             </f:facet>
                             #{r.description}
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                Tipo
+                            </f:facet>
+                            <h:selectOneMenu id="selectTipos" value="#{reportBean.tipoCorrente}">
+                                <f:selectItems value="#{reportBean.tiposFinanca}" var="tipo" itemLabel="#{tipo eq reportBean.INCOME ? msg['finance.label.tipo.income'] : msg['finance.label.tipo.outcome']}" itemValue="#{tipo}"/>
+                            </h:selectOneMenu>
+                        </p:column>
                         <p:column style="width: 60px!important">
                             <f:facet name="header">
                                 Visualisar
                             </f:facet>
-                            <p:commandLink action="#{reportBean.prepareMonthReport(m)}"  oncomplete="monthReportsModal.show()" update="month_report_panel" process="@this" >
+                            <p:commandLink action="#{reportBean.prepareMonthReport(m)}"  oncomplete="monthReportsModal.show()" update="month_report_panel" process="@this selectTipos" >
                                 <div align="center">
                                     <h:graphicImage style="border: none;" title="Visualisar relatório" library="images" name="report3.png"/>
                                 </div>

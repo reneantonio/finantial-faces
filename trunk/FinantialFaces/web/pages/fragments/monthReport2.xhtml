@@ -20,7 +20,7 @@ and open the template in the editor.
                     <tr>
 
                         <td>
-                            <p:pickList value="#{reportBean.intervalosPickList}" var="r" itemLabel="#{r}" itemValue="#{r}" converter="rangeConveter" >
+                            <p:pickList value="#{reportBean.intervalosPickList}"  var="r" itemLabel="#{r}" itemValue="#{r}" converter="rangeConveter" >
 
                             </p:pickList>
 
@@ -39,7 +39,10 @@ and open the template in the editor.
                         </td>
                     </tr>
                     <tr>
-                        <td align="right">
+                        <td style="width: 100px">
+
+                        </td>
+                        <td align="center">
                             <p:commandButton value="Atualizar" action="#{reportBean.reportTwoReloaded}" update="pickList pie_panel" />
                         </td>
                     </tr>
