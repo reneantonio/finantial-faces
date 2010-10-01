@@ -10,24 +10,28 @@ import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.Outcome;
 import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.generic.CrudService;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- *
+ * Service Facade
  * @author rmpestano
  */
 @Named(value="financeService")
-@RequestScoped
+@Dependent
 public class FinanceService {
 
-    @Inject CrudService<Outcome> outcomeCrudService;
-    @Inject CrudService<Income> incomeCrudService;
-    @Inject CrudService<FinantialMonth> monthCrudService;
+    @EJB CrudService<Outcome> outcomeCrudService;
+    @EJB CrudService<Income> incomeCrudService;
+    @EJB CrudService<FinantialMonth> monthCrudService;
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public FinanceService() {
     }
@@ -52,12 +56,14 @@ public class FinanceService {
 
     public List<Outcome> findUserOutcomeByDateAndType(Long type_id, Date d){
         User currentUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+        String sql = "select * from outcome o where o.USER_ID = '" + currentUser.getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(d) + "' and TYPE_ID = '"+type_id+"'";
         try {
-            return Outcome.findMonthOutcomesByUserAndType(currentUser.getId(), d, type_id);
+            return outcomeCrudService.findByNativeQuery(sql,Outcome.class);
         } catch (Exception ex) {
             return null;
         }
     }
+
     public List<Income> findUserIncomeByDateAndType(Long type_id, Date d){
         User currentUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         try {

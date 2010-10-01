@@ -438,4 +438,14 @@ public class ReportController {
             receitaXDespesaReport.add(new ReceitaPorDespesaReport(finantialMonth.getCurrentUserIncomesInTheMonth(), finantialMonth.getCurrentUserOutcomesInTheMonth(), finantialMonth.getMonthAbreviation()));
         }
     }
+
+    public FinantialMonth getCurrentMonth() {
+        return currentMonth;
+    }
+
+    public void setCurrentMonth(FinantialMonth currentMonth) {
+        this.currentMonth = currentMonth;
+    }
+
+
 }

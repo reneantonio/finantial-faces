@@ -9,6 +9,7 @@ import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.FinantialYear;
 import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.OutcomeType;
+import br.rmpestano.finantial.service.FinanceService;
 import br.rmpestano.finantial.service.TabService;
 import br.rmpestano.finantial.util.BeanManagerController;
 import br.rmpestano.finantial.util.MessagesController;
@@ -27,13 +28,14 @@ import org.primefaces.event.TabChangeEvent;
 
 /**
  * this bean is responsible for the months and their finances in View
- * no sql queries here, use tabService
+ * no sql queries here, use tabService instead
  * @author rmpestano
  */
 @ManagedBean(name="tabBean")
 @ViewScoped
 public class TabController implements Serializable{
     TabService tabService;
+    FinanceService financeService;
     List<FinantialYear> tabYears;
     private String lastYearDate; //its used in the addFinance calendar minDate and maxdate atributes
     private String firstYearDate;
@@ -53,6 +55,8 @@ public class TabController implements Serializable{
     private final int ACORDION_OUTCOME_INDEX = 0;
     private final int ACORDION_INCOME_INDEX = 1;
     private final int ACORDION_REPORT_INDEX = 2;
+
+
     
     
 
@@ -62,6 +66,7 @@ public class TabController implements Serializable{
     @PostConstruct
     public void initMonthsAndYears() {
         tabService = (TabService) BeanManagerController.getBeanByName("tabService");//colocar esse bean em enterprise.context.viewScoope e dar inject ao inves dessa gambia
+        financeService = (FinanceService) BeanManagerController.getBeanByName("financeService");//colocar esse bean em enterprise.context.viewScoope e dar inject ao inves dessa gambia
         tabYears = tabService.getFinantialYears();
         Collections.sort(tabYears);
         setInitialTabs();
@@ -169,6 +174,7 @@ public class TabController implements Serializable{
     }
 
     public FinantialMonth getCurrentMonth() {
+//      currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
         return currentMonth;
     }
 
@@ -225,11 +231,12 @@ public class TabController implements Serializable{
 
      private void setInitialTabs() {
             try {
-                FinantialMonth fm = tabService.getCurrentFinantialMonth();
+                FinantialMonth fm = tabService.getCurrentDateFinantialMonth();
                 FinantialYear fy = fm.getFinantialYear();
                 currentYearTitle = fy.getTitle();
                 currentYearIndex = tabService.findYearIndex(fy.getTitle());
                 currentMonthIndex = fm.getMonthIndex();
+                currentMonth = fm;
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

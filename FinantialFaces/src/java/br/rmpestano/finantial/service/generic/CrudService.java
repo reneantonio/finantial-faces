@@ -31,8 +31,6 @@ import javax.persistence.criteria.Root;
  *
  * @author rmpestano
  */
-@Named(value="cudService")
-@Dependent
 @Stateless
 public class CrudService <T> {
     @PersistenceContext(type=PersistenceContextType.TRANSACTION)
@@ -70,10 +68,12 @@ public class CrudService <T> {
 
 
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findWithNamedQuery(String namedQueryName) {
         return em.createNamedQuery(namedQueryName).getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
      public List<T> findWithNamedQuery(String namedQueryName, Map parameters) {
 
          List<T> list = findWithNamedQuery(namedQueryName, parameters, 0);
@@ -84,13 +84,14 @@ public class CrudService <T> {
              return null;
          }
     }
-
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findWithNamedQuery(String queryName, int resultLimit) {
         return this.em.createNamedQuery(queryName).
                 setMaxResults(resultLimit).
                 getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findWithNamedQuery(String queryName,int firstResult, int resultLimit) {
         return this.em.createNamedQuery(queryName).
                 setFirstResult(firstResult).
@@ -99,16 +100,20 @@ public class CrudService <T> {
     }
 
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findByNativeQuery(String sql, Class c) {
         return this.em.createNativeQuery(sql, c).getResultList();
     }
 
+
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findWithTypedQuery(String sql, Class c){
         TypedQuery<T> query = em.createQuery(sql, c);
         return query.getResultList();
     }
 
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findWithNamedQuery(String namedQueryName, Map parameters, int resultLimit) {
         Set<Entry> rawParameters = parameters.entrySet();
         Query query = this.em.createNamedQuery(namedQueryName);
@@ -120,6 +125,7 @@ public class CrudService <T> {
         }
         return (List<T>)query.getResultList();
     }
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findWithNamedQuery(String namedQueryName, Map parameters, TemporalType temporalType) {
         Set<Entry> rawParameters = parameters.entrySet();
         Query query = em.createNamedQuery(namedQueryName);
@@ -129,6 +135,7 @@ public class CrudService <T> {
         }
         return (List<T>)query.getResultList();
     }
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findWithNamedQuery(String namedQueryName, Map parameters, Class T) {
         Set<Entry> rawParameters = parameters.entrySet();
         Query query = em.createNamedQuery(namedQueryName,T);
@@ -139,6 +146,7 @@ public class CrudService <T> {
         return (List<T>)query.getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findWithNamedQuery(String namedQueryName, Map parameters,
             int firstResult, int resultLimit) {
         Set<Entry> rawParameters = parameters.entrySet();
@@ -154,11 +162,13 @@ public class CrudService <T> {
         }
         return query.getResultList();
     }
-    
+
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public T findById(Long id, Class c){
         return (T) em.find(c,id);
     }
 
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<T> findAll(Class c){
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(c);
@@ -173,6 +183,7 @@ public class CrudService <T> {
      * @param parameter
      * @return
      */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public T findWithTypedQuery(Class c,String atribute,String parameter){
     CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(c);
@@ -189,6 +200,7 @@ public class CrudService <T> {
      * @param parameter
      * @return
      */
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public T findWithTypedQuery(Class c,String atributeLevel1,String atributeLevel2,String parameter){
     CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(c);

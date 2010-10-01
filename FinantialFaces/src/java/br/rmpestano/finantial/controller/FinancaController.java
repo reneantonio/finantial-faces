@@ -29,6 +29,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
@@ -59,10 +60,12 @@ public class FinancaController implements Serializable{
     private String financeDescription;
     private Outcome selectedOutcome;
     private Income selectedIncome;
+    @Inject
     private FinanceService financeService;
     private int numberOfMonthToPropagate;
     @ManagedProperty(value="#{tabBean}")
     private TabController tabController;
+
 
 
     public FinancaController() {
@@ -347,6 +350,10 @@ public class FinancaController implements Serializable{
     private void setCurrentTab(Date date) {
         if(date == null){
             date = new Date();
+            Calendar c = new GregorianCalendar();
+            c.setTime(date);
+            c.set(Calendar.DAY_OF_MONTH, 1);
+            date = c.getTime();
         }
         FinantialMonth fm = FinantialMonth.findByDate(date);
         if(fm != null){
@@ -356,6 +363,7 @@ public class FinancaController implements Serializable{
             c.set(Calendar.DAY_OF_MONTH, 1);
             tabController.setCurrentMonthIndex(c.get(Calendar.MONTH));
             tabController.setCurrentYearIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
+            tabController.setCurrentMonth(fm);
         }
 
     }

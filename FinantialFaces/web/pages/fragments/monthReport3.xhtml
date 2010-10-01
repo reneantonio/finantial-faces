@@ -17,7 +17,7 @@ and open the template in the editor.
     <p:outputPanel id="line_panel">
 
         <div align="center" style="margin-top: 15px">
-
+            <h:outputText style="font-family: Helvetica;font-size: 13px;font-weight: bold;" value="Relatório de Saldos de #{reportBean.currentMonth.finantialYear.title}"/>
             <p:lineChart rendered="#{reportBean.currentReportNumber eq reportBean.REPORT_NUMBER_THREE}" value="#{reportBean.receitaXDespesaReport}" var="rxd"  xfield="#{rxd.mes}">
                 <p:chartSeries label="Despesas" value="#{rxd.somaDespesas}"/>
                 <p:chartSeries label="Receitas" value="#{rxd.somaReceitas}"/>
