@@ -7,9 +7,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
 
-<!--<lifecycle>
+<lifecycle>
      <phase-listener>br.rmpestano.finantial.util.UserLoggedInListener</phase-listener>
-</lifecycle>-->
+</lifecycle>
 <application>
     <resource-bundle>
         <message-bundle>br.rmpestano.finantial.bundle.MessageResource_pt</message-bundle>
