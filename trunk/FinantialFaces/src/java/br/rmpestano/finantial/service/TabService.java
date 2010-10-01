@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -31,8 +32,8 @@ import javax.inject.Named;
 @Named(value="tabService")
 @SessionScoped
 public class TabService implements Serializable{
-    @Inject CrudService<FinantialYear> yearCrudService;
-    @Inject CrudService<FinantialMonth> monthCrudService;
+    @EJB CrudService<FinantialYear> yearCrudService;
+    @EJB CrudService<FinantialMonth> monthCrudService;
    
     private User user;
     
@@ -146,7 +147,7 @@ public class TabService implements Serializable{
         c.get(Calendar.YEAR);
         return FinantialYear.findByYear(""+ c.get(Calendar.YEAR));
     }
-    public FinantialMonth getCurrentFinantialMonth(){
+    public FinantialMonth getCurrentDateFinantialMonth(){
         Date d = new Date();
         return FinantialMonth.findByDate(d);
     }

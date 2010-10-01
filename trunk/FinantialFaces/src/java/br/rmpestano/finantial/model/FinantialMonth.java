@@ -104,29 +104,12 @@ public class FinantialMonth implements Serializable {
     }
 
 
-
-
     public List<Income> getCurrentUserIncomesInTheMonth() {
-//         List<Income> userIncomes = new ArrayList<Income>();
             User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-//             for (Income income : monthIncomes) {
-//                if(income.getUser().getId().equals(u.getId())){
-//                    userIncomes.add(income);
-//                }
-//            }
-
       return Income.findMonthIncomesByUser(u.getId(),this.date);
     }
     public List<Outcome> getCurrentUserOutcomesInTheMonth() {
-//         List<Outcome> userOutcomes = new ArrayList<Outcome>();
             User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-//             for (Outcome outcome : monthOutcomes) {
-//                if(outcome.getUser() != null && outcome.getUser().getId().equals(u.getId())){
-//                    userOutcomes.add(outcome);
-//                }
-//            }
-//
-//        return userOutcomes;
         return Outcome.findMonthOutcomesByUser(u.getId(),this.date);
     }
 
