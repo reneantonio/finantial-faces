@@ -287,8 +287,8 @@ public class ReportController {
             for (IncomeType incomeType : reportIncomeTypes) {
                 tipoValorReport.add(new TipoValorReport(incomeType.getDescription(), 0.0));
                 Double sum = 0.0;
-                for (Outcome outcome : financeService.findUserOutcomeByDateAndType(incomeType.getId(), currentMonth.getDate())) {
-                    sum += outcome.getValue();
+                for (Income income : financeService.findUserIncomeByDateAndType(incomeType.getId(), currentMonth.getDate())) {
+                    sum += income.getValue();
                 }
                 tipoValorReport.get(currentIndex).setValor(sum);
                 currentIndex++;
