@@ -7,7 +7,9 @@ package br.rmpestano.finantial.controller;
 
 import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.FinantialYear;
+import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.IncomeType;
+import br.rmpestano.finantial.model.Outcome;
 import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.service.FinanceService;
 import br.rmpestano.finantial.service.TabService;
@@ -46,6 +48,8 @@ public class TabController implements Serializable{
     private int currentMonthIndex;
     private List<String> listOfYears;
     private String currentYearTitle;
+    private List<Outcome> currentUserOutcomesInTheMonth;
+    private List<Income> currentUserIncomesInTheMonth;
     private int currentYearIndex;
     private int financesActiveIndex = -1;
     private int financesLastTabIndex = -1;
@@ -55,10 +59,64 @@ public class TabController implements Serializable{
     private final int ACORDION_OUTCOME_INDEX = 0;
     private final int ACORDION_INCOME_INDEX = 1;
     private final int ACORDION_REPORT_INDEX = 2;
+    private int userOutcomesSize;
+    private int userIncomesSize;
+    private Double totalIncomeInTheMonth;
 
 
     
-    
+      public List<Outcome> getCurrentUserOutcomesInTheMonth() {
+            return financeService.findMonthOutcomesByUser(currentMonth.getDate()); //tirar query do getter
+    }
+      public List<Income> getCurrentUserIncomesInTheMonth() {
+            return financeService.findMonthIncomesByUser(currentMonth.getDate());
+    }
+
+    public void setUserOutcomesSize(int userOutcomesSize) {
+        this.userOutcomesSize = userOutcomesSize;
+    }
+
+
+
+    public void setCurrentUserIncomesInTheMonth(List<Income> currentUserIncomesInTheMonth) {
+        this.currentUserIncomesInTheMonth = currentUserIncomesInTheMonth;
+    }
+
+    public void setCurrentUserOutcomesInTheMonth(List<Outcome> currentUserOutcomesInTheMonth) {
+        this.currentUserOutcomesInTheMonth = currentUserOutcomesInTheMonth;
+    }
+
+
+      public Double getSaldoMensal() {
+        List<Income> receitas = this.getCurrentUserIncomesInTheMonth();
+        List<Outcome> despesas = this.getCurrentUserOutcomesInTheMonth();
+        Double incomeSum =0.0;
+        for (Income income : receitas) {
+            if(income.getValue() != null){
+                incomeSum+=income.getValue();
+            }
+        }
+        Double outcomeSum =0.0;
+        for (Outcome outcome : despesas) {
+            if(outcome.getValue()!=null){
+                outcomeSum+=outcome.getValue();
+            }
+        }
+        return incomeSum-outcomeSum;
+    }
+      public int getUserOutcomesSize() {
+        return getCurrentUserOutcomesInTheMonth().size();
+    }
+
+    public int getUserIncomesSize() {
+        return this.getCurrentUserIncomesInTheMonth().size();
+    }
+
+    public void setUserIncomesSize(int userIncomesSize) {
+        this.userIncomesSize = userIncomesSize;
+    }
+
+
 
     public TabController() {
     }
@@ -81,6 +139,7 @@ public class TabController implements Serializable{
         return ACORDION_NOT_SELECTED_INDEX;
     }
 
+     
     public int getACORDION_INCOME_INDEX() {
         return ACORDION_INCOME_INDEX;
     }
@@ -220,6 +279,13 @@ public class TabController implements Serializable{
     public void setTotalOutcomeInThemonth(Double totalOutcomeInThemonth) {
         this.totalOutcomeInThemonth = totalOutcomeInThemonth;
     }
+    public Double getTotalIncomeInTheMonth() {
+        return totalIncomeInTheMonth;
+    }
+
+    public void setTotalIncomeInTheMonth(Double totalIncomeInThemonth) {
+        this.totalIncomeInTheMonth = totalIncomeInThemonth;
+    }
 
     public int getCurrentMonthIndex() {
         return currentMonthIndex;
@@ -348,6 +414,7 @@ public class TabController implements Serializable{
         this.currentMonthIndex = Integer.parseInt(tabId.substring(tabId.indexOf("b")+1));
         financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
         financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
+        currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
     }
 
     public void nextYear(){

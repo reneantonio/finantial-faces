@@ -54,26 +54,46 @@ public class FinanceService {
         monthCrudService.update(fm);
     }
 
-    public List<Outcome> findUserOutcomeByDateAndType(Long type_id, Date d){
-        User currentUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-        String sql = "select * from outcome o where o.USER_ID = '" + currentUser.getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(d) + "' and TYPE_ID = '"+type_id+"'";
-        try {
-            return outcomeCrudService.findByNativeQuery(sql,Outcome.class);
-        } catch (Exception ex) {
-            return null;
-        }
+
+     public List<Income> findMonthIncomesByUserAndType(Date month, Long type_id) {
+        String sql = "select * from income i where i.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "' and TYPE_ID = '"+type_id+"'";
+        return incomeCrudService.findByNativeQuery(sql, Income.class);
+    }
+     public List<Outcome> findMonthOutcomesByUserAndType(Date month, Long type_id) {
+        String sql = "select * from outcome i where i.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "' and TYPE_ID = '"+type_id+"'";
+        return outcomeCrudService.findByNativeQuery(sql, Outcome.class);
     }
 
-    public List<Income> findUserIncomeByDateAndType(Long type_id, Date d){
-        User currentUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-        try {
-            return Income.findMonthIncomesByUserAndType(currentUser.getId(), d, type_id);
-        } catch (Exception ex) {
-            return null;
-        }
+    public List<Outcome> findMonthOutcomesByUser(Date month) {
+        String sql = "select * from outcome o where o.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "'";
+        return outcomeCrudService.findByNativeQuery(sql, Outcome.class);
+    }
+    public List<Income> findMonthIncomesByUser(Date month) {
+        String sql = "select * from income o where o.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "'";
+        return incomeCrudService.findByNativeQuery(sql, Income.class);
     }
 
+     public Double getTotalOutcomeInTheMonth(FinantialMonth fm) {
+        Double total =new Double(0);
+        for (Outcome outcome : this.findMonthOutcomesByUser(fm.getDate())) {
+                if(outcome.getValue() != null){
+                total+=outcome.getValue();
+            }
+        }
+        return total;
+    }
+     public Double getTotalIncomeInTheMonth(FinantialMonth fm) {
+        Double total =new Double(0);
+        for (Income income : this.findMonthIncomesByUser(fm.getDate())) {
+                if(income.getValue() != null){
+                total+=income.getValue();
+            }
+        }
+        return total;
+    }
 
-
-
+    private User getCurrentUser(){
+        User currentUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+        return currentUser;
+    }
 }

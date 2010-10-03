@@ -77,44 +77,8 @@ public class FinantialMonth implements Serializable {
     @Transient
     private Double saldoMensal;
 
-    public int getUserIncomesSize() {
-        return getCurrentUserIncomesInTheMonth().size();
-    }
-
-    public int getUserOutcomesSize() {
-        return getCurrentUserOutcomesInTheMonth().size();
-    }
-
-        public Double getSaldoMensal() {
-        List<Income> receitas = this.getCurrentUserIncomesInTheMonth();
-        List<Outcome> despesas = this.getCurrentUserOutcomesInTheMonth();
-        Double incomeSum =0.0;
-        for (Income income : receitas) {
-            if(income.getValue() != null){
-                incomeSum+=income.getValue();
-            }
-        }
-        Double outcomeSum =0.0;
-        for (Outcome outcome : despesas) {
-            if(outcome.getValue()!=null){
-                outcomeSum+=outcome.getValue();
-            }
-        }
-        return incomeSum-outcomeSum;
-    }
-
-
-    public List<Income> getCurrentUserIncomesInTheMonth() {
-            User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-      return Income.findMonthIncomesByUser(u.getId(),this.date);
-    }
-    public List<Outcome> getCurrentUserOutcomesInTheMonth() {
-            User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-        return Outcome.findMonthOutcomesByUser(u.getId(),this.date);
-    }
-
     public int getMonthIndex() {
-        Calendar c = new GregorianCalendar();
+        Calendar c = new GregorianCalendar()        ;
         c.setTime(date);
         return c.get(Calendar.MONTH);
     }
@@ -196,23 +160,7 @@ public class FinantialMonth implements Serializable {
         this.monthOutcomes = monthOutcomes;
     }
 
-    public Double getTotalOutcomeInTheMonth() {
-        Double total =new Double(0);
-        for (Outcome outcome : getCurrentUserOutcomesInTheMonth()) {
-                if(outcome.getValue() != null){
-                total+=outcome.getValue();
-            }
-        }
-        return total;
-    }
-    public Double getTotalIncomeInTheMonth() {
-        Double total =new Double(0);
-        for (Income income : getCurrentUserIncomesInTheMonth()) {
-            if(income.getValue() != null)
-               total+=income.getValue();
-        }
-        return total;
-    }
+   
 
 
 

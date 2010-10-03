@@ -105,7 +105,6 @@ public class TabService implements Serializable{
     }
 
 
-
     public List<OutcomeType> getOutcomeTypes(){
         return OutcomeType.findAll();
     }
