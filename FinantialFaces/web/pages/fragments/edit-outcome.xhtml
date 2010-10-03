@@ -31,7 +31,7 @@ and open the template in the editor.
                                 </h:selectOneMenu>
         </h:panelGrid>
          <div align="center">
-             <p:commandButton value="salvar" actionListener="#{financeBean.updateOutcome}" async="true" ajax="true" update="months_form:months_panel,edit_msg_outcome,messages,:form_carroussel:grid_carroussel" oncomplete="handleEdit(xhr, status, args)" />
+             <p:commandButton value="salvar" actionListener="#{financeBean.updateOutcome}" async="true" ajax="true" update="months_form:months_panel,edit_msg_outcome,:form_carroussel:grid_carroussel" oncomplete="handleEdit(xhr, status, args)" />
          </div>
          <p:messages id="edit_msg_outcome"/>
      </p:panel>

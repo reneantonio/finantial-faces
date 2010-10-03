@@ -240,7 +240,7 @@ public class FinancaController implements Serializable{
                 fm.getMonthIncomes().add(receita);
                 receita.setFinantialMonth(fm);
                 receita.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
-//                tabController.setFinancesActiveIndex(tabController.getACORDION_INCOME_INDEX());
+
             }
             if (tipoCorrete.equals(OUTCOME)) {
                 despesa = new Outcome();
@@ -251,11 +251,11 @@ public class FinancaController implements Serializable{
                 fm.getMonthOutcomes().add(despesa);
                 despesa.setFinantialMonth(fm);
                 despesa.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
-//                tabController.setFinancesActiveIndex(tabController.getACORDION_OUTCOME_INDEX());
             }
+
             tabService.update(fm);
-            tabController.setFinancesActiveIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
-            tabController.setFinancesLastTabIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
+//            tabController.setFinancesActiveIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
+//            tabController.setFinancesLastTabIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
             MessagesController.addInfo(tipoCorrete.equals(INCOME) ? "Receita incluida com sucesso!": "Despesa incluida com sucesso");
             this.setCurrentTab(date);
         } catch (Exception ex) {
@@ -326,6 +326,7 @@ public class FinancaController implements Serializable{
         }
          else{
           financeService.updateOutcome(selectedOutcome);
+
          }
          MessagesController.addInfo("Despesa modificada com sucesso");
          setCurrentTab(selectedOutcome.getDate());
@@ -361,11 +362,14 @@ public class FinancaController implements Serializable{
             c.setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"));
             c.setTime(date);
             c.set(Calendar.DAY_OF_MONTH, 1);
+            if((c.get(Calendar.MONTH) != tabController.getCurrentMonthIndex()) || (tabController.getCurrentYearIndex() != (2010-c.get(Calendar.YEAR)))){
+                tabController.setFinancesActiveIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
+                tabController.setFinancesLastTabIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
+            }
             tabController.setCurrentMonthIndex(c.get(Calendar.MONTH));
             tabController.setCurrentYearIndex(tabService.findYearIndex(fm.getFinantialYear().getTitle()));
             tabController.setCurrentMonth(fm);
         }
-
     }
 
     public void prepareAddMonthOutcome(FinantialMonth fm){

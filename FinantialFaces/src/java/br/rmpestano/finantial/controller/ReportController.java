@@ -240,8 +240,8 @@ public class ReportController {
         currentMonthReport = reports.get(currentReportNumber - 1);
         currentMonth = fm;
         initPickLists();
-        despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
-        receitas = currentMonth.getCurrentUserIncomesInTheMonth();
+        despesas = financeService.findMonthOutcomesByUser(currentMonth.getDate());
+        receitas = financeService.findMonthIncomesByUser(currentMonth.getDate());
         switch (currentReportNumber) {
             case 1: {
                 generateReport1();
@@ -276,7 +276,7 @@ public class ReportController {
             for (OutcomeType outcomeType : reportOutcomeTypes) {
                 tipoValorReport.add(new TipoValorReport(outcomeType.getDescription(), 0.0));
                 Double sum = 0.0;
-                for (Outcome outcome : financeService.findUserOutcomeByDateAndType(outcomeType.getId(), currentMonth.getDate())) {
+                for (Outcome outcome : financeService.findMonthOutcomesByUserAndType(currentMonth.getDate(),outcomeType.getId())) {
                     sum += outcome.getValue();
                 }
                 tipoValorReport.get(currentIndex).setValor(sum);
@@ -287,7 +287,7 @@ public class ReportController {
             for (IncomeType incomeType : reportIncomeTypes) {
                 tipoValorReport.add(new TipoValorReport(incomeType.getDescription(), 0.0));
                 Double sum = 0.0;
-                for (Income income : financeService.findUserIncomeByDateAndType(incomeType.getId(), currentMonth.getDate())) {
+                for (Income income : financeService.findMonthIncomesByUserAndType(currentMonth.getDate(),incomeType.getId())) {
                     sum += income.getValue();
                 }
                 tipoValorReport.get(currentIndex).setValor(sum);
@@ -312,7 +312,7 @@ public class ReportController {
         lastRange.setLastRange(true);
         valorIntervaloReport.add(new ValorIntervaloReport(lastRange));
         if (tipoCorrente.equals(OUTCOME)) {//acabar com esses testes e fazer Income e Outcome extender de Finança ou implementar uma interface em comum
-            despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
+            despesas = financeService.findMonthOutcomesByUser(currentMonth.getDate());
             for (Outcome outcome : despesas) {
                 int index = 0;
                 boolean rangeMatched = false;
@@ -331,7 +331,7 @@ public class ReportController {
                 }
             }
         } else {
-            receitas = currentMonth.getCurrentUserIncomesInTheMonth();
+            receitas = financeService.findMonthIncomesByUser(currentMonth.getDate());
             for (Income income : receitas) {
                 int index = 0;
                 boolean rangeMatched = false;
@@ -371,7 +371,7 @@ public class ReportController {
             lastRange.setLastRange(true);
             valorIntervaloReport.add(new ValorIntervaloReport(lastRange));
             if (tipoCorrente.equals(OUTCOME)) {//acabar com esses testes e fazer Income e Outcome extender de Finança ou implementar uma interface em comum
-                despesas = currentMonth.getCurrentUserOutcomesInTheMonth();
+                despesas = financeService.findMonthOutcomesByUser(currentMonth.getDate());
                 for (Outcome outcome : despesas) {
                     boolean rangeMatched = false;
                     int index = firstRange == null ? 0 : 1;
@@ -396,7 +396,7 @@ public class ReportController {
                     }
                 }
             } else {
-                receitas = currentMonth.getCurrentUserIncomesInTheMonth();
+                receitas = financeService.findMonthIncomesByUser(currentMonth.getDate());
                 for (Income income : receitas) {
                     boolean rangeMatched = false;
                     int index = firstRange == null ? 0 : 1;
@@ -435,7 +435,7 @@ public class ReportController {
         FinantialYear fy = currentMonth.getFinantialYear();
         receitaXDespesaReport = new ArrayList<ReceitaPorDespesaReport>();
         for (FinantialMonth finantialMonth : fy.getFinantialMonths()) {
-            receitaXDespesaReport.add(new ReceitaPorDespesaReport(finantialMonth.getCurrentUserIncomesInTheMonth(), finantialMonth.getCurrentUserOutcomesInTheMonth(), finantialMonth.getMonthAbreviation()));
+            receitaXDespesaReport.add(new ReceitaPorDespesaReport(financeService.findMonthIncomesByUser(currentMonth.getDate()), financeService.findMonthOutcomesByUser(finantialMonth.getDate()), finantialMonth.getMonthAbreviation()));
         }
     }
 
