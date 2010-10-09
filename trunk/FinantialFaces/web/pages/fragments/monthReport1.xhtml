@@ -16,33 +16,25 @@ and open the template in the editor.
      <p:outputPanel id="pickList1">
             <p:fieldset legend="Escolha os tipos" style="margin: 0!important;padding: 0!important">
                 <p:outputPanel rendered="#{reportBean.tipoCorrente eq reportBean.OUTCOME}">
-                    <table width="100%" style="margin-top: -15px;padding-top:-15px ">
+                    <table width="100%" >
                         <tr>
-                            <td>
-                                <p:pickList value="#{reportBean.outcomeTypesPickList}"  var="r" itemLabel="#{r.description}" itemValue="#{r}" converter="outcomeConveter" >
-
+                            <td align="left">
+                                <p:pickList value="#{reportBean.outcomeTypesPickList}"   var="r" itemLabel="#{r.description}" itemValue="#{r}" converter="outcomeConveter" >
+                                    <f:facet name="sourceCaption">Disponível</f:facet>
+                                    <f:facet name="targetCaption">Utilizado</f:facet>
                                 </p:pickList>
 
                             </td>
                             <td>
-                                <h3>Disponível</h3>
-                                <p:dataList value="#{reportBean.outcomeTypesPickList.source}" var="s" itemType="circle">
-                                      #{s}
-                                </p:dataList>
+                                 <p:commandButton value="Atualizar" action="#{reportBean.generateReport1}" update="pickList1 pie" />
                             </td>
-                            <td>
-                                <h3>Utilizado</h3>
-                                <p:dataList value="#{reportBean.outcomeTypesPickList.target}" var="t" itemType="disc">
-                                      #{t}
-                                </p:dataList>
-                            </td>
+                            
                         </tr>
                         <tr>
                             <td style="width: 100px">
-
                             </td>
                             <td align="center">
-                                <p:commandButton value="Atualizar" action="#{reportBean.generateReport1}" update="pickList1 pie" />
+                                
                             </td>
                         </tr>
                     </table>
