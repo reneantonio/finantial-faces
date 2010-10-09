@@ -16,37 +16,28 @@ and open the template in the editor.
 
         <p:outputPanel id="pickList">
             <p:fieldset legend="Escolha os intervalos" style="margin: 0!important;padding: 0!important">
-                <table width="100%" style="margin-top: -15px;padding-top:-15px ">
-                    <tr>
+                <table width="100%" >
+                        <tr>
+                            <td align="left">
+                                <p:pickList value="#{reportBean.intervalosPickList}"  var="r" itemLabel="#{r}" itemValue="#{r}" converter="rangeConveter" >
+                                    <f:facet name="sourceCaption">Disponível</f:facet>
+                                    <f:facet name="targetCaption">Utilizado</f:facet>
+                                </p:pickList>
 
-                        <td>
-                            <p:pickList value="#{reportBean.intervalosPickList}"  var="r" itemLabel="#{r}" itemValue="#{r}" converter="rangeConveter" >
+                            </td>
+                            <td>
+                                 <p:commandButton value="Atualizar" action="#{reportBean.reportTwoReloaded}" update="pickList pie_panel" />
+                            </td>
 
-                            </p:pickList>
+                        </tr>
+                        <tr>
+                            <td style="width: 100px">
+                            </td>
+                            <td align="center">
 
-                        </td>
-                        <td>
-                            <h3>Disponível</h3>
-                            <p:dataList value="#{reportBean.intervalosPickList.source}" var="s" itemType="circle">  
-                                      #{s}
-                            </p:dataList>
-                        </td>
-                        <td>
-                             <h3>Utilizado</h3>  
-                             <p:dataList value="#{reportBean.intervalosPickList.target}" var="t" itemType="disc">  
-                                      #{t}
-                            </p:dataList>  
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 100px">
-
-                        </td>
-                        <td align="center">
-                            <p:commandButton value="Atualizar" action="#{reportBean.reportTwoReloaded}" update="pickList pie_panel" />
-                        </td>
-                    </tr>
-            </table>
+                            </td>
+                        </tr>
+                    </table>
                 <p:messages id="msg"/>
             </p:fieldset>
 
