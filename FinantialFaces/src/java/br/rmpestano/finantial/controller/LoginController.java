@@ -96,7 +96,7 @@ public class LoginController implements Serializable{
 
     public boolean isAdmin() {
         User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-        if( u!= null && u.getId() == 0){
+        if( u!= null && u.getId() == 1){
             return true;
         }
         return false;
