@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.prime.com.tr/ui"
+        xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+     <p:panel>
+         <p:outputPanel id="edit_user">
+            <h:panelGrid columns="2">
+                <finantial:label value="Login" required="true"/>
+                <h:inputText id="edit-username" value="#{loginBean.user.username}"/>
+            <finantial:label value="Senha Antiga" required="true"/>
+            <h:inputSecret id="edit_pass_check" value="#{loginBean.oldPassCheck}">
+                    <f:ajax event="blur" execute="edit_pass_check" render="edit_user_msg" listener="#{loginBean.checkOldPass}"/>
+            </h:inputSecret>
+            <finantial:label value="Senha Nova" required="true"/>
+            <h:inputSecret id="edit_pass" value="#{loginBean.user.password}"/>
+            <finantial:label value="Nome" required="true"/>
+            <h:inputText id="fullname" value="#{loginBean.user.fullname}"/>
+        </h:panelGrid>
+         <div align="center">
+             <p:commandButton value="salvar" actionListener="#{loginBean.updateUser}" update="edit_user_msg" async="true" ajax="true"  oncomplete="handleEditUser(args)" />
+         </div>
+         <p:messages id="edit_user_msg"/>
+         </p:outputPanel>
+     </p:panel>
+    <p:remoteCommand name="updateName" update="main_panel"/>
+
+
+
+<script type="text/javascript">
+    function handleEditUser(args){
+        if(! args.validationFailed){
+            setTimeout("wait2()",1000);
+            return true;
+        }
+        return false;
+    }
+
+    function wait2(){
+        editUserDlg.hide();
+        updateName();//não posso fazer update direto por causa do messages do painel principal, por isso a gambia
+    }
+
+</script>
+</ui:composition>

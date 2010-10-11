@@ -7,10 +7,9 @@ package br.rmpestano.finantial.service;
 
 import br.rmpestano.finantial.util.ThemeExtraProperties;
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
-import javax.inject.Named;
 
 /**
  *

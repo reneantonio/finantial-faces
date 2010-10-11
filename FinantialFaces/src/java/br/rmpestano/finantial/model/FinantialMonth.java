@@ -51,31 +51,14 @@ public class FinantialMonth implements Serializable {
     @ManyToOne(cascade=CascadeType.ALL)
     private FinantialYear finantialYear;
 
-    @Transient
-    private List<Income> currentUserIncomesInTheMonth;
-    @Transient
-    private List<Outcome> currentUserOutcomesInTheMonth;
-    @Transient
-    private Double totalOutcomeInTheMonth;
-    @Transient
-    private Double totalIncomeInTheMonth;
+    
     @Transient
     private boolean showMonthIncomes;
     @Transient
-    private boolean showMonthIncomeReports;
-    @Transient
     private boolean showMonthOutcomes;
-    @Transient
-    private boolean showMonthOutcomeReports;
 
-    @Transient
-    private int monthIndex;
-    @Transient
-    private int userIncomesSize;
-    @Transient
-    private int userOutcomesSize;
-    @Transient
-    private Double saldoMensal;
+    
+    
 
     public int getMonthIndex() {
         Calendar c = new GregorianCalendar()        ;
@@ -111,21 +94,7 @@ public class FinantialMonth implements Serializable {
         this.finantialYear = finantialYear;
     }
 
-    public boolean isShowMonthIncomeReports() {
-        return showMonthIncomeReports;
-    }
-
-    public void setShowMonthIncomeReports(boolean showMonthIncomeReports) {
-        this.showMonthIncomeReports = showMonthIncomeReports;
-    }
-
-    public boolean isShowMonthOutcomeReports() {
-        return showMonthOutcomeReports;
-    }
-
-    public void setShowMonthOutcomeReports(boolean showMonthOutcomeReports) {
-        this.showMonthOutcomeReports = showMonthOutcomeReports;
-    }
+     
 
 
 

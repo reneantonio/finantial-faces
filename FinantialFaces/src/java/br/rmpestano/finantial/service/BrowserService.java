@@ -21,15 +21,50 @@ import org.primefaces.context.RequestContext;
 @SessionScoped
 public class BrowserService implements Serializable{
 
+    private String currentBrowser="";
     private boolean checkCompatibility = true;
+    private final String FIREFOX = "firefox";
+    private final String CHROME = "chrome";
+    private final String SAFARI = "safari";
+
+    public BrowserService() {
+        browserCompatibility();
+    }
+
      /**
      * se o browser for incompatível mostrar modal
      * @param ev
      */
-     public void browserInfo(ActionEvent ev){
+
+
+
+     public void browserInfo(){
          RequestContext context = RequestContext.getCurrentInstance();
          context.addCallbackParam("compatible", browserCompatibility());
     }
+
+    public String getCurrentBrowser() {
+        return currentBrowser;
+    }
+
+    public void setCurrentBrowser(String currentBrowser) {
+        this.currentBrowser = currentBrowser;
+    }
+
+    public String getFIREFOX() {
+        return FIREFOX;
+    }
+
+    public String getCHROME() {
+        return CHROME;
+    }
+
+    public String getSAFARI() {
+        return SAFARI;
+    }
+
+
+
 
 /**
  *
@@ -45,6 +80,7 @@ public class BrowserService implements Serializable{
          System.out.println("AGENT:"+agent);
         checkCompatibility = false;
         if(agent.toLowerCase().contains("chrome")){//chrome
+            currentBrowser = CHROME;
            return 1;
         }
         if(agent.toLowerCase().contains("opera")){//opera
@@ -54,7 +90,8 @@ public class BrowserService implements Serializable{
             return 1;
         }
         if(agent.toLowerCase().contains("firefox")){ //firefox 3.6 >
-             String version = agent.toLowerCase().substring(agent.indexOf("Firefox/") + 8, agent.indexOf("Firefox/") + 14);
+            currentBrowser = FIREFOX;
+             String version = agent.toLowerCase().substring(agent.indexOf("Firefox/") + 8);
              String dgt1 = version.substring(0, 1);
                  if(Integer.parseInt(dgt1) >=4){
                     return 1;

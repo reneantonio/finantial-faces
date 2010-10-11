@@ -12,13 +12,19 @@ import br.rmpestano.finantial.util.MessagesController;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,7 +38,9 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController implements Serializable{
     UserService userService;
     User user = new User();
-
+    boolean admin = false;
+    private String oldPass;
+    private String oldPassCheck;
     @PostConstruct
     public void getUserService(){
         userService = (UserService) BeanManagerController.getBeanByName("userService");
@@ -60,13 +68,42 @@ public class LoginController implements Serializable{
 
                 System.out.println("Login:"+user.getUsername());
                 return "/pages/home.faces?faces-redirect=true";
-//                return "/pages/home2.faces?faces-redirect=true";
             }
             else{
                 MessagesController.addError("senha incorreta ", "senha incorreta, verifique o CAPSLOCK");
                 return null;
             }
         }
+    }
+
+    public String getOldPass() {
+        return oldPass;
+    }
+
+    public void setOldPass(String oldPass) {
+        this.oldPass = oldPass;
+    }
+
+    public String getOldPassCheck() {
+        return oldPassCheck;
+    }
+
+    public void setOldPassCheck(String oldPassCheck) {
+        this.oldPassCheck = oldPassCheck;
+    }
+
+
+
+    public boolean isAdmin() {
+        User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+        if( u!= null && u.getId() == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     public User getUser() {
@@ -84,4 +121,35 @@ public class LoginController implements Serializable{
              FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getContextName());
 	}
 
+     public void prepareEditUser(ActionEvent event) throws IOException{
+         this.user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+         if(user == null){
+             MessagesController.addError("Voce não está logado, por favor rntr novamente no sistema");
+             final HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+	     request.getSession(false).invalidate();
+             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getContextName());
+         }
+     else {
+             oldPass = user.getPassword();
+             }
+     }
+
+     public void checkOldPass(){
+             if((oldPassCheck == null || (!oldPass.equals(oldPassCheck))) || (oldPassCheck != null && oldPassCheck.trim().equals(""))){
+                MessagesController.addError("A senha antiga informada náo confere");
+           }
+     }
+
+     public void updateUser(){
+        try {
+            if((!oldPass.equals(oldPassCheck)) || (oldPassCheck != null && oldPassCheck.trim().equals(""))){
+                MessagesController.addError("A senha antiga informada náo confere");
+                return;
+           }
+            userService.atualizar(user);
+            MessagesController.addInfo("Perfil atualizado com sucesso");
+        } catch (Exception ex) {
+            MessagesController.addError("Problemas ao editar usuário:"+ex.getMessage());
+        }
+     }
 }
