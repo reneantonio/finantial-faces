@@ -419,6 +419,8 @@ CREATE TABLE `outcome` (
 --
 
 /*!40000 ALTER TABLE `outcome` DISABLE KEYS */;
+INSERT INTO `outcome` (`ID`,`DESCRIPTION`,`VALUE`,`DATE`,`USER_ID`,`FINANTIALMONTH_DATE`,`TYPE_ID`) VALUES 
+ (6101,'teste',556,'2010-10-20',1,'2010-10-01',1);
 /*!40000 ALTER TABLE `outcome` ENABLE KEYS */;
 
 
@@ -468,7 +470,7 @@ CREATE TABLE `sequence` (
 
 /*!40000 ALTER TABLE `sequence` DISABLE KEYS */;
 INSERT INTO `sequence` (`SEQ_NAME`,`SEQ_COUNT`) VALUES 
- ('SEQ_GEN','4900');
+ ('SEQ_GEN','6150');
 /*!40000 ALTER TABLE `sequence` ENABLE KEYS */;
 
 
@@ -491,8 +493,7 @@ CREATE TABLE `user` (
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`ID`,`USERNAME`,`PASSWORD`,`FULLNAME`) VALUES 
- (0,'admin','admin','Administrator'),
- (1,'rmpestano','rmp','Rafael M. Pestano');
+ (1,'admin','admin','Administrator');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 
