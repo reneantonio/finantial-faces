@@ -44,12 +44,12 @@
           <p:menu widgetVar="configMenu" position="dynamic" y="#{menuY}" x="139"  styleClass="configMenu">
               <p:submenu label="Configurações" >
                   <p:menuitem value="Editar Perfil" actionListener="#{loginBean.prepareEditUser}" oncomplete="editUserDlg.show()" immediate="true" update="edit_user" />
-                  <p:menuitem value="Gerenciar Categorias" ajax="false" action="#{themeService.dotLuvInit}" />
+                  <p:menuitem value="Gerenciar Categorias" ajax="false" onclick="alert('UNDER CONSTRUCTION')" immediate="true" />
               </p:submenu>
           </p:menu>
           <p:menu widgetVar="adminMenu" position="dynamic" y="#{menuY}" x="288"  styleClass="adminMenu">
               <p:submenu>
-                  <p:menuitem value="Gerenciar Usuários" ajax="false" action="#{themeService.dotLuvInit}" />
+                  <p:menuitem value="Gerenciar Usuários" ajax="true" onclick="alert('UNDER CONSTRUCTION')" immediate="true" />
               </p:submenu>
           </p:menu>
 
