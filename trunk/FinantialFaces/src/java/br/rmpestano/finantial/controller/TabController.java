@@ -273,14 +273,14 @@ public class TabController implements Serializable{
 
 
     public Double getTotalOutcomeInThemonth() {
-        return totalOutcomeInThemonth;
+        return financeService.getTotalOutcomeInTheMonth(currentMonth);
     }
 
     public void setTotalOutcomeInThemonth(Double totalOutcomeInThemonth) {
         this.totalOutcomeInThemonth = totalOutcomeInThemonth;
     }
     public Double getTotalIncomeInTheMonth() {
-        return totalIncomeInTheMonth;
+        return financeService.getTotalIncomeInTheMonth(currentMonth);
     }
 
     public void setTotalIncomeInTheMonth(Double totalIncomeInThemonth) {
@@ -353,12 +353,7 @@ public class TabController implements Serializable{
             fm.setShowMonthIncomes(true);
          }
     }
-    public void showIncomeReports(FinantialMonth fm){
-         fm.setShowMonthIncomeReports(true);
-    }
-    public void showOutcomeReports(FinantialMonth fm){
-         fm.setShowMonthOutcomeReports(true);
-    }
+   
 
     public void prepareEditYear(){
         editYear = true;

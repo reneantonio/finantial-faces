@@ -188,8 +188,11 @@ public class CrudService <T> {
     CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(c);
         Root<T> root = cq.from(c);
+        try{
         return em.createQuery(cq.select(root).where(cb.equal(root.get(atribute), parameter))).getSingleResult();
-
+        }catch(Exception ex){
+            return null;
+        }
         
     }
     /**

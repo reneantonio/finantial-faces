@@ -12,6 +12,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -22,8 +24,11 @@ import javax.persistence.Table;
 @NamedQueries({@NamedQuery(name="User.findAll",query="SELECT u FROM User u"),@NamedQuery(name="User.findByLogin",query="SELECT u FROM User u WHERE u.username = :username")})
 public class User extends BaseEntity {
 
+    @Length(min=3,message="Tamanho mínimo de login = 3")
     private String username;
+    @Length(min=3,message="Tamanho mínimo de senha = 3")
     private String password;
+    @Length(min=3,message="Tamanho mínimo de nome = 3")
     private String fullname;
 
     @OneToMany(mappedBy = "user")

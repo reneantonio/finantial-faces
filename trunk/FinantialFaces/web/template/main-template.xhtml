@@ -13,33 +13,45 @@
         <f:loadBundle  basename="br.rmpestano.finantial.bundle.MessageResource_#{i18nService.currentResourceBundle}" var="msg"/>
         <ui:insert name="head"/>
     </h:head>
-        <h:body onload="getBrowserInfo()">
-       
+       <h:body>
+           <ui:param name="menuY" value="#{(browserService.currentBrowser eq browserService.CHROME) or (browserService.currentBrowser eq browserService.SAFARI) ? '27':'32'}"/>
       <h:form id="theme_form" >
-          <p:menu widgetVar="themeMenu" position="dynamic" y="26" x="2"  styleClass="themeMenu" >
+          <p:menu widgetVar="themeMenu" position="dynamic" y="#{menuY}" x="2"  styleClass="themeMenu" >
                             <p:submenu label="Themes">
-                                <p:menuitem value="Bluesky" ajax="false" action="#{themeService.blueSkyInit}" style="#{themeService.theme eq 'bluesky' ? 'background-color:#DFEDFF;font-weight:bolder;text-decoration:underline':''}">
+                                <p:menuitem value="Bluesky" immediate="true" ajax="false" action="#{themeService.blueSkyInit}" style="#{themeService.theme eq 'bluesky' ? 'background-color:#DFEDFF;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Casablanca" ajax="false" action="#{themeService.casablancaInit}" style="#{themeService.theme eq 'casablanca' ? 'color:red;font-weight:bolder;text-decoration:underline':''}"></p:menuitem>
+                                <p:menuitem value="Casablanca" immediate="true" ajax="false" action="#{themeService.casablancaInit}" style="#{themeService.theme eq 'casablanca' ? 'color:red;font-weight:bolder;text-decoration:underline':''}"></p:menuitem>
 
-                                  <p:menuitem value="Ui-Darkness" ajax="false" action="#{themeService.uiDarknessInit}" style="#{themeService.theme eq 'ui-darkness' ? 'color:#F58400;font-weight:bolder;text-decoration:underline':''}">
+                                  <p:menuitem value="Ui-Darkness" ajax="false" immediate="true" action="#{themeService.uiDarknessInit}" style="#{themeService.theme eq 'ui-darkness' ? 'color:#F58400;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Overcast" ajax="false" action="#{themeService.overcastInit}" style="#{themeService.theme eq 'overcast' ? 'color:red;font-weight:bolder;text-decoration:underline':''}">
+                                <p:menuitem value="Overcast" ajax="false" immediate="true" action="#{themeService.overcastInit}" style="#{themeService.theme eq 'overcast' ? 'color:red;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Dark-Sky" ajax="false" action="#{themeService.darkSkyInit}" style="#{themeService.theme eq 'dark-sky' ? 'color:#0D31BA;font-weight:bolder;text-decoration:underline':''}">
+                                <p:menuitem value="Dark-Sky" ajax="false" immediate="true" action="#{themeService.darkSkyInit}" style="#{themeService.theme eq 'dark-sky' ? 'color:#0D31BA;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Pepper-Grinder" ajax="false" action="#{themeService.pepperInit}" style="#{themeService.theme eq 'pepper-grinder' ? 'background-color:#674F2C;font-weight:bolder;text-decoration:underline':''}">
+                                <p:menuitem value="Pepper-Grinder" ajax="false" immediate="true" action="#{themeService.pepperInit}" style="#{themeService.theme eq 'pepper-grinder' ? 'background-color:#674F2C;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                  <p:menuitem value="Vader" ajax="false"  action="#{themeService.vaderInit}" style="#{themeService.theme eq 'vader' ? 'color:red;font-weight:bolder;text-decoration:underline':''}">
+                                  <p:menuitem value="Vader" ajax="false"  action="#{themeService.vaderInit}" immediate="true" style="#{themeService.theme eq 'vader' ? 'color:red;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                  <p:menuitem value="Cupertino" ajax="false"  action="#{themeService.cupertinoInit}" style="#{themeService.theme eq 'cupertino' ? 'background-color:#62BBE8;font-weight:bolder;text-decoration:underline':''}">
+                                  <p:menuitem value="Cupertino" ajax="false"  action="#{themeService.cupertinoInit}" immediate="true" style="#{themeService.theme eq 'cupertino' ? 'background-color:#62BBE8;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Mint-Choc" ajax="false" action="#{themeService.mintChocInit}" style="#{themeService.theme eq 'mint-choc' ? 'color:#99EC7E;font-weight:bolder;text-decoration:underline':''}">
+                                <p:menuitem value="Mint-Choc" ajax="false" action="#{themeService.mintChocInit}" immediate="true" style="#{themeService.theme eq 'mint-choc' ? 'color:#99EC7E;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
-                                <p:menuitem value="Dot-Luv" ajax="false" action="#{themeService.dotLuvInit}" style="#{themeService.theme eq 'dot-luv' ? 'color:#1A558F;font-weight:bolder;text-decoration:underline':''}">
+                                <p:menuitem value="Dot-Luv" immediate="true" ajax="false" action="#{themeService.dotLuvInit}" style="#{themeService.theme eq 'dot-luv' ? 'color:#1A558F;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
                             </p:submenu>
                        </p:menu>
+
+          <p:menu widgetVar="configMenu" position="dynamic" y="#{menuY}" x="139"  styleClass="configMenu">
+              <p:submenu label="Configurações" >
+                  <p:menuitem value="Editar Perfil" actionListener="#{loginBean.prepareEditUser}" oncomplete="editUserDlg.show()" immediate="true" update="edit_user" />
+                  <p:menuitem value="Gerenciar Categorias" ajax="false" action="#{themeService.dotLuvInit}" />
+              </p:submenu>
+          </p:menu>
+          <p:menu widgetVar="adminMenu" position="dynamic" y="#{menuY}" x="288"  styleClass="adminMenu">
+              <p:submenu>
+                  <p:menuitem value="Gerenciar Usuários" ajax="false" action="#{themeService.dotLuvInit}" />
+              </p:submenu>
+          </p:menu>
 
               <p:ajaxStatus style="z-index: 9999;left:87%;top:10%;position: absolute">
                                         <f:facet name="start">
@@ -52,63 +64,22 @@
                                     </p:ajaxStatus>
           
           <h:panelGroup id="group" layout="block" style="margin-top: -7px;display:inline-table;width: 100%;">
-<!--              <h:panelGrid columns="1" style="margin: 0" cellspacing="0" cellpadding="0"  >
-                  <h:column>
 
-                          <td>
-                                <h:graphicImage  library="images" name="header.jpg"/>
-                          </td>
-                          <td align="left" style="width: 1200px;background-image:url('#{request.contextPath}/resources/images/header-pad.jpg');background-repeat:repeat-x;position:relative;">
 
-                          </td>
-                  </h:column>
-              </h:panelGrid>-->
                           <p:commandButton id="themeButton" value="#{msg['themechange']}" onclick="themeMenu.show()" type="button" style="width: 130px"/>
+                          <p:commandButton id="configButton" rendered="#{menu == 1}" value="#{msg['config']}" onclick="configMenu.show()" type="button" style="width: 145px"/>
+                          <p:commandButton id="adminButton" rendered="#{loginBean.admin}" value="#{msg['admin']}" onclick="adminMenu.show()" type="button" style="width: 145px"/>
                           <p:outputPanel rendered="#{menu == 1}">
                               <div style="position: relative;float: right">
-                                  <p:commandButton id="logoutButton" value="Sair" ajax="false"  actionListener="#{loginBean.doLogout}"/>
+                                  <p:commandButton id="logoutButton" value="Sair" ajax="false" immediate="true"  actionListener="#{loginBean.doLogout}"/>
                               </div>
                           </p:outputPanel>
           </h:panelGroup>
 
-          <p:remoteCommand rendered="#{browserService.checkCompatibility}"  id="rmt" actionListener="#{browserService.browserInfo}" name="getBrowserInfo" oncomplete="handleComplete(args)"/>
-          <p:dialog widgetVar="notSupported" header="Incompatibilidade Encontrada"  modal="true" showEffect="fold" draggable="false" resizable="false" closable="false" >
-              <p:panel style="width:auto;height:250px;height:*450px">
-                       <p style="padding: 12px;font-size: 16px;font-family: helvetica">
-                            O seu browser não é suportado, por favor utilize um dos listado abaixo:
-                        </p>
-                        <div style="font-size: 14px">
-                        <ul>
-                            <li> <a href="http://www.google.com.br/chrome" target="_blank" > Google Chrome</a> </li>
-                            <li> <a href="http://www.opera.com/download/" target="_blank"> Opera</a>  </li>
-                            <li> <a href="http://br.mozdev.org/download/" target="_blank"> Firefox <span style="font-weight: bold">(3.6 ou maior)</span></a>  </li>
-                            <li> <a href="http://www.apple.com/safari/download/" target="_blank"> Safari</a>  </li>
-                        </ul>
-                        </div>
-                    </p:panel>
-                </p:dialog>
-
-          <p:dialog widgetVar="notTested" header="Incompatibilidade Encontrada" modal="true" showEffect="fold" draggable="false" resizable="false" closable="false" >
-                    <p:panel style="width:auto;height:300px;">
-                       <p style="padding: 12px;font-size: 16px;font-family: helvetica">
-                            O seu browser não foi testado pela nossa equipe e pode ter incompatibilidades com o sistema,
-                            para evitar surpresas utilize um dos navegadores abaixo:
-                        </p>
-                        <div style="font-size: 14px">
-                        <ul>
-                            <li> <a href="http://www.google.com.br/chrome" target="_blank" > Google Chrome</a> </li>
-                            <li> <a href="http://www.opera.com/download/" target="_blank"> Opera</a>  </li>
-                            <li> <a href="http://br.mozdev.org/download/" target="_blank"> Firefox <span style="font-weight: bold">(3.6 ou maior)</span></a>  </li>
-                            <li> <a href="http://www.apple.com/safari/download/" target="_blank"> Safari</a>  </li>
-                        </ul>
-                        </div>
-                        <div align="center">
-                            <p:commandButton value="continuar mesmo assim" oncomplete="notTested.hide()"/>
-
-                         </div>
-                    </p:panel>
-                </p:dialog>
-        
+          
+          <p:dialog widgetVar="editUserDlg" header="Editar Perfil" modal="true" showEffect="slide" hideEffect="slide" draggable="false" resizable="false" closable="true">
+              <ui:include src="/pages/user/edit-user.xhtml"/>
+          </p:dialog>
           </h:form>
         <hr/>
             <p:growl id="messages" showDetail="true"/>
