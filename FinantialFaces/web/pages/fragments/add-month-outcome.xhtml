@@ -28,7 +28,7 @@ and open the template in the editor.
             </h:inputText>
             <finantial:label for="month_outcome_subtipo"  value="#{msg['finance.label.subtipo']}:"/>
             <h:selectOneMenu id="month_outcome_subtipo" value="#{financeBean.despesa.type}" style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
-                <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{msg['subtipo.outcome.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
+                <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
                                     <f:converter converterId="outcomeConveter"/>
                                 </h:selectOneMenu>
         </h:panelGrid>

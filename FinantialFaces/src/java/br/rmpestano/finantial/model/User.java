@@ -30,11 +30,16 @@ public class User extends BaseEntity {
     private String password;
     @Length(min=3,message="Tamanho mínimo de nome = 3")
     private String fullname;
+    @OneToMany
+    private List<IncomeType> userIncomeTypes;
+    @OneToMany
+    private List<OutcomeType> userOutcomeTypes;
 
-    @OneToMany(mappedBy = "user")
-    private List<Income> receitas;
-    @OneToMany(mappedBy = "user")
-    private List<Outcome> despesas;
+    //DESNECESSÁRIO, PEGA COM UM SIMPLES SQL
+//    @OneToMany(mappedBy = "user")
+//    private List<Income> receitas;
+//    @OneToMany(mappedBy = "user")
+//    private List<Outcome> despesas;
 
 
     public String getPassword() {
@@ -62,6 +67,23 @@ public class User extends BaseEntity {
     public void setFullname(String fullname) {
         this.fullname = fullname;
     }
+
+    public List<IncomeType> getUserIncomeTypes() {
+        return userIncomeTypes;
+    }
+
+    public void setUserIncomeTypes(List<IncomeType> userIncomeTypes) {
+        this.userIncomeTypes = userIncomeTypes;
+    }
+
+    public List<OutcomeType> getUserOutcomeTypes() {
+        return userOutcomeTypes;
+    }
+
+    public void setUserOutcomeTypes(List<OutcomeType> userOutcomeTypes) {
+        this.userOutcomeTypes = userOutcomeTypes;
+    }
+
 
 
     @Override

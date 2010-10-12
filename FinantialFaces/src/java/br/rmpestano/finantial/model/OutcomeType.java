@@ -53,6 +53,10 @@ public class OutcomeType extends BaseEntity     {
         return description;
     }
 
+   /**
+    * @deprecated use getUserOutcomeTypes in User.java
+    * @return
+    */
      public static List<OutcomeType> findAll(){
 
         return PersistenceManager.createEntityManager().createQuery("select t from OutcomeType t").getResultList();

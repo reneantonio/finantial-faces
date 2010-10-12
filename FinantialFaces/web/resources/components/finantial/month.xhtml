@@ -75,7 +75,7 @@ and open the template in the editor.
                                              #{msg['finance.label.tipo']}
                             </f:facet>
                             <p:commandLink  style="text-decoration: none">
-                                <h:outputText  value="#{msg['subtipo.outcome.'.concat(d.type)]}"/>
+                                <h:outputText  value="#{d.type}"/>
                             </p:commandLink>
                         </p:column>
                         <p:column sortBy="#{d.value}" parser="number">
@@ -164,7 +164,7 @@ and open the template in the editor.
                             <f:facet name="header">
                                 <h:outputLabel value="#{msg['finance.label.tipo']}"/>
                             </f:facet>
-                            <p:commandLink value="#{msg['subtipo.income.'.concat(r.type)]}" style="text-decoration: none" />
+                            <p:commandLink value="#{d.type}" style="text-decoration: none" />
                         </p:column>
                         <p:column  sortBy="#{r.value}" parser="number">
                             <f:facet name="header">

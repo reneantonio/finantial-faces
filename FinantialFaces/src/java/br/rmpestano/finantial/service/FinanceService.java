@@ -7,7 +7,9 @@ package br.rmpestano.finantial.service;
 
 import br.rmpestano.finantial.model.FinantialMonth;
 import br.rmpestano.finantial.model.Income;
+import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.Outcome;
+import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.generic.CrudService;
 import java.text.SimpleDateFormat;
@@ -36,7 +38,6 @@ public class FinanceService {
     public FinanceService() {
     }
 
-
     public void removeOutcome(Outcome outcome){
         outcomeCrudService.delete(outcome.getId(), Outcome.class);
     }
@@ -53,7 +54,6 @@ public class FinanceService {
     public void updateMonth(FinantialMonth fm){
         monthCrudService.update(fm);
     }
-
 
      public List<Income> findMonthIncomesByUserAndType(Date month, Long type_id) {
         String sql = "select * from income i where i.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "' and TYPE_ID = '"+type_id+"'";
@@ -95,5 +95,12 @@ public class FinanceService {
     private User getCurrentUser(){
         User currentUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         return currentUser;
+    }
+
+    public List<IncomeType> findUserIncomeTypes(){
+        return getCurrentUser().getUserIncomeTypes();
+    }
+    public List<OutcomeType> findUserOutcomeTypes(){
+        return getCurrentUser().getUserOutcomeTypes();
     }
 }

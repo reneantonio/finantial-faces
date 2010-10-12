@@ -6,6 +6,7 @@ package br.rmpestano.finantial.model;
 
 import br.rmpestano.finantial.util.PersistenceManager;
 import java.util.List;
+import javax.faces.context.FacesContext;
 import javax.persistence.Entity;
 import javax.persistence.Query;
 import javax.persistence.Table;
@@ -41,6 +42,10 @@ public class IncomeType extends BaseEntity {
         return description;
     }
 
+    /**
+     * @deprecated use findUserIncomeTypes instead in class FinanceService
+     * @return
+     */
     public static List<IncomeType> findAll(){
 
         return PersistenceManager.createEntityManager().createQuery("select t from IncomeType t").getResultList();

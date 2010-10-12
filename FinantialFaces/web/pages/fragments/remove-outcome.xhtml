@@ -30,7 +30,7 @@ and open the template in the editor.
                        <f:ajax event="blur" render="@this"/>
                    </h:inputText>
                    <h:outputLabel for="remove_outcome_type" value="Subtipo:"/>
-                   <h:inputText disabled="true" id="remove_outcome_type" value="#{msg['subtipo.outcome.'.concat(financeBean.selectedOutcome.type)]}"/>
+                   <h:inputText disabled="true" id="remove_outcome_type" value="#{financeBean.selectedOutcome.type}"/>
              </h:panelGrid>
 
             </div>

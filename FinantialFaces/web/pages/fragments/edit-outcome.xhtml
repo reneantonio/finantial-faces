@@ -26,7 +26,7 @@ and open the template in the editor.
             </h:inputText>
             <finantial:label for="edit_subtipo_outcome"  value="#{msg['finance.label.subtipo']}:"/>
             <h:selectOneMenu id="edit_subtipo_outcome" value="#{financeBean.selectedOutcome.type}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
-                                    <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{msg['subtipo.outcome.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
+                                    <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
                                     <f:converter converterId="outcomeConveter"/>
                                 </h:selectOneMenu>
         </h:panelGrid>
