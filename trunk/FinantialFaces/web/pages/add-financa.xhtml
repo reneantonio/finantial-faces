@@ -32,11 +32,11 @@ and open the template in the editor.
 
                             <p:outputPanel id="select_subtipo">
                                 <h:selectOneMenu id="select_subtipo_income" rendered="#{financeBean.tipoCorrete eq financeBean.INCOME}"  value="#{financeBean.subtipoIncomeCorrete}"  style="margin-bottom: 3px;margin-top: 3px;margin-left: 2px;height: 21px;width: 145px;*width: 183px">
-                                    <f:selectItems value="#{financeBean.subtiposIncome}" var="subtipo" itemLabel="#{msg['subtipo.income.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
+                                    <f:selectItems value="#{financeBean.subtiposIncome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
                                     <f:converter converterId="incomeConveter"/>
                                 </h:selectOneMenu>
                                 <h:selectOneMenu id="select_subtipo_outcome" rendered="#{financeBean.tipoCorrete eq financeBean.OUTCOME}"  value="#{financeBean.subtipoOutcomeCorrete}"  style="margin-bottom: 3px;margin-top: 3px;margin-left: 2px;height: 21px;width: 145px;*width: 183px;">
-                                    <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{msg['subtipo.outcome.'.concat(subtipo.description)]}" itemValue="#{subtipo}"/>
+                                    <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
                                     <f:converter converterId="outcomeConveter"/>
                                 </h:selectOneMenu>
                             </p:outputPanel>

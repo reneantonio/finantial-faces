@@ -154,7 +154,7 @@ public class TabController implements Serializable{
 
 
     private SelectItem[] createOutcomeFilterOptions(){
-        List<OutcomeType> types = tabService.getOutcomeTypes();
+        List<OutcomeType> types = tabService.getUser().getUserOutcomeTypes();
         SelectItem[] retorno = new SelectItem[types.size()+1];
         retorno[0] = new SelectItem("", "Todos");
         for (int i = 0; i < types.size(); i++) {
@@ -163,7 +163,7 @@ public class TabController implements Serializable{
         return retorno;
     }
     private SelectItem[] createIncomeFilterOptions(){
-        List<IncomeType> types = tabService.getIncomeTypes();
+        List<IncomeType> types = tabService.getUser().getUserIncomeTypes();
         SelectItem[] retorno = new SelectItem[types.size()+1];
         retorno[0] = new SelectItem("", "Todos");
         for (int i = 0; i < types.size(); i++) {
@@ -416,6 +416,7 @@ public class TabController implements Serializable{
         if(currentYearIndex < tabService.getMaxYearIndex()-1){
             currentYearIndex ++;
             currentYear = tabYears.get(currentYearIndex);
+            currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
             financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
             financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
         }
@@ -424,6 +425,7 @@ public class TabController implements Serializable{
         if(currentYearIndex > 0){
             currentYearIndex --;
             currentYear = tabYears.get(currentYearIndex);
+            currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
             financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
             financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
         }
@@ -432,6 +434,7 @@ public class TabController implements Serializable{
      public void changeYear(int index){
         setCurrentYearIndex(index);
         currentYear = tabYears.get(index);
+        currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
         financesActiveIndex = ACORDION_NOT_SELECTED_INDEX;
         financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
     }

@@ -69,9 +69,9 @@ public class FinancaController implements Serializable{
 
 
     public FinancaController() {
-        subtiposIncome = IncomeType.findAll();
-        subtiposOutcome = OutcomeType.findAll();
         tabService = (TabService) BeanManagerController.getBeanByName("tabService");
+        subtiposIncome = tabService.getUser().getUserIncomeTypes();
+        subtiposOutcome = tabService.getUser().getUserOutcomeTypes();
         financeService = (FinanceService) BeanManagerController.getBeanByName("financeService");
         receita = new Income();
         despesa = new Outcome();

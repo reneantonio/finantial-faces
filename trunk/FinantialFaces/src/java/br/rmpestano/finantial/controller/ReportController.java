@@ -10,6 +10,7 @@ import br.rmpestano.finantial.model.Income;
 import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.Outcome;
 import br.rmpestano.finantial.model.OutcomeType;
+import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.model.report.Range;
 import br.rmpestano.finantial.model.report.ReceitaPorDespesaReport;
 import br.rmpestano.finantial.model.report.Report;
@@ -23,6 +24,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.model.DualListModel;
 
@@ -107,11 +109,12 @@ public class ReportController {
 
 
     private void initPickLists() {
+        User currentUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         List<OutcomeType> sourceOutcomeType = new ArrayList<OutcomeType>();
-        List<OutcomeType> targetOutcomeType = OutcomeType.findAll();
+        List<OutcomeType> targetOutcomeType = currentUser.getUserOutcomeTypes();
         outcomeTypesPickList = new DualListModel<OutcomeType>(sourceOutcomeType, targetOutcomeType);
         List<IncomeType> sourceIncomeType = new ArrayList<IncomeType>();
-        List<IncomeType> targetIncomeType = IncomeType.findAll();
+        List<IncomeType> targetIncomeType = currentUser.getUserIncomeTypes();
         incomeTypesPickList = new DualListModel<IncomeType>(sourceIncomeType, targetIncomeType);
         List<Range> sourceInterval = new ArrayList<Range>();
         List<Range> targetInterval = new ArrayList<Range>();

@@ -344,12 +344,12 @@ INSERT INTO `finantial_year` (`ID`,`TITLE`) VALUES
 DROP TABLE IF EXISTS `income`;
 CREATE TABLE `income` (
   `ID` bigint(20) NOT NULL,
-  `DESCRIPTION` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
   `VALUE` double DEFAULT NULL,
   `DATE` date DEFAULT NULL,
-  `USER_ID` bigint(20) DEFAULT NULL,
-  `FINANTIALMONTH_DATE` date DEFAULT NULL,
   `TYPE_ID` bigint(20) DEFAULT NULL,
+  `FINANTIALMONTH_DATE` date DEFAULT NULL,
+  `USER_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK_income_USER_ID` (`USER_ID`),
   KEY `FK_income_TYPE_ID` (`TYPE_ID`),
@@ -357,7 +357,7 @@ CREATE TABLE `income` (
   CONSTRAINT `FK_income_FINANTIALMONTH_DATE` FOREIGN KEY (`FINANTIALMONTH_DATE`) REFERENCES `finantial_month` (`DATE`),
   CONSTRAINT `FK_income_TYPE_ID` FOREIGN KEY (`TYPE_ID`) REFERENCES `income_type` (`ID`),
   CONSTRAINT `FK_income_USER_ID` FOREIGN KEY (`USER_ID`) REFERENCES `user` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `income`
@@ -384,11 +384,10 @@ CREATE TABLE `income_type` (
 
 /*!40000 ALTER TABLE `income_type` DISABLE KEYS */;
 INSERT INTO `income_type` (`ID`,`DESCRIPTION`) VALUES 
- (1,'salario'),
- (2,'mesada'),
- (3,'vale-refeicao'),
- (4,'vale-alimentacao'),
- (5,'vale-transporte');
+ (1,'Salário'),
+ (2,'Vale Alimentação'),
+ (3,'Vale Refeição'),
+ (4,'Apostas');
 /*!40000 ALTER TABLE `income_type` ENABLE KEYS */;
 
 
@@ -399,28 +398,26 @@ INSERT INTO `income_type` (`ID`,`DESCRIPTION`) VALUES
 DROP TABLE IF EXISTS `outcome`;
 CREATE TABLE `outcome` (
   `ID` bigint(20) NOT NULL,
-  `DESCRIPTION` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
   `VALUE` double DEFAULT NULL,
   `DATE` date DEFAULT NULL,
-  `USER_ID` bigint(20) DEFAULT NULL,
   `FINANTIALMONTH_DATE` date DEFAULT NULL,
+  `USER_ID` bigint(20) DEFAULT NULL,
   `TYPE_ID` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `FK_outcome_FINANTIALMONTH_DATE` (`FINANTIALMONTH_DATE`),
   KEY `FK_outcome_USER_ID` (`USER_ID`),
   KEY `FK_outcome_TYPE_ID` (`TYPE_ID`),
-  CONSTRAINT `FK_outcome_FINANTIALMONTH_DATE` FOREIGN KEY (`FINANTIALMONTH_DATE`) REFERENCES `finantial_month` (`DATE`),
   CONSTRAINT `FK_outcome_TYPE_ID` FOREIGN KEY (`TYPE_ID`) REFERENCES `outcome_type` (`ID`),
+  CONSTRAINT `FK_outcome_FINANTIALMONTH_DATE` FOREIGN KEY (`FINANTIALMONTH_DATE`) REFERENCES `finantial_month` (`DATE`),
   CONSTRAINT `FK_outcome_USER_ID` FOREIGN KEY (`USER_ID`) REFERENCES `user` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `outcome`
 --
 
 /*!40000 ALTER TABLE `outcome` DISABLE KEYS */;
-INSERT INTO `outcome` (`ID`,`DESCRIPTION`,`VALUE`,`DATE`,`USER_ID`,`FINANTIALMONTH_DATE`,`TYPE_ID`) VALUES 
- (6101,'teste',556,'2010-10-20',1,'2010-10-01',1);
 /*!40000 ALTER TABLE `outcome` ENABLE KEYS */;
 
 
@@ -442,14 +439,15 @@ CREATE TABLE `outcome_type` (
 /*!40000 ALTER TABLE `outcome_type` DISABLE KEYS */;
 INSERT INTO `outcome_type` (`ID`,`DESCRIPTION`) VALUES 
  (1,'Supermercado'),
- (2,'Luz'),
- (3,'Aluguel'),
+ (2,'Aluguel'),
+ (3,'Luz'),
  (4,'Telefone'),
- (5,'Faculdade'),
- (6,'Academia'),
- (7,'Roupa'),
- (8,'Eletrodomésticos'),
- (9,'Lazer');
+ (5,'Academia'),
+ (6,'Roupas'),
+ (7,'Restaurante'),
+ (8,'Faculdade'),
+ (9,'Eletrodomésticos'),
+ (10,'Apostas');
 /*!40000 ALTER TABLE `outcome_type` ENABLE KEYS */;
 
 
@@ -470,7 +468,7 @@ CREATE TABLE `sequence` (
 
 /*!40000 ALTER TABLE `sequence` DISABLE KEYS */;
 INSERT INTO `sequence` (`SEQ_NAME`,`SEQ_COUNT`) VALUES 
- ('SEQ_GEN','6150');
+ ('SEQ_GEN','50');
 /*!40000 ALTER TABLE `sequence` ENABLE KEYS */;
 
 
@@ -495,6 +493,66 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`ID`,`USERNAME`,`PASSWORD`,`FULLNAME`) VALUES 
  (1,'admin','admin','Administrator');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+
+--
+-- Definition of table `user_income_type`
+--
+
+DROP TABLE IF EXISTS `user_income_type`;
+CREATE TABLE `user_income_type` (
+  `User_ID` bigint(20) NOT NULL,
+  `userIncomeTypes_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`User_ID`,`userIncomeTypes_ID`),
+  KEY `FK_user_income_type_userIncomeTypes_ID` (`userIncomeTypes_ID`),
+  CONSTRAINT `FK_user_income_type_User_ID` FOREIGN KEY (`User_ID`) REFERENCES `user` (`ID`),
+  CONSTRAINT `FK_user_income_type_userIncomeTypes_ID` FOREIGN KEY (`userIncomeTypes_ID`) REFERENCES `income_type` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_income_type`
+--
+
+/*!40000 ALTER TABLE `user_income_type` DISABLE KEYS */;
+INSERT INTO `user_income_type` (`User_ID`,`userIncomeTypes_ID`) VALUES 
+ (1,1),
+ (1,2),
+ (1,3),
+ (1,4);
+/*!40000 ALTER TABLE `user_income_type` ENABLE KEYS */;
+
+
+--
+-- Definition of table `user_outcome_type`
+--
+
+DROP TABLE IF EXISTS `user_outcome_type`;
+CREATE TABLE `user_outcome_type` (
+  `User_ID` bigint(20) NOT NULL,
+  `userOutcomeTypes_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`User_ID`,`userOutcomeTypes_ID`),
+  KEY `FK_user_outcome_type_userOutcomeTypes_ID` (`userOutcomeTypes_ID`),
+  CONSTRAINT `FK_user_outcome_type_userOutcomeTypes_ID` FOREIGN KEY (`userOutcomeTypes_ID`) REFERENCES `outcome_type` (`ID`),
+  CONSTRAINT `FK_user_outcome_type_User_ID` FOREIGN KEY (`User_ID`) REFERENCES `user` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_outcome_type`
+--
+
+/*!40000 ALTER TABLE `user_outcome_type` DISABLE KEYS */;
+INSERT INTO `user_outcome_type` (`User_ID`,`userOutcomeTypes_ID`) VALUES 
+ (1,1),
+ (1,2),
+ (1,3),
+ (1,4),
+ (1,5),
+ (1,6),
+ (1,7),
+ (1,8),
+ (1,9),
+ (1,10);
+/*!40000 ALTER TABLE `user_outcome_type` ENABLE KEYS */;
 
 
 

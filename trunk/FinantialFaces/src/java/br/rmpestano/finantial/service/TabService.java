@@ -106,10 +106,10 @@ public class TabService implements Serializable{
 
 
     public List<OutcomeType> getOutcomeTypes(){
-        return OutcomeType.findAll();
+        return getUser().getUserOutcomeTypes();
     }
     public List<IncomeType> getIncomeTypes(){
-        return IncomeType.findAll();
+        return getUser().getUserIncomeTypes();
     }
 
     public List<FinantialYear> getFinantialYears(){
