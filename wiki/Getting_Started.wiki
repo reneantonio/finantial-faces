@@ -16,8 +16,5 @@
   * 2.4 - create a data source named movie_collector and point to the database created in early steps(you can create it in your application server or in you favorite IDE - eg. Netbeans will claim for missing data source and you can resolve this with right click in the project name).
   * 2.5 - configure a Java EE 6 server compilant to run the project
   * 2.6 - clean & build and run the project
-
-
-==3 - Running from maven==
-           * under construction                                              
+                                            
    
