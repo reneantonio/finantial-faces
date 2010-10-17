@@ -12,14 +12,13 @@ import br.rmpestano.finantial.model.Outcome;
 import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.generic.CrudService;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -28,7 +27,7 @@ import javax.inject.Named;
  */
 @Named(value="financeService")
 @Dependent
-public class FinanceService {
+public class FinanceService implements Serializable{
 
     @EJB CrudService<Outcome> outcomeCrudService;
     @EJB CrudService<Income> incomeCrudService;

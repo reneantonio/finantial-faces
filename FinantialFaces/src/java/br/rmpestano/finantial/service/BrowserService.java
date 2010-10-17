@@ -11,6 +11,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletResponse;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -127,5 +128,14 @@ public class BrowserService implements Serializable{
     }
 
 
+    /**
+     * This function makes it possible that web browser don't cache the page and collaborates to avoid the problematic Back button to mess up the flow of the site.
+     */
+    public void noCache() {
+        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        response.addHeader("Cache-Control", "no-cache,no-store, must-revalidate, max-age=0");
+        response.addDateHeader("Expires", -1);
+        response.addHeader("Expires", "Mon, 24 May 1984 10:00:00 GMT");
+    }
 
 }

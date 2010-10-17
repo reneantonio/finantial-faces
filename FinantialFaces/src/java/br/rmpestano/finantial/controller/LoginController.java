@@ -5,6 +5,7 @@
 
 package br.rmpestano.finantial.controller;
 
+import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.UserService;
 import br.rmpestano.finantial.util.BeanManagerController;
@@ -36,11 +37,14 @@ import javax.servlet.http.HttpServletRequest;
 @ManagedBean(name="loginBean")
 @ViewScoped
 public class LoginController implements Serializable{
-    UserService userService;
-    User user = new User();
+    private UserService userService;
+    private User user;
     boolean admin = false;
-    private String oldPass;
-    private String oldPassCheck;
+
+    public LoginController() {
+        user = new User();
+    }
+
     @PostConstruct
     public void getUserService(){
         userService = (UserService) BeanManagerController.getBeanByName("userService");
@@ -76,23 +80,6 @@ public class LoginController implements Serializable{
         }
     }
 
-    public String getOldPass() {
-        return oldPass;
-    }
-
-    public void setOldPass(String oldPass) {
-        this.oldPass = oldPass;
-    }
-
-    public String getOldPassCheck() {
-        return oldPassCheck;
-    }
-
-    public void setOldPassCheck(String oldPassCheck) {
-        this.oldPassCheck = oldPassCheck;
-    }
-
-
 
     public boolean isAdmin() {
         User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
@@ -121,35 +108,13 @@ public class LoginController implements Serializable{
              FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getContextName());
 	}
 
-     public void prepareEditUser(ActionEvent event) throws IOException{
-         this.user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-         if(user == null){
-             MessagesController.addError("Voce não está logado, por favor rntr novamente no sistema");
-             final HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-	     request.getSession(false).invalidate();
-             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getContextName());
+     public String redirectConfiguration(){
+        User user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+         for (OutcomeType outcomeType : user.getUserOutcomeTypes()) {
+             System.out.println("type:"+outcomeType);
          }
-     else {
-             oldPass = user.getPassword();
-             }
-     }
+         return "configuration/configuration.faces?faces-redirect=true";
+    }
 
-     public void checkOldPass(){
-             if((oldPassCheck == null || (!oldPass.equals(oldPassCheck))) || (oldPassCheck != null && oldPassCheck.trim().equals(""))){
-                MessagesController.addError("A senha antiga informada náo confere");
-           }
-     }
-
-     public void updateUser(){
-        try {
-            if((!oldPass.equals(oldPassCheck)) || (oldPassCheck != null && oldPassCheck.trim().equals(""))){
-                MessagesController.addError("A senha antiga informada náo confere");
-                return;
-           }
-            userService.atualizar(user);
-            MessagesController.addInfo("Perfil atualizado com sucesso");
-        } catch (Exception ex) {
-            MessagesController.addError("Problemas ao editar usuário:"+ex.getMessage());
-        }
-     }
+    
 }

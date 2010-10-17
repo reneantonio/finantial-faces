@@ -6,12 +6,10 @@
 package br.rmpestano.finantial.model;
 
 import java.io.Serializable;
-import javax.annotation.Generated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.NamedQuery;
 
 /**
  *
@@ -19,7 +17,7 @@ import javax.persistence.NamedQuery;
  */
 
 @MappedSuperclass
-public abstract class BaseEntity  implements Serializable {
+public abstract class BaseEntity  implements Serializable{
      private static final long serialVersionUID = 1L;
      @Id
      @GeneratedValue(strategy=GenerationType.AUTO)

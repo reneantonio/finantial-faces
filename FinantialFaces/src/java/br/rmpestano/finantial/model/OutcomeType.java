@@ -6,9 +6,12 @@ package br.rmpestano.finantial.model;
 
 import br.rmpestano.finantial.util.PersistenceManager;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Query;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * entidade que representa os tipo de despesas
@@ -16,8 +19,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "outcome_type")
-public class OutcomeType extends BaseEntity     {
-
+public class OutcomeType extends BaseEntity implements Comparable<OutcomeType>    {
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    private User user;
+    @NotEmpty(message="Informe a descrição do tipo")
     private String description;
 
     public String getDescription() {
@@ -27,6 +32,15 @@ public class OutcomeType extends BaseEntity     {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 
     @Override
     public int hashCode() {
@@ -65,5 +79,10 @@ public class OutcomeType extends BaseEntity     {
         Query q = PersistenceManager.createEntityManager().createQuery("select t from OutcomeType t where t.description = :des");
         q.setParameter("des", des);
         return (OutcomeType) q.getResultList().get(0);
+    }
+
+    @Override
+    public int compareTo(OutcomeType o) {
+        return this.id.compareTo(o.getId());
     }
 }

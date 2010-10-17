@@ -500,4 +500,9 @@ public class FinancaController implements Serializable{
 
     }
 
+    public void onClose(CloseEvent event){
+        this.despesa = new Outcome();
+        this.receita = new Income();
+    }
+
 }

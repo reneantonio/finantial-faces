@@ -5,7 +5,9 @@
 package br.rmpestano.finantial.model;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,15 +26,18 @@ import org.hibernate.validator.constraints.NotEmpty;
 @NamedQueries({@NamedQuery(name="User.findAll",query="SELECT u FROM User u"),@NamedQuery(name="User.findByLogin",query="SELECT u FROM User u WHERE u.username = :username")})
 public class User extends BaseEntity {
 
+    @NotEmpty(message="Informe um login")
     @Length(min=3,message="Tamanho mínimo de login = 3")
     private String username;
+    @NotEmpty(message="Informe uma senha")
     @Length(min=3,message="Tamanho mínimo de senha = 3")
     private String password;
+    @NotEmpty(message="Informe um nome")
     @Length(min=3,message="Tamanho mínimo de nome = 3")
     private String fullname;
-    @OneToMany
+    @OneToMany(mappedBy = "user",cascade=CascadeType.PERSIST)
     private List<IncomeType> userIncomeTypes;
-    @OneToMany
+    @OneToMany(mappedBy = "user",cascade=CascadeType.ALL)
     private List<OutcomeType> userOutcomeTypes;
 
     //DESNECESSÁRIO, PEGA COM UM SIMPLES SQL
@@ -88,6 +93,6 @@ public class User extends BaseEntity {
 
     @Override
     public String toString() {
-        return fullname;
+        return username;
     }
 }

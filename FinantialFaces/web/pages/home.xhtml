@@ -17,7 +17,6 @@
     <ui:define name="theme"/>
 
     <ui:define name="content">
-    <ui:param name="menu" value="1"/>
         
     <p:panel header="Finanças de #{tabService.user.fullname}" style="padding-top: -30px;overflow: auto" >
        
@@ -146,7 +145,7 @@
                  </p:dialog>
 
 
-                     <p:dialog id="month_dlg" modal="true" widgetVar="monthModal" header="Incluir Despesa" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true">
+    <p:dialog id="month_dlg" modal="true" widgetVar="monthModal" header="Incluir Despesa" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true" closeListener="#{financeBean.onClose}">
                          <h:form id="month_form" prependId="false">
                          <p:outputPanel id="month_panel">
                              <p:outputPanel rendered="#{financeBean.tipoCorrete eq financeBean.OUTCOME}">

@@ -26,7 +26,7 @@ import javax.inject.Named;
 
 /**
  * this class provides services over years and months
- * it may not be referenced in the view, to do so you must use the TabCopntroller
+ * it may not be referenced in the view, to do so you must use the TabController
  * @author rmpestano
  */
 @Named(value="tabService")

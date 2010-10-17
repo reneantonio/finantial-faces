@@ -64,6 +64,19 @@ public class TabController implements Serializable{
     private Double totalIncomeInTheMonth;
 
 
+     @PostConstruct
+    public void initMonthsAndYears() {
+        tabService = (TabService) BeanManagerController.getBeanByName("tabService");//colocar esse bean em enterprise.context.viewScoope e dar inject ao inves dessa gambia
+        financeService = (FinanceService) BeanManagerController.getBeanByName("financeService");//colocar esse bean em enterprise.context.viewScoope e dar inject ao inves dessa gambia
+        tabYears = tabService.getFinantialYears();
+        Collections.sort(tabYears);
+        setInitialTabs();
+        lastYearDate = tabService.findLastYear();
+        firstYearDate = tabService.findFirstYear();
+        currentYear = tabYears.get(currentYearIndex);
+        outcomeFilterOptions = createOutcomeFilterOptions();
+        incomeFilterOptions = createIncomeFilterOptions();
+    }
     
       public List<Outcome> getCurrentUserOutcomesInTheMonth() {
             return financeService.findMonthOutcomesByUser(currentMonth.getDate()); //tirar query do getter
@@ -119,20 +132,6 @@ public class TabController implements Serializable{
 
 
     public TabController() {
-    }
-
-    @PostConstruct
-    public void initMonthsAndYears() {
-        tabService = (TabService) BeanManagerController.getBeanByName("tabService");//colocar esse bean em enterprise.context.viewScoope e dar inject ao inves dessa gambia
-        financeService = (FinanceService) BeanManagerController.getBeanByName("financeService");//colocar esse bean em enterprise.context.viewScoope e dar inject ao inves dessa gambia
-        tabYears = tabService.getFinantialYears();
-        Collections.sort(tabYears);
-        setInitialTabs();
-        lastYearDate = tabService.findLastYear();
-        firstYearDate = tabService.findFirstYear();
-        currentYear = tabYears.get(currentYearIndex);
-        outcomeFilterOptions = createOutcomeFilterOptions();
-        incomeFilterOptions = createIncomeFilterOptions();
     }
 
     public int getACORDION_NOT_SELECTED_INDEX() {
@@ -280,7 +279,7 @@ public class TabController implements Serializable{
         this.totalOutcomeInThemonth = totalOutcomeInThemonth;
     }
     public Double getTotalIncomeInTheMonth() {
-        return financeService.getTotalIncomeInTheMonth(currentMonth);
+        return financeService.getTotalIncomeInTheMonth(currentMonth);//o certo era n'ao ter query nos gets mas como soa poucos registros que a query retorna...
     }
 
     public void setTotalIncomeInTheMonth(Double totalIncomeInThemonth) {
