@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.prime.com.tr/ui"
+        xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
+        template="/template/main-template.xhtml"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="head">
+
+        <ui:param name="menu" value="1"/>
+        <ui:param name="conf" value="1"/>
+    </ui:define>
+    <ui:define name="theme"/>
+    <ui:define name="content">
+        <h:form id="config_form">
+        <p:panel header="Configurações" style="margin: 20px">
+            <p:outputPanel id="edit_user">
+                <p:fieldset legend="Configurações do usuário">
+                    <h:panelGrid columns="2">
+                        <finantial:label for="edit-username" value="Login" required="true"/>
+                        <h:inputText id="edit-username" value="#{configurationBean.user.username}"/>
+                        <finantial:label for="edit_pass" value="Senha" required="true"/>
+                        <h:inputSecret id="edit_pass" value="#{configurationBean.user.password}"/>
+                        <finantial:label for="repeat_pass" value="Repetir Senha" required="true"/>
+                        <h:inputSecret id="repeat_pass" value="#{configurationBean.repeatPass}" >
+                            <f:ajax event="blur" execute="@this" listener="#{configurationBean.checkNewPass}" render="edit_user_msg"/>
+                        </h:inputSecret>
+                        <finantial:label for="fullname" value="Nome" required="true"/>
+                        <h:inputText id="fullname" value="#{configurationBean.user.fullname}"/>
+                    </h:panelGrid>
+                    <div align="center">
+                        <p:commandButton value="atualizar" actionListener="#{configurationBean.updateUser}" update="finance_link edit_user_msg" process="edit_user"  ajax="true" />
+                        <br/>
+                        <br/>
+                        <p:outputPanel id="finance_link">
+                            <h:commandLink value="Visualisar Finanças"  style="font-size: 12px;text-decoration: underline" action="/pages/home.faces?faces-redirect=true" rendered="#{configurationBean.userUpdated}"/>
+                        </p:outputPanel>
+                    </div>
+                    <p:messages id="edit_user_msg"/>
+
+
+                </p:fieldset>
+            </p:outputPanel>
+            <p:fieldset legend="Gerenciar Tipos" style="margin-top: 15px">
+                <table width="100%">
+                    <tr>
+                        <td align="left" width="50%">
+                            <p:outputPanel id="outcome_types">
+                                <p:panel header="Tipos de Despesa">
+                                    <p:dataTable value="#{configurationBean.outcomeTypes}" rendered="#{not empty configurationBean.outcomeTypes}" var="o" paginator="true" rows="5"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{configurationBean.outcomeTypesSize > 15 ? configurationBean.outcomeTypesSize : ''}" style="border: none">
+                                        <p:column>
+                                            <f:facet name="header">
+                                                Descrição
+                                            </f:facet>
+                                            <h:outputText value="#{o.description}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                Editar
+                                            </f:facet>
+                                            <p:commandLink value="editar"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                Remover
+                                            </f:facet>
+                                            <p:commandLink value="remover" oncomplete="removeOutcometypeModal.show()" immediate="true" update="remove_outcometype_panel">
+                                                <f:setPropertyActionListener target="#{configurationBean.outcomeType}" value="#{o}"/>
+                                            </p:commandLink>
+
+                                        </p:column>
+                                    </p:dataTable>
+                                    <div align="center" style="padding-top: 8px;" >
+                                        <p:commandButton title="incluir tipo"  value="Novo Tipo" async="true" immediate="true" update="outcometype_panel outcome_type_msg"  oncomplete="outcometypeModal.show()" />
+                                    </div>
+                                    <div align="center" style="padding-top: 8px;">
+                                        <h:outputText value="Nenhuma tipo cadastrado" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty configurationBean.outcomeTypes}"/>
+                                    </div>
+                                </p:panel>
+                            </p:outputPanel>
+                        </td>
+                        <td align="right" width="50%">
+                             <p:outputPanel id="income_types">
+                                <p:panel header="Tipos de Receita">
+                                    <p:dataTable value="#{configurationBean.incomeTypes}" rendered="#{not empty configurationBean.incomeTypes}" var="i" paginator="true" rows="5"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{configurationBean.incomeTypesSize > 15 ? configurationBean.incomeTypesSize : ''}" style="border: none">
+                                        <p:column>
+                                            <f:facet name="header">
+                                                Descrição
+                                            </f:facet>
+                                            <h:outputText value="#{i.description}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                Editar
+                                            </f:facet>
+                                            <p:commandLink value="editar"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                Remover
+                                            </f:facet>
+                                            <p:commandLink value="remover"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                    <div align="center" style="padding-top: 8px;" >
+                                        <p:commandButton title="incluir tipo"  value="Novo Tipo" async="true" immediate="true" update="outcome_type_grid income_type_msg"  oncomplete="incometypeModal.show()" />
+                                    </div>
+                                    <div align="center" style="padding-top: 8px;">
+                                        <h:outputText value="Nenhuma tipo cadastrado" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty configurationBean.incomeTypes}"/>
+                                    </div>
+                                </p:panel>
+                            </p:outputPanel>
+
+                        </td>
+                    </tr>
+
+                </table>
+
+            </p:fieldset>
+     </p:panel>
+  </h:form>
+        <p:dialog widgetVar="outcometypeModal" modal="true"  showEffect="explode"  hideEffect="fade"  header="Incluir Tipo de Despesa">
+            <h:form id="outcome_type_form" prependId="false">
+                <p:outputPanel id="outcometype_panel">
+                    <ui:include src="fragments/addOutcomeType.xhtml"/>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+        <p:dialog widgetVar="incometypeModal" modal="true" showEffect="explode"  hideEffect="fade"  header="Incluir Tipo de Receita">
+            <h:form id="income_type_form" prependId="false">
+                <p:outputPanel id="incometype_panel">
+                    <ui:include src="fragments/addIncomeType.xhtml"/>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog  modal="true" widgetVar="removeOutcometypeModal" header="Remover Tipo de Despesa" showEffect="fold"  hideEffect="fold" minHeight="150" width="370" closable="true" resizable="false" draggable="true" >
+                     <h:form id="removeOutcometype_form" prependId="false">
+                         <p:outputPanel id="remove_outcometype_panel">
+                              <ui:include src="fragments/remove-outcometype.xhtml"/>
+                         </p:outputPanel>
+                     </h:form>
+                 </p:dialog>
+<!--    <p:remoteCommand name="updateName" update="main_panel"/>-->
+
+    </ui:define>
+
+<script type="text/javascript">
+    function handleEditUser(args){
+        if(! args.validationFailed){
+            setTimeout("wait2()",1000);
+            return true;
+        }
+        return false;
+    }
+
+    function wait2(){
+        editUserDlg.hide();
+        updateName();//não posso fazer update direto por causa do messages do painel principal, por isso a gambia
+    }
+
+</script>
+</ui:composition>

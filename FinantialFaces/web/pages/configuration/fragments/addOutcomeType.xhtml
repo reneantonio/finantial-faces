@@ -1,0 +1,35 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.prime.com.tr/ui"
+        xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <p:panel>
+        <h:panelGrid id="outcome_type_grid" columns="2">
+            <h:outputLabel for="outcome_type_description" value="Descrição:"/>
+            <h:inputText id="outcome_type_description" value="#{configurationBean.outcomeType.description}"/>
+        </h:panelGrid>
+        <div align="center">
+            <h:panelGrid columns="2" cellspacing="10">
+                <p:commandButton value="salvar"  action="#{configurationBean.addOutcomeType}" async="true" ajax="true" update="config_form:outcome_types outcome_type_msg" oncomplete="handleAdd(args)"/>
+            </h:panelGrid>
+        </div>
+        <p:messages id="outcome_type_msg"/>
+    </p:panel>
+
+    <script type="text/javascript">
+    function handleAdd(args){
+        if(args.validationFailed == false){
+            setTimeout("wait()",1000);
+        }
+    }
+
+    function wait(){
+        outcometypeModal.hide();
+    }
+
+</script>
+</ui:composition>
