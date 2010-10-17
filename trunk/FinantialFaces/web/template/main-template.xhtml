@@ -11,8 +11,10 @@
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/themes/#{themeService.theme}/skin.css" />
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/global.css" />
         <f:loadBundle  basename="br.rmpestano.finantial.bundle.MessageResource_#{i18nService.currentResourceBundle}" var="msg"/>
+        #{browserService.noCache()}
         <ui:insert name="head"/>
     </h:head>
+        
        <h:body>
            <ui:param name="menuY" value="#{(browserService.currentBrowser eq browserService.CHROME) or (browserService.currentBrowser eq browserService.SAFARI) ? '27':'32'}"/>
       <h:form id="theme_form" >
@@ -41,12 +43,7 @@
                             </p:submenu>
                        </p:menu>
 
-          <p:menu widgetVar="configMenu" position="dynamic" y="#{menuY}" x="139"  styleClass="configMenu">
-              <p:submenu label="Configurações" >
-                  <p:menuitem value="Editar Perfil" actionListener="#{loginBean.prepareEditUser}" oncomplete="editUserDlg.show()" immediate="true" update="edit_user" />
-                  <p:menuitem value="Gerenciar Categorias" ajax="false" onclick="alert('UNDER CONSTRUCTION')" immediate="true" />
-              </p:submenu>
-          </p:menu>
+
           <p:menu widgetVar="adminMenu" position="dynamic" y="#{menuY}" x="288"  styleClass="adminMenu">
               <p:submenu>
                   <p:menuitem value="Gerenciar Usuários" ajax="true" onclick="alert('UNDER CONSTRUCTION')" immediate="true" />
@@ -67,7 +64,8 @@
 
 
                           <p:commandButton id="themeButton" value="#{msg['themechange']}" onclick="themeMenu.show()" type="button" style="width: 130px"/>
-                          <p:commandButton id="configButton" rendered="#{menu == 1}" value="#{msg['config']}" onclick="configMenu.show()" type="button" style="width: 145px"/>
+                          <p:commandButton id="configButton" rendered="#{menu == 1}" value="#{msg['config']}" ajax="false"  action="#{loginBean.redirectConfiguration}" update="messages" style="width: 145px"/>
+                          <p:commandButton id="financeButton" rendered="#{menu == 1 and conf == 1}" value="Finanças" ajax="false" title="Visualizar suas finanças"  action="/pages/home.faces?faces-redirect=true" style="width: 125px"/>
                           <p:commandButton id="adminButton" rendered="#{loginBean.admin}" value="#{msg['admin']}" onclick="adminMenu.show()" type="button" style="width: 145px"/>
                           <p:outputPanel rendered="#{menu == 1}">
                               <div style="position: relative;float: right">
@@ -77,9 +75,9 @@
           </h:panelGroup>
 
           
-          <p:dialog widgetVar="editUserDlg" header="Editar Perfil" modal="true" showEffect="slide" hideEffect="slide" draggable="false" resizable="false" closable="true">
+<!--          <p:dialog widgetVar="editUserDlg" header="Editar Perfil" modal="true" showEffect="slide" hideEffect="slide" draggable="false" resizable="false" closable="true">
               <ui:include src="/pages/user/edit-user.xhtml"/>
-          </p:dialog>
+          </p:dialog>-->
           </h:form>
         <hr/>
             <p:growl id="messages" showDetail="true"/>
@@ -88,6 +86,7 @@
 
 
         </ui:insert>
+
 
         <script type="text/javascript">
 

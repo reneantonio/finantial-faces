@@ -8,8 +8,10 @@ import br.rmpestano.finantial.util.PersistenceManager;
 import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Query;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *  entidade que representa os tipo de receitas
@@ -18,7 +20,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "income_type")
 public class IncomeType extends BaseEntity {
-
+    @ManyToOne
+    private User user;
+    @NotEmpty(message="Informe a descrição do tipo")
     private String description;
 
     public String getDescription() {
@@ -28,6 +32,15 @@ public class IncomeType extends BaseEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 
     @Override
     public int hashCode() {

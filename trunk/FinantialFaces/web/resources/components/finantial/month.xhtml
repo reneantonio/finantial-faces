@@ -5,216 +5,216 @@ and open the template in the editor.
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.prime.com.tr/ui"
-    xmlns:composite="http://java.sun.com/jsf/composite"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
     <composite:interface shortDescription="renderiza label e input do tipo obrigatório"><!--futuramente colocar decorator - tipo seam:decorate -->
 
         <composite:attribute  type="br.rmpestano.finantial.model.FinantialMonth" name="month" required="true"  />
-      <composite:attribute name="id" />
+        <composite:attribute name="id" />
 
 
-  </composite:interface>
+    </composite:interface>
 
     <composite:implementation>
         <p:outputPanel id="month_#{cc.attrs.month.monthIndex}">
-        <ui:param name="m" value="#{cc.attrs.month}"/>
-        <table width="100%">
-            <tr>
-                <td align="right">
-                    <h:panelGrid columns="3" style="margin-top: -15px">
-                        <h:graphicImage library="images" title="Saldo mensal" id="img" name="#{tabBean.saldoMensal eq 0 ? 'money.png' : tabBean.saldoMensal > 0 ? 'money_add.png' : 'money_delete.png'}" style="padding-top: 6px;padding-right: 2px;"/>
-                        <h:outputLabel for="img" value=":" style="font-weight: bold"/>
-                        <h:outputText  value="#{tabBean.saldoMensal}" style="font-size: 10px;font-weight: bold;text-decoration: underline;">
-                            <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
-                        </h:outputText>
-                    </h:panelGrid>
-                </td>
-            </tr>
-        </table>
-            
-        <p:accordionPanel  activeIndex="#{tabBean.financesActiveIndex}" cache="false" autoHeight="false" effect="bounceslide" tabChangeListener="#{tabBean.tabChange}" collapsible="true" fillSpace="true" onTabChangeUpdate="msg,month_#{cc.attrs.month.monthIndex}">
+            <ui:param name="m" value="#{cc.attrs.month}"/>
+            <table width="100%">
+                <tr>
+                    <td align="right">
+                        <h:panelGrid columns="3" style="margin-top: -15px">
+                            <h:graphicImage library="images" title="Saldo mensal" id="img" name="#{tabBean.saldoMensal eq 0 ? 'money.png' : tabBean.saldoMensal > 0 ? 'money_add.png' : 'money_delete.png'}" style="padding-top: 6px;padding-right: 2px;"/>
+                            <h:outputLabel for="img" value=":" style="font-weight: bold"/>
+                            <h:outputText  value="#{tabBean.saldoMensal}" style="font-size: 10px;font-weight: bold;text-decoration: underline;">
+                                <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                            </h:outputText>
+                        </h:panelGrid>
+                    </td>
+                </tr>
+            </table>
+
+            <p:accordionPanel  activeIndex="#{tabBean.financesActiveIndex}" cache="false" autoHeight="false" effect="bounceslide" tabChangeListener="#{tabBean.tabChange}" collapsible="true" fillSpace="true" onTabChangeUpdate="msg,month_#{cc.attrs.month.monthIndex}">
                 <p:tab title="Despesas">
                     <h:panelGroup layout="block" style="min-height:320px ">
-                            <p:outputPanel rendered="#{(not empty tabBean.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
-                                <p:dataTable id="outcome_table#{cc.attrs.month.monthIndex}" var="d" value="#{tabBean.currentUserOutcomesInTheMonth}"   paginator="true" rows="5"
-                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{tabBean.userOutcomesSize > 15 ? tabBean.userOutcomesSize : ''}" style="border: none">
-                        <p:column sortBy="#{d.date}" parser="date" >
-                            <f:facet name="header">
-                                <h:outputLabel value="#{msg['finance.label.data']}"/>
-                            </f:facet>
-                            <p:commandLink style="text-decoration: none">
-                                <h:outputText value="#{d.date}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                </h:outputText>
-                            </p:commandLink>
-                        </p:column>
-                         <p:column>
-                            <f:facet name="header">
-                                <h:outputLabel value="#{msg['login.label.username']}"/>
-                            </f:facet>
-                            <p:commandLink  style="text-decoration: none">
-                                <h:outputText value="#{d.user}" />
-                            </p:commandLink>
-                        </p:column>
-                        <p:column >
-                            <f:facet name="header">
-                                <h:outputLabel value="#{msg['finance.label.descricao']}"/>
-                            </f:facet>
-                            <p:commandLink style="text-decoration: none; white-space: nowrap ">
-                                <h:outputText value="#{d.description}"/>
-                            </p:commandLink>
-                        </p:column>
-                        <p:column filterBy="#{d.type.description}" filterOptions="#{tabBean.outcomeFilterOptions}"
-                          filterMatchMode="exact" >
-                            <f:facet name="header">
-                                             #{msg['finance.label.tipo']}
-                            </f:facet>
-                            <p:commandLink  style="text-decoration: none">
-                                <h:outputText  value="#{d.type}"/>
-                            </p:commandLink>
-                        </p:column>
-                        <p:column sortBy="#{d.value}" parser="number">
-                            <f:facet name="header">
+                        <p:outputPanel rendered="#{(not empty tabBean.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
+                            <p:dataTable id="outcome_table#{cc.attrs.month.monthIndex}" var="d" value="#{tabBean.currentUserOutcomesInTheMonth}"   paginator="true" rows="5"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{tabBean.userOutcomesSize > 15 ? tabBean.userOutcomesSize : ''}" style="border: none">
+                                <p:column sortBy="#{d.date}" parser="date" >
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{msg['finance.label.data']}"/>
+                                    </f:facet>
+                                    <p:commandLink style="text-decoration: none">
+                                        <h:outputText value="#{d.date}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{msg['login.label.username']}"/>
+                                    </f:facet>
+                                    <p:commandLink  style="text-decoration: none">
+                                        <h:outputText value="#{d.user}" />
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column >
+                                    <f:facet name="header">
+                                        <h:outputLabel value="#{msg['finance.label.descricao']}"/>
+                                    </f:facet>
+                                    <p:commandLink style="text-decoration: none; white-space: nowrap ">
+                                        <h:outputText value="#{d.description}"/>
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column filterBy="#{d.type.description}" filterOptions="#{tabBean.outcomeFilterOptions}"
+                                          filterMatchMode="exact" >
+                                    <f:facet name="header">
+                                        #{msg['finance.label.tipo']}
+                                    </f:facet>
+                                    <p:commandLink  style="text-decoration: none">
+                                        <h:outputText  value="#{d.type}"/>
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column sortBy="#{d.value}" parser="number">
+                                    <f:facet name="header">
                                         #{msg['finance.label.valor']}
-                            </f:facet>
-                            <p:commandLink>
-                                 <h:outputText style="font-weight: bold;" value="#{d.value}">
-                                     <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
-                                </h:outputText>
-                            </p:commandLink>
-                        </p:column>
+                                    </f:facet>
+                                    <p:commandLink>
+                                        <h:outputText style="font-weight: bold;" value="#{d.value}">
+                                            <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                                        </h:outputText>
+                                    </p:commandLink>
+                                </p:column>
 
-                        <p:column style="width: 75px!important">
-                            <f:facet name="header">
-                                              #{msg['finance.label.operacoes']}
-                            </f:facet>
-                            <div style="display: inline;margin-left: 5px" >
-                                <p:commandLink title="Editar despesa" action="#{financeBean.prepareEditOutcome(d)}"  oncomplete="editModal.show()" process="@this"  update="edit_panel,months_form:msg" >
-                                    <h:graphicImage library="images" name="edit20x20.png" style="border: none;"/>
-                                </p:commandLink>
-                                &#160;&#160;
-                                <p:commandLink title="Remover despesa" action="#{financeBean.prepareRemoveOutcome(d)}" oncomplete="removeModal.show()" process="@this" update="remove_panel,months_form:msg">
-                                    <h:graphicImage library="images" name="garbage20x20.png" style="border: none;"/>
-                                </p:commandLink>
-                            </div>
-                        </p:column>
+                                <p:column style="width: 75px!important">
+                                    <f:facet name="header">
+                                        #{msg['finance.label.operacoes']}
+                                    </f:facet>
+                                    <div style="display: inline;margin-left: 5px" >
+                                        <p:commandLink title="Editar despesa" action="#{financeBean.prepareEditOutcome(d)}"  oncomplete="editModal.show()" process="@this"  update="edit_panel,months_form:msg" >
+                                            <h:graphicImage library="images" name="edit20x20.png" style="border: none;"/>
+                                        </p:commandLink>
+                                        &#160;&#160;
+                                        <p:commandLink title="Remover despesa" action="#{financeBean.prepareRemoveOutcome(d)}" oncomplete="removeModal.show()" process="@this" update="remove_panel,months_form:msg">
+                                            <h:graphicImage library="images" name="garbage20x20.png" style="border: none;"/>
+                                        </p:commandLink>
+                                    </div>
+                                </p:column>
 
-                        <f:facet name="footer" >
-                            <table width="100%">
-                                <tr>
-                                    <td align="center">
-                                        <p:panel style="width: 200px;min-height: 25px;height: auto ">
-                                            <div align="center">
-                                                <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
-                                                <h:outputText style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{tabBean.totalOutcomeInThemonth}">
-                                                    <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
-                                                </h:outputText>
-                                            </div>
-                                        </p:panel>
-                                    </td>
-                                </tr>
-                            </table>
-                        </f:facet>
+                                <f:facet name="footer" >
+                                    <table width="100%">
+                                        <tr>
+                                            <td align="center">
+                                                <p:panel style="width: 200px;min-height: 25px;height: auto ">
+                                                    <div align="center">
+                                                        <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
+                                                        <h:outputText style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{tabBean.totalOutcomeInThemonth}">
+                                                            <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                                                        </h:outputText>
+                                                    </div>
+                                                </p:panel>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </f:facet>
 
-                    </p:dataTable>
-                    </p:outputPanel>
+                            </p:dataTable>
+                        </p:outputPanel>
                         <div align="center" style="padding-top: 8px;" >
                             <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" async="true" immediate="true" update="month_panel,month_outcome_msg"  oncomplete="monthModal.show()" />
                         </div>
                         <div align="center" style="padding-top: 8px;">
-                        <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty tabBean.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}"/>
-                    </div>
-                        </h:panelGroup>
+                            <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty tabBean.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}"/>
+                        </div>
+                    </h:panelGroup>
                 </p:tab>
                 <p:tab title="Receitas">
                     <p:outputPanel rendered="#{(not empty tabBean.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}">
                         <p:dataTable  var="r" id="income_table#{cc.attrs.month.monthIndex}"  value="#{tabBean.currentUserIncomesInTheMonth}"  paginator="true" rows="5"
                                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{tabBean.userIncomesSize > 15 ? tabBean.userIncomesSize : ''}" style="border: none">
-                        <p:column  sortBy="#{r.date}" parser="date" >
-                            <f:facet name="header">
-                                <h:outputLabel value="#{msg['finance.label.data']}"/>
-                            </f:facet>
-                            <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
-                                <h:outputText value="#{r.date}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                </h:outputText>
-                            </p:commandLink>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputLabel value="#{msg['login.label.username']}"/>
-                            </f:facet>
-                            <p:commandLink  style="text-decoration: none">
-                                <h:outputText value="#{r.user}" />
-                            </p:commandLink>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputLabel value="#{msg['finance.label.descricao']}"/>
-                            </f:facet>
-                            <p:commandLink value="#{r.description}" style="text-decoration: none"/>
-                        </p:column>
-                        <p:column filterBy="#{r.type.description}" filterOptions="#{tabBean.incomeFilterOptions}"
-                          filterMatchMode="exact" >
-                            <f:facet name="header">
-                                <h:outputLabel value="#{msg['finance.label.tipo']}"/>
-                            </f:facet>
-                            <p:commandLink value="#{r.type}" style="text-decoration: none" />
-                        </p:column>
-                        <p:column  sortBy="#{r.value}" parser="number">
-                            <f:facet name="header">
-                                  #{msg['finance.label.valor']}
-                            </f:facet>
-                            <p:commandLink>
-                                <h:outputText style="font-weight: bold;" value="#{r.value}">
-                                     <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
-                                </h:outputText>
-                            </p:commandLink>
-                        </p:column>
-                        <p:column style="width: 75px!important">
-                            <f:facet name="header">
-                                   #{msg['finance.label.operacoes']}
-                            </f:facet>
-                            <div style="display: inline;margin-left: 5px" >
-                                <p:commandLink title="Editar receita" action="#{financeBean.prepareEditIncome(r)}"  oncomplete="editModal.show()" process="@this"  update="edit_panel,months_form:msg" >
-                                    <h:graphicImage style="border: none;" library="images" name="edit20x20.png"/>
+                            <p:column  sortBy="#{r.date}" parser="date" >
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{msg['finance.label.data']}"/>
+                                </f:facet>
+                                <p:commandLink title="#{msg['finance.tooltip.edit-remove']}" style="text-decoration: none">
+                                    <h:outputText value="#{r.date}" >
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
                                 </p:commandLink>
-                                 &#160;&#160;
-                                 <p:commandLink  title="Excluir receita" action="#{financeBean.prepareRemoveIncome(r)}" oncomplete="removeModal.show()" process="@this" update="remove_panel,months_form:msg">
-                                    <h:graphicImage style="border: none;" library="images" name="garbage20x20.png"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{msg['login.label.username']}"/>
+                                </f:facet>
+                                <p:commandLink  style="text-decoration: none">
+                                    <h:outputText value="#{r.user}" />
                                 </p:commandLink>
-                            </div>
-                        </p:column>
-                        <f:facet name="footer" >
-                            <table width="100%">
-                                <tr>
-                                    <td align="center">
-                                        <p:panel style="width: 200px;min-height: 25px;height: auto ">
-                                            <div align="center">
-                                                <h:outputLabel style="font-weight: bold" for="total_receita" value="#{msg['finance.label.total']}:"/>
-                                                <h:outputText style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_receita" value="#{tabBean.totalIncomeInTheMonth}">
-                                                    <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
-                                                </h:outputText>
-                                            </div>
-                                        </p:panel>
-                                    </td>
-                                </tr>
-                            </table>
-                        </f:facet>
-                    </p:dataTable>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{msg['finance.label.descricao']}"/>
+                                </f:facet>
+                                <p:commandLink value="#{r.description}" style="text-decoration: none"/>
+                            </p:column>
+                            <p:column filterBy="#{r.type.description}" filterOptions="#{tabBean.incomeFilterOptions}"
+                                      filterMatchMode="exact" >
+                                <f:facet name="header">
+                                    <h:outputLabel value="#{msg['finance.label.tipo']}"/>
+                                </f:facet>
+                                <p:commandLink value="#{r.type}" style="text-decoration: none" />
+                            </p:column>
+                            <p:column  sortBy="#{r.value}" parser="number">
+                                <f:facet name="header">
+                                    #{msg['finance.label.valor']}
+                                </f:facet>
+                                <p:commandLink>
+                                    <h:outputText style="font-weight: bold;" value="#{r.value}">
+                                        <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                                    </h:outputText>
+                                </p:commandLink>
+                            </p:column>
+                            <p:column style="width: 75px!important">
+                                <f:facet name="header">
+                                    #{msg['finance.label.operacoes']}
+                                </f:facet>
+                                <div style="display: inline;margin-left: 5px" >
+                                    <p:commandLink title="Editar receita" action="#{financeBean.prepareEditIncome(r)}"  oncomplete="editModal.show()" process="@this"  update="edit_panel,months_form:msg" >
+                                        <h:graphicImage style="border: none;" library="images" name="edit20x20.png"/>
+                                    </p:commandLink>
+                                    &#160;&#160;
+                                    <p:commandLink  title="Excluir receita" action="#{financeBean.prepareRemoveIncome(r)}" oncomplete="removeModal.show()" process="@this" update="remove_panel,months_form:msg">
+                                        <h:graphicImage style="border: none;" library="images" name="garbage20x20.png"/>
+                                    </p:commandLink>
+                                </div>
+                            </p:column>
+                            <f:facet name="footer" >
+                                <table width="100%">
+                                    <tr>
+                                        <td align="center">
+                                            <p:panel style="width: 200px;min-height: 25px;height: auto ">
+                                                <div align="center">
+                                                    <h:outputLabel style="font-weight: bold" for="total_receita" value="#{msg['finance.label.total']}:"/>
+                                                    <h:outputText style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_receita" value="#{tabBean.totalIncomeInTheMonth}">
+                                                        <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
+                                                    </h:outputText>
+                                                </div>
+                                            </p:panel>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </f:facet>
+                        </p:dataTable>
                     </p:outputPanel>
-                       <div align="center" style="padding-top: 8px;" >
-                           <p:commandButton title="#{msg['finance.tooltip.add-income']}"  action="#{financeBean.prepareAddMonthIncome(m)}" value="Nova Receita" async="true" immediate="true" update="month_panel,month_income_msg"  oncomplete="monthModal.show()" />
-                        </div>
-                        <div align="center" style="padding-top: 8px;">
+                    <div align="center" style="padding-top: 8px;" >
+                        <p:commandButton title="#{msg['finance.tooltip.add-income']}"  action="#{financeBean.prepareAddMonthIncome(m)}" value="Nova Receita" async="true" immediate="true" update="month_panel,month_income_msg"  oncomplete="monthModal.show()" />
+                    </div>
+                    <div align="center" style="padding-top: 8px;">
                         <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty tabBean.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}"/>
                     </div>
-                    
+
                 </p:tab>
                 <p:tab title="Relatórios">
                     <p:dataTable value="#{reportBean.reports}" var="r">
@@ -245,7 +245,7 @@ and open the template in the editor.
                             <f:facet name="header">
                                 Visualisar
                             </f:facet>
-                        <p:commandLink action="#{reportBean.prepareMonthReport(m)}"  oncomplete="monthReportsModal.show()" update="month_report_panel" process="@this selectTipos" >
+                            <p:commandLink action="#{reportBean.prepareMonthReport(m)}"  oncomplete="monthReportsModal.show()" update="month_report_panel" process="@this selectTipos" >
                                 <div align="center">
                                     <h:graphicImage style="border: none;" title="Visualisar relatório" library="images" name="report3.png"/>
                                 </div>
@@ -254,7 +254,7 @@ and open the template in the editor.
                         </p:column>
                     </p:dataTable>
                 </p:tab>
-                 
+
             </p:accordionPanel>
         </p:outputPanel>
 

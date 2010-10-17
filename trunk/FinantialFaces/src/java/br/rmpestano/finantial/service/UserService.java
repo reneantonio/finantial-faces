@@ -57,9 +57,10 @@ public class UserService implements Serializable{
             crudService.create(usuario);
 
         }
-        public void atualizar(User usuario) throws Exception{
+        public User atualizar(User usuario) throws Exception{
 
-            crudService.update(usuario);
+           return crudService.update(usuario);
+
 
         }
 

@@ -2,24 +2,25 @@
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
+        <Node id="pages/user/edit-user.xhtml" x="650" y="600" zoom="true"/>
         <Node id="login.xhtml" x="400" y="300" zoom="true"/>
         <Node id="pages/fragments/remove-income.xhtml" x="150" y="600" zoom="true"/>
         <Node id="template/main-template.xhtml" x="150" y="300" zoom="true"/>
         <Node id="pages/home.xhtml" x="150" y="150" zoom="true"/>
-        <Node id="pages/edit-financa.xhtml" x="900" y="150" zoom="true"/>
         <Node id="pages/fragments/add-month-income.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="pages/edit-financa.xhtml" x="900" y="150" zoom="true"/>
         <Node id="pages/remove-financa.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="pages/fragments/remove-outcome.xhtml" x="400" y="600" zoom="true"/>
         <Node id="pages/fragments/monthReport3.xhtml" x="900" y="450" zoom="true"/>
         <Node id="pages/search.xhtml" x="1150" y="300" zoom="true"/>
-        <Node id="pages/fragments/remove-outcome.xhtml" x="400" y="600" zoom="true"/>
         <Node id="pages/fragments/add-month-outcome.xhtml" x="1150" y="150" zoom="true"/>
         <Node id="pages/fragments/edit-outcome.xhtml" x="650" y="300" zoom="true"/>
         <Node id="resources/components/finantial/month.xhtml" x="900" y="300" zoom="true"/>
         <Node id="pages/fragments/monthReport1.xhtml" x="1400" y="150" zoom="true"/>
         <Node id="pages/fragments/monthReport2.xhtml" x="150" y="750" zoom="true"/>
-        <Node id="resources/components/finantial/label.xhtml" x="400" y="150" zoom="true"/>
-        <Node id="pages/add-financa.xhtml" x="650" y="150" zoom="true"/>
         <Node id="pages/fragments/edit-income.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="pages/add-financa.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="resources/components/finantial/label.xhtml" x="400" y="150" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>
