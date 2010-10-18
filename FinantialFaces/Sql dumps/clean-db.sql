@@ -383,21 +383,6 @@ CREATE TABLE `income_type` (
 --
 
 /*!40000 ALTER TABLE `income_type` DISABLE KEYS */;
-INSERT INTO `income_type` (`ID`,`DESCRIPTION`) VALUES 
- (1,'Salário'),
- (2,'Vale Alimentação'),
- (3,'Vale Refeição'),
- (4,'Apostas'),
- (851,'teste'),
- (901,'new receita'),
- (902,'nova receita'),
- (951,'novo'),
- (952,'change edit'),
- (953,'dsfsf'),
- (954,'sdfdfsfd'),
- (1001,'fssfsdf'),
- (1002,'dasdd'),
- (1051,'new one');
 /*!40000 ALTER TABLE `income_type` ENABLE KEYS */;
 
 
