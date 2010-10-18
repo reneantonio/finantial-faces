@@ -35,9 +35,9 @@ public class User extends BaseEntity {
     @NotEmpty(message="Informe um nome")
     @Length(min=3,message="Tamanho mínimo de nome = 3")
     private String fullname;
-    @OneToMany(mappedBy = "user",cascade=CascadeType.PERSIST)
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private List<IncomeType> userIncomeTypes;
-    @OneToMany(mappedBy = "user",cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private List<OutcomeType> userOutcomeTypes;
 
     //DESNECESSÁRIO, PEGA COM UM SIMPLES SQL
@@ -87,6 +87,32 @@ public class User extends BaseEntity {
 
     public void setUserOutcomeTypes(List<OutcomeType> userOutcomeTypes) {
         this.userOutcomeTypes = userOutcomeTypes;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if ((this.username == null) ? (other.username != null) : !this.username.equals(other.username)) {
+            return false;
+        }
+        if ((this.password == null) ? (other.password != null) : !this.password.equals(other.password)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + (this.username != null ? this.username.hashCode() : 0);
+        hash = 37 * hash + (this.password != null ? this.password.hashCode() : 0);
+        return hash;
     }
 
 

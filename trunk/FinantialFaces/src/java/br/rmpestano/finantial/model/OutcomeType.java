@@ -6,6 +6,7 @@ package br.rmpestano.finantial.model;
 
 import br.rmpestano.finantial.util.PersistenceManager;
 import java.util.List;
+import javax.faces.context.FacesContext;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -20,8 +21,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "outcome_type")
 public class OutcomeType extends BaseEntity implements Comparable<OutcomeType>    {
-    @ManyToOne(cascade=CascadeType.PERSIST)
-    private User user;
+
     @NotEmpty(message="Informe a descrição do tipo")
     private String description;
 
@@ -33,13 +33,6 @@ public class OutcomeType extends BaseEntity implements Comparable<OutcomeType>  
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
 
     @Override
@@ -75,14 +68,22 @@ public class OutcomeType extends BaseEntity implements Comparable<OutcomeType>  
 
         return PersistenceManager.createEntityManager().createQuery("select t from OutcomeType t").getResultList();
     }
-     public static OutcomeType findByDes(String des){
+
+      public static OutcomeType findById(long id) {
+        Query q = PersistenceManager.createEntityManager().createQuery("select t from OutcomeType t where t.id = :id");
+        q.setParameter("id", id);
+        return (OutcomeType) q.getSingleResult();
+    }
+        public static OutcomeType findByDes(String des){
         Query q = PersistenceManager.createEntityManager().createQuery("select t from OutcomeType t where t.description = :des");
         q.setParameter("des", des);
         return (OutcomeType) q.getResultList().get(0);
     }
 
+
+
     @Override
     public int compareTo(OutcomeType o) {
-        return this.id.compareTo(o.getId());
+        return this.description.toLowerCase().compareTo(o.description.toLowerCase());
     }
 }

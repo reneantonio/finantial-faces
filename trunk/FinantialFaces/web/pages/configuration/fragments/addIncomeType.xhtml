@@ -14,20 +14,23 @@
         </h:panelGrid>
         <div align="center">
             <h:panelGrid columns="2" cellspacing="10">
-                <p:commandButton value="salvar" action="#{configurationBean.addIncomeType}" update="config_form:outcome_types income_type_msg" oncomplete="handleAdd(args)"/>
+                <p:commandButton value="salvar" action="#{configurationBean.addIncomeType}" update="config_form:income_types income_type_msg" oncomplete="handleAddIncomeType(xhr, status, args)"/>
             </h:panelGrid>
         </div>
         <p:messages id="income_type_msg"/>
     </p:panel>
 
-    <script type="text/javascript">
-    function handleAdd(args){
-        if(args.validationFailed == false){
-            setTimeout("wait()",1000);
+   <script type="text/javascript">
+    function handleAddIncomeType(xhr, status, args){
+        if(! args.failled){
+            setTimeout("waitAddIncomeType()",1000);
+
+            return true;
         }
+        return false;
     }
 
-    function wait(){
+    function waitAddIncomeType(){
         incometypeModal.hide();
     }
 

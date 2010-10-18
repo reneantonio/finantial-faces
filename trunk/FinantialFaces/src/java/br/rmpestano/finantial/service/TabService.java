@@ -282,9 +282,9 @@ public class TabService implements Serializable{
     }
 
     public User getUser() {
-        if(user == null){
+
          user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-        }
+
         return user;
     }
 

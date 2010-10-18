@@ -38,14 +38,20 @@ public class FinanceTypeService implements Serializable{
      public void removeOutcomeType(Long id){
          outcomeTypeCrudService.delete(id,OutcomeType.class);
      }
+     public void createOutcomeType(OutcomeType outcomeType){
+         outcomeTypeCrudService.create(outcomeType);
+     }
      public void addOutcomeType(IncomeType incomeType){
          incomeTypeCrudService.create(incomeType);
      }
-     public void updateOutcomeType(IncomeType incomeType){
+     public void updateIncomeType(IncomeType incomeType){
          incomeTypeCrudService.update(incomeType);
      }
       public void removeIncomeType(IncomeType incomeType){
          incomeTypeCrudService.delete(incomeType.getId(),IncomeType.class);
+     }
+      public void createIncomeType(IncomeType incomeType){
+         incomeTypeCrudService.create(incomeType);
      }
 
      private User getCurrentUser(){

@@ -64,7 +64,7 @@
 
 
                           <p:commandButton id="themeButton" value="#{msg['themechange']}" onclick="themeMenu.show()" type="button" style="width: 130px"/>
-                          <p:commandButton id="configButton" rendered="#{menu == 1}" value="#{msg['config']}" ajax="false"  action="#{loginBean.redirectConfiguration}" update="messages" style="width: 145px"/>
+                          <p:commandButton id="configButton" rendered="#{menu == 1 and conf == 0}" value="#{msg['config']}" ajax="false"  action="#{loginBean.redirectConfiguration}" update="messages" style="width: 145px"/>
                           <p:commandButton id="financeButton" rendered="#{menu == 1 and conf == 1}" value="Finanças" ajax="false" title="Visualizar suas finanças"  action="/pages/home.faces?faces-redirect=true" style="width: 125px"/>
                           <p:commandButton id="adminButton" rendered="#{loginBean.admin}" value="#{msg['admin']}" onclick="adminMenu.show()" type="button" style="width: 145px"/>
                           <p:outputPanel rendered="#{menu == 1}">

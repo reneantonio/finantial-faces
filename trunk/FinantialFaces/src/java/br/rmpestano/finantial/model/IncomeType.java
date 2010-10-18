@@ -19,9 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "income_type")
-public class IncomeType extends BaseEntity {
-    @ManyToOne
-    private User user;
+public class IncomeType extends BaseEntity implements Comparable<IncomeType>{
     @NotEmpty(message="Informe a descrição do tipo")
     private String description;
 
@@ -31,22 +29,6 @@ public class IncomeType extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
     }
 
 
@@ -68,5 +50,15 @@ public class IncomeType extends BaseEntity {
         Query q = PersistenceManager.createEntityManager().createQuery("select t from IncomeType t where t.description = :des");
         q.setParameter("des", des);
         return (IncomeType) q.getResultList().get(0);
+    }
+
+     public static IncomeType findById(long id) {
+        Query q = PersistenceManager.createEntityManager().createQuery("select t from IncomeType t where t.id = :id");
+        q.setParameter("id", id);
+        return (IncomeType) q.getSingleResult();
+    }
+    @Override
+    public int compareTo(IncomeType o) {
+        return this.description.toLowerCase().compareTo(o.description.toLowerCase());
     }
 }
