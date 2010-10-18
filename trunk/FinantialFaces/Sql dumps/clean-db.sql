@@ -387,7 +387,17 @@ INSERT INTO `income_type` (`ID`,`DESCRIPTION`) VALUES
  (1,'Salário'),
  (2,'Vale Alimentação'),
  (3,'Vale Refeição'),
- (4,'Apostas');
+ (4,'Apostas'),
+ (851,'teste'),
+ (901,'new receita'),
+ (902,'nova receita'),
+ (951,'novo'),
+ (952,'change edit'),
+ (953,'dsfsf'),
+ (954,'sdfdfsfd'),
+ (1001,'fssfsdf'),
+ (1002,'dasdd'),
+ (1051,'new one');
 /*!40000 ALTER TABLE `income_type` ENABLE KEYS */;
 
 
@@ -437,17 +447,6 @@ CREATE TABLE `outcome_type` (
 --
 
 /*!40000 ALTER TABLE `outcome_type` DISABLE KEYS */;
-INSERT INTO `outcome_type` (`ID`,`DESCRIPTION`) VALUES 
- (1,'Supermercado'),
- (2,'Aluguel'),
- (3,'Luz'),
- (4,'Telefone'),
- (5,'Academia'),
- (6,'Roupas'),
- (7,'Restaurante'),
- (8,'Faculdade'),
- (9,'Eletrodomésticos'),
- (10,'Apostas');
 /*!40000 ALTER TABLE `outcome_type` ENABLE KEYS */;
 
 
@@ -468,7 +467,7 @@ CREATE TABLE `sequence` (
 
 /*!40000 ALTER TABLE `sequence` DISABLE KEYS */;
 INSERT INTO `sequence` (`SEQ_NAME`,`SEQ_COUNT`) VALUES 
- ('SEQ_GEN','50');
+ ('SEQ_GEN','1150');
 /*!40000 ALTER TABLE `sequence` ENABLE KEYS */;
 
 
@@ -514,11 +513,6 @@ CREATE TABLE `user_income_type` (
 --
 
 /*!40000 ALTER TABLE `user_income_type` DISABLE KEYS */;
-INSERT INTO `user_income_type` (`User_ID`,`userIncomeTypes_ID`) VALUES 
- (1,1),
- (1,2),
- (1,3),
- (1,4);
 /*!40000 ALTER TABLE `user_income_type` ENABLE KEYS */;
 
 
@@ -541,17 +535,6 @@ CREATE TABLE `user_outcome_type` (
 --
 
 /*!40000 ALTER TABLE `user_outcome_type` DISABLE KEYS */;
-INSERT INTO `user_outcome_type` (`User_ID`,`userOutcomeTypes_ID`) VALUES 
- (1,1),
- (1,2),
- (1,3),
- (1,4),
- (1,5),
- (1,6),
- (1,7),
- (1,8),
- (1,9),
- (1,10);
 /*!40000 ALTER TABLE `user_outcome_type` ENABLE KEYS */;
 
 
