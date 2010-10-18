@@ -21,7 +21,7 @@ and open the template in the editor.
     <ui:define name="theme"/>
     <ui:define name="content">
         <h:form id="config_form">
-        <p:panel header="Configurações" style="margin: 20px">
+        <p:panel header="Configurações">
             <p:outputPanel id="edit_user">
                 <p:fieldset legend="Configurações do usuário">
                     <h:panelGrid columns="2">
@@ -58,7 +58,7 @@ and open the template in the editor.
                                     <p:dataTable value="#{configurationBean.outcomeTypes}" rendered="#{not empty configurationBean.outcomeTypes}" var="o" paginator="true" rows="5"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{configurationBean.outcomeTypesSize > 15 ? configurationBean.outcomeTypesSize : ''}" style="border: none">
-                                        <p:column>
+                                        <p:column sortBy="#{o.description}" >
                                             <f:facet name="header">
                                                 Descrição
                                             </f:facet>
@@ -68,7 +68,9 @@ and open the template in the editor.
                                             <f:facet name="header">
                                                 Editar
                                             </f:facet>
-                                            <p:commandLink value="editar"/>
+                                            <p:commandLink value="editar" oncomplete="editOutcometypeModal.show()" immediate="true" update="edit_outcometype_panel">
+                                                 <f:setPropertyActionListener target="#{configurationBean.outcomeType}" value="#{o}"/>
+                                            </p:commandLink>
                                         </p:column>
                                         <p:column>
                                             <f:facet name="header">
@@ -95,7 +97,7 @@ and open the template in the editor.
                                     <p:dataTable value="#{configurationBean.incomeTypes}" rendered="#{not empty configurationBean.incomeTypes}" var="i" paginator="true" rows="5"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{configurationBean.incomeTypesSize > 15 ? configurationBean.incomeTypesSize : ''}" style="border: none">
-                                        <p:column>
+                                        <p:column sortBy="#{i.description}">
                                             <f:facet name="header">
                                                 Descrição
                                             </f:facet>
@@ -105,13 +107,17 @@ and open the template in the editor.
                                             <f:facet name="header">
                                                 Editar
                                             </f:facet>
-                                            <p:commandLink value="editar"/>
+                                           <p:commandLink value="editar" oncomplete="editIncometypeModal.show()" immediate="true" update="edit_incometype_panel">
+                                                 <f:setPropertyActionListener target="#{configurationBean.incomeType}" value="#{i}"/>
+                                            </p:commandLink>
                                         </p:column>
                                         <p:column>
                                             <f:facet name="header">
                                                 Remover
                                             </f:facet>
-                                            <p:commandLink value="remover"/>
+                                             <p:commandLink value="remover" oncomplete="removeIncometypeModal.show()" immediate="true" update="remove_incometype_panel">
+                                                <f:setPropertyActionListener target="#{configurationBean.incomeType}" value="#{i}"/>
+                                            </p:commandLink>
                                         </p:column>
                                     </p:dataTable>
                                     <div align="center" style="padding-top: 8px;" >
@@ -131,14 +137,15 @@ and open the template in the editor.
             </p:fieldset>
      </p:panel>
   </h:form>
-        <p:dialog widgetVar="outcometypeModal" modal="true"  showEffect="explode"  hideEffect="fade"  header="Incluir Tipo de Despesa">
+        
+        <p:dialog widgetVar="outcometypeModal" modal="true"  showEffect="explode"  hideEffect="explode"  header="Incluir Tipo de Despesa">
             <h:form id="outcome_type_form" prependId="false">
                 <p:outputPanel id="outcometype_panel">
                     <ui:include src="fragments/addOutcomeType.xhtml"/>
                 </p:outputPanel>
             </h:form>
         </p:dialog>
-        <p:dialog widgetVar="incometypeModal" modal="true" showEffect="explode"  hideEffect="fade"  header="Incluir Tipo de Receita">
+        <p:dialog widgetVar="incometypeModal" modal="true" showEffect="explode"  hideEffect="explode"  header="Incluir Tipo de Receita">
             <h:form id="income_type_form" prependId="false">
                 <p:outputPanel id="incometype_panel">
                     <ui:include src="fragments/addIncomeType.xhtml"/>
@@ -153,7 +160,27 @@ and open the template in the editor.
                          </p:outputPanel>
                      </h:form>
                  </p:dialog>
-<!--    <p:remoteCommand name="updateName" update="main_panel"/>-->
+        <p:dialog  modal="true" widgetVar="removeIncometypeModal" header="Remover Tipo de Receita" showEffect="fold"  hideEffect="fold" minHeight="150" width="370" closable="true" resizable="false" draggable="true" >
+                     <h:form id="removeIncometype_form" prependId="false">
+                         <p:outputPanel id="remove_incometype_panel">
+                              <ui:include src="fragments/remove-incometype.xhtml"/>
+                         </p:outputPanel>
+                     </h:form>
+                 </p:dialog>
+        <p:dialog  modal="true" widgetVar="editOutcometypeModal" header="Editar Tipo de Despesa" showEffect="explode"  hideEffect="explode" minHeight="150" width="370" closable="true" resizable="false" draggable="true" >
+                     <h:form id="editOutcometype_form" prependId="false">
+                         <p:outputPanel id="edit_outcometype_panel">
+                              <ui:include src="fragments/edit-outcometype.xhtml"/>
+                         </p:outputPanel>
+                     </h:form>
+                 </p:dialog>
+        <p:dialog  modal="true" widgetVar="editIncometypeModal" header="Editar Tipo de Receita" showEffect="explode"  hideEffect="explode" minHeight="150" width="370" closable="true" resizable="false" draggable="true" >
+                     <h:form id="editIncometype_form" prependId="false">
+                         <p:outputPanel id="edit_incometype_panel">
+                              <ui:include src="fragments/edit-incometype.xhtml"/>
+                         </p:outputPanel>
+                     </h:form>
+                 </p:dialog>
 
     </ui:define>
 
@@ -168,7 +195,6 @@ and open the template in the editor.
 
     function wait2(){
         editUserDlg.hide();
-        updateName();//não posso fazer update direto por causa do messages do painel principal, por isso a gambia
     }
 
 </script>

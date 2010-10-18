@@ -14,17 +14,20 @@
         </h:panelGrid>
         <div align="center">
             <h:panelGrid columns="2" cellspacing="10">
-                <p:commandButton value="salvar"  action="#{configurationBean.addOutcomeType}" async="true" ajax="true" update="config_form:outcome_types outcome_type_msg" oncomplete="handleAdd(args)"/>
+                <p:commandButton value="salvar"  action="#{configurationBean.addOutcomeType}" ajax="true" update="config_form:outcome_types outcome_type_msg" oncomplete="handleAddOutcomeType(xhr, status, args)"/>
             </h:panelGrid>
         </div>
         <p:messages id="outcome_type_msg"/>
     </p:panel>
 
-    <script type="text/javascript">
-    function handleAdd(args){
-        if(args.validationFailed == false){
+   <script type="text/javascript">
+    function handleAddOutcomeType(xhr, status, args){
+        if(! args.failled){
             setTimeout("wait()",1000);
+
+            return true;
         }
+        return false;
     }
 
     function wait(){

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.prime.com.tr/ui"
+        xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
+  
+
+    <p:panel>
+
+             <div align="center" style="font-size: 13px;margin-bottom: 6px">
+             <h:panelGrid columns="2">
+                 <h:outputLabel for="edit_incometype_des" value="Descrição:"/>
+                 <h:inputText  id="edit_incometype_des" value="#{configurationBean.incomeType.description}"/>
+             </h:panelGrid>
+                 <p:commandButton value="salvar"  action="#{configurationBean.updateIncomeType}"  style="margin-top: 5px" oncomplete="handleEditIncomeType(args)" update="config_form:income_types edit_income_type_msg" />
+            </div>
+
+
+    </p:panel>
+    <div align="center">
+         <p:messages id="edit_income_type_msg" />
+</div>   
+
+
+ 
+
+<script type="text/javascript">
+    function handleEditIncomeType(args){
+        if(args.error == false){
+            setTimeout("waitEditIncomeType()",1000);
+        }
+
+    }
+
+    function waitEditIncomeType(){
+        editIncometypeModal.hide();
+    }
+
+</script>
+</ui:composition>

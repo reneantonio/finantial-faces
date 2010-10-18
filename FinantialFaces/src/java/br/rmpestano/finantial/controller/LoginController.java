@@ -110,9 +110,6 @@ public class LoginController implements Serializable{
 
      public String redirectConfiguration(){
         User user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-         for (OutcomeType outcomeType : user.getUserOutcomeTypes()) {
-             System.out.println("type:"+outcomeType);
-         }
          return "configuration/configuration.faces?faces-redirect=true";
     }
 

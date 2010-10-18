@@ -10,18 +10,17 @@ import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.FinanceTypeService;
 import br.rmpestano.finantial.service.UserService;
-import br.rmpestano.finantial.service.generic.CrudService;
 import br.rmpestano.finantial.util.BeanManagerController;
 import br.rmpestano.finantial.util.MessagesController;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import org.primefaces.model.DualListModel;
+import org.primefaces.context.RequestContext;
 
 /**
  * this bean is responsible for the Configuration page
@@ -151,11 +150,20 @@ public class ConfigurationController implements Serializable{
 
      public void addOutcomeType(){
          try {
-             user.getUserOutcomeTypes().add(outcomeType);
-             outcomeType.setUser(user);
-             financeTypeService.updateOutcomeType(outcomeType);
-//             userService.atualizar(user);
-             MessagesController.addInfo("Tipo despesa incluido com sucesso");
+            RequestContext context = RequestContext.getCurrentInstance();
+             List<OutcomeType> userTypes = user.getUserOutcomeTypes();
+             if (Collections.binarySearch(userTypes, outcomeType) < 0) {
+                 userTypes.add(outcomeType);
+                 financeTypeService.createOutcomeType(outcomeType);
+                 userService.atualizar(user);
+                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", user);
+                 MessagesController.addInfo("Tipo despesa incluido com sucesso");
+                 context.addCallbackParam("failled", false);
+             }
+             else{
+                context.addCallbackParam("failled", true);
+                MessagesController.addError("Tipo: "+outcomeType +" já existe em sua coleção de tipos");
+             }
              outcomeType = new OutcomeType();
          } catch (Exception ex) {
              MessagesController.addError("Problemas ao incluir tipo despesa:"+ex.getMessage());
@@ -164,20 +172,31 @@ public class ConfigurationController implements Serializable{
      }
      public void addIncomeType(){
          try {
-             financeTypeService.addOutcomeType(incomeType);
-             MessagesController.addInfo("Tipo receita:"+incomeType.getDescription() +" incluido com sucesso");
+            RequestContext context = RequestContext.getCurrentInstance();
+             List<IncomeType> userTypes = user.getUserIncomeTypes();
+             if (Collections.binarySearch(userTypes, incomeType) < 0) {
+                 userTypes.add(incomeType);
+                 financeTypeService.createIncomeType(incomeType);
+                 userService.atualizar(user);
+                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", user);
+                 MessagesController.addInfo("Tipo receita incluido com sucesso");
+                 context.addCallbackParam("failled", false);
+             }
+             else{
+                context.addCallbackParam("failled", true);
+                MessagesController.addError("Tipo: "+incomeType +" já existe em sua coleção de tipos");
+             }
              incomeType = new IncomeType();
          } catch (Exception ex) {
-             MessagesController.addError("Problemas ao incluir tipo receita:"+ex.getMessage());
+             MessagesController.addError("Problemas ao incluir tipo despesa:"+ex.getMessage());
              ex.printStackTrace();
          }
      }
      public void removeOutcomeType(){
          try {
-             OutcomeType removed = user.getUserOutcomeTypes().remove(user.getUserOutcomeTypes().indexOf(outcomeType));
+             user.getUserOutcomeTypes().remove(user.getUserOutcomeTypes().indexOf(outcomeType));
              userService.atualizar(user);
-//             long removedId = outcomeType.getId();
-//             financeTypeService.removeOutcomeType(removedId);
+//             financeTypeService.removeIncomeType(incomeType);não posso remover do banco pois o tipo pode estar relacionado a uma despesa
              MessagesController.addInfo("Tipo despesa removido com sucesso");
              outcomeType = new OutcomeType();
          } catch (Exception ex) {
@@ -186,14 +205,44 @@ public class ConfigurationController implements Serializable{
          }
      }
      public void removeIncomeType(){
-         try {
-             financeTypeService.removeIncomeType(incomeType);
-             MessagesController.addInfo("Tipo receita removido com sucesso");
+          try {
+             user.getUserIncomeTypes().remove(user.getUserIncomeTypes().indexOf(incomeType));
+             userService.atualizar(user);
+             MessagesController.addInfo("Tipo despesa removido com sucesso");
              incomeType = new IncomeType();
          } catch (Exception ex) {
              MessagesController.addError("Problemas ao remover tipo receita:"+ex.getMessage());
              ex.printStackTrace();
          }
+     }
+
+     public void updateOutcomeType(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        try {
+            financeTypeService.updateOutcomeType(outcomeType);
+            MessagesController.addInfo("Tipo despesa modificado com sucesso");
+            outcomeType = new OutcomeType();
+            context.addCallbackParam("error", false);
+        } catch (Exception ex) {
+           context.addCallbackParam("error", true);
+           MessagesController.addError("Problemas ao editar tipo de despesa:"+ex.getMessage());
+           ex.printStackTrace();
+
+        }
+     }
+     public void updateIncomeType(){
+        RequestContext context = RequestContext.getCurrentInstance();
+        try {
+            financeTypeService.updateIncomeType(incomeType);
+            MessagesController.addInfo("Tipo receita modificado com sucesso");
+            incomeType = new IncomeType();
+            context.addCallbackParam("error", false);
+        } catch (Exception ex) {
+           context.addCallbackParam("error", true);
+           MessagesController.addError("Problemas ao editar tipo de receita:"+ex.getMessage());
+           ex.printStackTrace();
+
+        }
      }
 
       public void checkNewPass(){
@@ -202,11 +251,10 @@ public class ConfigurationController implements Serializable{
            }
      }
 
-
-public void cancelRemove(){
-         incomeType = new IncomeType();
-         outcomeType = new OutcomeType();
-    }
+    public void cancelRemove(){
+             incomeType = new IncomeType();
+             outcomeType = new OutcomeType();
+        }
 
 
 }

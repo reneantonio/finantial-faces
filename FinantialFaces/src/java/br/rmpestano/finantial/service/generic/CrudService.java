@@ -41,8 +41,6 @@ public class CrudService<T> {
     }
 
     public T create(T t) {
-
-
         em.persist(t);
         em.flush();
         return t;
@@ -53,6 +51,7 @@ public class CrudService<T> {
         T t = this.findById(id, c);
         if (t != null) {
             em.remove(t);
+            em.flush();
         }
     }
 
@@ -61,6 +60,7 @@ public class CrudService<T> {
 
         t = this.em.merge(t);
 //        this.em.refresh(t);
+        this.em.flush();
         return t;
     }
 
