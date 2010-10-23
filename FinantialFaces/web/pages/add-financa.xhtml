@@ -24,7 +24,7 @@ and open the template in the editor.
                       <finantial:label for="select_tipo" value="#{msg['finance.label.tipo']}:" />
                                 <h:selectOneMenu id="select_tipo" value="#{financeBean.tipoCorrete}"  styleClass="tipo">
                                 <f:selectItems value="#{financeBean.tiposFinanca}" var="tipo" itemLabel="#{tipo eq financeBean.INCOME ? msg['finance.label.tipo.income'] : msg['finance.label.tipo.outcome']}" itemValue="#{tipo}"/>
-                                <f:ajax execute="select_tipo" render="select_subtipo :financeTypePanel"/>
+                                <f:ajax execute="select_tipo" render="select_subtipo bt-add :financeTypePanel"/>
                             </h:selectOneMenu>
 
                       <finantial:label for="select_subtipo_#{financeBean.tipoCorrete}" required="true" value="&#160;&#160;&#160;#{msg['finance.label.subtipo']}:"/>
