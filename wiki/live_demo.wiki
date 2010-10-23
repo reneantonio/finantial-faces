@@ -5,6 +5,5 @@
 
 === *[http://rmpestano.redirectme.net:8080/FinantialFaces Finantial Faces Demo]* ===
 
-*User:* demo
-
+*User:* demo 
 *password:* demo
