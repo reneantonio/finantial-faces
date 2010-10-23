@@ -4,7 +4,7 @@
 ==1 - Running Finantial Faces from WAR file==
   * 1.1 - get the war file from [http://finantial-faces.googlecode.com/svn/trunk/FinantialFaces/WAR/FinantialFaces.war here]
   * 1.2 - chose a database dumb: if you want clean database only with ncessary data to run the app take [http://code.google.com/p/finantial-faces/source/browse/trunk/FinantialFaces/Sql%20dumps/clean-db.sql this] but if you want a database with some data to make some queries and generate some reports get [http://code.google.com/p/finantial-faces/source/browse/trunk/FinantialFaces/Sql%20dumps/full-db.sql this one] and restore it in mysql(let the option "target schema:original schema" selected) 
-  * 1.3 - deploy the war file in a Java EE 6 server compilant like glassfish (tested with 3.0)
+  * 1.3 - deploy the war file in a Java EE 6 server compilant like glassfish (tested with glassfish 3.0)
   * 1.4 - acess the system at http://localhost:8080/FinantialFaces
   * 1.5 - login with login:admin pass:admin
   
