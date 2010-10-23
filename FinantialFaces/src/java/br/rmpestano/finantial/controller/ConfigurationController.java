@@ -36,6 +36,8 @@ public class ConfigurationController implements Serializable{
     private List<OutcomeType> outcomeTypes;
     private List<IncomeType> incomeTypes;
     private OutcomeType outcomeType;
+    private OutcomeType selectedOutcomeType;
+    private IncomeType selectedIncomeType;
     private IncomeType incomeType;
     private FinanceTypeService financeTypeService;
     private int outcomeTypesSize;
@@ -74,6 +76,15 @@ public class ConfigurationController implements Serializable{
         return repeatPass;
     }
 
+    public OutcomeType getSelectedOutcomeType() {
+        return selectedOutcomeType;
+    }
+
+    public void setSelectedOutcomeType(OutcomeType selectedOutcomeType) {
+        this.selectedOutcomeType = selectedOutcomeType;
+    }
+
+
     public void setRepeatPass(String repeatPass) {
         this.repeatPass = repeatPass;
     }
@@ -90,6 +101,16 @@ public class ConfigurationController implements Serializable{
     public void setIncomeTypesSize(int incomeTypesSize) {
         this.incomeTypesSize = incomeTypesSize;
     }
+
+    public IncomeType getSelectedIncomeType() {
+        return selectedIncomeType;
+    }
+
+    public void setSelectedIncomeType(IncomeType selectedIncomeType) {
+        this.selectedIncomeType = selectedIncomeType;
+    }
+
+
 
 
     public void setUser(User user) {
@@ -113,7 +134,7 @@ public class ConfigurationController implements Serializable{
     }
 
     public List<IncomeType> getIncomeTypes() {
-        return incomeTypes;
+        return user.getUserIncomeTypes();
     }
 
     public OutcomeType getOutcomeType() {
@@ -129,7 +150,7 @@ public class ConfigurationController implements Serializable{
     }
 
     public List<OutcomeType> getOutcomeTypes() {
-        return outcomeTypes;
+        return user.getUserOutcomeTypes();
     }
 
     public void setOutcomeTypes(List<OutcomeType> outcomeTypes) {
@@ -139,10 +160,14 @@ public class ConfigurationController implements Serializable{
 
      public void updateUser(){
         try {
-
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", userService.atualizar(user));
-            MessagesController.addInfo("Perfil atualizado com sucesso");
-            userUpdated = true;
+            if(checkNewPass()){
+                userService.atualizar(user);
+                MessagesController.addInfo("Perfil atualizado com sucesso");
+                userUpdated = true;
+            }
+         else{
+            MessagesController.addError("As senhas não conferem");
+         }
         } catch (Exception ex) {
             MessagesController.addError("Problemas ao editar usuário:"+ex.getMessage());
         }
@@ -152,11 +177,10 @@ public class ConfigurationController implements Serializable{
          try {
             RequestContext context = RequestContext.getCurrentInstance();
              List<OutcomeType> userTypes = user.getUserOutcomeTypes();
-             if (Collections.binarySearch(userTypes, outcomeType) < 0) {
+             if (!isDuplicateOutcome(outcomeType)) {
                  userTypes.add(outcomeType);
                  financeTypeService.createOutcomeType(outcomeType);
                  userService.atualizar(user);
-                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", user);
                  MessagesController.addInfo("Tipo despesa incluido com sucesso");
                  context.addCallbackParam("failled", false);
              }
@@ -174,11 +198,10 @@ public class ConfigurationController implements Serializable{
          try {
             RequestContext context = RequestContext.getCurrentInstance();
              List<IncomeType> userTypes = user.getUserIncomeTypes();
-             if (Collections.binarySearch(userTypes, incomeType) < 0) {
+             if (!isDuplicateIncome(incomeType)) {
                  userTypes.add(incomeType);
                  financeTypeService.createIncomeType(incomeType);
                  userService.atualizar(user);
-                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", user);
                  MessagesController.addInfo("Tipo receita incluido com sucesso");
                  context.addCallbackParam("failled", false);
              }
@@ -194,6 +217,7 @@ public class ConfigurationController implements Serializable{
      }
      public void removeOutcomeType(){
          try {
+
              user.getUserOutcomeTypes().remove(user.getUserOutcomeTypes().indexOf(outcomeType));
              userService.atualizar(user);
 //             financeTypeService.removeIncomeType(incomeType);não posso remover do banco pois o tipo pode estar relacionado a uma despesa
@@ -216,13 +240,30 @@ public class ConfigurationController implements Serializable{
          }
      }
 
+     public void prepareEditOutcome(OutcomeType outcomeType){
+         selectedOutcomeType = new OutcomeType();
+         selectedOutcomeType.setDescription(outcomeType.getDescription());
+         this.outcomeType = outcomeType;
+     }
+     public void prepareEditIncome(IncomeType incomeType){
+         selectedIncomeType = new IncomeType();
+         selectedIncomeType.setDescription(incomeType.getDescription());
+         this.incomeType = incomeType;
+     }
+
      public void updateOutcomeType(){
         RequestContext context = RequestContext.getCurrentInstance();
         try {
-            financeTypeService.updateOutcomeType(outcomeType);
-            MessagesController.addInfo("Tipo despesa modificado com sucesso");
-            outcomeType = new OutcomeType();
-            context.addCallbackParam("error", false);
+            if(!isDuplicateOutcome(selectedOutcomeType)){
+                outcomeType.setDescription(selectedOutcomeType.getDescription());
+                financeTypeService.updateOutcomeType(outcomeType);
+                MessagesController.addInfo("Tipo despesa modificado com sucesso");
+                outcomeType = new OutcomeType();
+                context.addCallbackParam("error", false);
+            }else{
+                MessagesController.addError("Tipo: "+selectedOutcomeType +" já existe em sua coleção de tipos");
+                context.addCallbackParam("error", true);
+            }
         } catch (Exception ex) {
            context.addCallbackParam("error", true);
            MessagesController.addError("Problemas ao editar tipo de despesa:"+ex.getMessage());
@@ -231,24 +272,30 @@ public class ConfigurationController implements Serializable{
         }
      }
      public void updateIncomeType(){
-        RequestContext context = RequestContext.getCurrentInstance();
+         RequestContext context = RequestContext.getCurrentInstance();
         try {
-            financeTypeService.updateIncomeType(incomeType);
-            MessagesController.addInfo("Tipo receita modificado com sucesso");
-            incomeType = new IncomeType();
-            context.addCallbackParam("error", false);
+            if(!isDuplicateIncome(selectedIncomeType)){
+                incomeType.setDescription(selectedIncomeType.getDescription());
+                financeTypeService.updateIncomeType(incomeType);
+                MessagesController.addInfo("Tipo receita modificado com sucesso");
+                incomeType = new IncomeType();
+                context.addCallbackParam("error", false);
+            }else{
+                MessagesController.addError("Tipo: "+selectedIncomeType +" já existe em sua coleção de tipos");
+                context.addCallbackParam("error", true);
+            }
         } catch (Exception ex) {
            context.addCallbackParam("error", true);
            MessagesController.addError("Problemas ao editar tipo de receita:"+ex.getMessage());
            ex.printStackTrace();
-
         }
      }
 
-      public void checkNewPass(){
+      public boolean checkNewPass(){
              if(repeatPass == null || user.getPassword() == null || repeatPass.trim().equals("") || (!repeatPass.equals(user.getPassword()))) {
-                MessagesController.addError("As senhas não conferem");
+                return false;
            }
+             return true;
      }
 
     public void cancelRemove(){
@@ -256,5 +303,14 @@ public class ConfigurationController implements Serializable{
              outcomeType = new OutcomeType();
         }
 
+
+    private boolean isDuplicateIncome(IncomeType incomeType){
+          Collections.sort(incomeTypes);
+          return !(Collections.binarySearch(incomeTypes, incomeType) < 0);
+    }
+    private boolean isDuplicateOutcome(OutcomeType outcomeType){
+          Collections.sort(outcomeTypes);
+          return !(Collections.binarySearch(outcomeTypes, outcomeType) < 0);
+    }
 
 }

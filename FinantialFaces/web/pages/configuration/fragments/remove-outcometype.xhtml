@@ -27,9 +27,9 @@ and open the template in the editor.
                  <p:commandButton value="remover" actionListener="#{configurationBean.removeOutcomeType}" style="margin-left:-10px" async="true" ajax="true" update="config_form:outcome_types,remove_msg_outcometype" oncomplete="handleRemove(args)" />
                  <p:commandButton value="cancelar" onclick="removeOutcometypeModal.hide()" action="#{configurationBean.cancelRemove}"  style="margin-left: 10px" />
              </div>
+             <p:messages id="remove_msg_outcometype" />
              </p:fieldset>
     <div align="center">
-         <p:messages id="remove_msg_outcometype" />
 </div>   
 
 

@@ -14,7 +14,7 @@
         </h:panelGrid>
         <div align="center">
             <h:panelGrid columns="2" cellspacing="10">
-                <p:commandButton value="salvar"  action="#{configurationBean.addOutcomeType}" ajax="true" update="config_form:outcome_types outcome_type_msg" oncomplete="handleAddOutcomeType(xhr, status, args)"/>
+                <p:commandButton value="salvar"  action="#{configurationBean.addOutcomeType}" ajax="true" update="config_form:outcome_types months_form:select_subtipo outcome_type_msg" oncomplete="handleAddOutcomeType(xhr, status, args)"/>
             </h:panelGrid>
         </div>
         <p:messages id="outcome_type_msg"/>
