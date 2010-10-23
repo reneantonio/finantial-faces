@@ -27,9 +27,9 @@ and open the template in the editor.
                  <p:commandButton value="remover" actionListener="#{configurationBean.removeIncomeType}" style="margin-left:-10px" async="true" ajax="true" update="config_form:income_types,remove_msg_incometype" oncomplete="handleRemoveType(args)" />
                  <p:commandButton value="cancelar" onclick="removeIncometypeModal.hide()" action="#{configurationBean.cancelRemove}"  style="margin-left: 10px" />
              </div>
+             <p:messages id="remove_msg_incometype" />
              </p:fieldset>
     <div align="center">
-         <p:messages id="remove_msg_incometype" />
 </div>   
 
 

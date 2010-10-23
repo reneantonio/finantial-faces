@@ -30,9 +30,7 @@ and open the template in the editor.
                         <finantial:label for="edit_pass" value="Senha" required="true"/>
                         <h:inputSecret id="edit_pass" value="#{configurationBean.user.password}"/>
                         <finantial:label for="repeat_pass" value="Repetir Senha" required="true"/>
-                        <h:inputSecret id="repeat_pass" value="#{configurationBean.repeatPass}" >
-                            <f:ajax event="blur" execute="@this" listener="#{configurationBean.checkNewPass}" render="edit_user_msg"/>
-                        </h:inputSecret>
+                        <h:inputSecret id="repeat_pass" value="#{configurationBean.repeatPass}" />
                         <finantial:label for="fullname" value="Nome" required="true"/>
                         <h:inputText id="fullname" value="#{configurationBean.user.fullname}"/>
                     </h:panelGrid>
@@ -68,9 +66,7 @@ and open the template in the editor.
                                             <f:facet name="header">
                                                 Editar
                                             </f:facet>
-                                            <p:commandLink value="editar" oncomplete="editOutcometypeModal.show()" immediate="true" update="edit_outcometype_panel">
-                                                 <f:setPropertyActionListener target="#{configurationBean.outcomeType}" value="#{o}"/>
-                                            </p:commandLink>
+                                            <p:commandLink value="editar" oncomplete="editOutcometypeModal.show()" immediate="true" action="#{configurationBean.prepareEditOutcome(o)}" update="edit_outcometype_panel"/>
                                         </p:column>
                                         <p:column>
                                             <f:facet name="header">
@@ -83,7 +79,7 @@ and open the template in the editor.
                                         </p:column>
                                     </p:dataTable>
                                     <div align="center" style="padding-top: 8px;" >
-                                        <p:commandButton title="incluir tipo"  value="Novo Tipo" async="true" immediate="true" update="outcometype_panel outcome_type_msg"  oncomplete="outcometypeModal.show()" />
+                                        <p:commandButton title="incluir tipo"  value="Novo Tipo" immediate="true" update="outcometype_panel outcome_type_msg"  oncomplete="outcometypeModal.show()" />
                                     </div>
                                     <div align="center" style="padding-top: 8px;">
                                         <h:outputText value="Nenhuma tipo cadastrado" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty configurationBean.outcomeTypes}"/>
@@ -107,9 +103,7 @@ and open the template in the editor.
                                             <f:facet name="header">
                                                 Editar
                                             </f:facet>
-                                           <p:commandLink value="editar" oncomplete="editIncometypeModal.show()" immediate="true" update="edit_incometype_panel">
-                                                 <f:setPropertyActionListener target="#{configurationBean.incomeType}" value="#{i}"/>
-                                            </p:commandLink>
+                                            <p:commandLink value="editar" action="#{configurationBean.prepareEditIncome(i)}" oncomplete="editIncometypeModal.show()" immediate="true" update="edit_incometype_panel"/>
                                         </p:column>
                                         <p:column>
                                             <f:facet name="header">
@@ -121,7 +115,7 @@ and open the template in the editor.
                                         </p:column>
                                     </p:dataTable>
                                     <div align="center" style="padding-top: 8px;" >
-                                        <p:commandButton title="incluir tipo"  value="Novo Tipo" async="true" immediate="true" update="outcome_type_grid income_type_msg"  oncomplete="incometypeModal.show()" />
+                                        <p:commandButton title="incluir tipo"  value="Novo Tipo" async="true" immediate="true" update="incometype_panel income_type_msg"  oncomplete="incometypeModal.show()" />
                                     </div>
                                     <div align="center" style="padding-top: 8px;">
                                         <h:outputText value="Nenhuma tipo cadastrado" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty configurationBean.incomeTypes}"/>

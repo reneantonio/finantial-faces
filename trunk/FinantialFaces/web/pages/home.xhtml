@@ -54,7 +54,7 @@
                                 <p:menuitem value="2029" action="#{tabBean.changeYear(19)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel :months_form:msg"/>
                                 <p:menuitem value="2030" action="#{tabBean.changeYear(20)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel :months_form:msg"/>
                             </p:menuButton>
-                                <h:graphicImage library="images" name="#{themeService.themeProperties.FORWARD_ARROW eq '' ? 'forward.png':themeService.themeProperties.FORWARD_ARROW}" style="cursor: pointer">
+                                <h:graphicImage library="images" name="#{themeService.themeProperties.FORWARD_ARROW eq '' ? 'forward.png':themeService.themeProperties.FORWARD_ARROW}" style="cursor: pointer;margin-left: -1px">
                                 <p:effect type="pulsate" speed="1900" for="currentYearBt" event="click" />
                                 <p:ajax event="click" global="false" update=":months_form:months_panel, currentYearBt,:months_form:msg" process="@this" listener="#{tabBean.nextYear}" />
                             </h:graphicImage>
@@ -173,8 +173,23 @@
                 </p:outputPanel>
             </h:form>
         </p:dialog>
-
-
+        <p:dialog widgetVar="addSubtipoOutcome" modal="true"  showEffect="explode"  hideEffect="explode"  header="Incluir Tipo de Despesa">
+            <h:form id="addoutcome_type_form" prependId="false">
+                <p:outputPanel id="addoutcometype_panel">
+                    <ui:include src="configuration/fragments/addOutcomeType.xhtml"/>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+        <p:dialog widgetVar="addSubtipoIncome" modal="true"  showEffect="explode"  hideEffect="explode"  header="Incluir Tipo de Despesa">
+            <h:form id="addincome_type_form" prependId="false">
+                <p:outputPanel id="addincometype_panel">
+                    <ui:include src="configuration/fragments/addIncomeType.xhtml"/>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+    <p:outputPanel id="financeTypePanel">
+        <finantial:addTypeModal id="addType" type="#{financeBean.tipoCorrete}" idToUpdate="months_form:select_subtipo"/>
+    </p:outputPanel>
 
     </ui:define>
 </ui:composition>

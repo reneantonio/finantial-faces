@@ -33,6 +33,7 @@ public class FinanceTypeService implements Serializable{
          outcomeTypeCrudService.create(outcomeType);
      }
      public void updateOutcomeType(OutcomeType outcomeType){
+         System.out.println("Update!!!");
          outcomeTypeCrudService.update(outcomeType);
      }
      public void removeOutcomeType(Long id){

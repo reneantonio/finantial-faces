@@ -57,7 +57,6 @@ public class CrudService<T> {
 
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public T update(T t) {
-
         t = this.em.merge(t);
 //        this.em.refresh(t);
         this.em.flush();

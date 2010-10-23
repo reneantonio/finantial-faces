@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "outcome")
-public class Outcome extends BaseEntity {
+public class Outcome extends Finance {
     @ManyToOne
     private User user;
     private static final long serialVersionUID = 1L;

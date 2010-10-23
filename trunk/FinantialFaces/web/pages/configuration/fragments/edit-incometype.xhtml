@@ -19,15 +19,15 @@ and open the template in the editor.
              <div align="center" style="font-size: 13px;margin-bottom: 6px">
              <h:panelGrid columns="2">
                  <h:outputLabel for="edit_incometype_des" value="Descrição:"/>
-                 <h:inputText  id="edit_incometype_des" value="#{configurationBean.incomeType.description}"/>
+                 <h:inputText  id="edit_incometype_des" value="#{configurationBean.selectedIncomeType.description}"/>
              </h:panelGrid>
                  <p:commandButton value="salvar"  action="#{configurationBean.updateIncomeType}"  style="margin-top: 5px" oncomplete="handleEditIncomeType(args)" update="config_form:income_types edit_income_type_msg" />
             </div>
 
 
+         <p:messages id="edit_income_type_msg" />
     </p:panel>
     <div align="center">
-         <p:messages id="edit_income_type_msg" />
 </div>   
 
 

@@ -13,7 +13,6 @@ and open the template in the editor.
         xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
         xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-
     <p:panel header="Inclusão de Finanças">
                
         <h:panelGrid columns="4" cellpadding="0" id="grid_add" style="overflow: auto">
@@ -25,21 +24,26 @@ and open the template in the editor.
                       <finantial:label for="select_tipo" value="#{msg['finance.label.tipo']}:" />
                                 <h:selectOneMenu id="select_tipo" value="#{financeBean.tipoCorrete}"  styleClass="tipo">
                                 <f:selectItems value="#{financeBean.tiposFinanca}" var="tipo" itemLabel="#{tipo eq financeBean.INCOME ? msg['finance.label.tipo.income'] : msg['finance.label.tipo.outcome']}" itemValue="#{tipo}"/>
-                                <f:ajax execute="select_tipo" render="grid_add"/>
+                                <f:ajax execute="select_tipo" render="select_subtipo :financeTypePanel"/>
                             </h:selectOneMenu>
 
-                            <finantial:label for="select_subtipo_#{financeBean.tipoCorrete}"  value="&#160;&#160;&#160;#{msg['finance.label.subtipo']}:"/>
+                      <finantial:label for="select_subtipo_#{financeBean.tipoCorrete}" required="true" value="&#160;&#160;&#160;#{msg['finance.label.subtipo']}:"/>
 
-                            <p:outputPanel id="select_subtipo">
-                                <h:selectOneMenu id="select_subtipo_income" rendered="#{financeBean.tipoCorrete eq financeBean.INCOME}"  value="#{financeBean.subtipoIncomeCorrete}"  style="margin-bottom: 3px;margin-top: 3px;margin-left: 2px;height: 21px;width: 145px;*width: 183px">
-                                    <f:selectItems value="#{financeBean.subtiposIncome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
-                                    <f:converter converterId="incomeConveter"/>
-                                </h:selectOneMenu>
-                                <h:selectOneMenu id="select_subtipo_outcome" rendered="#{financeBean.tipoCorrete eq financeBean.OUTCOME}"  value="#{financeBean.subtipoOutcomeCorrete}"  style="margin-bottom: 3px;margin-top: 3px;margin-left: 2px;height: 21px;width: 145px;*width: 183px;">
-                                    <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
-                                    <f:converter converterId="outcomeConveter"/>
-                                </h:selectOneMenu>
-                            </p:outputPanel>
+                      <p:outputPanel id="select_subtipo">
+                          <h:column>
+
+                              <h:selectOneMenu id="select_subtipo_income" rendered="#{financeBean.tipoCorrete eq financeBean.INCOME}"  value="#{financeBean.subtipoIncomeCorrete}"  style="margin-bottom: 3px;margin-top: 3px;margin-left: 2px;height: 21px;width: 145px;*width: 183px" required="true" requiredMessage="O tipo da receita é obrigatório">
+                                  <f:selectItems value="#{financeBean.subtiposIncome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
+                                  <f:converter converterId="incomeConveter"/>
+                              </h:selectOneMenu>
+                              <h:selectOneMenu id="select_subtipo_outcome" rendered="#{financeBean.tipoCorrete eq financeBean.OUTCOME}"  value="#{financeBean.subtipoOutcomeCorrete}"  style="margin-bottom: 3px;margin-top: 3px;margin-left: 2px;height: 21px;width: 145px;*width: 183px;" required="true" requiredMessage="O tipo da despesa é obrigatório">
+                                  <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
+                                  <f:converter converterId="outcomeConveter"/>
+                              </h:selectOneMenu>
+                              <p:commandButton value="+" immediate="true" action="#{configurationBean.cancelRemove}" update="addType:type_paneladdType" oncomplete="addType.show()" title="Clique aqui para incluir novo tipo de #{msg['finance.label.tipo.'.concat(financeBean.tipoCorrete)]}. Para gerenciar tipos utilize o menu CONFIGURAÇÔES" style="margin-left: 3px;">
+                              </p:commandButton>
+                          </h:column>
+                      </p:outputPanel>
                             <finantial:label for="outcome_valor" value="#{msg['finance.label.valor']}:" required="true"/>
 
                             <h:inputText id="outcome_valor" value="#{financeBean.financeValue}"  required="true" requiredMessage="O valor da finança é obrigatório">
@@ -49,8 +53,6 @@ and open the template in the editor.
                       </h:inputText>
                       <h:inputHidden />
                       <p:commandButton value="Incluir" id="bt-add" style="width: 140px!important" image="#{financeBean.tipoCorrete eq financeBean.INCOME ? 'bt-income':'bt-outcome'}" actionListener="#{financeBean.incluir}" process="grid_add,repeat_menu" update="tab#{tabBean.currentMonthIndex},months_panel,month_#{tabBean.currentMonthIndex},:form_carroussel:grid_carroussel,messages,msg" />
-
-
                 </h:panelGrid>
         <p:messages id="msg"/>
         <table width="100%" style="padding-top: 20px">
@@ -88,5 +90,4 @@ and open the template in the editor.
 
             </p:panel>
 
-        
 </ui:composition>
