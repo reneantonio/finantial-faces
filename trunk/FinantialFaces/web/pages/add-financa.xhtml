@@ -16,7 +16,7 @@ and open the template in the editor.
     <p:panel header="Inclusão de Finanças">
                
         <h:panelGrid columns="4" cellpadding="0" id="grid_add" style="overflow: auto">
-                      <h:outputLabel for="outcome_descricao" value="#{msg['finance.label.descricao']}:"/>
+                      <finantial:label  for="outcome_descricao" value="#{msg['finance.label.descricao']}:"/>
                       <h:inputText id="outcome_descricao" value="#{financeBean.financeDescription}"/>
                       <finantial:label for="date_income" value="#{msg['finance.label.data']}:" required="true" style="padding-left: 10px" />
                       <p:calendar id="date_income" effectDuration="0.5" value="#{financeBean.date}" required="true" requiredMessage="A data da finança é obrigatória"  pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstYearDate}" maxdate="#{tabBean.lastYearDate}"  popupIcon="../resources/images/calendar.png"/>
@@ -58,7 +58,7 @@ and open the template in the editor.
         <table width="100%" style="padding-top: 20px">
             <tr>
                 <td style="width: 10px;padding-left: 0px;">
-                        <h:outputLabel value="Propagar finança:"/>
+                    <h:outputLabel value="Propagar finança:"/>
                     <div style="display: inline;">
                     <h:selectOneMenu  id="repeat_menu" value="#{financeBean.numberOfMonthToPropagate}">
                         <f:selectItem itemLabel="selecione uma opção" noSelectionOption="true" itemValue="0"/>
