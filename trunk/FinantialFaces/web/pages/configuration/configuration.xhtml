@@ -25,7 +25,7 @@ and open the template in the editor.
             <p:outputPanel id="edit_user">
                 <p:fieldset legend="Configurações do usuário">
                     <h:panelGrid columns="2">
-                        <finantial:label for="edit-username" value="Login" required="true"/>
+                        <finantial:label  for="edit-username" value="Login" required="true"/>
                         <h:inputText id="edit-username" value="#{configurationBean.user.username}"/>
                         <finantial:label for="edit_pass" value="Senha" required="true"/>
                         <h:inputSecret id="edit_pass" value="#{configurationBean.user.password}"/>
@@ -82,7 +82,7 @@ and open the template in the editor.
                                         <p:commandButton title="incluir tipo"  value="Novo Tipo" immediate="true" update="outcometype_panel outcome_type_msg"  oncomplete="outcometypeModal.show()" />
                                     </div>
                                     <div align="center" style="padding-top: 8px;">
-                                        <h:outputText value="Nenhuma tipo cadastrado" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty configurationBean.outcomeTypes}"/>
+                                        <h:outputText value="Nenhum tipo cadastrado" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty configurationBean.outcomeTypes}"/>
                                     </div>
                                 </p:panel>
                             </p:outputPanel>
@@ -118,7 +118,7 @@ and open the template in the editor.
                                         <p:commandButton title="incluir tipo"  value="Novo Tipo" async="true" immediate="true" update="incometype_panel income_type_msg"  oncomplete="incometypeModal.show()" />
                                     </div>
                                     <div align="center" style="padding-top: 8px;">
-                                        <h:outputText value="Nenhuma tipo cadastrado" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty configurationBean.incomeTypes}"/>
+                                        <h:outputText value="Nenhum tipo cadastrado" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty configurationBean.incomeTypes}"/>
                                     </div>
                                 </p:panel>
                             </p:outputPanel>

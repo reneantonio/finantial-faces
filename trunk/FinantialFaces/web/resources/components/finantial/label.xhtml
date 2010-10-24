@@ -24,8 +24,11 @@ and open the template in the editor.
 
     <composite:implementation>
         <div style="display: inline">
+            <span style="float: right">
+
             <h:outputLabel for="#{cc.attrs.for}" rendered="#{cc.attrs.rendered}" value="#{cc.attrs.value}" style="#{cc.attrs.style}"/> <!-- compatibility IE -->
             <h:outputText value="*" style="color:red" rendered="#{cc.attrs.required and cc.attrs.rendered}"/>
+            </span>
         </div>
     </composite:implementation>
 
