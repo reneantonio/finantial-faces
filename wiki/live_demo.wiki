@@ -1,6 +1,4 @@
  
-==*Live Demo*==
-
 
 
 === *[http://rmpestano.redirectme.net:8080/FinantialFaces Finantial Faces Demo]* ===
