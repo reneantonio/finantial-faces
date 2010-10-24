@@ -17,18 +17,18 @@ and open the template in the editor.
          <p:fieldset legend="Tem certeza que deseja deletar esta receita?" style="text-align: center;padding: 10px">
              <div align="center" style="font-size: 13px;margin-bottom: 6px">
              <h:panelGrid columns="2">
-                 <h:outputLabel for="remove_income_des" value="Descrição:"/>
+                 <finantial:label for="remove_income_des" value="Descrição:"/>
                  <h:inputText disabled="true" id="remove_income_des" value="#{financeBean.selectedIncome.description}"/>
-                  <h:outputLabel for="remove_income_date" value="Data:"/>
+                  <finantial:label for="remove_income_date" value="Data:"/>
                   <h:inputText disabled="true" id="remove_income_date" value="#{financeBean.selectedIncome.date}">
                       <f:convertDateTime pattern="dd/MM/yyyy"/>
                   </h:inputText>
-                   <h:outputLabel for="remove_income_val" value="Valor:"/>
+                   <finantial:label for="remove_income_val" value="Valor:"/>
                    <h:inputText disabled="true" id="remove_income_val" value="#{financeBean.selectedIncome.value}">
                        <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
                        <f:ajax event="blur" render="@this"/>
                    </h:inputText>
-                   <h:outputLabel for="remove_income_type" value="Subtipo:"/>
+                   <finantial:label for="remove_income_type" value="Subtipo:"/>
                    <h:inputText disabled="true" id="remove_income_type" value="#{financeBean.selectedIncome.type}"/>
              </h:panelGrid>
             </div>

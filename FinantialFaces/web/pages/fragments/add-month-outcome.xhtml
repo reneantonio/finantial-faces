@@ -17,11 +17,11 @@ and open the template in the editor.
 
      <p:panel>
         <h:panelGrid id="month_outcome_grid" columns="2">
-            <h:outputLabel for="month_outcome_description" value="Descrição:"/>
+            <finantial:label for="month_outcome_description" value="Descrição:"/>
             <h:inputText required="true" id="month_outcome_description" value="#{financeBean.despesa.description}"/>
-            <h:outputLabel for="month_outcome_data" value="Data:"/>
+            <finantial:label for="month_outcome_data" value="Data:"/>
             <p:calendar id="month_outcome_data" effectDuration="0.5" value="#{financeBean.despesa.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{financeBean.firstDayOfMonth}" maxdate="#{financeBean.lastDayOfMonth}"  popupIcon="../resources/images/calendar.png"/>
-            <h:outputLabel for="month_outcome_value" value="Valor:"/>
+            <finantial:label for="month_outcome_value" value="Valor:"/>
             <h:inputText id="month_outcome_value" value="#{financeBean.despesa.value}">
                 <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
                 <f:ajax event="blur" render="@this"/>

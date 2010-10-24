@@ -8,6 +8,7 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
@@ -27,7 +28,7 @@ and open the template in the editor.
                 <p:outputPanel id="type_panel#{cc.attrs.id}">
                     <p:panel>
                         <h:panelGrid id="type_grid#{cc.attrs.id}" columns="2">
-                            <h:outputLabel   value="Descrição:"/>
+                            <finantial:label   value="Descrição:"/>
                             <h:inputText   rendered="#{cc.attrs.type eq 'outcome'}"  value="#{configurationBean.outcomeType.description}"/>
                             <h:inputText   rendered="#{cc.attrs.type eq 'income'}" value="#{configurationBean.incomeType.description}"/>
                         </h:panelGrid>
