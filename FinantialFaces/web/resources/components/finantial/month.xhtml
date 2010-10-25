@@ -13,7 +13,7 @@ and open the template in the editor.
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
-    <composite:interface shortDescription="renderiza label e input do tipo obrigatório"><!--futuramente colocar decorator - tipo seam:decorate -->
+    <composite:interface>
 
         <composite:attribute  type="br.rmpestano.finantial.model.FinantialMonth" name="month" required="true"  />
         <composite:attribute name="id" />
@@ -28,7 +28,7 @@ and open the template in the editor.
                 <tr>
                     <td align="right">
                         <h:panelGrid columns="3" style="margin-top: -15px">
-                            <h:graphicImage library="images" title="Saldo mensal" id="img" name="#{tabBean.saldoMensal eq 0 ? 'money.png' : tabBean.saldoMensal > 0 ? 'money_add.png' : 'money_delete.png'}" style="padding-top: 6px;padding-right: 2px;"/>
+                            <h:graphicImage library="images" title="#{msg['month.balance']}" id="img" name="#{tabBean.saldoMensal eq 0 ? 'money.png' : tabBean.saldoMensal > 0 ? 'money_add.png' : 'money_delete.png'}" style="padding-top: 6px;padding-right: 2px;"/>
                             <finantial:label for="img" value=":" style="font-weight: bold"/>
                             <h:outputText  value="#{tabBean.saldoMensal}" style="font-size: 10px;font-weight: bold;text-decoration: underline;">
                                 <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
@@ -39,7 +39,7 @@ and open the template in the editor.
             </table>
 
             <p:accordionPanel  activeIndex="#{tabBean.financesActiveIndex}" cache="false" autoHeight="false" effect="bounceslide" tabChangeListener="#{tabBean.tabChange}" collapsible="true" fillSpace="true" onTabChangeUpdate="msg,month_#{cc.attrs.month.monthIndex}">
-                <p:tab title="Despesas">
+                <p:tab title="#{msg['finance.label.tipo.outcome']}s">
                     <h:panelGroup layout="block" style="min-height:320px ">
                         <p:outputPanel rendered="#{(not empty tabBean.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
                             <p:dataTable id="outcome_table#{cc.attrs.month.monthIndex}" var="d" value="#{tabBean.currentUserOutcomesInTheMonth}"   paginator="true" rows="5"
@@ -95,11 +95,11 @@ and open the template in the editor.
                                         #{msg['finance.label.operacoes']}
                                     </f:facet>
                                     <div style="display: inline;margin-left: 5px" >
-                                        <p:commandLink title="Editar despesa" action="#{financeBean.prepareEditOutcome(d)}"  oncomplete="editModal.show()" process="@this"  update="edit_panel,months_form:msg" >
+                                        <p:commandLink title="#{msg['outcome-edit']}" action="#{financeBean.prepareEditOutcome(d)}"  oncomplete="editModal.show()" process="@this"  update="edit_panel,months_form:msg" >
                                             <h:graphicImage library="images" name="edit20x20.png" style="border: none;"/>
                                         </p:commandLink>
                                         &#160;&#160;
-                                        <p:commandLink title="Remover despesa" action="#{financeBean.prepareRemoveOutcome(d)}" oncomplete="removeModal.show()" process="@this" update="remove_panel,months_form:msg">
+                                        <p:commandLink title="#{msg['outcome-remove']}" action="#{financeBean.prepareRemoveOutcome(d)}" oncomplete="removeModal.show()" process="@this" update="remove_panel,months_form:msg">
                                             <h:graphicImage library="images" name="garbage20x20.png" style="border: none;"/>
                                         </p:commandLink>
                                     </div>
@@ -125,14 +125,14 @@ and open the template in the editor.
                             </p:dataTable>
                         </p:outputPanel>
                         <div align="center" style="padding-top: 8px;" >
-                            <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="Nova Despesa" async="true" immediate="true" update="month_panel,month_outcome_msg"  oncomplete="monthModal.show()" />
+                            <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="#{msg['new-outcome']}" async="true" immediate="true" update="month_panel,month_outcome_msg"  oncomplete="monthModal.show()" />
                         </div>
                         <div align="center" style="padding-top: 8px;">
-                            <h:outputText value="Nenhuma despesa cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty tabBean.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}"/>
+                            <h:outputText value="#{msg['no-outcome']}" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty tabBean.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}"/>
                         </div>
                     </h:panelGroup>
                 </p:tab>
-                <p:tab title="Receitas">
+                <p:tab title="#{msg['finance.label.tipo.income']}s">
                     <p:outputPanel rendered="#{(not empty tabBean.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}">
                         <p:dataTable  var="r" id="income_table#{cc.attrs.month.monthIndex}"  value="#{tabBean.currentUserIncomesInTheMonth}"  paginator="true" rows="5"
                                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{tabBean.userIncomesSize > 15 ? tabBean.userIncomesSize : ''}" style="border: none">
@@ -182,11 +182,11 @@ and open the template in the editor.
                                     #{msg['finance.label.operacoes']}
                                 </f:facet>
                                 <div style="display: inline;margin-left: 5px" >
-                                    <p:commandLink title="Editar receita" action="#{financeBean.prepareEditIncome(r)}"  oncomplete="editModal.show()" process="@this"  update="edit_panel,months_form:msg" >
+                                    <p:commandLink title="#{msg['income-edit']}" action="#{financeBean.prepareEditIncome(r)}"  oncomplete="editModal.show()" process="@this"  update="edit_panel,months_form:msg" >
                                         <h:graphicImage style="border: none;" library="images" name="edit20x20.png"/>
                                     </p:commandLink>
                                     &#160;&#160;
-                                    <p:commandLink  title="Excluir receita" action="#{financeBean.prepareRemoveIncome(r)}" oncomplete="removeModal.show()" process="@this" update="remove_panel,months_form:msg">
+                                    <p:commandLink  title="#{msg['income-remove']}" action="#{financeBean.prepareRemoveIncome(r)}" oncomplete="removeModal.show()" process="@this" update="remove_panel,months_form:msg">
                                         <h:graphicImage style="border: none;" library="images" name="garbage20x20.png"/>
                                     </p:commandLink>
                                 </div>
@@ -210,10 +210,10 @@ and open the template in the editor.
                         </p:dataTable>
                     </p:outputPanel>
                     <div align="center" style="padding-top: 8px;" >
-                        <p:commandButton title="#{msg['finance.tooltip.add-income']}"  action="#{financeBean.prepareAddMonthIncome(m)}" value="Nova Receita" async="true" immediate="true" update="month_panel,month_income_msg"  oncomplete="monthModal.show()" />
+                        <p:commandButton title="#{msg['finance.tooltip.add-income']}"  action="#{financeBean.prepareAddMonthIncome(m)}" value="#{msg['new-income']}" async="true" immediate="true" update="month_panel,month_income_msg"  oncomplete="monthModal.show()" />
                     </div>
                     <div align="center" style="padding-top: 8px;">
-                        <h:outputText value="Nenhuma receita cadastrada" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty tabBean.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}"/>
+                        <h:outputText value="#{msg['no-income']}" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty tabBean.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}"/>
                     </div>
 
                 </p:tab>

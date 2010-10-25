@@ -31,7 +31,7 @@
                                     <p:effect type="pulsate" speed="1900" for="currentYearBt" event="click" />
                                     <p:ajax event="click" global="false" update=":months_form:months_panel, currentYearBt,:months_form:msg" process="@this" listener="#{tabBean.previousYear}" />
                                 </h:graphicImage>
-                            <p:menuButton value="#{tabBean.currentYear.title}" id="currentYearBt"  style="font-size: 13px!important;" >
+                            <p:menuButton value="#{tabBean.currentYear.title}" id="currentYearBt" style="font-size: 13px!important;" >
                                 <p:menuitem value="2010"  action="#{tabBean.changeYear(0)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel :months_form:msg"/>
                                 <p:menuitem value="2011" action="#{tabBean.changeYear(1)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel,:months_form:msg"/>
                                 <p:menuitem value="2012" action="#{tabBean.changeYear(2)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel,:months_form:msg"/>

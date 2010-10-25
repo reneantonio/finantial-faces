@@ -105,6 +105,13 @@
 .bt-outcome{
     background-image: url('../images/coins_delete.png') !important;
 }
+.bt-br{
+     background-image: url('../images/br_flag2.png') !important;
+}
+.bt-usa{
+     background-image: url('../images/usa_flag2.png') !important;
+     background-repeat: no-repeat;
+}
 .bt-report{
     width: 99px!important;
     background-image: url('../images/report3.png') !important;

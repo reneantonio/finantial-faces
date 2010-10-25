@@ -23,7 +23,6 @@
                                 <p:menuitem value="Bluesky" immediate="true" ajax="false" action="#{themeService.blueSkyInit}" style="#{themeService.theme eq 'bluesky' ? 'background-color:#DFEDFF;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
                                 <p:menuitem value="Casablanca" immediate="true" ajax="false" action="#{themeService.casablancaInit}" style="#{themeService.theme eq 'casablanca' ? 'color:red;font-weight:bolder;text-decoration:underline':''}"></p:menuitem>
-
                                   <p:menuitem value="Ui-Darkness" ajax="false" immediate="true" action="#{themeService.uiDarknessInit}" style="#{themeService.theme eq 'ui-darkness' ? 'color:#F58400;font-weight:bolder;text-decoration:underline':''}">
                                   </p:menuitem>
                                 <p:menuitem value="Overcast" ajax="false" immediate="true" action="#{themeService.overcastInit}" style="#{themeService.theme eq 'overcast' ? 'color:red;font-weight:bolder;text-decoration:underline':''}">
@@ -43,13 +42,6 @@
                             </p:submenu>
                        </p:menu>
 
-
-          <p:menu widgetVar="adminMenu" position="dynamic" y="#{menuY}" x="288"  styleClass="adminMenu">
-              <p:submenu>
-                  <p:menuitem value="Gerenciar Usuários" ajax="true" onclick="alert('UNDER CONSTRUCTION')" immediate="true" />
-              </p:submenu>
-          </p:menu>
-
               <p:ajaxStatus style="z-index: 9999;left:87%;top:10%;position: absolute">
                                         <f:facet name="start">
                                             <h:graphicImage library="images" name="#{themeService.themeProperties.LOADING_ICON eq '' ? 'ajax-loader-red.gif' : themeService.themeProperties.LOADING_ICON}"/>
@@ -65,19 +57,21 @@
 
                           <p:commandButton id="themeButton" value="#{msg['themechange']}" onclick="themeMenu.show()" type="button" style="width: 130px"/>
                           <p:commandButton id="configButton" rendered="#{menu == 1 and conf == 0}" value="#{msg['config']}" ajax="false"  action="#{loginBean.redirectConfiguration}" update="messages" style="width: 145px"/>
-                          <p:commandButton id="financeButton" rendered="#{menu == 1 and conf == 1}" value="Finanças" ajax="false" title="Visualizar suas finanças"  action="/pages/home.faces?faces-redirect=true" style="width: 125px"/>
+                          <p:commandButton id="financeButton" rendered="#{menu == 1 and conf == 1}" value="#{msg['finance']}" ajax="false" title="#{msg['finance-tip']}"  action="/pages/home.faces?faces-redirect=true" style="width: 125px"/>
                           <p:commandButton id="adminButton" rendered="#{loginBean.admin}" value="#{msg['admin']}" onclick="adminMenu.show()" type="button" style="width: 145px"/>
                           <p:outputPanel rendered="#{menu == 1}">
                               <div style="position: relative;float: right">
-                                  <p:commandButton id="logoutButton" value="Sair" ajax="false" immediate="true"  actionListener="#{loginBean.doLogout}"/>
+                                  <p:commandButton id="logoutButton" value="Sair" ajax="false" immediate="true" actionListener="#{loginBean.doLogout}"/>
                               </div>
                           </p:outputPanel>
+                          <div style="position: relative;float: right;padding-right: 5px;padding-top: 2px">
+                               <h:commandButton image="/resources/images/br_flag.png" rendered="#{i18nService.currentLanguage == i18nService.LANGUAGE_AMERICAN}" action="#{i18nService.changeLanguage}" style="cursor: pointer"/>
+                               <h:commandButton image="/resources/images/usa_flag.png" rendered="#{i18nService.currentLanguage == i18nService.LANGUAGE_BRAZILIAN}" action="#{i18nService.changeLanguage}" style="cursor: pointer"/>
+                          </div>
           </h:panelGroup>
 
           
-<!--          <p:dialog widgetVar="editUserDlg" header="Editar Perfil" modal="true" showEffect="slide" hideEffect="slide" draggable="false" resizable="false" closable="true">
-              <ui:include src="/pages/user/edit-user.xhtml"/>
-          </p:dialog>-->
+
           </h:form>
         <hr/>
             <p:growl id="messages" showDetail="true"/>
