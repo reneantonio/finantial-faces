@@ -12,6 +12,7 @@ import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.Outcome;
 import br.rmpestano.finantial.model.OutcomeType;
 import br.rmpestano.finantial.service.FinanceService;
+import br.rmpestano.finantial.service.I18nService;
 import br.rmpestano.finantial.service.TabService;
 import br.rmpestano.finantial.util.BeanManagerController;
 import br.rmpestano.finantial.util.MessagesController;
@@ -20,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 import org.primefaces.event.IdleEvent;
@@ -62,12 +64,13 @@ public class TabController implements Serializable{
     private int userOutcomesSize;
     private int userIncomesSize;
     private Double totalIncomeInTheMonth;
-
+    private I18nService i18nService;
 
      @PostConstruct
     public void initMonthsAndYears() {
         tabService = (TabService) BeanManagerController.getBeanByName("tabService");//colocar esse bean em enterprise.context.viewScoope e dar inject ao inves dessa gambia
         financeService = (FinanceService) BeanManagerController.getBeanByName("financeService");//colocar esse bean em enterprise.context.viewScoope e dar inject ao inves dessa gambia
+        i18nService = (I18nService) BeanManagerController.getBeanByName("i18nService");
         tabYears = tabService.getFinantialYears();
         Collections.sort(tabYears);
         setInitialTabs();
@@ -368,7 +371,7 @@ public class TabController implements Serializable{
 
      public void tabChange(TabChangeEvent event){
         String tabTitle = event.getTab().getTitle();
-        if(tabTitle.equalsIgnoreCase("despesas")){
+        if(tabTitle.equalsIgnoreCase(i18nService.getBundle().getString("finance.label.tipo.outcome").concat("s"))){
             if (financesLastTabIndex == this.ACORDION_OUTCOME_INDEX) {
                 financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
                 financesLastTabIndex = this.ACORDION_NOT_SELECTED_INDEX;
@@ -380,7 +383,7 @@ public class TabController implements Serializable{
                 return;
             }
         }
-        if(tabTitle.equalsIgnoreCase("receitas")){
+        if(tabTitle.equalsIgnoreCase(i18nService.getBundle().getString("finance.label.tipo.income").concat("s"))){
             if (financesLastTabIndex == this.ACORDION_INCOME_INDEX) {
                 financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
                 financesLastTabIndex = this.ACORDION_NOT_SELECTED_INDEX;
@@ -392,7 +395,7 @@ public class TabController implements Serializable{
                 return;
             }
         }
-        if(tabTitle.contains("Relat")){
+        if(tabTitle.equalsIgnoreCase(i18nService.getBundle().getString("tab.reports"))){
             if(financesLastTabIndex == ACORDION_REPORT_INDEX){
              financesActiveIndex = ACORDION_NOT_SELECTED_INDEX;
              financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;

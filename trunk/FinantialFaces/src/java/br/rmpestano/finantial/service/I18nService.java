@@ -7,6 +7,7 @@ package br.rmpestano.finantial.service;
 
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
+import java.util.ResourceBundle;
 import javax.enterprise.context.SessionScoped;
 
 import javax.inject.Named;
@@ -21,7 +22,7 @@ public class I18nService implements Serializable{
     private String PT_PROPERTIES = "pt";
     private String EN_PROPERTIES = "en";
     private String currentResourceBundle = PT_PROPERTIES;
-    private String currentLanguage = "brasil";
+    private String currentLanguage = "usa";
     private  String LANGUAGE_BRAZILIAN = "brasil";
     private  String LANGUAGE_AMERICAN = "usa";
 
@@ -31,6 +32,10 @@ public class I18nService implements Serializable{
 
     public void setCurrentResourceBundle(String currentResourceBundle) {
         this.currentResourceBundle = currentResourceBundle;
+    }
+
+    public ResourceBundle getBundle(){
+            return ResourceBundle.getBundle("br.rmpestano.finantial.bundle.MessageResource_"+currentResourceBundle);
     }
 
     public String getEN_PROPERTIES() {
