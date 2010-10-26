@@ -53,8 +53,6 @@
                                     </p:ajaxStatus>
           
           <h:panelGroup id="group" layout="block" style="margin-top: -7px;display:inline-table;width: 100%;">
-
-
                           <p:commandButton id="themeButton" value="#{msg['themechange']}" onclick="themeMenu.show()" type="button" style="width: 130px"/>
                           <p:commandButton id="configButton" rendered="#{menu == 1 and conf == 0}" value="#{msg['config']}" ajax="false"  action="#{loginBean.redirectConfiguration}" update="messages" style="width: 145px"/>
                           <p:commandButton id="financeButton" rendered="#{menu == 1 and conf == 1}" value="#{msg['finance']}" ajax="false" title="#{msg['finance-tip']}"  action="/pages/home.faces?faces-redirect=true" style="width: 125px"/>
@@ -64,9 +62,9 @@
                                   <p:commandButton id="logoutButton" value="Sair" ajax="false" immediate="true" actionListener="#{loginBean.doLogout}"/>
                               </div>
                           </p:outputPanel>
-                          <div style="position: relative;float: right;padding-right: 5px;padding-top: 2px">
-                               <h:commandButton image="/resources/images/br_flag.png" rendered="#{i18nService.currentLanguage == i18nService.LANGUAGE_AMERICAN}" action="#{i18nService.changeLanguage}" style="cursor: pointer"/>
-                               <h:commandButton image="/resources/images/usa_flag.png" rendered="#{i18nService.currentLanguage == i18nService.LANGUAGE_BRAZILIAN}" action="#{i18nService.changeLanguage}" style="cursor: pointer"/>
+                          <div style="position: relative;float: right;padding-right: 15px;padding-top: 2px;overflow: hidden">
+                               <h:commandButton image="/resources/images/br_flag.png" rendered="#{i18nService.currentLanguage == i18nService.LANGUAGE_AMERICAN}" action="#{i18nService.changeLanguage}" title="#{msg['main_template.button.flag.br']}" style="cursor: pointer"/>
+                               <h:commandButton image="/resources/images/usa_flag.png" rendered="#{i18nService.currentLanguage == i18nService.LANGUAGE_BRAZILIAN}" action="#{i18nService.changeLanguage}" title="#{msg['main_template.button.flag.usa']}" style="cursor: pointer"/>
                           </div>
           </h:panelGroup>
 
