@@ -22,7 +22,7 @@ public class I18nService implements Serializable{
     private String PT_PROPERTIES = "pt";
     private String EN_PROPERTIES = "en";
     private String currentResourceBundle = PT_PROPERTIES;
-    private String currentLanguage = "usa";
+    private String currentLanguage = "brasil";
     private  String LANGUAGE_BRAZILIAN = "brasil";
     private  String LANGUAGE_AMERICAN = "usa";
 
