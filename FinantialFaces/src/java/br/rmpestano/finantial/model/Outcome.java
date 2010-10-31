@@ -38,6 +38,7 @@ public class Outcome extends Finance {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     @OneToOne
+    @NotNull(message="O tipo da despesa é obrigatório")
     private OutcomeType type;
     @NotNull(message="Forneça um valor para a despesa.")
     @Min(value=0, message="Valores negativos não são aceitos.")

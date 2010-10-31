@@ -26,13 +26,13 @@ and open the template in the editor.
                 <p:fieldset legend="Configurações do usuário">
                     <h:panelGrid columns="2">
                         <finantial:label  for="edit-username" value="Login" required="true"/>
-                        <h:inputText id="edit-username" value="#{configurationBean.user.username}"/>
+                        <finantial:input value="#{configurationBean.user.username}" id="edit-username" form="config_form" messages="edit_user_msg" />
                         <finantial:label for="edit_pass" value="Senha" required="true"/>
                         <h:inputSecret id="edit_pass" value="#{configurationBean.user.password}"/>
                         <finantial:label for="repeat_pass" value="Repetir Senha" required="true"/>
                         <h:inputSecret id="repeat_pass" value="#{configurationBean.repeatPass}" />
                         <finantial:label for="fullname" value="Nome" required="true"/>
-                        <h:inputText id="fullname" value="#{configurationBean.user.fullname}"/>
+                        <finantial:input id="fullname" value="#{configurationBean.user.fullname}" form="config_form" messages="edit_user_msg"/>
                     </h:panelGrid>
                     <div align="center">
                         <p:commandButton value="atualizar" actionListener="#{configurationBean.updateUser}" update="finance_link edit_user_msg" process="edit_user"  ajax="true" />
@@ -79,7 +79,7 @@ and open the template in the editor.
                                         </p:column>
                                     </p:dataTable>
                                     <div align="center" style="padding-top: 8px;" >
-                                        <p:commandButton title="incluir tipo"  value="Novo Tipo" immediate="true" update="outcometype_panel outcome_type_msg"  oncomplete="outcometypeModal.show()" />
+                                        <p:commandButton title="incluir tipo"  value="Novo Tipo" immediate="true" update="outcome_type_form:outcometype_panel outcome_type_form:outcome_type_msg"  oncomplete="outcometypeModal.show()" />
                                     </div>
                                     <div align="center" style="padding-top: 8px;">
                                         <h:outputText value="Nenhum tipo cadastrado" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty configurationBean.outcomeTypes}"/>
@@ -115,7 +115,7 @@ and open the template in the editor.
                                         </p:column>
                                     </p:dataTable>
                                     <div align="center" style="padding-top: 8px;" >
-                                        <p:commandButton title="incluir tipo"  value="Novo Tipo" async="true" immediate="true" update="incometype_panel income_type_msg"  oncomplete="incometypeModal.show()" />
+                                        <p:commandButton title="incluir tipo"  value="Novo Tipo" async="true" immediate="true" update="income_type_form:incometype_panel income_type_form:income_type_msg"  oncomplete="incometypeModal.show()" />
                                     </div>
                                     <div align="center" style="padding-top: 8px;">
                                         <h:outputText value="Nenhum tipo cadastrado" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{empty configurationBean.incomeTypes}"/>
@@ -133,14 +133,14 @@ and open the template in the editor.
   </h:form>
         
         <p:dialog widgetVar="outcometypeModal" modal="true"  showEffect="explode"  hideEffect="explode"  header="Incluir Tipo de Despesa">
-            <h:form id="outcome_type_form" prependId="false">
+            <h:form id="outcome_type_form">
                 <p:outputPanel id="outcometype_panel">
                     <ui:include src="fragments/addOutcomeType.xhtml"/>
                 </p:outputPanel>
             </h:form>
         </p:dialog>
         <p:dialog widgetVar="incometypeModal" modal="true" showEffect="explode"  hideEffect="explode"  header="Incluir Tipo de Receita">
-            <h:form id="income_type_form" prependId="false">
+            <h:form id="income_type_form">
                 <p:outputPanel id="incometype_panel">
                     <ui:include src="fragments/addIncomeType.xhtml"/>
                 </p:outputPanel>
@@ -189,6 +189,12 @@ and open the template in the editor.
 
     function wait2(){
         editUserDlg.hide();
+    }
+
+   
+     function setHighlight(fieldId){
+        document.getElementById(fieldId).className = 'highlight';
+
     }
 
 </script>

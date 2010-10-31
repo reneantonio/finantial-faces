@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:composite="http://java.sun.com/jsf/composite">
+
+
+    <composite:interface shortDescription="renderiza label e input do tipo obrigatório"><!--futuramente colocar decorator - tipo seam:decorate -->
+
+      <composite:attribute name="value"  />
+      <composite:attribute name="id"  />
+      <composite:attribute name="form"  />
+      <composite:attribute name="messages" shortDescription="id of component messages to update" />
+  </composite:interface>
+
+    <composite:implementation>
+        <p:outputPanel id="#{cc.attrs.id}_panel" style="display: inline;">
+            <h:inputText id="#{cc.attrs.id}" value="#{cc.attrs.value}" style="border:#{(not empty facesContext.maximumSeverity) ? '2px solid red' :''}" styleClass="#{(not empty facesContext.maximumSeverity) ? 'highlight' :''}" onclick="setNormalStyle('#{cc.attrs.form}','#{cc.attrs.id}')">
+                <p:ajax event="blur" process="@this" global="false" update="#{cc.attrs.id}_panel :#{cc.attrs.form}:#{cc.attrs.messages}"/>
+            </h:inputText>
+        </p:outputPanel>
+
+    <script type="text/javascript">
+        function setNormalStyle(form,fieldId){
+            document.getElementById(form+':'+fieldId+':'+fieldId).setAttribute("style", "");
+            document.getElementById(form+':'+fieldId+':'+fieldId).setAttribute("class", "");
+        }
+    </script>
+    </composite:implementation>
+
+</html>
+
+

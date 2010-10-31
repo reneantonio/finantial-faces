@@ -116,3 +116,7 @@
     width: 99px!important;
     background-image: url('../images/report3.png') !important;
 }
+
+.highlight {
+    background-color: #fcc;
+}

@@ -35,6 +35,7 @@ public class Income extends Finance {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     @OneToOne
+    @NotNull(message="O tipo da receita é obrigatório")
     private IncomeType type;
     @NotNull(message="Forneça um valor para a receita.")
     @Min(value=0, message="Valores negativos não são aceitos.")
