@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
@@ -40,7 +41,7 @@ public class LoginController implements Serializable{
     private UserService userService;
     private User user;
     boolean admin = false;
-
+    private final String loginListener = "#{loginBean.loginBlur}";
     public LoginController() {
         user = new User();
     }
@@ -49,6 +50,19 @@ public class LoginController implements Serializable{
     public void getUserService(){
         userService = (UserService) BeanManagerController.getBeanByName("userService");
     }
+
+    public void loginBlur(){
+        User user = userService.findByLogin(this.user.getUsername());
+        if(user == null){
+            MessagesController.addError("Login "+this.user.getUsername() + " não existe em nossa base de dados");
+        }
+    }
+
+    public String getLoginListener() {
+        return loginListener;
+    }
+
+
     public String doLogin(){
 
 
@@ -108,10 +122,8 @@ public class LoginController implements Serializable{
              FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getContextName());
 	}
 
-        public String redirectConfiguration(){
-        User user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-         return "configuration/configuration.faces?faces-redirect=true";
-    }
+     public void fakeListener(){
+     }
 
     
 }

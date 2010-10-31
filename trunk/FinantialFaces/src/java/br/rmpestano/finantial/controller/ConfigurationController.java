@@ -30,6 +30,7 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class ConfigurationController implements Serializable{
     private User user;
+    private final String currentUserLogin;
     private UserService userService;
     private boolean userUpdated;
     private boolean configState;
@@ -50,6 +51,7 @@ public class ConfigurationController implements Serializable{
         userService = (UserService) BeanManagerController.getBeanByName("userService");
         financeTypeService = (FinanceTypeService) BeanManagerController.getBeanByName("financeTypeService");
         userUpdated = false;
+        currentUserLogin = user.getUsername();
         outcomeTypes = user.getUserOutcomeTypes();
         incomeTypes = user.getUserIncomeTypes();
         outcomeType = new OutcomeType();
@@ -111,8 +113,6 @@ public class ConfigurationController implements Serializable{
     }
 
 
-
-
     public void setUser(User user) {
         this.user = user;
     }
@@ -165,6 +165,12 @@ public class ConfigurationController implements Serializable{
                 MessagesController.addError("O usuário de demonstração não pode ser modificado");
                 return;
             }
+            User alreadyExistUser = userService.findByLogin(user.getUsername());
+            if(alreadyExistUser != null && (!alreadyExistUser.getUsername().equals(currentUserLogin))){
+                 MessagesController.addError("O login '"+user.getUsername()+ "' já existe, escolha outro");
+                 user.setUsername(currentUserLogin);
+                 return;
+            }
             if(checkNewPass()){
                 userService.atualizar(user);
                 MessagesController.addInfo("Perfil atualizado com sucesso");
@@ -181,6 +187,11 @@ public class ConfigurationController implements Serializable{
      public void addOutcomeType(){
          try {
             RequestContext context = RequestContext.getCurrentInstance();
+             if(outcomeType.getDescription().trim().equals("")){
+                 MessagesController.addError("Informe uma descrição");
+                 context.addCallbackParam("failled", true);
+                 return;
+             }
              List<OutcomeType> userTypes = user.getUserOutcomeTypes();
              if (!isDuplicateOutcome(outcomeType)) {
                  userTypes.add(outcomeType);
@@ -203,6 +214,11 @@ public class ConfigurationController implements Serializable{
          try {
             RequestContext context = RequestContext.getCurrentInstance();
              List<IncomeType> userTypes = user.getUserIncomeTypes();
+             if(incomeType.getDescription().trim().equals("")){
+                 MessagesController.addError("Informe uma descrição");
+                 context.addCallbackParam("failled", true);
+                 return;
+             }
              if (!isDuplicateIncome(incomeType)) {
                  userTypes.add(incomeType);
                  financeTypeService.createIncomeType(incomeType);

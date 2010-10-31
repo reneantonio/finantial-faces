@@ -10,7 +10,7 @@
     <p:panel>
         <h:panelGrid id="income_type_grid" columns="2">
             <finantial:label for="income_type_description" value="Descrição:"/>
-            <h:inputText id="income_type_description" value="#{configurationBean.incomeType.description}"/>
+            <finantial:input id="income_type_description" value="#{configurationBean.incomeType.description}" form="income_type_form" messages="income_type_msg"/>
         </h:panelGrid>
         <div align="center">
             <h:panelGrid columns="2" cellspacing="10">
