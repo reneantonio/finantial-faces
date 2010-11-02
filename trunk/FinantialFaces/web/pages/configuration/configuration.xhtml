@@ -25,13 +25,13 @@ and open the template in the editor.
             <p:outputPanel id="edit_user">
                 <p:fieldset legend="Configurações do usuário">
                     <h:panelGrid columns="2">
-                        <finantial:label  for="edit-username" value="Login" required="true"/>
+                        <finantial:label  for="edit-username" value="Login:" required="true"/>
                         <finantial:input value="#{configurationBean.user.username}" id="edit-username" form="config_form" messages="edit_user_msg" />
-                        <finantial:label for="edit_pass" value="Senha" required="true"/>
+                        <finantial:label for="edit_pass" value="Senha:" required="true"/>
                         <h:inputSecret id="edit_pass" value="#{configurationBean.user.password}"/>
-                        <finantial:label for="repeat_pass" value="Repetir Senha" required="true"/>
+                        <finantial:label for="repeat_pass" value="Repetir Senha:" required="true"/>
                         <h:inputSecret id="repeat_pass" value="#{configurationBean.repeatPass}" />
-                        <finantial:label for="fullname" value="Nome" required="true"/>
+                        <finantial:label for="fullname" value="Nome:" required="true"/>
                         <finantial:input id="fullname" value="#{configurationBean.user.fullname}" form="config_form" messages="edit_user_msg"/>
                     </h:panelGrid>
                     <div align="center">
