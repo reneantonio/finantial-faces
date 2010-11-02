@@ -16,18 +16,18 @@ and open the template in the editor.
 
 
      <p:panel>
-        <h:panelGrid id="edit_grid_receita" columns="2">
+         <h:panelGrid id="edit_grid_receita" cellspacing="5" columns="2">
             <finantial:label for="edit_descricao_receita" value="Descrição:"/>
             <h:inputText id="edit_descricao_receita" value="#{financeBean.selectedIncome.description}"/>
             <finantial:label for="edit_data_receita" value="Data:"/>
-            <p:calendar id="edit_data_receita" effectDuration="0.5" value="#{financeBean.selectedIncome.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  showOn="both" mindate="#{tabBean.firstYearDate}" maxdate="#{tabBean.lastYearDate}"  popupIcon="../resources/images/calendar.png"/>
+            <p:calendar id="edit_data_receita" effectDuration="0.5" value="#{financeBean.selectedIncome.date}" pattern="dd/MM/yyyy" effect="drop"  showOtherMonths="true"  readOnlyInputText="true" timeZone="America/Sao_Paulo" locale="pt_BR" navigator="true" styleClass="calendar"  mindate="#{tabBean.firstYearDate}" maxdate="#{tabBean.lastYearDate}"  popupIcon="../resources/images/calendar.png"/>
             <finantial:label for="edit_value_receita" value="Valor:"/>
             <h:inputText id="edit_value_receita" value="#{financeBean.selectedIncome.value}">
                 <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
                 <f:ajax event="blur" render="@this"/>
             </h:inputText>
             <finantial:label for="edit_subtipo_income"  value="#{msg['finance.label.subtipo']}:"/>
-            <h:selectOneMenu id="edit_subtipo_income" value="#{financeBean.selectedIncome.type}"  style="padding-bottom: 1px;padding-top: 1px;height: 21px;width: 118px;*width: 183px">
+            <h:selectOneMenu id="edit_subtipo_income" value="#{financeBean.selectedIncome.type}"  styleClass="modalType">
                 <f:selectItems value="#{financeBean.subtiposIncome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
                 <f:converter converterId="incomeConveter"/>
              </h:selectOneMenu>

@@ -144,8 +144,9 @@
                      </h:form>
                  </p:dialog>
 
+        <p:outputPanel id="monthDlgPanel"> <!-- used to update dinamic dialog header-->
 
-    <p:dialog id="month_dlg" modal="true" widgetVar="monthModal" header="Incluir Despesa" showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true" closeListener="#{financeBean.onClose}">
+        <p:dialog id="month_dlg" modal="true" widgetVar="monthModal" header="#{financeBean.tipoCorrete eq financeBean.OUTCOME ? msg['add-outcome'] : msg['add-income']}"  showEffect="fold"  hideEffect="explode" minHeight="150" closable="true" draggable="true" closeListener="#{financeBean.onClose}">
                          <h:form id="month_form" prependId="false">
                          <p:outputPanel id="month_panel">
                              <p:outputPanel rendered="#{financeBean.tipoCorrete eq financeBean.OUTCOME}">
@@ -157,6 +158,7 @@
                          </p:outputPanel>
                      </h:form>
                  </p:dialog>
+        </p:outputPanel>
     <p:dialog  modal="true" widgetVar="monthReportsModal" showEffect="clip" hideEffect="clip" minHeight="500" minWidth="800" closable="true" draggable="true"  >
             <h:form id="month_report_form" prependId="false">
                 <p:outputPanel id="month_report_panel">

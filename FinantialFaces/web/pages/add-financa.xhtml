@@ -40,7 +40,7 @@ and open the template in the editor.
                                   <f:selectItems value="#{financeBean.subtiposOutcome}" var="subtipo" itemLabel="#{subtipo.description}" itemValue="#{subtipo}"/>
                                   <f:converter converterId="outcomeConveter"/>
                               </h:selectOneMenu>
-                              <p:commandButton value="+" immediate="true" action="#{configurationBean.cancelRemove}" update="addType:type_paneladdType" oncomplete="addType.show()" title="Clique aqui para incluir novo tipo de #{msg['finance.label.tipo.'.concat(financeBean.tipoCorrete)]}. Para gerenciar tipos utilize o menu CONFIGURAÇÔES" style="margin-left: 3px;">
+                              <p:commandButton value="+" immediate="true" async="true" action="#{configurationBean.cancelRemove}" update="addType:type_paneladdType" oncomplete="addType.show()" title="Clique aqui para incluir novo tipo de #{msg['finance.label.tipo.'.concat(financeBean.tipoCorrete)]}. Para gerenciar tipos utilize o menu CONFIGURAÇÔES" style="margin-left: 3px;">
                               </p:commandButton>
                           </h:column>
                       </p:outputPanel>

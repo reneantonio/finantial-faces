@@ -34,8 +34,8 @@ and open the template in the editor.
                         </h:panelGrid>
                         <div align="center">
                             <h:panelGrid columns="2" cellspacing="10">
-                                <p:commandButton value="salvar" rendered="#{cc.attrs.type eq 'outcome'}" action="#{configurationBean.addOutcomeType}"  ajax="true" update="type_msg#{cc.attrs.id} #{cc.attrs.idToUpdate}" oncomplete="handleAddType#{cc.attrs.id}(xhr, status, args)"/>
-                                <p:commandButton value="salvar" rendered="#{cc.attrs.type eq 'income'}" action="#{configurationBean.addIncomeType}" ajax="true" update="type_msg#{cc.attrs.id} #{cc.attrs.idToUpdate}" oncomplete="handleAddType#{cc.attrs.id}(xhr, status, args)"/>
+                                <p:commandButton value="salvar" rendered="#{cc.attrs.type eq 'outcome'}" action="#{configurationBean.addOutcomeType}"  ajax="true" async="true" update="type_msg#{cc.attrs.id} #{cc.attrs.idToUpdate}" oncomplete="handleAddType#{cc.attrs.id}(xhr, status, args)"/>
+                                <p:commandButton value="salvar" rendered="#{cc.attrs.type eq 'income'}" action="#{configurationBean.addIncomeType}" ajax="true" async="true" update="type_msg#{cc.attrs.id} #{cc.attrs.idToUpdate}" oncomplete="handleAddType#{cc.attrs.id}(xhr, status, args)"/>
                             </h:panelGrid>
                         </div>
                         <p:messages id="type_msg#{cc.attrs.id}"/>
