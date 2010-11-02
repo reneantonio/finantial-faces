@@ -43,7 +43,7 @@ and open the template in the editor.
                     <h:panelGroup layout="block" style="min-height:320px ">
                         <p:outputPanel rendered="#{(not empty tabBean.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
                             <p:dataTable id="outcome_table#{cc.attrs.month.monthIndex}" var="d" value="#{tabBean.currentUserOutcomesInTheMonth}"   paginator="true" rows="5"
-                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{tabBean.userOutcomesSize > 15 ? tabBean.userOutcomesSize : ''}" style="border: none">
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,#{tabBean.userOutcomesSize > 15 ? tabBean.userOutcomesSize : ''}" style="border: none">
                                 <p:column sortBy="#{d.date}" parser="date" >
                                     <f:facet name="header">
                                         <finantial:label value="#{msg['finance.label.data']}"/>
@@ -111,7 +111,7 @@ and open the template in the editor.
                                             <td align="center">
                                                 <p:panel style="width: 200px;min-height: 25px;height: auto ">
                                                     <div align="center">
-                                                        <finantial:label style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
+                                                        <h:outputLabel style="font-weight: bold" for="total_depesa" value="#{msg['finance.label.total']}:"/>
                                                         <h:outputText style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_depesa" value="#{tabBean.totalOutcomeInThemonth}">
                                                             <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
                                                         </h:outputText>
@@ -125,7 +125,7 @@ and open the template in the editor.
                             </p:dataTable>
                         </p:outputPanel>
                         <div align="center" style="padding-top: 8px;" >
-                            <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="#{msg['new-outcome']}" async="true" immediate="true" update="month_panel,month_outcome_msg"  oncomplete="monthModal.show()" />
+                            <p:commandButton title="#{msg['finance.tooltip.add-outcome']}" action="#{financeBean.prepareAddMonthOutcome(m)}" value="#{msg['new-outcome']}" async="true" immediate="true" update="month_panel,month_outcome_msg,monthDlgPanel"  oncomplete="monthModal.show()" />
                         </div>
                         <div align="center" style="padding-top: 8px;">
                             <h:outputText value="#{msg['no-outcome']}" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty tabBean.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}"/>
@@ -134,7 +134,7 @@ and open the template in the editor.
                 </p:tab>
                 <p:tab title="#{msg['finance.label.tipo.income']}s">
                     <p:outputPanel rendered="#{(not empty tabBean.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}">
-                        <p:dataTable  var="r" id="income_table#{cc.attrs.month.monthIndex}"  value="#{tabBean.currentUserIncomesInTheMonth}"  paginator="true" rows="5"
+                        <p:dataTable  var="r" id="income_table#{cc.attrs.month.monthIndex}"  value="#{tabBean.currentUserIncomesInTheMonth}"  paginator="true" rows="5" paginatorPosition="bottom"
                                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{tabBean.userIncomesSize > 15 ? tabBean.userIncomesSize : ''}" style="border: none">
                             <p:column  sortBy="#{r.date}" parser="date" >
                                 <f:facet name="header">
@@ -197,7 +197,7 @@ and open the template in the editor.
                                         <td align="center">
                                             <p:panel style="width: 200px;min-height: 25px;height: auto ">
                                                 <div align="center">
-                                                    <finantial:label style="font-weight: bold" for="total_receita" value="#{msg['finance.label.total']}:"/>
+                                                     <h:outputLabel style="font-weight: bold" for="total_receita" value="#{msg['finance.label.total']}:"/>
                                                     <h:outputText style="padding-left: 5px;color:#{themeService.themeProperties.FINANCE_FOOTER_COLOR}" id="total_receita" value="#{tabBean.totalIncomeInTheMonth}">
                                                         <f:convertNumber pattern="#,###,##0.00" currencyCode="BRL" type="currency"/>
                                                     </h:outputText>
@@ -210,7 +210,7 @@ and open the template in the editor.
                         </p:dataTable>
                     </p:outputPanel>
                     <div align="center" style="padding-top: 8px;" >
-                        <p:commandButton title="#{msg['finance.tooltip.add-income']}"  action="#{financeBean.prepareAddMonthIncome(m)}" value="#{msg['new-income']}" async="true" immediate="true" update="month_panel,month_income_msg"  oncomplete="monthModal.show()" />
+                        <p:commandButton title="#{msg['finance.tooltip.add-income']}"  action="#{financeBean.prepareAddMonthIncome(m)}" value="#{msg['new-income']}" async="true" immediate="true" update="month_panel,month_income_msg,monthDlgPanel"  oncomplete="monthModal.show()" />
                     </div>
                     <div align="center" style="padding-top: 8px;">
                         <h:outputText value="#{msg['no-income']}" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty tabBean.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}"/>
