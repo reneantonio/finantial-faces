@@ -59,7 +59,7 @@
                           <p:commandButton id="adminButton" rendered="#{loginBean.admin}" value="#{msg['admin']}" ajax="true" onclick="alert('Under Construction')" style="width: 145px"/>
                           <p:outputPanel rendered="#{menu == 1}">
                               <div style="position: relative;float: right">
-                                  <p:commandButton id="logoutButton" value="Sair" ajax="false" immediate="true" actionListener="#{loginBean.doLogout}"/>
+                                  <p:commandButton id="logoutButton" value="#{msg['logout']}" ajax="false" immediate="true" actionListener="#{loginBean.doLogout}"/>
                               </div>
                           </p:outputPanel>
                           <div style="position: relative;display: inline;float: right;padding-right: 15px;padding-top: 2px;overflow: hidden">
