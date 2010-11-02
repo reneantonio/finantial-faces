@@ -161,7 +161,7 @@ public class ConfigurationController implements Serializable{
      public void updateUser(){
         try {
             //remover
-            if(user.getId() == 3 && user.getUsername().equalsIgnoreCase("demo")){
+            if(user.getId() == 3 && currentUserLogin.equalsIgnoreCase("demo")){
                 MessagesController.addError("O usuário de demonstração não pode ser modificado");
                 return;
             }
