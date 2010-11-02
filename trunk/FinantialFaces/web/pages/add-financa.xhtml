@@ -61,24 +61,24 @@ and open the template in the editor.
                     <h:outputLabel value="#{msg['propagate']}:"/>
                     <div style="display: inline;">
                     <h:selectOneMenu  id="repeat_menu" value="#{financeBean.numberOfMonthToPropagate}">
-                        <f:selectItem itemLabel="selecione uma opção" noSelectionOption="true" itemValue="0"/>
-                        <f:selectItem itemLabel="1 mês" itemValue="1"/>
-                        <f:selectItem itemLabel="2 meses" itemValue="2"/>
-                        <f:selectItem itemLabel="3 meses" itemValue="3"/>
-                        <f:selectItem itemLabel="4 meses" itemValue="4"/>
-                        <f:selectItem itemLabel="5 meses" itemValue="5"/>
-                        <f:selectItem itemLabel="6 meses" itemValue="6"/>
-                        <f:selectItem itemLabel="7 meses" itemValue="7"/>
-                        <f:selectItem itemLabel="8 meses" itemValue="8"/>
-                        <f:selectItem itemLabel="9 meses" itemValue="9"/>
-                        <f:selectItem itemLabel="10 meses" itemValue="10"/>
-                        <f:selectItem itemLabel="11 meses" itemValue="11"/>
-                        <f:selectItem itemLabel="1 ano" itemValue="12"/>
-                        <f:selectItem itemLabel="1 ano e 6 meses" itemValue="18"/>
-                        <f:selectItem itemLabel="2 anos" itemValue="24"/>
-                        <f:selectItem itemLabel="2 anos e 6 meses" itemValue="30"/>
-                        <f:selectItem itemLabel="3 anos" itemValue="36"/>
-                        <f:selectItem itemLabel="5 anos" itemValue="60"/>
+                        <f:selectItem itemLabel="#{msg['propagate.select']}" noSelectionOption="true" itemValue="0"/>
+                        <f:selectItem itemLabel="1 #{msg['propagate.month']}" itemValue="1"/>
+                        <f:selectItem itemLabel="2 #{msg['propagate.months']}" itemValue="2"/>
+                        <f:selectItem itemLabel="3 #{msg['propagate.months']}" itemValue="3"/>
+                        <f:selectItem itemLabel="4 #{msg['propagate.months']}" itemValue="4"/>
+                        <f:selectItem itemLabel="5 #{msg['propagate.months']}" itemValue="5"/>
+                        <f:selectItem itemLabel="6 #{msg['propagate.months']}" itemValue="6"/>
+                        <f:selectItem itemLabel="7 #{msg['propagate.months']}" itemValue="7"/>
+                        <f:selectItem itemLabel="8 #{msg['propagate.months']}" itemValue="8"/>
+                        <f:selectItem itemLabel="9 #{msg['propagate.months']}" itemValue="9"/>
+                        <f:selectItem itemLabel="10 #{msg['propagate.months']}" itemValue="10"/>
+                        <f:selectItem itemLabel="11 #{msg['propagate.months']}" itemValue="11"/>
+                        <f:selectItem itemLabel="1 #{msg['propagate.year']}" itemValue="12"/>
+                        <f:selectItem itemLabel="1 #{msg['propagate.year']} #{msg['propagate.and']} 6 #{msg['propagate.months']}" itemValue="18"/>
+                        <f:selectItem itemLabel="2 #{msg['propagate.year']}s" itemValue="24"/>
+                        <f:selectItem itemLabel="2 #{msg['propagate.year']}s #{msg['propagate.and']} 6 #{msg['propagate.months']}" itemValue="30"/>
+                        <f:selectItem itemLabel="3 #{msg['propagate.year']}s" itemValue="36"/>
+                        <f:selectItem itemLabel="5 #{msg['propagate.year']}s" itemValue="60"/>
                     </h:selectOneMenu>
                         <h:graphicImage style="margin-bottom:-4px ;margin-left: 2px" library="images" name="info1.png" id="info" title="#{msg['propagate-tip']}"/>
                     </div>
