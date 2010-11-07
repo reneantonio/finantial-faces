@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -30,9 +31,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
+import org.primefaces.model.LazyDataModel;
 
 /**
  *
@@ -267,6 +270,8 @@ public class FinancaController implements Serializable{
     public void removeOutcome(){
         try{
          financeService.removeOutcome(selectedOutcome);
+         DataTable lazyTable = (DataTable)  FacesContext.getCurrentInstance().getViewRoot().findComponent("months_form:fm_"+tabController.getCurrentMonthIndex()+":outcome_table"+tabController.getCurrentMonthIndex());
+         lazyTable.loadLazyData();
          MessagesController.addInfo("Despesa removida com sucesso!");
         }
         catch(Exception ex){
@@ -277,6 +282,8 @@ public class FinancaController implements Serializable{
     public void removeIncome(){
         try{
          financeService.removeIncome(selectedIncome);
+         DataTable lazyTable = (DataTable)  FacesContext.getCurrentInstance().getViewRoot().findComponent("months_form:fm_"+tabController.getCurrentMonthIndex()+":income_table"+tabController.getCurrentMonthIndex());
+         lazyTable.loadLazyData();
          MessagesController.addInfo("Receita removida com sucesso!");
         }
         catch(Exception ex){
@@ -300,6 +307,7 @@ public class FinancaController implements Serializable{
         despesa.setFinantialMonth(fm);
         tabService.update(fm);
         setCurrentTab(despesa.getDate());
+        tabController.reloadOutcomeLazyDataModel();
         MessagesController.addInfo("Despesa incluida com sucesso");
     }
     public void addMonthIncome(){
@@ -309,6 +317,7 @@ public class FinancaController implements Serializable{
         receita.setFinantialMonth(fm);
         tabService.update(fm);
         setCurrentTab(receita.getDate());
+        tabController.reloadIncomeLazyDataModel();
         MessagesController.addInfo("Receita incluida com sucesso");
     }
 
@@ -323,6 +332,8 @@ public class FinancaController implements Serializable{
             fm.getMonthOutcomes().add(selectedOutcome);
             selectedOutcome.setFinantialMonth(fm);
             financeService.updateMonth(fm);
+            tabController.reloadOutcomeLazyDataModel();
+            tabController.reloadIncomeLazyDataModel();
         }
          else{
           financeService.updateOutcome(selectedOutcome);
@@ -335,11 +346,13 @@ public class FinancaController implements Serializable{
         Calendar c = new GregorianCalendar();
         c.setTime(selectedIncome.getDate());
         c.set(Calendar.DAY_OF_MONTH, 1);
-        if(! c.getTime().equals(selectedIncome.getFinantialMonth().getDate())){
+        if(! c.getTime().equals(selectedIncome.getFinantialMonth().getDate())){//se mudou de mês
             FinantialMonth fm = FinantialMonth.findByDate(selectedIncome.getDate());
             fm.getMonthIncomes().add(selectedIncome);
             selectedIncome.setFinantialMonth(fm);
             financeService.updateMonth(fm);
+            tabController.reloadOutcomeLazyDataModel();
+            tabController.reloadIncomeLazyDataModel();
         }
          else{
           financeService.updateIncome(selectedIncome);

@@ -17,15 +17,19 @@ import br.rmpestano.finantial.service.TabService;
 import br.rmpestano.finantial.util.BeanManagerController;
 import br.rmpestano.finantial.util.MessagesController;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.IdleEvent;
-
+import org.primefaces.model.LazyDataModel;
 
 import org.primefaces.event.TabChangeEvent;
 
@@ -50,8 +54,8 @@ public class TabController implements Serializable{
     private int currentMonthIndex;
     private List<String> listOfYears;
     private String currentYearTitle;
-    private List<Outcome> currentUserOutcomesInTheMonth;
-    private List<Income> currentUserIncomesInTheMonth;
+    private LazyDataModel<Outcome> currentUserOutcomesInTheMonth;
+    private LazyDataModel<Income> currentUserIncomesInTheMonth;
     private int currentYearIndex;
     private int financesActiveIndex = -1;
     private int financesLastTabIndex = -1;
@@ -65,6 +69,7 @@ public class TabController implements Serializable{
     private int userIncomesSize;
     private Double totalIncomeInTheMonth;
     private I18nService i18nService;
+    private DataTable table;
 
      @PostConstruct
     public void initMonthsAndYears() {
@@ -79,33 +84,92 @@ public class TabController implements Serializable{
         currentYear = tabYears.get(currentYearIndex);
         outcomeFilterOptions = createOutcomeFilterOptions();
         incomeFilterOptions = createIncomeFilterOptions();
+        currentUserOutcomesInTheMonth = new LazyDataModel<Outcome>() {
+
+            @Override
+            public List<Outcome> load(int first, int pageSize, String string, boolean bln, Map<String, String> map) {
+                System.out.println("string:"+string);
+                System.out.println("bln:"+bln);
+                System.out.println("map:"+map);
+                List<Outcome> lazyOutcomes = new ArrayList<Outcome>();
+                lazyOutcomes = populateLazyOutcome(first,pageSize);
+                return lazyOutcomes;
+            }
+
+            private List<Outcome> populateLazyOutcome(int first, int pageSize) {
+               return getLazyCurrentUserOutcomesInTheMonth(first,pageSize);
+//               return financeService.findMonthOutcomesByUser(currentMonth.getDate());
+            }
+        };
+
+            currentUserIncomesInTheMonth = new LazyDataModel<Income>() {
+
+            @Override
+            public List<Income> load(int first, int pageSize, String string, boolean bln, Map<String, String> map) {
+                List<Income> lazyIncomes = new ArrayList<Income>();
+                lazyIncomes = populateLazyIncome(first,pageSize);
+                return lazyIncomes;
+            }
+
+            private List<Income> populateLazyIncome(int first, int pageSize) {
+               return getLazyCurrentUserIncomesInTheMonth(first,pageSize);
+            }
+        };
+        currentUserOutcomesInTheMonth.setRowCount(this.getUserOutcomesSize());
+        currentUserIncomesInTheMonth.setRowCount(this.getUserIncomesSize());
     }
+
     
-      public List<Outcome> getCurrentUserOutcomesInTheMonth() {
-            return financeService.findMonthOutcomesByUser(currentMonth.getDate()); //tirar query do getter
+      public LazyDataModel<Outcome> getCurrentUserOutcomesInTheMonth() {
+          if(currentUserOutcomesInTheMonth.getPageSize() == 0){//bug
+              currentUserOutcomesInTheMonth.setPageSize(5);
+          }
+            return currentUserOutcomesInTheMonth;
     }
-      public List<Income> getCurrentUserIncomesInTheMonth() {
-            return financeService.findMonthIncomesByUser(currentMonth.getDate());
+      public List<Outcome> getLazyCurrentUserOutcomesInTheMonth(int first, int pageSize) {
+            return financeService.findMonthOutcomesByUser(currentMonth.getDate(),first,pageSize);
+    }
+      public List<Income> getLazyCurrentUserIncomesInTheMonth(int first, int pageSize) {
+            return financeService.findMonthIncomesByUser(currentMonth.getDate(),first,pageSize);
     }
 
     public void setUserOutcomesSize(int userOutcomesSize) {
         this.userOutcomesSize = userOutcomesSize;
     }
 
+    public LazyDataModel<Income> getCurrentUserIncomesInTheMonth() {
+        if(currentUserIncomesInTheMonth.getPageSize() == 0){//bug
+              currentUserIncomesInTheMonth.setPageSize(5);
+          }
+        return currentUserIncomesInTheMonth;
+    }
+
+    public DataTable getTable() {
+        return table;
+    }
+
+    public void setTable(DataTable table) {
+        this.table = table;
+    }
+
+    
 
 
-    public void setCurrentUserIncomesInTheMonth(List<Income> currentUserIncomesInTheMonth) {
+    public void setCurrentUserIncomesInTheMonth(LazyDataModel<Income> currentUserIncomesInTheMonth) {
         this.currentUserIncomesInTheMonth = currentUserIncomesInTheMonth;
     }
 
-    public void setCurrentUserOutcomesInTheMonth(List<Outcome> currentUserOutcomesInTheMonth) {
+    public void setCurrentUserOutcomesInTheMonth(LazyDataModel<Outcome> currentUserOutcomesInTheMonth) {
         this.currentUserOutcomesInTheMonth = currentUserOutcomesInTheMonth;
     }
 
+    
+
 
       public Double getSaldoMensal() {
-        List<Income> receitas = this.getCurrentUserIncomesInTheMonth();
-        List<Outcome> despesas = this.getCurrentUserOutcomesInTheMonth();
+        List<Income> receitas = financeService.findMonthIncomesByUser(currentMonth.getDate());
+//        List<Outcome> despesas = this.getCurrentUserOutcomesInTheMonth();
+        List<Outcome> despesas = financeService.findMonthOutcomesByUser(currentMonth.getDate());
         Double incomeSum =0.0;
         for (Income income : receitas) {
             if(income.getValue() != null){
@@ -121,11 +185,11 @@ public class TabController implements Serializable{
         return incomeSum-outcomeSum;
     }
       public int getUserOutcomesSize() {
-        return getCurrentUserOutcomesInTheMonth().size();
+        return financeService.findMonthOutcomesByUser(currentMonth.getDate()).size();
     }
 
     public int getUserIncomesSize() {
-        return this.getCurrentUserIncomesInTheMonth().size();
+        return financeService.findMonthIncomesByUser(currentMonth.getDate()).size();
     }
 
     public void setUserIncomesSize(int userIncomesSize) {
@@ -412,6 +476,8 @@ public class TabController implements Serializable{
         financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
         financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
         currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
+        resetIncomeLazyDataModel();
+        resetOutcomeLazyDataModel();
     }
 
     public void nextYear(){
@@ -421,6 +487,8 @@ public class TabController implements Serializable{
             currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
             financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
             financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
+            resetIncomeLazyDataModel();
+            resetOutcomeLazyDataModel();
         }
     }
     public void previousYear(){
@@ -430,6 +498,8 @@ public class TabController implements Serializable{
             currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
             financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
             financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
+            resetIncomeLazyDataModel();
+           resetOutcomeLazyDataModel();
         }
     }
 
@@ -439,9 +509,54 @@ public class TabController implements Serializable{
         currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
         financesActiveIndex = ACORDION_NOT_SELECTED_INDEX;
         financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
+        resetIncomeLazyDataModel();
+        resetOutcomeLazyDataModel();
     }
 
-
+   //atualiza lazyOutcomes a manda pra ultima página da tabela
+   public void reloadOutcomeLazyDataModel(){
+        LazyDataModel<Outcome> lazyModel = getCurrentUserOutcomesInTheMonth();
+        lazyModel.setRowCount(this.getUserOutcomesSize());
+        DataTable lazyTable = (DataTable)  FacesContext.getCurrentInstance().getViewRoot().findComponent("months_form:fm_"+getCurrentMonthIndex()+":outcome_table"+getCurrentMonthIndex());
+        int first = 0;
+        if(lazyModel.getRowCount() > lazyModel.getPageSize()){//se tem mais de uma página manda carregar a ultima para usuário ver o dado que foi incluido
+            int lastPage =  ((lazyModel.getRowCount()-1) / lazyModel.getPageSize());
+            first = (lastPage * lazyModel.getPageSize());
+            lazyTable.setFirst(first);
+            lazyTable.setPage(lastPage+1);
+        }
+          lazyTable.loadLazyData();
+   }
+   public void resetOutcomeLazyDataModel(){
+        LazyDataModel<Outcome> lazyModel = getCurrentUserOutcomesInTheMonth();
+        lazyModel.setRowCount(this.getUserOutcomesSize());
+        DataTable lazyTable = (DataTable)  FacesContext.getCurrentInstance().getViewRoot().findComponent("months_form:fm_"+getCurrentMonthIndex()+":outcome_table"+getCurrentMonthIndex());
+        lazyTable.setFirst(0);
+        lazyTable.setPage(1);
+        lazyTable.loadLazyData();
+   }
+    //atualiza lazyIncomes a manda pra ultima página da tabela
+   public void reloadIncomeLazyDataModel(){
+        LazyDataModel<Income> lazyModel = getCurrentUserIncomesInTheMonth();
+        lazyModel.setRowCount(this.getUserIncomesSize());
+        DataTable lazyTable = (DataTable)  FacesContext.getCurrentInstance().getViewRoot().findComponent("months_form:fm_"+getCurrentMonthIndex()+":income_table"+getCurrentMonthIndex());
+        int first = 0;
+        if(lazyModel.getRowCount() > lazyModel.getPageSize()){//se tem mais de uma página manda carregar a ultima para usuário ver o dado que foi incluido
+            int lastPage =  ((lazyModel.getRowCount()-1) / lazyModel.getPageSize());
+            first = (lastPage * lazyModel.getPageSize());
+            lazyTable.setFirst(first);
+            lazyTable.setPage(lastPage+1);
+        }
+          lazyTable.loadLazyData();
+   }
+    public void resetIncomeLazyDataModel(){
+        LazyDataModel<Income> lazyModel = getCurrentUserIncomesInTheMonth();
+        lazyModel.setRowCount(this.getUserIncomesSize());
+        DataTable lazyTable = (DataTable)  FacesContext.getCurrentInstance().getViewRoot().findComponent("months_form:fm_"+getCurrentMonthIndex()+":income_table"+getCurrentMonthIndex());
+        lazyTable.setFirst(0);
+        lazyTable.setPage(1);
+        lazyTable.loadLazyData();
+   }
 
 
 
