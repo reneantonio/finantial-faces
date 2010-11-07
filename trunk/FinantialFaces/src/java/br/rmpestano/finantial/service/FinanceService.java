@@ -67,6 +67,18 @@ public class FinanceService implements Serializable{
         String sql = "select * from outcome o where o.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "'";
         return outcomeCrudService.findByNativeQuery(sql, Outcome.class);
     }
+    //used for lazy loading
+    public List<Income> findMonthIncomesByUser(Date month, int first,int pageSize) {
+        String sql = "select * from (select @row := @row + 1 as row,o.* as result from income o, (SELECT @row := 0) r where o.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "') As derived1 where row between "+ (first+1) + " and "+(first+ + pageSize);
+        return incomeCrudService.findByNativeQuery(sql, Income.class);
+    }
+
+    //used for lazy loading
+    public List<Outcome> findMonthOutcomesByUser(Date month, int first,int pageSize) {
+        String sql = "select * from (select @row := @row + 1 as row,o.* as result from outcome o, (SELECT @row := 0) r where o.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "') As derived1 where row between "+ (first+1) + " and "+(first + pageSize);
+        System.out.println(sql);
+        return outcomeCrudService.findByNativeQuery(sql, Outcome.class);
+    }
     public List<Income> findMonthIncomesByUser(Date month) {
         String sql = "select * from income o where o.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "'";
         return incomeCrudService.findByNativeQuery(sql, Income.class);

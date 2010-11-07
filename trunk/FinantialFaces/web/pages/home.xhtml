@@ -68,40 +68,40 @@
                         <p:outputPanel id="months_panel">
                             <p:tabView dynamic="true" cache="false" tabChangeListener="#{tabBean.onMonthChange}" onTabChangeUpdate="msg,@this,tab#{tabBean.currentMonthIndex},month_#{tabBean.currentMonthIndex}" activeIndex="#{tabBean.currentMonthIndex}"  >
                                 <p:tab id="tab#{tabBean.currentYear.jan.monthIndex}" title="#{msg[tabBean.currentYear.jan.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.jan}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.jan.monthIndex}" month="#{tabBean.currentYear.jan}"/>
                                 </p:tab>
                                 <p:tab id="tab#{tabBean.currentYear.fev.monthIndex}" title="#{msg[tabBean.currentYear.fev.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.fev}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.fev.monthIndex}" month="#{tabBean.currentYear.fev}"/>
                                 </p:tab>
                                 <p:tab id="tab#{tabBean.currentYear.mar.monthIndex}" title="#{msg[tabBean.currentYear.mar.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.mar}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.mar.monthIndex}" month="#{tabBean.currentYear.mar}"/>
                                 </p:tab>
                                 <p:tab id="tab#{tabBean.currentYear.abr.monthIndex}" title="#{msg[tabBean.currentYear.abr.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.abr}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.abr.monthIndex}" month="#{tabBean.currentYear.abr}"/>
                                 </p:tab>
                                 <p:tab id="tab#{tabBean.currentYear.mai.monthIndex}" title="#{msg[tabBean.currentYear.mai.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.mai}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.mai.monthIndex}" month="#{tabBean.currentYear.mai}"/>
                                 </p:tab>
                                 <p:tab id="tab#{tabBean.currentYear.jun.monthIndex}" title="#{msg[tabBean.currentYear.jun.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.jun}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.jun.monthIndex}" month="#{tabBean.currentYear.jun}"/>
                                 </p:tab>
                                 <p:tab id="tab#{tabBean.currentYear.jul.monthIndex}" title="#{msg[tabBean.currentYear.jul.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.jul}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.jul.monthIndex}" month="#{tabBean.currentYear.jul}"/>
                                 </p:tab>
                                 <p:tab id="tab#{tabBean.currentYear.ago.monthIndex}" title="#{msg[tabBean.currentYear.ago.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.ago}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.ago.monthIndex}" month="#{tabBean.currentYear.ago}"/>
                                 </p:tab>
                                 <p:tab id="tab#{tabBean.currentYear.set.monthIndex}" title="#{msg[tabBean.currentYear.set.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.set}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.set.monthIndex}" month="#{tabBean.currentYear.set}"/>
                                 </p:tab>
                                 <p:tab id="tab#{tabBean.currentYear.out.monthIndex}" title="#{msg[tabBean.currentYear.out.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.out}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.out.monthIndex}" month="#{tabBean.currentYear.out}"/>
                                 </p:tab>
                                 <p:tab id="tab#{tabBean.currentYear.nov.monthIndex}" title="#{msg[tabBean.currentYear.nov.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.nov}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.nov.monthIndex}" month="#{tabBean.currentYear.nov}"/>
                                 </p:tab>
                                 <p:tab id="tab#{tabBean.currentYear.dez.monthIndex}" title="#{msg[tabBean.currentYear.dez.title]}" >
-                                    <finantial:month month="#{tabBean.currentYear.dez}"/>
+                                    <finantial:month id="fm_#{tabBean.currentYear.dez.monthIndex}" month="#{tabBean.currentYear.dez}"/>
                                 </p:tab>
                             </p:tabView>
                             </p:outputPanel>

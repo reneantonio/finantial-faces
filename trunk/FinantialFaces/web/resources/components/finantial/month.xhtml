@@ -40,9 +40,8 @@ and open the template in the editor.
 
             <p:accordionPanel  activeIndex="#{tabBean.financesActiveIndex}" cache="false" autoHeight="false" effect="bounceslide" tabChangeListener="#{tabBean.tabChange}" collapsible="true" fillSpace="true" onTabChangeUpdate="msg,month_#{cc.attrs.month.monthIndex}">
                 <p:tab title="#{msg['finance.label.tipo.outcome']}s">
-                    <h:panelGroup layout="block" style="min-height:320px ">
                         <p:outputPanel rendered="#{(not empty tabBean.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}">
-                            <p:dataTable id="outcome_table#{cc.attrs.month.monthIndex}" var="d" value="#{tabBean.currentUserOutcomesInTheMonth}"   paginator="true" rows="5"
+                            <p:dataTable id="outcome_table#{cc.attrs.month.monthIndex}" var="d" value="#{tabBean.currentUserOutcomesInTheMonth}" lazy="true"  paginator="true" rows="5"
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,#{tabBean.userOutcomesSize > 15 ? tabBean.userOutcomesSize : ''}" style="border: none">
                                 <p:column sortBy="#{d.date}" parser="date" >
                                     <f:facet name="header">
@@ -130,11 +129,10 @@ and open the template in the editor.
                         <div align="center" style="padding-top: 8px;">
                             <h:outputText value="#{msg['no-outcome']}" style="color: red;font-size: 14px;padding-bottom: 10px" rendered="#{(empty tabBean.currentUserOutcomesInTheMonth) and (m.showMonthOutcomes == true)}"/>
                         </div>
-                    </h:panelGroup>
                 </p:tab>
                 <p:tab title="#{msg['finance.label.tipo.income']}s">
                     <p:outputPanel rendered="#{(not empty tabBean.currentUserIncomesInTheMonth) and (m.showMonthIncomes == true)}">
-                        <p:dataTable  var="r" id="income_table#{cc.attrs.month.monthIndex}"  value="#{tabBean.currentUserIncomesInTheMonth}"  paginator="true" rows="5" paginatorPosition="bottom"
+                        <p:dataTable var="r" id="income_table#{cc.attrs.month.monthIndex}" dynamic="true" value="#{tabBean.currentUserIncomesInTheMonth}" lazy="true" paginator="true" rows="5" paginatorPosition="bottom"
                                       paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{tabBean.userIncomesSize > 15 ? tabBean.userIncomesSize : ''}" style="border: none">
                             <p:column  sortBy="#{r.date}" parser="date" >
                                 <f:facet name="header">
