@@ -121,6 +121,13 @@
     background-color: #fcc;
 }
 
+.even-row{
+    background-color: gray;
+}
+.odd-row{
+    background-color: orange;
+}
+
 .modalType {
     
     margin-left: 2px;
@@ -152,3 +159,4 @@
 
 }
 }
+
