@@ -58,8 +58,16 @@ public class FinanceService implements Serializable{
         String sql = "select * from income i where i.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "' and TYPE_ID = '"+type_id+"'";
         return incomeCrudService.findByNativeQuery(sql, Income.class);
     }
+       public List<Income> findMonthIncomesByUserAndType(Date month, Long type_id, int first,int pageSize) {
+        String sql = "select * from (select @row := @row + 1 as row,o.* as result from income o, (SELECT @row := 0) r where o.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month)  + "' and TYPE_ID = '"+type_id+ "') As derived1 where row between "+ (first+1) + " and "+(first + pageSize);
+        return incomeCrudService.findByNativeQuery(sql, Income.class);
+    }
      public List<Outcome> findMonthOutcomesByUserAndType(Date month, Long type_id) {
         String sql = "select * from outcome i where i.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "' and TYPE_ID = '"+type_id+"'";
+        return outcomeCrudService.findByNativeQuery(sql, Outcome.class);
+    }
+     public List<Outcome> findMonthOutcomesByUserAndType(Date month, Long type_id, int first,int pageSize) {
+        String sql = "select * from (select @row := @row + 1 as row,o.* as result from outcome o, (SELECT @row := 0) r where o.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month)  + "' and TYPE_ID = '"+type_id+ "') As derived1 where row between "+ (first+1) + " and "+(first + pageSize);
         return outcomeCrudService.findByNativeQuery(sql, Outcome.class);
     }
 
@@ -76,7 +84,6 @@ public class FinanceService implements Serializable{
     //used for lazy loading
     public List<Outcome> findMonthOutcomesByUser(Date month, int first,int pageSize) {
         String sql = "select * from (select @row := @row + 1 as row,o.* as result from outcome o, (SELECT @row := 0) r where o.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "') As derived1 where row between "+ (first+1) + " and "+(first + pageSize);
-        System.out.println(sql);
         return outcomeCrudService.findByNativeQuery(sql, Outcome.class);
     }
     public List<Income> findMonthIncomesByUser(Date month) {

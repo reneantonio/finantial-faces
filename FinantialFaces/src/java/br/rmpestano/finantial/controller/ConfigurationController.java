@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
@@ -44,6 +45,8 @@ public class ConfigurationController implements Serializable{
     private int outcomeTypesSize;
     private int incomeTypesSize;
     private String repeatPass;
+    @ManagedProperty(value="#{tabBean}")
+    private TabController tabController;
 
 
     public ConfigurationController() {
@@ -72,6 +75,14 @@ public class ConfigurationController implements Serializable{
 
     public IncomeType getIncomeType() {
         return incomeType;
+    }
+
+     public TabController getTabController() {
+        return tabController;
+    }
+
+    public void setTabController(TabController tabController) {
+        this.tabController = tabController;
     }
 
     public String getRepeatPass() {
@@ -199,6 +210,7 @@ public class ConfigurationController implements Serializable{
                  userService.atualizar(user);
                  MessagesController.addInfo("Tipo despesa incluido com sucesso");
                  context.addCallbackParam("failled", false);
+                 tabController.setOutcomeFilterOptions(tabController.createOutcomeFilterOptions());
              }
              else{
                 context.addCallbackParam("failled", true);
@@ -225,6 +237,7 @@ public class ConfigurationController implements Serializable{
                  userService.atualizar(user);
                  MessagesController.addInfo("Tipo receita incluido com sucesso");
                  context.addCallbackParam("failled", false);
+                 tabController.setIncomeFilterOptions(tabController.createIncomeFilterOptions());
              }
              else{
                 context.addCallbackParam("failled", true);
@@ -244,6 +257,7 @@ public class ConfigurationController implements Serializable{
 //             financeTypeService.removeIncomeType(incomeType);não posso remover do banco pois o tipo pode estar relacionado a uma despesa
              MessagesController.addInfo("Tipo despesa removido com sucesso");
              outcomeType = new OutcomeType();
+             tabController.setOutcomeFilterOptions(tabController.createOutcomeFilterOptions());
          } catch (Exception ex) {
              MessagesController.addError("Problemas ao remover tipo despesa:"+ex.getMessage());
              ex.printStackTrace();
@@ -255,6 +269,7 @@ public class ConfigurationController implements Serializable{
              userService.atualizar(user);
              MessagesController.addInfo("Tipo despesa removido com sucesso");
              incomeType = new IncomeType();
+             tabController.setIncomeFilterOptions(tabController.createIncomeFilterOptions());
          } catch (Exception ex) {
              MessagesController.addError("Problemas ao remover tipo receita:"+ex.getMessage());
              ex.printStackTrace();

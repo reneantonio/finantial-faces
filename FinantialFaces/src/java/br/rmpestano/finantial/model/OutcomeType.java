@@ -74,6 +74,7 @@ public class OutcomeType extends BaseEntity implements Comparable<OutcomeType>  
         q.setParameter("id", id);
         return (OutcomeType) q.getSingleResult();
     }
+
         public static OutcomeType findByDes(String des){
         Query q = PersistenceManager.createEntityManager().createQuery("select t from OutcomeType t where t.description = :des");
         q.setParameter("des", des);
