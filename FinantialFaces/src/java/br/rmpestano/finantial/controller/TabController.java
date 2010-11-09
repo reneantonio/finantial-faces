@@ -85,44 +85,39 @@ public class TabController implements Serializable {
         currentUserOutcomesInTheMonth = new LazyDataModel<Outcome>() {
 
             @Override
-            public List<Outcome> load(int first, int pageSize, String string, boolean bln, Map<String, String> map) {
+            public List<Outcome> load(int first, int pageSize, String sortField, boolean sortOrder, Map<String, String> map) {
                 List<Outcome> lazyOutcomes = new ArrayList<Outcome>();
-                lazyOutcomes = populateLazyOutcome(first, pageSize, map);
+                lazyOutcomes = populateLazyOutcome(first, pageSize, map,sortField,sortOrder);
                 return lazyOutcomes;
             }
 
-            private List<Outcome> populateLazyOutcome(int first, int pageSize, Map<String, String> map) {
-                if (!map.isEmpty()) {
-                    long typeId = Long.parseLong(map.get("type.description"));
-                    this.setRowCount(financeService.findMonthOutcomesByUserAndType(currentMonth.getDate(), typeId).size());
-                    return getLazyCurrentUserOutcomesInTheMonth(typeId, first, pageSize);
-                }
-                 else{
+            private List<Outcome> populateLazyOutcome(int first, int pageSize, Map<String, String> map,String sortField, boolean sortOrder) {
+                    Long typeId = -1L;
+                    if(!map.isEmpty()){
+                     typeId = Long.parseLong(map.get("type.description"));
+                    }
+//                    this.setRowCount(financeService.findMonthOutcomesByUserAndType(currentMonth.getDate(), typeId).size());
                     this.setRowCount(getUserOutcomesSize());
-                    return getLazyCurrentUserOutcomesInTheMonth(first, pageSize);
-                 }
+                    return getLazyCurrentUserOutcomesInTheMonth(typeId, first, pageSize,sortField,sortOrder);
             }
         };
 
         currentUserIncomesInTheMonth = new LazyDataModel<Income>() {
 
             @Override
-            public List<Income> load(int first, int pageSize, String string, boolean bln, Map<String, String> filter) {
+            public List<Income> load(int first, int pageSize, String sortField, boolean sortOrder, Map<String, String> filter) {
                 List<Income> lazyIncomes = new ArrayList<Income>();
-                lazyIncomes = populateLazyIncome(first, pageSize, filter);
-               this.setRowCount(lazyIncomes.size());
+                lazyIncomes = populateLazyIncome(first, pageSize, filter,sortField,sortOrder);
+                this.setRowCount(lazyIncomes.size());
                 return lazyIncomes;
             }
 
-            private List<Income> populateLazyIncome(int first, int pageSize, Map<String, String> filter) {
-                if (!filter.isEmpty()) {
-                    long typeId = Long.parseLong(filter.get("type.description"));
-                    this.setRowCount(financeService.findMonthIncomesByUserAndType(currentMonth.getDate(), typeId).size());
-                    return getLazyCurrentUserIncomesInTheMonth(typeId, first, pageSize);
-                }
-
-                this.setRowCount(getUserIncomesSize());
-                return getLazyCurrentUserIncomesInTheMonth(first, pageSize);
+            private List<Income> populateLazyIncome(int first, int pageSize, Map<String, String> map,String sortField, boolean sortOrder) {
+                    Long typeId = -1L;
+                    if(!map.isEmpty()){
+                     typeId = Long.parseLong(map.get("type.description"));
+                    }
+                    return getLazyCurrentUserIncomesInTheMonth(typeId, first, pageSize,sortField,sortOrder);
             }
         };
 //        currentUserOutcomesInTheMonth.setRowCount(this.getUserOutcomesSize());
@@ -140,12 +135,12 @@ public class TabController implements Serializable {
         return financeService.findMonthOutcomesByUser(currentMonth.getDate(), first, pageSize);
     }
 
-    public List<Outcome> getLazyCurrentUserOutcomesInTheMonth(long typeId, int first, int pageSize) {
-        return financeService.findMonthOutcomesByUserAndType(currentMonth.getDate(), typeId, first, pageSize);
+    public List<Outcome> getLazyCurrentUserOutcomesInTheMonth(long typeId, int first, int pageSize, String sortField, boolean sortOrder) {
+        return financeService.findMonthOutcomesByUserAndType(currentMonth.getDate(), typeId, first, pageSize,sortField,sortOrder);
     }
 
-    public List<Income> getLazyCurrentUserIncomesInTheMonth(long typeId, int first, int pageSize) {
-        return financeService.findMonthIncomesByUserAndType(currentMonth.getDate(), typeId, first, pageSize);
+    public List<Income> getLazyCurrentUserIncomesInTheMonth(long typeId, int first, int pageSize, String sortField, boolean sortOrder) {
+         return financeService.findMonthIncomesByUserAndType(currentMonth.getDate(), typeId, first, pageSize,sortField,sortOrder);
     }
 
     public List<Income> getLazyCurrentUserIncomesInTheMonth(int first, int pageSize) {

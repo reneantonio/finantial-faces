@@ -121,12 +121,12 @@
     background-color: #fcc;
 }
 
-.even-row{
-    background-color: gray;
+/*.even-row{
+    background-color: gray !important;
 }
 .odd-row{
-    background-color: orange;
-}
+    background-color: orange !important;
+}*/
 
 .modalType {
     

@@ -58,17 +58,32 @@ public class FinanceService implements Serializable{
         String sql = "select * from income i where i.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "' and TYPE_ID = '"+type_id+"'";
         return incomeCrudService.findByNativeQuery(sql, Income.class);
     }
-       public List<Income> findMonthIncomesByUserAndType(Date month, Long type_id, int first,int pageSize) {
-        String sql = "select * from (select @row := @row + 1 as row,o.* as result from income o, (SELECT @row := 0) r where o.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month)  + "' and TYPE_ID = '"+type_id+ "') As derived1 where row between "+ (first+1) + " and "+(first + pageSize);
-        return incomeCrudService.findByNativeQuery(sql, Income.class);
+        public List<Income> findMonthIncomesByUserAndType(Date month, Long type_id, int first, int pageSize, String sortField, boolean sortOrder) {
+        StringBuilder WHERE = new StringBuilder(" where o.USER_ID = ").append(getCurrentUser().getId()).append(" and FINANTIALMONTH_DATE ='").append(sdf.format(month)).append("'");
+        if (type_id != -1) {
+            WHERE.append(" and TYPE_ID = ").append(type_id);
+        }
+        if (sortField != null) {
+            WHERE.append(" order by ").append(sortField).append((sortOrder ? " ASC " : " DESC "));
+        }
+        StringBuilder query = new StringBuilder("select * from (select @row := @row + 1 as row,o.* as result from income o, (SELECT @row := 0) r ").append(WHERE).append(") As derived1 where row between ").append((first + 1)).append(" and ").append((first + pageSize));
+        return incomeCrudService.findByNativeQuery(query.toString(), Income.class);
     }
      public List<Outcome> findMonthOutcomesByUserAndType(Date month, Long type_id) {
         String sql = "select * from outcome i where i.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month) + "' and TYPE_ID = '"+type_id+"'";
         return outcomeCrudService.findByNativeQuery(sql, Outcome.class);
     }
-     public List<Outcome> findMonthOutcomesByUserAndType(Date month, Long type_id, int first,int pageSize) {
-        String sql = "select * from (select @row := @row + 1 as row,o.* as result from outcome o, (SELECT @row := 0) r where o.USER_ID = '" + getCurrentUser().getId() + "' and FINANTIALMONTH_DATE = '" + sdf.format(month)  + "' and TYPE_ID = '"+type_id+ "') As derived1 where row between "+ (first+1) + " and "+(first + pageSize);
-        return outcomeCrudService.findByNativeQuery(sql, Outcome.class);
+    //JPA 2 lazy loading: http://primefaces.prime.com.tr/forum/viewtopic.php?f=3&t=5043&p=22129&hilit=lazy+load+and+filter&sid=b799a6d0bebdba35abdaff4b142a59ee#p22129
+    public List<Outcome> findMonthOutcomesByUserAndType(Date month, Long type_id, int first, int pageSize, String sortField, boolean sortOrder) {
+        StringBuilder WHERE = new StringBuilder(" where o.USER_ID = ").append(getCurrentUser().getId()).append(" and FINANTIALMONTH_DATE ='").append(sdf.format(month)).append("'");
+        if (type_id != -1) {
+            WHERE.append(" and TYPE_ID = ").append(type_id);
+        }
+        if (sortField != null) {
+            WHERE.append(" order by ").append(sortField).append((sortOrder ? " ASC " : " DESC "));
+        }
+        StringBuilder query = new StringBuilder("select * from (select @row := @row + 1 as row,o.* as result from outcome o, (SELECT @row := 0) r ").append(WHERE).append(") As derived1 where row between ").append((first + 1)).append(" and ").append((first + pageSize));
+        return outcomeCrudService.findByNativeQuery(query.toString(), Outcome.class);
     }
 
     public List<Outcome> findMonthOutcomesByUser(Date month) {
