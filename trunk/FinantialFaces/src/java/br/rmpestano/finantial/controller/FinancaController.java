@@ -260,6 +260,10 @@ public class FinancaController implements Serializable{
             MessagesController.addError("Erro ao incluir finança", ex.getMessage());
             ex.printStackTrace();
         }
+       numberOfMonthToPropagate = 0;
+       date = null;
+       financeValue = null;
+       financeDescription = null;
     }
 
     public void removeOutcome(){
