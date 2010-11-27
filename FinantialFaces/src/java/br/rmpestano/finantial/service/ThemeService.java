@@ -53,6 +53,16 @@ public class ThemeService implements Serializable {
         themeProperties.setCOLOR("white");
         themeProperties.setLOADING_ICON("ajax-loader-orange.gif");
     }
+
+     public void aristoInit(){
+        theme = "aristo";
+        themeProperties = new ThemeExtraProperties();
+        themeProperties.setCOLOR("gray");
+        themeProperties.setLOADING_ICON("ajax-loader-red.gif");
+        themeProperties.setBACKWARD_ARROW("backward_red.png");
+        themeProperties.setFORWARD_ARROW("forward_red.png");
+    }
+
     public void vaderInit(){
         theme = "vader";
         themeProperties = new ThemeExtraProperties();
@@ -82,7 +92,7 @@ public class ThemeService implements Serializable {
         theme = "casablanca";
         themeProperties = new ThemeExtraProperties();
         themeProperties.setLOADING_ICON("ajax-loader-black.gif");
-         themeProperties.setBACKWARD_ARROW("backward_red.png");
+        themeProperties.setBACKWARD_ARROW("backward_red.png");
         themeProperties.setFORWARD_ARROW("forward_red.png");
     }
     public void blueSkyInit(){

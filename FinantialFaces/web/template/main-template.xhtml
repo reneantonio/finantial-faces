@@ -20,25 +20,17 @@
       <h:form id="theme_form" >
           <p:menu widgetVar="themeMenu" position="dynamic" y="#{menuY}" x="2"  styleClass="themeMenu" >
                             <p:submenu label="Themes">
-                                <p:menuitem value="Bluesky" immediate="true" ajax="false" action="#{themeService.blueSkyInit}" style="#{themeService.theme eq 'bluesky' ? 'background-color:#DFEDFF;font-weight:bolder;text-decoration:underline':''}">
-                                  </p:menuitem>
-                                <p:menuitem value="Casablanca" immediate="true" ajax="false" action="#{themeService.casablancaInit}" style="#{themeService.theme eq 'casablanca' ? 'color:red;font-weight:bolder;text-decoration:underline':''}"></p:menuitem>
-                                  <p:menuitem value="Ui-Darkness" ajax="false" immediate="true" action="#{themeService.uiDarknessInit}" style="#{themeService.theme eq 'ui-darkness' ? 'color:#F58400;font-weight:bolder;text-decoration:underline':''}">
-                                  </p:menuitem>
-                                <p:menuitem value="Overcast" ajax="false" immediate="true" action="#{themeService.overcastInit}" style="#{themeService.theme eq 'overcast' ? 'color:red;font-weight:bolder;text-decoration:underline':''}">
-                                  </p:menuitem>
-                                <p:menuitem value="Dark-Sky" ajax="false" immediate="true" action="#{themeService.darkSkyInit}" style="#{themeService.theme eq 'dark-sky' ? 'color:#0D31BA;font-weight:bolder;text-decoration:underline':''}">
-                                  </p:menuitem>
-                                <p:menuitem value="Pepper-Grinder" ajax="false" immediate="true" action="#{themeService.pepperInit}" style="#{themeService.theme eq 'pepper-grinder' ? 'background-color:#674F2C;font-weight:bolder;text-decoration:underline':''}">
-                                  </p:menuitem>
-                                  <p:menuitem value="Vader" ajax="false"  action="#{themeService.vaderInit}" immediate="true" style="#{themeService.theme eq 'vader' ? 'color:red;font-weight:bolder;text-decoration:underline':''}">
-                                  </p:menuitem>
-                                  <p:menuitem value="Cupertino" ajax="false"  action="#{themeService.cupertinoInit}" immediate="true" style="#{themeService.theme eq 'cupertino' ? 'background-color:#62BBE8;font-weight:bolder;text-decoration:underline':''}">
-                                  </p:menuitem>
-                                <p:menuitem value="Mint-Choc" ajax="false" action="#{themeService.mintChocInit}" immediate="true" style="#{themeService.theme eq 'mint-choc' ? 'color:#99EC7E;font-weight:bolder;text-decoration:underline':''}">
-                                  </p:menuitem>
-                                <p:menuitem value="Dot-Luv" immediate="true" ajax="false" action="#{themeService.dotLuvInit}" style="#{themeService.theme eq 'dot-luv' ? 'color:#1A558F;font-weight:bolder;text-decoration:underline':''}">
-                                  </p:menuitem>
+                                <p:menuitem value="Aristo" immediate="true" ajax="false" action="#{themeService.aristoInit}" style="#{themeService.theme eq 'aristo' ? 'color:black;font-weight:bolder;text-decoration:underline':''}"/>
+                                <p:menuitem value="Bluesky" immediate="true" ajax="false" action="#{themeService.blueSkyInit}" style="#{themeService.theme eq 'bluesky' ? 'background-color:#DFEDFF;font-weight:bolder;text-decoration:underline':''}"/>
+                                <p:menuitem value="Casablanca" immediate="true" ajax="false" action="#{themeService.casablancaInit}" style="#{themeService.theme eq 'casablanca' ? 'color:red;font-weight:bolder;text-decoration:underline':''}"/>
+                                <p:menuitem value="Cupertino" ajax="false"  action="#{themeService.cupertinoInit}" immediate="true" style="#{themeService.theme eq 'cupertino' ? 'background-color:#62BBE8;font-weight:bolder;text-decoration:underline':''}"/>
+                                <p:menuitem value="Dark-Sky" ajax="false" immediate="true" action="#{themeService.darkSkyInit}" style="#{themeService.theme eq 'dark-sky' ? 'color:#0D31BA;font-weight:bolder;text-decoration:underline':''}"/>
+                                <p:menuitem value="Dot-Luv" immediate="true" ajax="false" action="#{themeService.dotLuvInit}" style="#{themeService.theme eq 'dot-luv' ? 'color:#1A558F;font-weight:bolder;text-decoration:underline':''}"/>
+                                <p:menuitem value="Overcast" ajax="false" immediate="true" action="#{themeService.overcastInit}" style="#{themeService.theme eq 'overcast' ? 'color:red;font-weight:bolder;text-decoration:underline':''}"/>
+                                <p:menuitem value="Mint-Choc" ajax="false" action="#{themeService.mintChocInit}" immediate="true" style="#{themeService.theme eq 'mint-choc' ? 'color:#99EC7E;font-weight:bolder;text-decoration:underline':''}"/>
+                                <p:menuitem value="Pepper-Grinder" ajax="false" immediate="true" action="#{themeService.pepperInit}" style="#{themeService.theme eq 'pepper-grinder' ? 'background-color:#674F2C;font-weight:bolder;text-decoration:underline':''}"/>
+                                <p:menuitem value="Ui-Darkness" ajax="false" immediate="true" action="#{themeService.uiDarknessInit}" style="#{themeService.theme eq 'ui-darkness' ? 'color:#F58400;font-weight:bolder;text-decoration:underline':''}"/>
+                                <p:menuitem value="Vader" ajax="false"  action="#{themeService.vaderInit}" immediate="true" style="#{themeService.theme eq 'vader' ? 'color:red;font-weight:bolder;text-decoration:underline':''}"/>
                             </p:submenu>
                        </p:menu>
 

@@ -91,14 +91,15 @@ public class TabController implements Serializable {
                 return lazyOutcomes;
             }
 
-            private List<Outcome> populateLazyOutcome(int first, int pageSize, Map<String, String> map,String sortField, boolean sortOrder) {
-                    Long typeId = -1L;
-                    if(!map.isEmpty()){
-                     typeId = Long.parseLong(map.get("type.description"));
-                    }
-//                    this.setRowCount(financeService.findMonthOutcomesByUserAndType(currentMonth.getDate(), typeId).size());
+            private List<Outcome> populateLazyOutcome(int first, int pageSize, Map<String, String> map, String sortField, boolean sortOrder) {
+                Long typeId = -1L;
+                if (!map.isEmpty()) {
+                    typeId = Long.parseLong(map.get("type.description"));
+                    this.setRowCount(financeService.findMonthOutcomesByUserAndType(currentMonth.getDate(), typeId).size());
+                } else {
                     this.setRowCount(getUserOutcomesSize());
-                    return getLazyCurrentUserOutcomesInTheMonth(typeId, first, pageSize,sortField,sortOrder);
+                }
+                return getLazyCurrentUserOutcomesInTheMonth(typeId, first, pageSize, sortField, sortOrder);
             }
         };
 
@@ -108,20 +109,22 @@ public class TabController implements Serializable {
             public List<Income> load(int first, int pageSize, String sortField, boolean sortOrder, Map<String, String> filter) {
                 List<Income> lazyIncomes = new ArrayList<Income>();
                 lazyIncomes = populateLazyIncome(first, pageSize, filter,sortField,sortOrder);
-                this.setRowCount(lazyIncomes.size());
                 return lazyIncomes;
             }
 
-            private List<Income> populateLazyIncome(int first, int pageSize, Map<String, String> map,String sortField, boolean sortOrder) {
-                    Long typeId = -1L;
-                    if(!map.isEmpty()){
-                     typeId = Long.parseLong(map.get("type.description"));
-                    }
-                    return getLazyCurrentUserIncomesInTheMonth(typeId, first, pageSize,sortField,sortOrder);
+            private List<Income> populateLazyIncome(int first, int pageSize, Map<String, String> map, String sortField, boolean sortOrder) {
+                Long typeId = -1L;
+                if (!map.isEmpty()) {
+                    typeId = Long.parseLong(map.get("type.description"));
+                    this.setRowCount(financeService.findMonthIncomesByUserAndType(currentMonth.getDate(), typeId).size());
+                } else {
+                    this.setRowCount(getUserIncomesSize());
+                }
+                return getLazyCurrentUserIncomesInTheMonth(typeId, first, pageSize, sortField, sortOrder);
             }
         };
-//        currentUserOutcomesInTheMonth.setRowCount(this.getUserOutcomesSize());
-//        currentUserIncomesInTheMonth.setRowCount(this.getUserIncomesSize());
+        currentUserOutcomesInTheMonth.setRowCount(this.getUserOutcomesSize());
+        currentUserIncomesInTheMonth.setRowCount(this.getUserIncomesSize());
     }
 
     public LazyDataModel<Outcome> getCurrentUserOutcomesInTheMonth() {
@@ -433,6 +436,7 @@ public class TabController implements Serializable {
                 fm.setShowMonthOutcomes(true);
                 fm.setShowMonthIncomes(false);
                 financesLastTabIndex = this.ACORDION_OUTCOME_INDEX;
+                financesActiveIndex = this.ACORDION_OUTCOME_INDEX;
                 return;
             }
         }
@@ -445,6 +449,7 @@ public class TabController implements Serializable {
                 fm.setShowMonthOutcomes(false);
                 fm.setShowMonthIncomes(true);
                 financesLastTabIndex = this.ACORDION_INCOME_INDEX;
+                financesActiveIndex = this.ACORDION_INCOME_INDEX;
                 return;
             }
         }
@@ -454,6 +459,7 @@ public class TabController implements Serializable {
                 financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
             } else {
                 financesLastTabIndex = ACORDION_REPORT_INDEX;
+                financesActiveIndex = ACORDION_REPORT_INDEX;
             }
         }
     }
@@ -527,7 +533,7 @@ public class TabController implements Serializable {
         lazyTable.setFilters(null);
         lazyTable.loadLazyData();
     }
-    //atualiza lazyIncomes a manda pra ultima página da tabela
+    //atualiza lazyIncomes e manda pra ultima página da tabela
 
     public void reloadIncomeLazyDataModel() {
         LazyDataModel<Income> lazyModel = getCurrentUserIncomesInTheMonth();
