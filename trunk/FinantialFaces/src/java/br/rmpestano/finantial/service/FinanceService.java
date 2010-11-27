@@ -76,7 +76,7 @@ public class FinanceService implements Serializable{
     //JPA 2 lazy loading: http://primefaces.prime.com.tr/forum/viewtopic.php?f=3&t=5043&p=22129&hilit=lazy+load+and+filter&sid=b799a6d0bebdba35abdaff4b142a59ee#p22129
     public List<Outcome> findMonthOutcomesByUserAndType(Date month, Long type_id, int first, int pageSize, String sortField, boolean sortOrder) {
         StringBuilder WHERE = new StringBuilder(" where o.USER_ID = ").append(getCurrentUser().getId()).append(" and FINANTIALMONTH_DATE ='").append(sdf.format(month)).append("'");
-        if (type_id != -1) {
+        if (type_id != -1) {//isso tá feio
             WHERE.append(" and TYPE_ID = ").append(type_id);
         }
         if (sortField != null) {

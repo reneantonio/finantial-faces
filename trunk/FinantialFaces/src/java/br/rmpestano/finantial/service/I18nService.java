@@ -75,9 +75,9 @@ public class I18nService implements Serializable{
 
 
         if (FacesContext.getCurrentInstance().getViewRoot().getViewId().trim().endsWith("login.xhtml")) {
-            return "login.faces";
+            return "login.faces?faces-redirect=true";
         } else {
-            return "/pages/home.faces";
+            return "/pages/home.faces?faces-redirect=true";
         }
 
         }
