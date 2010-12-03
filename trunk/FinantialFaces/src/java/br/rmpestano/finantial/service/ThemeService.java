@@ -5,6 +5,7 @@
 
 package br.rmpestano.finantial.service;
 
+import br.rmpestano.finantial.model.Preference;
 import br.rmpestano.finantial.util.ThemeExtraProperties;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -21,6 +22,17 @@ import javax.faces.bean.SessionScoped;
 public class ThemeService implements Serializable {
     private String theme = "";
     private ThemeExtraProperties themeProperties;
+    private static final String DARK_SKY = "dark-sky";
+    private static final String UI_DARKNESS = "ui-darkness";
+    private static final String ARISTO = "aristo";
+    private static final String VADER = "vader";
+    private static final String DOT_LUV = "dot-luv";
+    private static final String MINT_CROC = "mint-choc";
+    private static final String OVERCAST = "overcast";
+    private static final String CASABLANCA = "casablanca";
+    private static final String BLUESKY = "bluesky";
+    private static final String CUPERTINO = "cupertino";
+    private static final String PEPPER_GRINDER = "pepper-grinder";
 
     public ThemeService() {
 //        darkSkyInit();
@@ -117,11 +129,44 @@ public class ThemeService implements Serializable {
         return themeProperties;
     }
 
-
-
-
-
-
+    public void setPreferedTheme(Preference p) {
+        String preferedTheme = p.getValue();
+        if (p.getValue() != null) {
+            if (preferedTheme.equalsIgnoreCase(DARK_SKY)) {
+                this.blueSkyInit();
+            }
+            if (preferedTheme.equalsIgnoreCase(UI_DARKNESS)) {
+                this.uiDarknessInit();
+            }
+            if (preferedTheme.equalsIgnoreCase(ARISTO)) {
+                this.aristoInit();
+            }
+            if (preferedTheme.equalsIgnoreCase(VADER)) {
+                this.vaderInit();
+            }
+            if (preferedTheme.equalsIgnoreCase(DOT_LUV)) {
+                this.dotLuvInit();
+            }
+            if (preferedTheme.equalsIgnoreCase(MINT_CROC)) {
+                this.mintChocInit();
+            }
+            if (preferedTheme.equalsIgnoreCase(OVERCAST)) {
+                this.overcastInit();
+            }
+            if (preferedTheme.equalsIgnoreCase(CASABLANCA)) {
+                this.casablancaInit();
+            }
+            if (preferedTheme.equalsIgnoreCase(BLUESKY)) {
+                this.blueSkyInit();
+            }
+            if (preferedTheme.equalsIgnoreCase(CUPERTINO)) {
+                this.cupertinoInit();
+            }
+            if (preferedTheme.equalsIgnoreCase(PEPPER_GRINDER)) {
+                this.pepperInit();
+            }
+        }
+    }
 
 
 }

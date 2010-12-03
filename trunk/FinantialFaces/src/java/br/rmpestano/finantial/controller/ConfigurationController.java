@@ -7,9 +7,13 @@ package br.rmpestano.finantial.controller;
 
 import br.rmpestano.finantial.model.IncomeType;
 import br.rmpestano.finantial.model.OutcomeType;
+import br.rmpestano.finantial.model.Preference;
 import br.rmpestano.finantial.model.User;
 import br.rmpestano.finantial.service.FinanceTypeService;
+import br.rmpestano.finantial.service.TabService;
+import br.rmpestano.finantial.service.ThemeService;
 import br.rmpestano.finantial.service.UserService;
+import br.rmpestano.finantial.service.generic.CrudService;
 import br.rmpestano.finantial.util.BeanManagerController;
 import br.rmpestano.finantial.util.MessagesController;
 import java.io.Serializable;
@@ -17,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -45,8 +50,12 @@ public class ConfigurationController implements Serializable{
     private int outcomeTypesSize;
     private int incomeTypesSize;
     private String repeatPass;
+    private String userTheme;
     @ManagedProperty(value="#{tabBean}")
     private TabController tabController;
+    @ManagedProperty(value="#{themeService}")
+    private ThemeService themeservice;
+    @EJB CrudService<Preference> preferenceService;
 
 
     public ConfigurationController() {
@@ -79,6 +88,14 @@ public class ConfigurationController implements Serializable{
 
      public TabController getTabController() {
         return tabController;
+    }
+
+    public ThemeService getThemeservice() {
+        return themeservice;
+    }
+
+    public void setThemeservice(ThemeService themeservice) {
+        this.themeservice = themeservice;
     }
 
     public void setTabController(TabController tabController) {
@@ -163,6 +180,15 @@ public class ConfigurationController implements Serializable{
     public List<OutcomeType> getOutcomeTypes() {
         return user.getUserOutcomeTypes();
     }
+
+    public String getUserTheme() {
+        return userTheme;
+    }
+
+    public void setUserTheme(String userTheme) {
+        this.userTheme = userTheme;
+    }
+
 
     public void setOutcomeTypes(List<OutcomeType> outcomeTypes) {
         this.outcomeTypes = outcomeTypes;
@@ -347,6 +373,35 @@ public class ConfigurationController implements Serializable{
     private boolean isDuplicateOutcome(OutcomeType outcomeType){
           Collections.sort(outcomeTypes);
           return !(Collections.binarySearch(outcomeTypes, outcomeType) < 0);
+    }
+
+    public String changeUserTheme(){
+        Preference p = user.findPreferenceByKey("theme");
+        if(p == null){
+            try {
+                p = new Preference();
+                p.setValue(userTheme);
+                user.getPreferences().add(p);
+                userService.atualizar(user);
+                themeservice.setPreferedTheme(p);
+            } catch (Exception ex) {
+                 MessagesController.addError("Problema ao modificar tema",ex.getMessage());
+                 ex.printStackTrace();
+            }
+        }
+     else{
+            try {
+                p.setValue(userTheme);
+                userService.atualizar(user);
+                themeservice.setPreferedTheme(p);
+                return "/pages/configuration/configuration.faces?faces-redirect=true";
+            } catch (Exception ex) {
+                MessagesController.addError("Problema ao modificar tema",ex.getMessage());
+                ex.printStackTrace();
+            }
+     }
+
+        return null;
     }
 
 }
