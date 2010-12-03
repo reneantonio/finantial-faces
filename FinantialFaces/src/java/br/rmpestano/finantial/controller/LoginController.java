@@ -5,29 +5,20 @@
 
 package br.rmpestano.finantial.controller;
 
-import br.rmpestano.finantial.model.OutcomeType;
+import br.rmpestano.finantial.model.Preference;
 import br.rmpestano.finantial.model.User;
+import br.rmpestano.finantial.service.ThemeService;
 import br.rmpestano.finantial.service.UserService;
 import br.rmpestano.finantial.util.BeanManagerController;
 import br.rmpestano.finantial.util.MessagesController;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.TimeZone;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -41,7 +32,9 @@ public class LoginController implements Serializable{
     private UserService userService;
     private User user;
     boolean admin = false;
-    private final String loginListener = "#{loginBean.loginBlur}";
+    @ManagedProperty(value="#{themeService}")
+    private ThemeService themeService;
+
     public LoginController() {
         user = new User();
     }
@@ -58,13 +51,7 @@ public class LoginController implements Serializable{
         }
     }
 
-    public String getLoginListener() {
-        return loginListener;
-    }
-
-
     public String doLogin(){
-
 
         User user = null;
         try {
@@ -85,6 +72,11 @@ public class LoginController implements Serializable{
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", user);
 
                 System.out.println("Login:"+user.getUsername());
+
+                Preference p = user.findPreferenceByKey("theme");
+                if(p!=null){
+                    themeService.setPreferedTheme(p);
+                }
                 return "/pages/home.faces?faces-redirect=true";
             }
             else{
@@ -92,6 +84,8 @@ public class LoginController implements Serializable{
                 return null;
             }
         }
+
+
     }
 
 
@@ -115,7 +109,16 @@ public class LoginController implements Serializable{
         this.user = user;
     }
 
+    public ThemeService getThemeService() {
+        return themeService;
+    }
 
+    public void setThemeService(ThemeService themeService) {
+        this.themeService = themeService;
+    }
+
+
+    
      public void doLogout(ActionEvent event) throws IOException{
 	     final HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	     request.getSession(false).invalidate();
@@ -124,6 +127,8 @@ public class LoginController implements Serializable{
 
      public void fakeListener(){
      }
+
+    
 
     
 }

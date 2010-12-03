@@ -33,6 +33,11 @@ and open the template in the editor.
                         <h:inputSecret id="repeat_pass" value="#{configurationBean.repeatPass}" />
                         <finantial:label for="fullname" value="Nome:" required="true"/>
                         <finantial:input id="fullname" value="#{configurationBean.user.fullname}" form="config_form" messages="edit_user_msg"/>
+                        <h:selectOneMenu value="#{configurationBean.userTheme}">
+                            <f:selectItem itemValue="aristo" itemLabel="Aristo"/>
+                            <f:selectItem itemValue="bluesky" itemLabel="Bluesky"/>
+                        </h:selectOneMenu>
+                        <p:commandButton value="Atualizar Tema" ajax="false" immediate="true"  action="#{configurationBean.changeUserTheme}"/>
                     </h:panelGrid>
                     <div align="center">
                         <p:commandButton value="atualizar" actionListener="#{configurationBean.updateUser}" update="finance_link edit_user_msg" process="edit_user"  ajax="true" />

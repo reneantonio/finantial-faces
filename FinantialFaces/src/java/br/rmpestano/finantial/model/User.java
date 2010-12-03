@@ -39,6 +39,8 @@ public class User extends BaseEntity {
     private List<IncomeType> userIncomeTypes;
     @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private List<OutcomeType> userOutcomeTypes;
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Preference> preferences;
 
     //DESNECESSÁRIO, PEGA COM UM SIMPLES SQL
 //    @OneToMany(mappedBy = "user")
@@ -64,7 +66,6 @@ public class User extends BaseEntity {
     }
 
 
-
     public String getFullname() {
         return fullname;
     }
@@ -88,6 +89,15 @@ public class User extends BaseEntity {
     public void setUserOutcomeTypes(List<OutcomeType> userOutcomeTypes) {
         this.userOutcomeTypes = userOutcomeTypes;
     }
+
+    public List<Preference> getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(List<Preference> preferences) {
+        this.preferences = preferences;
+    }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -116,9 +126,17 @@ public class User extends BaseEntity {
     }
 
 
-
     @Override
     public String toString() {
         return username;
+    }
+
+    public Preference findPreferenceByKey(String key){
+        for (Preference preference : this.preferences) {
+            if(preference.key_.equalsIgnoreCase(key)){
+                return preference;
+            }
+        }
+        return null;
     }
 }
