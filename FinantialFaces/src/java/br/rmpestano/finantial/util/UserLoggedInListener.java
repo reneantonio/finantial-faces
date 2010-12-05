@@ -15,6 +15,7 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -54,7 +55,10 @@ public class UserLoggedInListener implements PhaseListener{
         boolean loginPage = fc.getViewRoot().getViewId().lastIndexOf("login.xhtml") > -1 ? true : false;
         if ((!loginPage && !loggedIn())) {
             final HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            request.getSession(false).invalidate();
+            HttpSession session = request.getSession(false);
+            if(session != null){
+                session.invalidate();
+            }
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath());
             } catch (IOException ex) {
