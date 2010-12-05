@@ -160,3 +160,8 @@
 }
 }
 
+.font-bold{
+    font-weight: bold;
+    cursor: pointer;
+}
+

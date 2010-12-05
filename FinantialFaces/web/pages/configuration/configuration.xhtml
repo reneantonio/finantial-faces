@@ -25,28 +25,80 @@ and open the template in the editor.
             <p:outputPanel id="edit_user">
                 <p:fieldset legend="Configurações do usuário">
                     <h:panelGrid columns="2">
-                        <finantial:label  for="edit-username" value="Login:" required="true"/>
-                        <finantial:input value="#{configurationBean.user.username}" id="edit-username" form="config_form" messages="edit_user_msg" />
-                        <finantial:label for="edit_pass" value="Senha:" required="true"/>
-                        <h:inputSecret id="edit_pass" value="#{configurationBean.user.password}"/>
-                        <finantial:label for="repeat_pass" value="Repetir Senha:" required="true"/>
-                        <h:inputSecret id="repeat_pass" value="#{configurationBean.repeatPass}" />
-                        <finantial:label for="fullname" value="Nome:" required="true"/>
-                        <finantial:input id="fullname" value="#{configurationBean.user.fullname}" form="config_form" messages="edit_user_msg"/>
-                        <h:selectOneMenu value="#{configurationBean.userTheme}">
-                            <f:selectItem itemValue="aristo" itemLabel="Aristo"/>
-                            <f:selectItem itemValue="bluesky" itemLabel="Bluesky"/>
-                        </h:selectOneMenu>
-                        <p:commandButton value="Atualizar Tema" ajax="false" immediate="true"  action="#{configurationBean.changeUserTheme}"/>
-                    </h:panelGrid>
-                    <div align="center">
-                        <p:commandButton value="atualizar" actionListener="#{configurationBean.updateUser}" update="finance_link edit_user_msg" process="edit_user"  ajax="true" />
-                        <br/>
-                        <br/>
-                        <p:outputPanel id="finance_link">
-                            <h:commandLink value="Visualisar Finanças"  style="font-size: 12px;text-decoration: underline" action="/pages/home.faces?faces-redirect=true" rendered="#{configurationBean.userUpdated}"/>
+                        <finantial:label  for="edit-username" value="Login:" required="false"/>
+                        <h:column>
+                            <h:panelGrid columns="3" id="edit_name_grid" cellspacing="5">
+                                <h:commandLink value="#{configurationBean.user.username}" title="#{msg['config.update']}" id="edit-username" styleClass="font-bold" rendered="#{!configurationBean.editName}">
+                                    <f:ajax event="click" execute="edit-username" render="edit_name_grid" listener="#{configurationBean.editnameListener}"/>
+                                </h:commandLink>
+                                <p:outputPanel rendered="#{configurationBean.editName}">
+                                    <h:inputText value="#{configurationBean.user.username}"/>
+                                    <p:commandButton  value="salvar" actionListener="#{configurationBean.updateUsername}" process="edit_name_grid" update="edit_name_grid edit_user_msg"/>
+                                    <p:commandButton value="cancelar" id="cancel_username" process="edit_name_grid" update="edit_name_grid" immediate="true" actionListener="#{configurationBean.cancelEdit}"/>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </h:column>
+                        <finantial:label for="edit_pass" value="Senha:" required="false"/>
+                        <h:column>
+                            <p:outputPanel id="p1" style="padding: 4px">
+                                <h:commandLink value="*******" title="#{msg['config.update']}" id="edit-pass" style="font-weight: bold;cursor: pointer;padding-left: 2px" rendered="#{!configurationBean.editPass}">
+                                    <f:ajax event="click" execute="edit-pass" render="p1 p2 p3" listener="#{configurationBean.editPassListener}"/>
+                                </h:commandLink>
+                                <h:inputSecret  rendered="#{configurationBean.editPass}" id="edit_pass" value="#{configurationBean.user.password}" />
+                            </p:outputPanel>
+                        </h:column>
+                        <p:outputPanel id="p3">
+                            <h:inputHidden rendered="#{!configurationBean.editPass}"/>
+                            <finantial:label rendered="#{configurationBean.editPass}" for="repeat_pass" value="Repetir Senha:" required="false"/>
                         </p:outputPanel>
-                    </div>
+                        <h:column>
+                        <p:outputPanel id="p2">
+                                <h:panelGrid columns="3" rendered="#{configurationBean.editPass}" id="edit_pass_panel">
+                                    <h:inputSecret  id="repeat_pass" value="#{configurationBean.repeatPass}" />
+                                    <p:commandButton value="salvar" actionListener="#{configurationBean.updatePass}" process="p1 p2 p3" update="p1 p2 p3 edit_user_msg"/>
+                                    <p:commandButton value="cancelar" id="cancel_pass" immediate="true" process="p1 p2 p3" update="p1 p2 p3" actionListener="#{configurationBean.cancelEdit}"/>
+                                </h:panelGrid>
+                        </p:outputPanel>
+                        </h:column>
+                        <finantial:label for="edit-fullname" value="Nome:" required="false"/>
+                        <h:column>
+                            <h:panelGrid columns="3" id="edit_fullname_grid" cellspacing="5">
+                                <h:commandLink value="#{configurationBean.user.fullname}" title="#{msg['config.update']}" id="edit-fullname" styleClass="font-bold" rendered="#{!configurationBean.editFullName}">
+                                    <f:ajax event="click" execute="edit-fullname" render="edit_fullname_grid" listener="#{configurationBean.editFullnameListener}"/>
+                                </h:commandLink>
+                                <p:outputPanel rendered="#{configurationBean.editFullName}">
+                                    <h:inputText value="#{configurationBean.user.fullname}" />
+                                    <p:commandButton value="salvar" actionListener="#{configurationBean.updateFullname}" process="edit_fullname_grid" update="edit_fullname_grid edit_user_msg"/>
+                                    <p:commandButton value="cancelar" id="cancel_fullname" process="edit_fullname_grid" immediate="true" update="edit_fullname_grid" actionListener="#{configurationBean.cancelEdit}"/>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </h:column>
+                        <finantial:label for="user-theme" value="Tema:" required="false"/>
+                        <h:column>
+                            <h:panelGrid columns="4" id="edit_theme_grid" cellspacing="5">
+                                <h:commandLink value="#{configurationBean.user.userTheme}" title="#{msg['config.update']}" id="user-theme" styleClass="font-bold" rendered="#{!configurationBean.editTheme}">
+                                    <f:ajax event="click" execute="user-theme" render="edit_theme_grid" listener="#{configurationBean.editThemeListener}"/>
+                                </h:commandLink>
+                                <p:outputPanel rendered="#{configurationBean.editTheme}">
+                                    <h:selectOneMenu  value="#{configurationBean.userTheme}">
+                                        <f:selectItem itemValue="aristo" itemLabel="Aristo"/>
+                                        <f:selectItem itemValue="bluesky" itemLabel="Bluesky"/>
+                                        <f:selectItem itemValue="casablanca" itemLabel="Casablanca"/>
+                                        <f:selectItem itemValue="cupertino" itemLabel="Cupertino"/>
+                                        <f:selectItem itemValue="dark-sky" itemLabel="Dark-sky"/>
+                                        <f:selectItem itemValue="dot-luv" itemLabel="Dot-luv"/>
+                                        <f:selectItem itemValue="mint-choc" itemLabel="Mint-choc"/>
+                                        <f:selectItem itemValue="overcast" itemLabel="Overcast"/>
+                                        <f:selectItem itemValue="pepper-grinder" itemLabel="Pepper-grinder"/>
+                                        <f:selectItem itemValue="ui-darkness" itemLabel="Ui-darkness"/>
+                                        <f:selectItem itemValue="vader" itemLabel="Vader"/>
+                                    </h:selectOneMenu>
+                                    <p:commandButton  value="salvar" action="#{configurationBean.changeUserTheme}" ajax="true" process="edit_theme_grid" update="@form"/>
+                                    <p:commandButton  id="cancel_theme" value="cancelar" process="edit_theme_grid" update="edit_theme_grid" immediate="true" actionListener="#{configurationBean.cancelEdit}"/>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </h:column>
+                    </h:panelGrid>
                     <p:messages id="edit_user_msg"/>
 
 
@@ -71,16 +123,22 @@ and open the template in the editor.
                                             <f:facet name="header">
                                                 Editar
                                             </f:facet>
-                                            <p:commandLink value="editar" oncomplete="editOutcometypeModal.show()" immediate="true" action="#{configurationBean.prepareEditOutcome(o)}" update="edit_outcometype_panel"/>
+                                            <div align="center">
+                                                <p:commandLink oncomplete="editOutcometypeModal.show()" immediate="true" action="#{configurationBean.prepareEditOutcome(o)}" update="edit_outcometype_panel">
+                                                    <h:graphicImage library="images" name="edit20x20.png" style="border: none;"/>
+                                                </p:commandLink>
+                                            </div>
                                         </p:column>
                                         <p:column>
                                             <f:facet name="header">
                                                 Remover
                                             </f:facet>
-                                            <p:commandLink value="remover" oncomplete="removeOutcometypeModal.show()" immediate="true" update="remove_outcometype_panel">
-                                                <f:setPropertyActionListener target="#{configurationBean.outcomeType}" value="#{o}"/>
-                                            </p:commandLink>
-
+                                            <div align="center">
+                                                <p:commandLink oncomplete="removeOutcometypeModal.show()" immediate="true" update="remove_outcometype_panel">
+                                                    <f:setPropertyActionListener target="#{configurationBean.outcomeType}" value="#{o}"/>
+                                                    <h:graphicImage library="images" name="garbage20x20.png" style="border: none;"/>
+                                                </p:commandLink>
+                                            </div>
                                         </p:column>
                                     </p:dataTable>
                                     <div align="center" style="padding-top: 8px;" >
@@ -108,15 +166,22 @@ and open the template in the editor.
                                             <f:facet name="header">
                                                 Editar
                                             </f:facet>
-                                            <p:commandLink value="editar" action="#{configurationBean.prepareEditIncome(i)}" oncomplete="editIncometypeModal.show()" immediate="true" update="edit_incometype_panel"/>
+                                            <div align="center">
+                                                <p:commandLink  action="#{configurationBean.prepareEditIncome(i)}" oncomplete="editIncometypeModal.show()" immediate="true" update="edit_incometype_panel">
+                                                    <h:graphicImage library="images" name="edit20x20.png" style="border: none;"/>
+                                                </p:commandLink>
+                                            </div>
                                         </p:column>
                                         <p:column>
                                             <f:facet name="header">
                                                 Remover
                                             </f:facet>
-                                             <p:commandLink value="remover" oncomplete="removeIncometypeModal.show()" immediate="true" update="remove_incometype_panel">
-                                                <f:setPropertyActionListener target="#{configurationBean.incomeType}" value="#{i}"/>
-                                            </p:commandLink>
+                                            <div align="center">
+                                                <p:commandLink oncomplete="removeIncometypeModal.show()" immediate="true" update="remove_incometype_panel">
+                                                    <f:setPropertyActionListener target="#{configurationBean.incomeType}" value="#{i}"/>
+                                                    <h:graphicImage library="images" name="garbage20x20.png" style="border: none;"/>
+                                                </p:commandLink>
+                                            </div>
                                         </p:column>
                                     </p:dataTable>
                                     <div align="center" style="padding-top: 8px;" >

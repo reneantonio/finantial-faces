@@ -26,6 +26,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -38,7 +39,6 @@ public class ConfigurationController implements Serializable{
     private User user;
     private final String currentUserLogin;
     private UserService userService;
-    private boolean userUpdated;
     private boolean configState;
     private List<OutcomeType> outcomeTypes;
     private List<IncomeType> incomeTypes;
@@ -56,13 +56,16 @@ public class ConfigurationController implements Serializable{
     @ManagedProperty(value="#{themeService}")
     private ThemeService themeservice;
     @EJB CrudService<Preference> preferenceService;
+    private boolean editName;
+    private boolean editFullName;
+    private boolean editTheme;
+    private boolean editPass;
 
 
     public ConfigurationController() {
         user = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         userService = (UserService) BeanManagerController.getBeanByName("userService");
         financeTypeService = (FinanceTypeService) BeanManagerController.getBeanByName("financeTypeService");
-        userUpdated = false;
         currentUserLogin = user.getUsername();
         outcomeTypes = user.getUserOutcomeTypes();
         incomeTypes = user.getUserIncomeTypes();
@@ -97,6 +100,40 @@ public class ConfigurationController implements Serializable{
     public void setThemeservice(ThemeService themeservice) {
         this.themeservice = themeservice;
     }
+
+    public boolean isEditFullName() {
+        return editFullName;
+    }
+
+    public void setEditFullName(boolean editFullName) {
+        this.editFullName = editFullName;
+    }
+
+    public boolean isEditPass() {
+        return editPass;
+    }
+
+    public void setEditPass(boolean editPass) {
+        this.editPass = editPass;
+    }
+
+    public boolean isEditTheme() {
+        return editTheme;
+    }
+
+    public void setEditTheme(boolean editTheme) {
+        this.editTheme = editTheme;
+    }
+
+
+    public boolean isEditName() {
+        return editName;
+    }
+
+    public void setEditName(boolean editName) {
+        this.editName = editName;
+    }
+
 
     public void setTabController(TabController tabController) {
         this.tabController = tabController;
@@ -145,13 +182,6 @@ public class ConfigurationController implements Serializable{
         this.user = user;
     }
 
-    public boolean isUserUpdated() {
-        return userUpdated;
-    }
-
-    public void setUserUpdated(boolean userUpdated) {
-        this.userUpdated = userUpdated;
-    }
 
     public boolean isConfigState() {
         return configState;
@@ -194,6 +224,72 @@ public class ConfigurationController implements Serializable{
         this.outcomeTypes = outcomeTypes;
     }
 
+    public void updateUsername(){
+         if (user.getId() == 3 && currentUserLogin.equalsIgnoreCase("demo")) {
+            MessagesController.addError("O usuário de demonstração não pode ser modificado");
+            return;
+        }
+          User alreadyExistUser = userService.findByLogin(user.getUsername());
+            if(alreadyExistUser != null && (!alreadyExistUser.getUsername().equals(currentUserLogin))){
+                 MessagesController.addError("O login '"+user.getUsername()+ "' já existe, escolha outro");
+                 user.setUsername(currentUserLogin);
+                 return;
+            }
+        try {
+            userService.atualizar(user);
+        } catch (Exception ex) {
+            MessagesController.addError("Problemas ao editar nome do usuário:"+ex.getMessage());
+        }
+        MessagesController.addInfo("Login atualizado com sucesso");
+        editName = false;
+    }
+    public void updatePass() {
+        if (user.getId() == 3 && currentUserLogin.equalsIgnoreCase("demo")) {
+            MessagesController.addError("O usuário de demonstração não pode ser modificado");
+            return;
+        }
+        try {
+            if (checkNewPass()) {
+                userService.atualizar(user);
+                MessagesController.addInfo("Senha atualizada com sucesso");
+            } else {
+                MessagesController.addError("As senhas não conferem");
+                return;
+            }
+        } catch (Exception ex) {
+            MessagesController.addError("Problemas ao editar nome do usuário:" + ex.getMessage());
+        }
+        editPass = false;
+    }
+    public void updateFullname(){
+        try {
+            userService.atualizar(user);
+        } catch (Exception ex) {
+            MessagesController.addError("Problemas ao editar nome do usuário:"+ex.getMessage());
+        }
+        MessagesController.addInfo("Nome atualizado com sucesso");
+        editFullName = false;
+    }
+
+    public void cancelEdit(ActionEvent event){
+       String caller = event.getComponent().getId();
+        if (caller.contains("theme")) {
+            editTheme = false;
+            return;
+        }
+       if(caller.contains("user")){
+            editName = false;
+            return;
+       }
+       if(caller.contains("full")){
+            editFullName = false;
+            return;
+       }
+       if(caller.contains("pass")){
+            editPass = false;
+            return;
+       }
+    }
 
      public void updateUser(){
         try {
@@ -211,7 +307,7 @@ public class ConfigurationController implements Serializable{
             if(checkNewPass()){
                 userService.atualizar(user);
                 MessagesController.addInfo("Perfil atualizado com sucesso");
-                userUpdated = true;
+
             }
          else{
             MessagesController.addError("As senhas não conferem");
@@ -381,9 +477,11 @@ public class ConfigurationController implements Serializable{
             try {
                 p = new Preference();
                 p.setValue(userTheme);
+                p.setKey_("theme");
                 user.getPreferences().add(p);
                 userService.atualizar(user);
                 themeservice.setPreferedTheme(p);
+                return "/pages/configuration/configuration.faces?faces-redirect=true";
             } catch (Exception ex) {
                  MessagesController.addError("Problema ao modificar tema",ex.getMessage());
                  ex.printStackTrace();
@@ -392,7 +490,8 @@ public class ConfigurationController implements Serializable{
      else{
             try {
                 p.setValue(userTheme);
-                userService.atualizar(user);
+                preferenceService.update(p);
+//                userService.atualizar(user);
                 themeservice.setPreferedTheme(p);
                 return "/pages/configuration/configuration.faces?faces-redirect=true";
             } catch (Exception ex) {
@@ -402,6 +501,20 @@ public class ConfigurationController implements Serializable{
      }
 
         return null;
+    }
+
+    public void editnameListener(){
+        editName = true;
+    }
+    public void editPassListener(){
+        editPass = true;
+    }
+    public void editFullnameListener(){
+        editFullName = true;
+    }
+
+     public void editThemeListener(){
+        editTheme = true;
     }
 
 }

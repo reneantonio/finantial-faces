@@ -14,6 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -39,8 +40,11 @@ public class User extends BaseEntity {
     private List<IncomeType> userIncomeTypes;
     @OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
     private List<OutcomeType> userOutcomeTypes;
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany
     private List<Preference> preferences;
+
+    @Transient
+    private String userTheme;
 
     //DESNECESSÁRIO, PEGA COM UM SIMPLES SQL
 //    @OneToMany(mappedBy = "user")
@@ -98,6 +102,14 @@ public class User extends BaseEntity {
         this.preferences = preferences;
     }
 
+    public String getUserTheme(){
+        Preference p = findPreferenceByKey("theme");
+        if(p!=null){
+            return p.value;
+        }
+        return "Ui-Darkness";
+    }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -107,6 +119,7 @@ public class User extends BaseEntity {
         if (getClass() != obj.getClass()) {
             return false;
         }
+
         final User other = (User) obj;
         if ((this.username == null) ? (other.username != null) : !this.username.equals(other.username)) {
             return false;
@@ -133,7 +146,7 @@ public class User extends BaseEntity {
 
     public Preference findPreferenceByKey(String key){
         for (Preference preference : this.preferences) {
-            if(preference.key_.equalsIgnoreCase(key)){
+            if(preference.key_!= null && preference.key_.equalsIgnoreCase(key)){
                 return preference;
             }
         }
