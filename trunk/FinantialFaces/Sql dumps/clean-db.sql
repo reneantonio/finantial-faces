@@ -383,6 +383,8 @@ CREATE TABLE `income_type` (
 --
 
 /*!40000 ALTER TABLE `income_type` DISABLE KEYS */;
+INSERT INTO `income_type` (`ID`,`DESCRIPTION`) VALUES 
+ (213,'Income type test');
 /*!40000 ALTER TABLE `income_type` ENABLE KEYS */;
 
 
@@ -432,7 +434,35 @@ CREATE TABLE `outcome_type` (
 --
 
 /*!40000 ALTER TABLE `outcome_type` DISABLE KEYS */;
+INSERT INTO `outcome_type` (`ID`,`DESCRIPTION`) VALUES 
+ (1302,'outcome type test');
 /*!40000 ALTER TABLE `outcome_type` ENABLE KEYS */;
+
+
+--
+-- Definition of table `preference`
+--
+
+DROP TABLE IF EXISTS `preference`;
+CREATE TABLE `preference` (
+  `ID` bigint(20) NOT NULL,
+  `KEY_` varchar(255) DEFAULT NULL,
+  `VALUE` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `preference`
+--
+
+/*!40000 ALTER TABLE `preference` DISABLE KEYS */;
+INSERT INTO `preference` (`ID`,`KEY_`,`VALUE`) VALUES 
+ (1251,'theme','aristo'),
+ (1252,'theme','bluesky'),
+ (1253,'theme','cupertino'),
+ (1451,'theme','aristo'),
+ (1452,'theme','aristo');
+/*!40000 ALTER TABLE `preference` ENABLE KEYS */;
 
 
 --
@@ -452,7 +482,7 @@ CREATE TABLE `sequence` (
 
 /*!40000 ALTER TABLE `sequence` DISABLE KEYS */;
 INSERT INTO `sequence` (`SEQ_NAME`,`SEQ_COUNT`) VALUES 
- ('SEQ_GEN','1150');
+ ('SEQ_GEN','1500');
 /*!40000 ALTER TABLE `sequence` ENABLE KEYS */;
 
 
@@ -521,6 +551,28 @@ CREATE TABLE `user_outcome_type` (
 
 /*!40000 ALTER TABLE `user_outcome_type` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_outcome_type` ENABLE KEYS */;
+
+
+--
+-- Definition of table `user_preference`
+--
+
+DROP TABLE IF EXISTS `user_preference`;
+CREATE TABLE `user_preference` (
+  `User_ID` bigint(20) NOT NULL,
+  `preferences_ID` bigint(20) NOT NULL,
+  PRIMARY KEY (`User_ID`,`preferences_ID`),
+  KEY `FK_user_preference_preferences_ID` (`preferences_ID`),
+  CONSTRAINT `FK_user_preference_User_ID` FOREIGN KEY (`User_ID`) REFERENCES `user` (`ID`),
+  CONSTRAINT `FK_user_preference_preferences_ID` FOREIGN KEY (`preferences_ID`) REFERENCES `preference` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_preference`
+--
+
+/*!40000 ALTER TABLE `user_preference` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_preference` ENABLE KEYS */;
 
 
 
