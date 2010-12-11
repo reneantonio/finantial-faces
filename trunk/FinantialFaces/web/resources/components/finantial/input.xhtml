@@ -16,14 +16,25 @@ and open the template in the editor.
       <composite:attribute name="value"  />
       <composite:attribute name="id"  />
       <composite:attribute name="form"  />
+      <composite:attribute name="ajax" default="#{true}" shortDescription="Wheater or not to use blur event"/>
+      <composite:attribute name="ccrendered" default="#{true}" />
+      <composite:attribute name="secret" default="#{false}" shortDescription="Flag indicating whether or not this component is of type secret: if true inputSecret is rendered else inputText is rendered"  />
+
       <composite:attribute name="messages" shortDescription="id of component messages to update" />
   </composite:interface>
 
     <composite:implementation>
-        <p:outputPanel id="#{cc.attrs.id}_panel" style="display: inline;">
-            <h:inputText id="#{cc.attrs.id}" value="#{cc.attrs.value}" style="border:#{(not empty facesContext.maximumSeverity) ? '2px solid red' :''}" styleClass="#{(not empty facesContext.maximumSeverity) ? 'highlight' :''}" onclick="setNormalStyle('#{cc.attrs.form}','#{cc.attrs.id}')">
-                <p:ajax event="blur" process="@this" global="false" update="#{cc.attrs.id}_panel :#{cc.attrs.form}:#{cc.attrs.messages}"/>
+        <p:outputPanel rendered="#{(!cc.attrs.secret) and (cc.attrs.ccrendered)}" id="#{cc.attrs.id}_panel" style="display: inline;">
+            <h:inputText id="#{cc.attrs.id}"  value="#{cc.attrs.value}" style="border:#{(not empty facesContext.maximumSeverity) ? '2px solid red' :''}" styleClass="#{(not empty facesContext.maximumSeverity) ? 'highlight' :''}" onclick="setNormalStyle('#{cc.attrs.form}','#{cc.attrs.id}')">
+                <p:ajax disabled="#{cc.attrs.ajax}" event="blur" process="@this" global="false" update="#{cc.attrs.id}_panel :#{cc.attrs.form}:#{cc.attrs.messages}"/>
             </h:inputText>
+            <p:focus for="#{cc.attrs.id}"/>
+        </p:outputPanel>
+
+        <p:outputPanel rendered="#{(cc.attrs.secret eq true) and (cc.attrs.ccrendered)}" id="sec_#{cc.attrs.id}_panel" style="display: inline;">
+            <h:inputSecret id="sec_#{cc.attrs.id}" value="#{cc.attrs.value}" style="border:#{(not empty facesContext.maximumSeverity) ? '2px solid red' :''}" styleClass="#{(not empty facesContext.maximumSeverity) ? 'highlight' :''}" onclick="setNormalStyle('#{cc.attrs.form}','#{cc.attrs.id}')">
+                <p:ajax disabled="#{cc.attrs.ajax}" event="blur" process="@this" global="false" update="sec_#{cc.attrs.id}_panel :#{cc.attrs.form}:#{cc.attrs.messages}"/>
+            </h:inputSecret>
         </p:outputPanel>
 
     <script type="text/javascript">
