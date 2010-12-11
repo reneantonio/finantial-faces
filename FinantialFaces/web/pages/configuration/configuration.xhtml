@@ -24,17 +24,19 @@ and open the template in the editor.
         <p:panel header="Configurações">
             <p:outputPanel id="edit_user">
                 <p:fieldset legend="Configurações do usuário">
-                    <h:panelGrid columns="2">
+                    <h:panelGrid columns="2" >
                         <finantial:label  for="edit-username" value="Login:" required="false"/>
                         <h:column>
                             <h:panelGrid columns="3" id="edit_name_grid" cellspacing="5">
                                 <h:commandLink value="#{configurationBean.user.username}" title="#{msg['config.update']}" id="edit-username" styleClass="font-bold" rendered="#{!configurationBean.editName}">
                                     <f:ajax event="click" execute="edit-username" render="edit_name_grid" listener="#{configurationBean.editnameListener}"/>
                                 </h:commandLink>
-                                <p:outputPanel rendered="#{configurationBean.editName}">
-                                    <h:inputText value="#{configurationBean.user.username}"/>
-                                    <p:commandButton  value="salvar" actionListener="#{configurationBean.updateUsername}" process="edit_name_grid" update="edit_name_grid edit_user_msg"/>
-                                    <p:commandButton value="cancelar" id="cancel_username" process="edit_name_grid" update="edit_name_grid" immediate="true" actionListener="#{configurationBean.cancelEdit}"/>
+                                <p:outputPanel rendered="#{configurationBean.editName}" >
+                                    <finantial:input  messages="edit_user_msg" form="config_form" value="#{configurationBean.user.username}"/>
+                                    <p:commandButton  value="salvar" actionListener="#{configurationBean.updateUsername}" global="false"
+                                                      process="edit_name_grid" update="edit_name_grid edit_user_msg"/>
+                                    <p:commandButton value="cancelar" id="cancel_username" process="edit_name_grid" global="false"
+                                                     update="edit_name_grid edit_user_msg" immediate="true" actionListener="#{configurationBean.cancelEdit}"/>
                                 </p:outputPanel>
                             </h:panelGrid>
                         </h:column>
@@ -44,7 +46,8 @@ and open the template in the editor.
                                 <h:commandLink value="*******" title="#{msg['config.update']}" id="edit-pass" style="font-weight: bold;cursor: pointer;padding-left: 2px" rendered="#{!configurationBean.editPass}">
                                     <f:ajax event="click" execute="edit-pass" render="p1 p2 p3" listener="#{configurationBean.editPassListener}"/>
                                 </h:commandLink>
-                                <h:inputSecret  rendered="#{configurationBean.editPass}" id="edit_pass" value="#{configurationBean.user.password}" />
+<!--                                <finantial:input value="#{configurationBean.user.password}" secret="#{true}" ajax="#{false}" id="edit_pass" messages="edit_user_msg" form="config_form" ccrendered="#{configurationBean.editPass}"/>-->
+                                    <h:inputSecret  rendered="#{configurationBean.editPass}" id="edit_pass" value="#{configurationBean.user.password}" />
                             </p:outputPanel>
                         </h:column>
                         <p:outputPanel id="p3">
@@ -54,9 +57,12 @@ and open the template in the editor.
                         <h:column>
                         <p:outputPanel id="p2">
                                 <h:panelGrid columns="3" rendered="#{configurationBean.editPass}" id="edit_pass_panel">
-                                    <h:inputSecret  id="repeat_pass" value="#{configurationBean.repeatPass}" />
+<!--                                    <finantial:input value="#{configurationBean.repeatPass}" secret="#{true}" ajax="#{false}" id="repeat_pass" messages="edit_user_msg" form="config_form" ccrendered="#{configurationBean.editPass}"/>-->
+                                    <h:inputSecret rendered="#{configurationBean.editPass}" id="repeat_pass" value="#{configurationBean.repeatPass}" />
+
                                     <p:commandButton value="salvar" actionListener="#{configurationBean.updatePass}" process="p1 p2 p3" update="p1 p2 p3 edit_user_msg"/>
-                                    <p:commandButton value="cancelar" id="cancel_pass" immediate="true" process="p1 p2 p3" update="p1 p2 p3" actionListener="#{configurationBean.cancelEdit}"/>
+                                    <p:commandButton value="cancelar" id="cancel_pass" immediate="true" global="false"
+                                                     process="p1 p2 p3" update="p1 p2 p3 edit_user_msg" actionListener="#{configurationBean.cancelEdit}"/>
                                 </h:panelGrid>
                         </p:outputPanel>
                         </h:column>
@@ -67,9 +73,10 @@ and open the template in the editor.
                                     <f:ajax event="click" execute="edit-fullname" render="edit_fullname_grid" listener="#{configurationBean.editFullnameListener}"/>
                                 </h:commandLink>
                                 <p:outputPanel rendered="#{configurationBean.editFullName}">
-                                    <h:inputText value="#{configurationBean.user.fullname}" />
+                                    <finantial:input value="#{configurationBean.user.fullname}" messages="edit_user_msg" form="config_form" />
                                     <p:commandButton value="salvar" actionListener="#{configurationBean.updateFullname}" process="edit_fullname_grid" update="edit_fullname_grid edit_user_msg"/>
-                                    <p:commandButton value="cancelar" id="cancel_fullname" process="edit_fullname_grid" immediate="true" update="edit_fullname_grid" actionListener="#{configurationBean.cancelEdit}"/>
+                                    <p:commandButton value="cancelar" id="cancel_fullname" process="edit_fullname_grid" immediate="true" 
+                                                     update="edit_fullname_grid edit_user_msg" global="false" actionListener="#{configurationBean.cancelEdit}"/>
                                 </p:outputPanel>
                             </h:panelGrid>
                         </h:column>
@@ -94,7 +101,7 @@ and open the template in the editor.
                                         <f:selectItem itemValue="vader" itemLabel="Vader"/>
                                     </h:selectOneMenu>
                                     <p:commandButton  value="salvar" action="#{configurationBean.changeUserTheme}" ajax="true" process="edit_theme_grid" update="@form"/>
-                                    <p:commandButton  id="cancel_theme" value="cancelar" process="edit_theme_grid" update="edit_theme_grid" immediate="true" actionListener="#{configurationBean.cancelEdit}"/>
+                                    <p:commandButton  id="cancel_theme" value="cancelar" process="edit_theme_grid" update="edit_theme_grid edit_user_msg" global="false" immediate="true" actionListener="#{configurationBean.cancelEdit}"/>
                                 </p:outputPanel>
                             </h:panelGrid>
                         </h:column>

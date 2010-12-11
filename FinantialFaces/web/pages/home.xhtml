@@ -29,7 +29,7 @@
                             <h:panelGrid columns="3" cellspacing="10" id="grid_carroussel" style="margin-top: 25px">
                                 <h:graphicImage library="images" name="#{themeService.themeProperties.BACKWARD_ARROW eq '' ? 'backward.png':themeService.themeProperties.BACKWARD_ARROW}" style="cursor: pointer">
                                     <p:effect type="pulsate" speed="1900" for="currentYearBt" event="click" />
-                                    <p:ajax event="click" global="false" update=":months_form:months_panel, currentYearBt,:months_form:msg" process="@this" listener="#{tabBean.previousYear}" />
+                                    <p:ajax disabled="true" event="click" global="false" update=":months_form:months_panel, currentYearBt,:months_form:msg" process="@this" listener="#{tabBean.previousYear}" />
                                 </h:graphicImage>
                             <p:menuButton value="#{tabBean.currentYear.title}" id="currentYearBt" style="font-size: 13px!important;" >
                                 <p:menuitem value="2010"  action="#{tabBean.changeYear(0)}" process="grid_carroussel" update=":months_form:months_panel, grid_carroussel :months_form:msg"/>
