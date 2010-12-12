@@ -3,6 +3,7 @@
   <persistence-unit name="FinantialFacesPU" transaction-type="JTA">
     <jta-data-source>finantial_ds</jta-data-source>
     <properties>
+<!--     <property name="eclipselink.logging.level" value="FINE"/>-->
     </properties>
   </persistence-unit>
 </persistence>
