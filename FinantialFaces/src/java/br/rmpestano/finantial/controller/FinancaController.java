@@ -238,20 +238,20 @@ public class FinancaController implements Serializable{
                 fm.getMonthIncomes().add(receita);
                 receita.setFinantialMonth(fm);
                 receita.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
-
+                tabService.update(fm);
             }
             if (tipoCorrete.equals(OUTCOME)) {
-                despesa = new Outcome();
-                despesa.setDate(date);
-                despesa.setValue(financeValue);
-                despesa.setDescription(financeDescription);
-                despesa.setType(subtipoOutcomeCorrete);
-                fm.getMonthOutcomes().add(despesa);
-                despesa.setFinantialMonth(fm);
-                despesa.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
+                    despesa = new Outcome();
+                    despesa.setDate(date);
+                    despesa.setValue(financeValue);
+                    despesa.setDescription(financeDescription);
+                    despesa.setType(subtipoOutcomeCorrete);
+                    fm.getMonthOutcomes().add(despesa);
+                    despesa.setFinantialMonth(fm);
+                    despesa.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
+                    tabService.update(fm);
             }
 
-            tabService.update(fm);
 //            tabController.setFinancesActiveIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
 //            tabController.setFinancesLastTabIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
             MessagesController.addInfo(tipoCorrete.equals(INCOME) ? "Receita incluida com sucesso!": "Despesa incluida com sucesso");
