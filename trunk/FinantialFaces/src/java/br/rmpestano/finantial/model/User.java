@@ -104,7 +104,7 @@ public class User extends BaseEntity {
 
     public String getUserTheme(){
         Preference p = findPreferenceByKey("theme");
-        if(p!=null){
+        if(p!=null && p.value != null && !p.value.trim().equals("")){
             return p.value;
         }
         return "Ui-Darkness";

@@ -117,7 +117,7 @@ and open the template in the editor.
                         <td align="left" width="50%">
                             <p:outputPanel id="outcome_types">
                                 <p:panel header="Tipos de Despesa">
-                                    <p:dataTable value="#{configurationBean.outcomeTypes}" rendered="#{not empty configurationBean.outcomeTypes}" var="o" paginator="true" rows="5"
+                                    <p:dataTable value="#{configurationBean.outcomeTypes}" rendered="#{not empty configurationBean.outcomeTypes}" var="o" paginator="true" rows="5" rowIndexVar="rowIndex" rowStyleClass="#{empty rowIndex or rowIndex mod 2 ne 0 ? 'even-row' : 'odd-row'}"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  emptyMessage="Nenhum registro encontrado" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,#{configurationBean.outcomeTypesSize > 15 ? configurationBean.outcomeTypesSize : ''}" style="border: none">
                                         <p:column sortBy="#{o.description}" >
@@ -161,7 +161,7 @@ and open the template in the editor.
                              <p:outputPanel id="income_types">
                                 <p:panel header="Tipos de Receita">
                                     <p:dataTable value="#{configurationBean.incomeTypes}" rendered="#{not empty configurationBean.incomeTypes}" var="i" paginator="true" paginatorPosition="bottom" rows="5"
-                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="rowIndex" rowStyleClass="#{empty rowIndex or rowIndex mod 2 ne 0 ? 'even-row' : 'odd-row'}"
                                                  emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{configurationBean.incomeTypesSize > 15 ? configurationBean.incomeTypesSize : ''}" style="border: none">
                                         <p:column sortBy="#{i.description}">
                                             <f:facet name="header">

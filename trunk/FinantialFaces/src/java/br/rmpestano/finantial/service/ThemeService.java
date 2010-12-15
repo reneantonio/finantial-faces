@@ -54,6 +54,8 @@ public class ThemeService implements Serializable {
         themeProperties = new ThemeExtraProperties();
 //        themeProperties.setFINANCE_FOOTER_COLOR("#0D31BA");
         themeProperties.setLOADING_ICON("ajax-loader-blue.gif");
+        themeProperties.setEVEN_ROW("#474747");
+
 //        themeProperties.setBUTTON_BACKGROUND("#AAADB8");
 //        themeProperties.setMOUSEOUT_EVENT("this.style.background='#AAADB8'");
 //        themeProperties.setMOUSEOVER_EVENT("this.style.background='#333333'");
@@ -64,6 +66,7 @@ public class ThemeService implements Serializable {
         themeProperties = new ThemeExtraProperties();
         themeProperties.setCOLOR("white");
         themeProperties.setLOADING_ICON("ajax-loader-orange.gif");
+        themeProperties.setEVEN_ROW("#474747");
     }
 
      public void aristoInit(){
@@ -73,6 +76,7 @@ public class ThemeService implements Serializable {
         themeProperties.setLOADING_ICON("ajax-loader-red.gif");
         themeProperties.setBACKWARD_ARROW("backward_red.png");
         themeProperties.setFORWARD_ARROW("forward_red.png");
+        themeProperties.setEVEN_ROW("#E9E9E9");
     }
 
     public void vaderInit(){
@@ -80,17 +84,20 @@ public class ThemeService implements Serializable {
         themeProperties = new ThemeExtraProperties();
         themeProperties.setCOLOR("white");
         themeProperties.setLOADING_ICON("ajax-loader-red.gif");
+        themeProperties.setEVEN_ROW("#505050");
     }
     public void dotLuvInit(){
         theme = "dot-luv";
         themeProperties = new ThemeExtraProperties();
         themeProperties.setCOLOR("white");
+        themeProperties.setEVEN_ROW("#474747");
     }
     public void mintChocInit(){
         theme = "mint-choc";
         themeProperties = new ThemeExtraProperties();
         themeProperties.setCOLOR("white");
         themeProperties.setLOADING_ICON("ajax-loader-green.gif");
+        themeProperties.setEVEN_ROW("#5B4C40");
     }
     public void overcastInit(){
         theme = "overcast";
@@ -98,6 +105,7 @@ public class ThemeService implements Serializable {
         themeProperties.setLOADING_ICON("ajax-loader-red.gif");
         themeProperties.setBACKWARD_ARROW("backward_gray.png");
         themeProperties.setFORWARD_ARROW("forward_gray.png");
+        themeProperties.setEVEN_ROW("#B3B3B3");
 
     }
     public void casablancaInit(){
@@ -112,17 +120,20 @@ public class ThemeService implements Serializable {
         themeProperties = new ThemeExtraProperties();
         themeProperties.setBACKWARD_ARROW("backward_blue.png");
         themeProperties.setFORWARD_ARROW("forward_blue.png");
+        themeProperties.setEVEN_ROW("#E5EEFC");
     }
     public void cupertinoInit(){
         theme = "cupertino";
         themeProperties = new ThemeExtraProperties();
         themeProperties.setBACKWARD_ARROW("backward_blue.png");
         themeProperties.setFORWARD_ARROW("forward_blue.png");
+        themeProperties.setEVEN_ROW("#E0FFFF");
     }
     public void pepperInit(){
         theme = "pepper-grinder";
         themeProperties = new ThemeExtraProperties();
         themeProperties.setLOADING_ICON("ajax-loader-brown.gif");
+        themeProperties.setEVEN_ROW("#F1F0EF");
     }
 
     public ThemeExtraProperties getThemeProperties() {

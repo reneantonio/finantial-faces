@@ -24,6 +24,7 @@ public class ThemeExtraProperties implements Serializable{
     private String LOADING_ICON = "";
     private String FORWARD_ARROW = "";
     private String BACKWARD_ARROW = "";
+    private String EVEN_ROW = "";// datatable conditional coloring
 
     public ThemeExtraProperties() {
         this.clearProperties();
@@ -95,6 +96,16 @@ public class ThemeExtraProperties implements Serializable{
         this.LOADING_ICON = LOADING_ICON;
     }
 
+    public String getEVEN_ROW() {
+        return EVEN_ROW;
+    }
+
+    public void setEVEN_ROW(String EVEN_ROW) {
+        this.EVEN_ROW = EVEN_ROW;
+    }
+
+
+
 
 
     private void clearProperties(){
@@ -104,6 +115,7 @@ public class ThemeExtraProperties implements Serializable{
         this.COLOR = "";
         this.FINANCE_FOOTER_COLOR = "";
         this.LOADING_ICON = "";
+        this.EVEN_ROW = "";
     }
 
 }

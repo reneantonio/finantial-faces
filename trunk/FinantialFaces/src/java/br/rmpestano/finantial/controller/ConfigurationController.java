@@ -212,6 +212,9 @@ public class ConfigurationController implements Serializable{
     }
 
     public String getUserTheme() {
+//        if(userTheme != null && userTheme.equals("")){
+//            userTheme = "ui-darkness";
+//        }
         return userTheme;
     }
 
