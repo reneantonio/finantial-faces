@@ -12,7 +12,9 @@
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/global.css" />
         <f:loadBundle  basename="br.rmpestano.finantial.bundle.MessageResource_#{i18nService.currentResourceBundle}" var="msg"/>
         #{browserService.noCache()}
+
         <ui:insert name="head"/>
+       
     </h:head>
         
        <h:body>
@@ -76,7 +78,13 @@
 
         </ui:insert>
 
+         <style type="text/css">
 
+        .even-row{
+            background-color: #{themeService.themeProperties.EVEN_ROW} !important;
+            background-image: none;
+            }
+        </style>
         <script type="text/javascript">
 
         var chartStyle = {
