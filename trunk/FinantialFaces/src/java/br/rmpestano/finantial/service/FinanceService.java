@@ -32,6 +32,7 @@ public class FinanceService implements Serializable{
     @EJB CrudService<Outcome> outcomeCrudService;
     @EJB CrudService<Income> incomeCrudService;
     @EJB CrudService<FinantialMonth> monthCrudService;
+
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public FinanceService() {
