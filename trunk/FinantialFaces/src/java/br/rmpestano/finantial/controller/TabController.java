@@ -64,8 +64,8 @@ public class TabController implements Serializable {
     private final int ACORDION_OUTCOME_INDEX = 0;
     private final int ACORDION_INCOME_INDEX = 1;
     private final int ACORDION_REPORT_INDEX = 2;
-    private int userOutcomesSize;
-    private int userIncomesSize;
+    private Integer userOutcomesSize = 0;
+    private Integer userIncomesSize = 0;
     private Double totalIncomeInTheMonth;
     private I18nService i18nService;
 
@@ -123,8 +123,8 @@ public class TabController implements Serializable {
                 return getLazyCurrentUserIncomesInTheMonth(typeId, first, pageSize, sortField, sortOrder);
             }
         };
-        currentUserOutcomesInTheMonth.setRowCount(this.getUserOutcomesSize());
-        currentUserIncomesInTheMonth.setRowCount(this.getUserIncomesSize());
+        currentUserOutcomesInTheMonth.setRowCount(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
+        currentUserIncomesInTheMonth.setRowCount(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
     }
 
     public LazyDataModel<Outcome> getCurrentUserOutcomesInTheMonth() {
@@ -188,12 +188,16 @@ public class TabController implements Serializable {
         return incomeSum - outcomeSum;
     }
 
-    public int getUserOutcomesSize() {
-        return financeService.findMonthOutcomesByUser(currentMonth.getDate()).size();
+    public Integer getUserOutcomesSize() {
+//        if(userOutcomesSize == null){
+//            userOutcomesSize = financeService.findMonthOutcomesByUser(currentMonth.getDate()).size();
+//        }
+        return userOutcomesSize;
     }
 
-    public int getUserIncomesSize() {
-        return financeService.findMonthIncomesByUser(currentMonth.getDate()).size();
+    public Integer getUserIncomesSize() {
+//        return financeService.findMonthIncomesByUser(currentMonth.getDate()).size();
+        return userIncomesSize;
     }
 
     public void setUserIncomesSize(int userIncomesSize) {
@@ -466,10 +470,13 @@ public class TabController implements Serializable {
 
     public void onMonthChange(TabChangeEvent event) {
         String tabId = event.getTab().getId();
+
         this.currentMonthIndex = Integer.parseInt(tabId.substring(tabId.indexOf("b") + 1));
         financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
         financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
         currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
+        this.setUserOutcomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
+        this.setUserIncomesSize(financeService.findMonthIncomesByUser(currentMonth.getDate()).size());
         resetIncomeLazyDataModel();
         resetOutcomeLazyDataModel();
     }
