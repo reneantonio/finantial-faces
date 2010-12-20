@@ -68,6 +68,7 @@ public class TabController implements Serializable {
     private Integer userIncomesSize = 0;
     private Double totalIncomeInTheMonth;
     private I18nService i18nService;
+    private Double saldoMensal;
 
     @PostConstruct
     public void initMonthsAndYears() {
@@ -82,6 +83,7 @@ public class TabController implements Serializable {
         currentYear = tabYears.get(currentYearIndex);
         outcomeFilterOptions = createOutcomeFilterOptions();
         incomeFilterOptions = createIncomeFilterOptions();
+        calculateCurrentMonthBalance();
         currentUserOutcomesInTheMonth = new LazyDataModel<Outcome>() {
 
             @Override
@@ -123,6 +125,8 @@ public class TabController implements Serializable {
                 return getLazyCurrentUserIncomesInTheMonth(typeId, first, pageSize, sortField, sortOrder);
             }
         };
+        this.setUserOutcomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
+        this.setUserIncomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
         currentUserOutcomesInTheMonth.setRowCount(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
         currentUserIncomesInTheMonth.setRowCount(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
     }
@@ -170,8 +174,12 @@ public class TabController implements Serializable {
     }
 
     public Double getSaldoMensal() {
+        return this.saldoMensal;
+       
+    }
+
+    public void calculateCurrentMonthBalance(){
         List<Income> receitas = financeService.findMonthIncomesByUser(currentMonth.getDate());
-//        List<Outcome> despesas = this.getCurrentUserOutcomesInTheMonth();
         List<Outcome> despesas = financeService.findMonthOutcomesByUser(currentMonth.getDate());
         Double incomeSum = 0.0;
         for (Income income : receitas) {
@@ -185,14 +193,13 @@ public class TabController implements Serializable {
                 outcomeSum += outcome.getValue();
             }
         }
-        return incomeSum - outcomeSum;
+        this.saldoMensal = (incomeSum - outcomeSum);
     }
-
     public Integer getUserOutcomesSize() {
 //        if(userOutcomesSize == null){
 //            userOutcomesSize = financeService.findMonthOutcomesByUser(currentMonth.getDate()).size();
 //        }
-        return userOutcomesSize;
+       return userOutcomesSize;
     }
 
     public Integer getUserIncomesSize() {
@@ -402,6 +409,7 @@ public class TabController implements Serializable {
     public void setListOfYears(List<String> listOfYears) {
         this.listOfYears = listOfYears;
     }
+    
 
     public String getYearToView() {
         return currentYearTitle;
@@ -430,6 +438,9 @@ public class TabController implements Serializable {
 //        outcomeTable.getSelectedRowIndexes().clear();
 //    }
     public void tabChange(TabChangeEvent event) {
+//        System.out.println("SIZE:"+this.getUserOutcomesSize());
+//        this.setUserOutcomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
+//        System.out.println("SIZE:"+this.getUserOutcomesSize());
         String tabTitle = event.getTab().getTitle();
         if (tabTitle.equalsIgnoreCase(i18nService.getBundle().getString("finance.label.tipo.outcome").concat("s"))) {
             if (financesLastTabIndex == this.ACORDION_OUTCOME_INDEX) {
@@ -475,8 +486,9 @@ public class TabController implements Serializable {
         financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
         financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
         currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
-        this.setUserOutcomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
-        this.setUserIncomesSize(financeService.findMonthIncomesByUser(currentMonth.getDate()).size());
+        setUserOutcomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
+        setUserIncomesSize(financeService.findMonthIncomesByUser(currentMonth.getDate()).size());
+        calculateCurrentMonthBalance();
         resetIncomeLazyDataModel();
         resetOutcomeLazyDataModel();
     }
@@ -488,6 +500,7 @@ public class TabController implements Serializable {
             currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
             financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
             financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
+            calculateCurrentMonthBalance();
             resetIncomeLazyDataModel();
             resetOutcomeLazyDataModel();
         }
@@ -500,6 +513,7 @@ public class TabController implements Serializable {
             currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
             financesActiveIndex = this.ACORDION_NOT_SELECTED_INDEX;
             financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
+            calculateCurrentMonthBalance();
             resetIncomeLazyDataModel();
             resetOutcomeLazyDataModel();
         }
@@ -511,8 +525,12 @@ public class TabController implements Serializable {
         currentMonth = currentYear.getFinantialMonths().get(currentMonthIndex);
         financesActiveIndex = ACORDION_NOT_SELECTED_INDEX;
         financesLastTabIndex = ACORDION_NOT_SELECTED_INDEX;
+        setUserOutcomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
+        setUserIncomesSize(financeService.findMonthIncomesByUser(currentMonth.getDate()).size());
+        calculateCurrentMonthBalance();
         resetIncomeLazyDataModel();
         resetOutcomeLazyDataModel();
+
     }
 
     //atualiza lazyOutcomes a manda pra ultima página da tabela

@@ -251,7 +251,7 @@ public class FinancaController implements Serializable{
                     despesa.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
                     tabService.update(fm);
             }
-
+            tabController.calculateCurrentMonthBalance();
 //            tabController.setFinancesActiveIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
 //            tabController.setFinancesLastTabIndex(tabController.getACORDION_NOT_SELECTED_INDEX());
             MessagesController.addInfo(tipoCorrete.equals(INCOME) ? "Receita incluida com sucesso!": "Despesa incluida com sucesso");
@@ -269,6 +269,7 @@ public class FinancaController implements Serializable{
     public void removeOutcome(){
         try{
          financeService.removeOutcome(selectedOutcome);
+         tabController.calculateCurrentMonthBalance();
          DataTable lazyTable = (DataTable)  FacesContext.getCurrentInstance().getViewRoot().findComponent("months_form:fm_"+tabController.getCurrentMonthIndex()+":outcome_table"+tabController.getCurrentMonthIndex());
          lazyTable.loadLazyData();
          MessagesController.addInfo("Despesa removida com sucesso!");
@@ -281,6 +282,7 @@ public class FinancaController implements Serializable{
     public void removeIncome(){
         try{
          financeService.removeIncome(selectedIncome);
+         tabController.calculateCurrentMonthBalance();
          DataTable lazyTable = (DataTable)  FacesContext.getCurrentInstance().getViewRoot().findComponent("months_form:fm_"+tabController.getCurrentMonthIndex()+":income_table"+tabController.getCurrentMonthIndex());
          lazyTable.loadLazyData();
          MessagesController.addInfo("Receita removida com sucesso!");
@@ -306,6 +308,7 @@ public class FinancaController implements Serializable{
         despesa.setFinantialMonth(fm);
         tabService.update(fm);
         setCurrentTab(despesa.getDate());
+        tabController.calculateCurrentMonthBalance();
         tabController.reloadOutcomeLazyDataModel();
         MessagesController.addInfo("Despesa incluida com sucesso");
     }
@@ -316,6 +319,7 @@ public class FinancaController implements Serializable{
         receita.setFinantialMonth(fm);
         tabService.update(fm);
         setCurrentTab(receita.getDate());
+        tabController.calculateCurrentMonthBalance();
         tabController.reloadIncomeLazyDataModel();
         MessagesController.addInfo("Receita incluida com sucesso");
     }
