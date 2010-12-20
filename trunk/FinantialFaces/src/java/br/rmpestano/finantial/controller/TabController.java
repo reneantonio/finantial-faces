@@ -538,7 +538,7 @@ public class TabController implements Serializable {
         LazyDataModel<Outcome> lazyModel = getCurrentUserOutcomesInTheMonth();
 //        lazyModel.setRowCount(this.getUserOutcomesSize());
         this.setUserOutcomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
-        this.setUserIncomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
+        //this.setUserIncomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
         lazyModel.setRowCount(this.getUserOutcomesSize());
         DataTable lazyTable = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("months_form:fm_" + getCurrentMonthIndex() + ":outcome_table" + getCurrentMonthIndex());
         int first = 0;

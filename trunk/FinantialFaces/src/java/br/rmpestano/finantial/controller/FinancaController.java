@@ -331,39 +331,39 @@ public class FinancaController implements Serializable{
         Calendar c = new GregorianCalendar();
         c.setTime(selectedOutcome.getDate());
         c.set(Calendar.DAY_OF_MONTH, 1);
-
+         setCurrentTab(selectedOutcome.getDate());
         if(! c.getTime().equals(selectedOutcome.getFinantialMonth().getDate())){//se o mes for diferente
             FinantialMonth fm = FinantialMonth.findByDate(selectedOutcome.getDate());
             fm.getMonthOutcomes().add(selectedOutcome);
             selectedOutcome.setFinantialMonth(fm);
             financeService.updateMonth(fm);
             tabController.reloadOutcomeLazyDataModel();
-            tabController.reloadIncomeLazyDataModel();
         }
          else{
           financeService.updateOutcome(selectedOutcome);
 
          }
          MessagesController.addInfo("Despesa modificada com sucesso");
-         setCurrentTab(selectedOutcome.getDate());
+         tabController.calculateCurrentMonthBalance();
     }
     public void updateIncome(ActionEvent ev){
         Calendar c = new GregorianCalendar();
         c.setTime(selectedIncome.getDate());
         c.set(Calendar.DAY_OF_MONTH, 1);
+        setCurrentTab(selectedIncome.getDate());
         if(! c.getTime().equals(selectedIncome.getFinantialMonth().getDate())){//se mudou de mês
             FinantialMonth fm = FinantialMonth.findByDate(selectedIncome.getDate());
             fm.getMonthIncomes().add(selectedIncome);
             selectedIncome.setFinantialMonth(fm);
             financeService.updateMonth(fm);
-            tabController.reloadOutcomeLazyDataModel();
             tabController.reloadIncomeLazyDataModel();
         }
          else{
           financeService.updateIncome(selectedIncome);
          }
+         tabController.calculateCurrentMonthBalance();
          MessagesController.addInfo("Receita modificada com sucesso");
-         setCurrentTab(selectedIncome.getDate());
+         
     }
 
     private void setCurrentTab(Date date) {
