@@ -127,8 +127,8 @@ public class TabController implements Serializable {
         };
         this.setUserOutcomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
         this.setUserIncomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
-        currentUserOutcomesInTheMonth.setRowCount(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
-        currentUserIncomesInTheMonth.setRowCount(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
+        currentUserOutcomesInTheMonth.setRowCount(getUserOutcomesSize());
+        currentUserIncomesInTheMonth.setRowCount(getUserIncomesSize());
     }
 
     public LazyDataModel<Outcome> getCurrentUserOutcomesInTheMonth() {
@@ -536,6 +536,9 @@ public class TabController implements Serializable {
     //atualiza lazyOutcomes a manda pra ultima página da tabela
     public void reloadOutcomeLazyDataModel() {
         LazyDataModel<Outcome> lazyModel = getCurrentUserOutcomesInTheMonth();
+//        lazyModel.setRowCount(this.getUserOutcomesSize());
+        this.setUserOutcomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
+        this.setUserIncomesSize(financeService.findMonthOutcomesByUser(currentMonth.getDate()).size());
         lazyModel.setRowCount(this.getUserOutcomesSize());
         DataTable lazyTable = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("months_form:fm_" + getCurrentMonthIndex() + ":outcome_table" + getCurrentMonthIndex());
         int first = 0;

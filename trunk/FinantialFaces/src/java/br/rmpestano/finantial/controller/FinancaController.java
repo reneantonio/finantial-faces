@@ -270,6 +270,8 @@ public class FinancaController implements Serializable{
         try{
          financeService.removeOutcome(selectedOutcome);
          tabController.calculateCurrentMonthBalance();
+//         tabController.setUserOutcomesSize(financeService.findMonthOutcomesByUser(tabController.getCurrentMonth().getDate()).size());
+//         tabController.setUserIncomesSize(financeService.findMonthIncomesByUser(tabController.getCurrentMonth().getDate()).size());
          DataTable lazyTable = (DataTable)  FacesContext.getCurrentInstance().getViewRoot().findComponent("months_form:fm_"+tabController.getCurrentMonthIndex()+":outcome_table"+tabController.getCurrentMonthIndex());
          lazyTable.loadLazyData();
          MessagesController.addInfo("Despesa removida com sucesso!");
