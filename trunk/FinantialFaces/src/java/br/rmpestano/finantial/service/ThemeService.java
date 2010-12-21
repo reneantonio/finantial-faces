@@ -127,7 +127,7 @@ public class ThemeService implements Serializable {
         themeProperties = new ThemeExtraProperties();
         themeProperties.setBACKWARD_ARROW("backward_blue.png");
         themeProperties.setFORWARD_ARROW("forward_blue.png");
-        themeProperties.setEVEN_ROW("#E0FFFF");
+        themeProperties.setEVEN_ROW("#E6F2FB");
     }
     public void pepperInit(){
         theme = "pepper-grinder";
