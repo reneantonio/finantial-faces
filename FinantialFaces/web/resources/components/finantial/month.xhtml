@@ -134,7 +134,7 @@ and open the template in the editor.
                 <p:tab title="#{msg['finance.label.tipo.income']}s">
                     <p:outputPanel rendered="#{(tabBean.userIncomesSize ne 0) and (m.showMonthIncomes == true)}">
                         <p:dataTable var="r" id="income_table#{cc.attrs.month.monthIndex}" dynamic="true" value="#{tabBean.currentUserIncomesInTheMonth}" lazy="true" paginator="true" rows="5" paginatorPosition="bottom"
-                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="rowIndex" rowStyleClass="#{empty rowIndex or rowIndex mod 2 ne 0 ? '' : 'even-row'}"
+                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowIndexVar="rowIndex" rowStyleClass="#{empty rowIndex or rowIndex mod 2 ne 0 ? 'even-row' : ''}"
                                       emptyMessage="Nenhum registro encontrado" rowsPerPageTemplate="5,10,15,#{tabBean.userIncomesSize > 15 ? tabBean.userIncomesSize : ''}" style="border: none">
                             <p:column  sortBy="#{r.date}" parser="date" >
                                 <f:facet name="header">
