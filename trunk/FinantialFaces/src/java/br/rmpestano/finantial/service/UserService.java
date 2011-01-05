@@ -61,8 +61,10 @@ public class UserService implements Serializable{
 
            return crudService.update(usuario);
 
-
         }
 
+      public void removeUser(User user) {
+        crudService.delete(user.getId(), User.class);
+    }
 
 }

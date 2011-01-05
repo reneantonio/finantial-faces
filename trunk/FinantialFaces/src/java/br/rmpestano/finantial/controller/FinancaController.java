@@ -241,6 +241,19 @@ public class FinancaController implements Serializable{
                 tabService.update(fm);
             }
             if (tipoCorrete.equals(OUTCOME)) {
+//                for (int i = 1; i < 10000; i++) {//LAZY LOADING TEST
+//                    System.out.println("subtipo:"+(subtiposOutcome.size()-1)%i);
+//                    despesa = new Outcome();
+//                    despesa.setDate(date);
+//                    despesa.setValue(financeValue+i);
+//                    despesa.setDescription(financeDescription+i);
+//                    despesa.setType(subtiposOutcome.get((subtiposOutcome.size()-1)%i));
+//                    fm.getMonthOutcomes().add(despesa);
+//                    despesa.setFinantialMonth(fm);
+//                    despesa.setUser((User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user"));
+//                    tabService.update(fm);
+//                    System.out.println("i:"+i);
+//                }
                     despesa = new Outcome();
                     despesa.setDate(date);
                     despesa.setValue(financeValue);
@@ -331,7 +344,7 @@ public class FinancaController implements Serializable{
         Calendar c = new GregorianCalendar();
         c.setTime(selectedOutcome.getDate());
         c.set(Calendar.DAY_OF_MONTH, 1);
-         setCurrentTab(selectedOutcome.getDate());
+        setCurrentTab(selectedOutcome.getDate());
         if(! c.getTime().equals(selectedOutcome.getFinantialMonth().getDate())){//se o mes for diferente
             FinantialMonth fm = FinantialMonth.findByDate(selectedOutcome.getDate());
             fm.getMonthOutcomes().add(selectedOutcome);

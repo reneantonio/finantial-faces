@@ -4,14 +4,10 @@
  */
 package br.rmpestano.finantial.model;
 
-import br.rmpestano.finantial.util.PersistenceManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -19,7 +15,6 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * entidade que representa as despesas (saidas)
@@ -37,7 +32,7 @@ public class Outcome extends Finance {
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
-    @OneToOne
+
     @NotNull(message="O tipo da despesa é obrigatório")
     private OutcomeType type;
     @NotNull(message="Forneça um valor para a despesa.")

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:finantial="http://java.sun.com/jsf/composite/components/finantial"
+    template="/template/main-template.xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:define name="head">
+        <ui:param name="menu" value="1"/>
+        <ui:param name="conf" value="1"/>
+        <ui:param name="finance" value="1"/>
+        <ui:param name="admin" value="0"/>
+    </ui:define>
+    <ui:define name="theme"/>
+
+    <ui:define name="content">
+        <h:form id="admin_form">
+            <p:panel id="admin_panel" header="#{msg['admin.manage-users']}" >
+                <p:spacer height="15px"/>
+                <p:dataTable value="#{adminBean.users}" var="u" dynamic="true" paginator="true" rows="5"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowStyleClass="#{empty rowIndex or rowIndex mod 2 ne 0 ? 'even-row' : ''}" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,#{adminBean.users.size() > 15 ? adminBean.users.size() : ''}"
+                             emptyMessage="Nenhum registro encontrado"  rowIndexVar="rowIndex">
+
+                    <p:column sortBy="#{u.username}">
+                        <f:facet name="header">
+                            Login
+                        </f:facet>
+                        <center>
+                             <h:outputText value="#{u.username}"/>
+                        </center>
+                    </p:column>
+                    <p:column sortBy="#{u.fullname}">
+                        <f:facet name="header">
+                            Nome
+                        </f:facet>
+                        <center>
+                        <h:outputText value="#{u.fullname}"/>
+                        </center>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            Remover
+                        </f:facet>
+                        <div align="center">
+                            <p:commandLink oncomplete="removeUserModal.show()" immediate="true" update="remove_user_panel">
+                                <f:setPropertyActionListener target="#{adminBean.selectedUser}" value="#{u}"/>
+                                <h:graphicImage library="images" name="garbage20x20.png" style="border: none;"/>
+                            </p:commandLink>
+                        </div>
+                    </p:column>
+
+                </p:dataTable>
+                <center>
+                    <p:commandButton value="Novo" action="#{adminBean.prepareAddUser}" update="add_user_panel" style="margin-top: 15px" oncomplete="addUserModal.show()"/>
+                </center>
+            </p:panel>
+
+        </h:form>
+
+         <p:dialog  modal="true" widgetVar="removeUserModal" header="Remover Usuário" showEffect="fold"  hideEffect="fold" minHeight="150" width="370" closable="true" resizable="false" draggable="true" >
+                     <h:form id="removeUserForm" prependId="false">
+                         <p:outputPanel id="remove_user_panel">
+                              <ui:include src="fragments/remove-user.xhtml"/>
+                         </p:outputPanel>
+                     </h:form>
+                 </p:dialog>
+         <p:dialog  modal="true" widgetVar="addUserModal" header="Incluir Usuário" showEffect="fold"  hideEffect="fold" minHeight="150" width="370" closable="true" resizable="false" draggable="true" >
+                     <h:form id="addUserForm" prependId="false">
+                         <p:outputPanel id="add_user_panel">
+                             <div align="center">
+                                  <ui:include src="fragments/add-user.xhtml"/>
+                             </div>
+                         </p:outputPanel>
+                     </h:form>
+                 </p:dialog>
+    </ui:define>
+
+
+</ui:composition>
