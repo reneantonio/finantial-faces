@@ -48,9 +48,9 @@
           
           <h:panelGroup id="group" layout="block" style="margin-top: -7px;display:inline-table;width: 100%;">
                           <p:commandButton id="themeButton" value="#{msg['themechange']}" onclick="themeMenu.show()" type="button" style="width: 130px"/>
-                          <p:commandButton id="configButton" rendered="#{menu == 1 and conf == 0}" value="#{msg['config']}" ajax="false"  action="configuration/configuration.faces?faces-redirect=true" update="messages" style="width: 145px"/>
-                          <p:commandButton id="financeButton" rendered="#{menu == 1 and conf == 1}" value="#{msg['finance']}" ajax="false" title="#{msg['finance-tip']}"  action="/pages/home.faces?faces-redirect=true" style="width: 125px"/>
-                          <p:commandButton id="adminButton" rendered="#{loginBean.admin}" value="#{msg['admin']}" ajax="true" onclick="alert('Under Construction')" style="width: 145px"/>
+                          <p:commandButton id="configButton" rendered="#{menu == 1 and conf == 1}" value="#{msg['config']}" ajax="false"  action="config" update="messages" style="width: 145px"/>
+                          <p:commandButton id="financeButton" rendered="#{menu == 1 and finance == 1}" value="#{msg['finance']}" ajax="false" title="#{msg['finance-tip']}"  action="/pages/home.faces?faces-redirect=true" style="width: 125px"/>
+                          <p:commandButton id="adminButton" rendered="#{loginBean.admin and admin == 1}" action="admin" value="#{msg['admin']}" ajax="false" style="width: 145px"/>
                           <p:outputPanel rendered="#{menu == 1}">
                               <div style="position: relative;float: right">
                                   <p:commandButton id="logoutButton" value="#{msg['logout']}" ajax="false" immediate="true" actionListener="#{loginBean.doLogout}"/>

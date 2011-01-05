@@ -52,7 +52,6 @@ public class LoginController implements Serializable{
     }
 
     public String doLogin(){
-
         User user = null;
         try {
             user = userService.findByLogin(this.user.getUsername());
@@ -63,7 +62,6 @@ public class LoginController implements Serializable{
             return null;
         }
         if(user == null){
-
             MessagesController.addError("Usuario não encontrado", "Usuário:<b>"+this.user.getUsername()+"</b> não encontrado em nossa base de dados");
             return null;
         }
@@ -84,10 +82,7 @@ public class LoginController implements Serializable{
                 return null;
             }
         }
-
-
     }
-
 
     public boolean isAdmin() {
         User u = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
@@ -116,8 +111,6 @@ public class LoginController implements Serializable{
     public void setThemeService(ThemeService themeService) {
         this.themeService = themeService;
     }
-
-
     
      public void doLogout(ActionEvent event) throws IOException{
 	     final HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -127,8 +120,6 @@ public class LoginController implements Serializable{
 
      public void fakeListener(){
      }
-
-    
 
     
 }

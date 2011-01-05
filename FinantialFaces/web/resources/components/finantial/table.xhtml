@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:composite="http://java.sun.com/jsf/composite"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+    <composite:interface shortDescription="renderiza label e input do tipo obrigatório"><!--futuramente colocar decorator - tipo seam:decorate -->
+
+      <composite:attribute name="value"/>
+      <composite:attribute name="var"/>
+      <composite:attribute name="size"/>
+      <composite:attribute name="id"  />
+      <composite:attribute name="form"  />
+  </composite:interface>
+
+    <composite:implementation>
+        <p:dataTable value="#{cc.attrs.value}" var="#{cc.attrs.var}" dynamic="true" paginator="true" rows="5"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowStyleClass="#{empty rowIndex or rowIndex mod 2 ne 0 ? 'even-row' : ''}" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,#{cc.attrs.size > 15 ? cc.attrs.size : ''}"
+                             emptyMessage="Nenhum registro encontrado"  rowIndexVar="rowIndex">
+
+            <ui:insert name="columns"/>
+                </p:dataTable>
+    </composite:implementation>
+
+</html>
+
+

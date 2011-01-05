@@ -22,6 +22,22 @@
 
     </application>
 
+<navigation-rule>
+    <from-view-id>
+        *
+    </from-view-id>
+    <navigation-case>
+        <from-outcome>admin</from-outcome>
+        <to-view-id>pages/administration/administration.xhtml</to-view-id>
+        <redirect>true</redirect>
+        </navigation-case>
+    <navigation-case>
+        <from-outcome>config</from-outcome>
+        <to-view-id>pages/configuration/configuration.xhtml</to-view-id>
+        <redirect>true</redirect>
+        </navigation-case>
+
+    </navigation-rule>
 
     <!-- ViewExpiration Handler -->
 <!--    <factory>
